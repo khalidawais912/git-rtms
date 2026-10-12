@@ -9,7 +9,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
-import rightsBlack from "../../../public/icons/rightsBlack.svg";
+import rightsBlack from "@/public/icons/rightsBlack.svg";
 import { Option } from "../types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 

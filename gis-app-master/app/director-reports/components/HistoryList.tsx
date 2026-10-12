@@ -1,6 +1,6 @@
 "use client";
 import { ReportHistoryUser } from "@/features/users";
-import { statuses } from "@/app/report-history/statuses";
+import { statuses } from "@/shared/constants/statuses";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { SubmittedReport, ReportHistory } from "../types";
 

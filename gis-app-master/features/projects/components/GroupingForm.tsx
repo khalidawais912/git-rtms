@@ -9,8 +9,8 @@ import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
-import superGroupBlack from "../../../public/icons/superGroupBlack.svg";
-import { Option } from "../types";
+import superGroupBlack from "@/public/icons/superGroupBlack.svg";
+import { SuperGroupOption as Option } from "../types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 interface Props {
   id: number;

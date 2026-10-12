@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 import ActionButton from "@/shared/components/Table/ActionButton";
 import { TbFileUpload } from "react-icons/tb";
 

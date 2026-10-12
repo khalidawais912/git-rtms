@@ -10,7 +10,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
-import groupGrey from "../../../public/icons/groupGray.svg";
+import groupGrey from "@/public/icons/groupGray.svg";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 
 interface Props {

@@ -19,7 +19,7 @@ import {
 } from "react";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import DownloadWrapper from "../../components/DownloadWrapper";
-import { APPROVED, REFERBACK, SUBMITTED } from "../../statuses";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 import ProjectTile from "./ProjectTile";
 import { SubmittedReport, Tab } from "../../types";
 

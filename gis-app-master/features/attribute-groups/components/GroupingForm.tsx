@@ -9,7 +9,7 @@ import { FormEvent, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
-import dbGrey from "../../../public/icons/dbGrey.svg";
+import dbGrey from "@/public/icons/dbGrey.svg";
 import { Option } from "../types";
 import CustomSelect from "@/shared/components/Form/CustomSelect";
 import { OptionType } from "@/shared/components/types";

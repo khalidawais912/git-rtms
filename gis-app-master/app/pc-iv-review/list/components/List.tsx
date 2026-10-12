@@ -32,7 +32,7 @@ import {
   REFERBACK,
   SCHEDULED,
   SUBMITTED,
-} from "../../statuses";
+} from "@/shared/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
 
 const raleway = Raleway({

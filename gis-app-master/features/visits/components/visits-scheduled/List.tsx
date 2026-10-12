@@ -17,7 +17,7 @@ import {
   COMPLETED,
   SCHEDULED,
   SUBMITTED,
-} from "@/app/report-history/statuses";
+} from "@/shared/constants/statuses";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate, getName } from "@/shared/utils";
 import { sort } from "fast-sort";
@@ -26,10 +26,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { toast } from "react-toastify";
-import calender from "../../../public/icons/calendar.svg";
-import cancel from "../../../public/icons/cancel.svg";
-import clock from "../../../public/icons/clock.svg";
-import complete from "../../../public/icons/complete.svg";
+import calender from "@/public/icons/calendar.svg";
+import cancel from "@/public/icons/cancel.svg";
+import clock from "@/public/icons/clock.svg";
+import complete from "@/public/icons/complete.svg";
 import Form from "./Form";
 
 const inter = Inter({ subsets: ["latin"] });

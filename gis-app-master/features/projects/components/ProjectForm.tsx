@@ -8,7 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 
 const schema = z.object({
   id: z.number().optional().default(0),

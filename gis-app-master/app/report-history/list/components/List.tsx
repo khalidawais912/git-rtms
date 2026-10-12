@@ -25,7 +25,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
-import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "../../statuses";
+import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
 
 const raleway = Raleway({

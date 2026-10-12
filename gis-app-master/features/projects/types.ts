@@ -9,3 +9,17 @@ export interface Project {
   status: string;
   smdpProjectID: number;
 }
+
+export interface SuperGroupOption {
+  id: number;
+  superGroupLabel: string;
+}
+
+export interface UserOption {
+  id: number;
+  userName: string;
+}
+
+export interface SmdpSync {
+  schemeId: string;
+}

@@ -45,3 +45,9 @@ export interface VisitNew {
   visitStatus: true;
   approvalDate: string;
 }
+
+/** Attribute choice used by the visit forms. */
+export interface AttributeOption {
+  attributeId: number;
+  label: string;
+}

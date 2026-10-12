@@ -18,7 +18,7 @@ import Modal from "react-bootstrap/Modal";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Select, { SingleValue } from "react-select";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 import { RxCross2 } from "react-icons/rx";
 import ActionButton from "@/shared/components/Table/ActionButton";
 import FormWrapper from "@/shared/components/Form/FormWrapper";

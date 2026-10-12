@@ -12,7 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { SubmittedReport, ReportHistory } from "../types";
-import { APPROVED, REFERBACK, SUBMITTED } from "../statuses";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 import HistoryList from "./HistoryList";
 
 import Loader from "@/shared/components/Loader/Loader";

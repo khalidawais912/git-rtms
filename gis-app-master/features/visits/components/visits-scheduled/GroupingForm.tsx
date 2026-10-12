@@ -6,8 +6,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
-import dbGrey from "../../../public/icons/dbGrey.svg";
-import { Option } from "../types";
+import dbGrey from "@/public/icons/dbGrey.svg";
+import { AttributeOption as Option } from "../../types";
 
 interface Props {
   id: number;

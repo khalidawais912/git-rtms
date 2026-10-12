@@ -1,23 +1,19 @@
-import Button from "@/shared/components/Button";
-import { useAuthentication, Authentication } from "@/features/users";
-import { useDistrict, District } from "@/features/districts";
-import { Project, useProjects } from "@/features/projects";
-import { TourPlan, useTourPlans } from "@/features/tour-plans";
-import { VisitNew, useVisitsNew } from "@/features/visits";
-import { useDriver, Driver } from "@/features/drivers";
-import { useVehicle, Vehicle } from "@/features/vehicles";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import more from "@/public/icons/more.svg";
+import Button from "@/shared/components/Button";
+import { useAuthentication } from "@/features/users";
+import { useDriver } from "@/features/drivers";
+import { useProjects } from "@/features/projects";
+import { useVehicle } from "@/features/vehicles";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
-import more from "../../../public/icons/more.svg";
 
 const schema = z.object({
-  visitPlanGroup: z.number().optional().default(0),
   id: z.number().optional().default(0),
   projectId: z.number().optional().default(0),
   assignedTo: z.number().optional().default(0),
@@ -45,9 +41,8 @@ const schema = z.object({
   complete_at: z.string().optional().nullable().default(null),
   submitted_at: z.string().optional().nullable().default(null),
   issued_at: z.string().optional().nullable().default(null),
-  reportPath: z.string().optional().default(""),
-  tracking_status: z.boolean().optional().default(false),
-  visitPlanPath: z.string().optional().default(""),
+  reportPath: z.string().optional().nullable().default(""),
+  tracking_status: z.boolean().optional().default(true),
 });
 
 type Visit = z.infer<typeof schema>;
@@ -58,29 +53,13 @@ interface Props {
   id?: number;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: boolean;
-  visitsNew: VisitNew[];
-  drivers: Driver[];
-  vehicles: Vehicle[];
-  projects: Project[];
-  users: Authentication[];
-  visitPlans: TourPlan[];
-  districts: District[];
 }
 
-const Form = ({
-  api,
-  method,
-  id,
-  setRefresh,
-  refresh,
-  visitsNew,
-  drivers,
-  vehicles,
-  projects,
-  users,
-  visitPlans,
-  districts,
-}: Props) => {
+const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
+  const { data: drivers, setError } = useDriver({ refresh });
+  const { data: vehicles } = useVehicle({ refresh });
+  const { data: projects } = useProjects({ refresh });
+  const { data: users } = useAuthentication({ refresh });
   const {
     register,
     handleSubmit,
@@ -89,8 +68,10 @@ const Form = ({
     formState: { errors },
   } = useForm<Visit>({ resolver: zodResolver(schema) });
   const [show, setShow] = useState(false);
+  console.log(errors);
   const modalId = `formModal-${id}`;
 
+  const createdMessage = "Created Successfully";
   const updatedMessage = "Visit Scheduled Successfully";
 
   const handleClose = () => {
@@ -100,22 +81,35 @@ const Form = ({
 
   const handleShow = async () => {
     setShow(true);
-    const itemData: VisitNew | undefined = visitsNew.find(
-      (itemData: any) => itemData.id === id
-    );
-
-    if (itemData) {
-      const district = districts.find(
-        (district) => district.id === itemData.districtId
-      );
-      if (district) {
-        setValue("latitude", district.latitude);
-        setValue("longitude", district.longitude);
+    if (method === "PUT") {
+      try {
+        const response = await apiClient.get(
+          `${api}/GetVisitByVisitId?VisitID=${id}`
+        );
+        const itemData = response.data.data;
+        const formatFromDate = itemData[0].fromDate.split("T")[0];
+        const formatToDate = itemData[0].toDate.split("T")[0];
+        setValue("id", itemData[0].id);
+        setValue("projectId", itemData[0].projectId);
+        setValue("assignedTo", itemData[0].assignedTo);
+        setValue("status", itemData[0].status);
+        setValue("latitude", itemData[0].latitude);
+        setValue("longitude", itemData[0].longitude);
+        setValue("vehicleID", itemData[0].vehicleID);
+        setValue("driverID", itemData[0].driverID);
+        setValue("fromDate", formatFromDate);
+        setValue("toDate", formatToDate);
+        setValue("createdAt", itemData[0].createdAt);
+        setValue("updatedAt", new Date().toISOString());
+        setValue("complete_at", itemData[0].complete_at);
+        setValue("submitted_at", itemData[0].submitted_at);
+        setValue("issued_at", itemData[0].issued_at);
+        setValue("reportPath", itemData[0].reportPath);
+        setValue("tracking_status", itemData[0].tracking_status);
+      } catch (err) {
+        console.log((err as AxiosError).message);
+        setError((err as AxiosError).message);
       }
-      setValue("assignedTo", itemData.userId);
-      setValue("projectId", itemData.id);
-      setValue("status", itemData.status);
-      setValue("updatedAt", new Date().toISOString());
     }
   };
 
@@ -126,13 +120,8 @@ const Form = ({
         ...formData,
         fromDate: formData.fromDate,
         toDate: formData.toDate,
-        status: (formData.status = "scheduled"),
-        complete_at: null,
-        submitted_at: null,
-        issued_at: null,
         reportPath: "",
-        tracking_status: false,
-        visitPlanPath: "",
+        status: (formData.status = "scheduled"),
       };
 
       const response = await apiClient({
@@ -158,16 +147,16 @@ const Form = ({
       <Button
         type="button"
         className={`btn shadow ${
-          method === "PUT"
+          method === "POST"
             ? "text-white bg-color-sea-green"
             : "rounded-pill ps-3 pe-3 pt-1 pb-1"
         }`}
         onClick={handleShow}
         style={{
-          background: method === "PUT" ? "" : "rgba(255, 255, 255,.5)",
+          background: method === "POST" ? "" : "rgba(255, 255, 255,.5)",
         }}
       >
-        {method === "PUT" ? (
+        {method === "POST" ? (
           "+ Visit"
         ) : (
           <Image src={more} alt="more" width={20} height={20} />
@@ -199,8 +188,8 @@ const Form = ({
             <div className="row flex-column justify-content-center mb-4">
               <div className="col-lg-12">
                 <p
-                  className="text-center text-white mt-4 fw-bold"
-                  style={{ fontSize: "1.5rem" }}
+                  className="text-center text-white mt-4"
+                  style={{ fontSize: "1.5rem", fontWeight: "800" }}
                 >
                   {method === "POST" ? "VISIT SCHEDULED" : "VISIT SCHEDULED"}
                 </p>
@@ -208,26 +197,6 @@ const Form = ({
               <form className="ps-5 pe-5" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col mb-3">
                   <div className="row d-flex justify-content-between">
-                    <div className="col-lg-4 col-md-6 col-sm-12 text-start mb-3">
-                      <label
-                        htmlFor="visitPlanGroup"
-                        className="form-label text-white"
-                      >
-                        Visit Plan Group
-                      </label>
-                      <select
-                        id="visitPlanGroup"
-                        {...register("visitPlanGroup", { valueAsNumber: true })}
-                        className="form-select form-select-sm color-light-dark"
-                      >
-                        <option value="">Select</option>
-                        {visitPlans?.map((d: any) => (
-                          <option key={d.id} value={d.id}>
-                            {d.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 text-start mb-3">
                       <label
                         htmlFor="projectId"
@@ -266,6 +235,22 @@ const Form = ({
                             {d.userName}
                           </option>
                         ))}
+                      </select>
+                    </div>
+                    <div className="col-lg-4 col-md-6 col-sm-12 text-start mb-3">
+                      <label htmlFor="status" className="form-label text-white">
+                        Status
+                      </label>
+                      <select
+                        id="status"
+                        disabled
+                        {...register("status")}
+                        className="form-select form-select-sm color-light-dark"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="completed">Completed</option>
+                        <option value="active">Active</option>
                       </select>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12 mb-3 text-start mb-3">

@@ -28,7 +28,7 @@ import {
   ISSUED,
   SCHEDULED,
   SUBMITTED,
-} from "@/app/report-history/statuses";
+} from "@/shared/constants/statuses";
 import DisplayStatusText from "@/shared/components/DisplayStatusText";
 import { useDriver } from "@/features/drivers";
 import { useVehicle } from "@/features/vehicles";

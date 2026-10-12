@@ -5,7 +5,7 @@ import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import { useEffect, useState } from "react";
 import HistoryList from "../../components/HistoryList";
 import { ReportHistory, SubmittedReport } from "../../types";
-import { ISSUED, REFERBACK, SUBMITTED } from "../../statuses";
+import { ISSUED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 
 interface Props {
   data: SubmittedReport;

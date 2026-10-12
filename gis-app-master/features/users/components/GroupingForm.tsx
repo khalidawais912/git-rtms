@@ -8,7 +8,7 @@ import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
-import rolesBlack from "../../../public/icons/rolesBlack.svg";
+import rolesBlack from "@/public/icons/rolesBlack.svg";
 import { updateUserRole } from "../api";
 import { RoleOption as Option } from "../types";
 interface Props {

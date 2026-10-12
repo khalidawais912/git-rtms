@@ -19,7 +19,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import more from "../../../public/icons/more.svg";
 import Select from "react-select";
-import { COMPLETED, SCHEDULED } from "@/app/report-history/statuses";
+import { COMPLETED, SCHEDULED } from "@/shared/constants/statuses";
 
 const schema = z.object({
   id: z.number().optional().default(0),

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FormEvent, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 import { SmdpSync } from "../types";
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
   showData: boolean;
 }
-const SmdpSyncForm = ({
+const SmdpAllProjectsSyncForm = ({
   api,
   method,
   id,
@@ -110,7 +110,7 @@ const SmdpSyncForm = ({
           className="btn btn-sm text-white bg-color-sea-green"
           onClick={handleShow}
         >
-          + SMDP ONE PROJECT SYNCHRONIZE
+          + SMDP ALL PROJECTS SYNCHRONIZE
         </Button>
       ) : (
         <Button
@@ -162,19 +162,23 @@ const SmdpSyncForm = ({
                 )}
               </div>
               <form className="ps-5 pe-5" onSubmit={handleSubmit}>
-                <div className="col-lg-12 col-md-12 col-sm-12 mb-3 text-start">
-                  <label htmlFor="schemeId" className="form-label text-white">
-                    Scheme Id
+                <div className="col-lg-12 col-md-12 col-sm-12 text-start mb-3">
+                  <label
+                    htmlFor="categoryType"
+                    className="form-label text-white"
+                  >
+                    Category Type
                   </label>
-                  <input
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    id="nameschemeId"
-                    name="schemeId"
-                    value={formData.schemeId}
-                    onChange={handleChange}
-                    placeholder="Enter Scheme Id"
-                  />
+                  <select
+                    className="form-select form-select-sm"
+                    aria-label="Default select example"
+                    name="categoryType"
+                  >
+                    <option value="">Select</option>
+                    <option value="Scheduled">CM INITIATIVE</option>
+                    <option value="Draft">ALL ADP</option>
+                    <option value="Completed">PROGRESS GREATER THAN 20%</option>
+                  </select>
                 </div>
                 <div className="col-lg-8 col-md-8 col-sm-6 mx-auto">
                   <Button
@@ -184,7 +188,7 @@ const SmdpSyncForm = ({
                         "linear-gradient(to bottom, #0C8CE9 ,#136AAA)",
                       borderRadius: "12px",
                     }}
-                    type="submit"
+                    type="button"
                   >
                     Done
                   </Button>
@@ -198,4 +202,4 @@ const SmdpSyncForm = ({
   );
 };
 
-export default SmdpSyncForm;
+export default SmdpAllProjectsSyncForm;
