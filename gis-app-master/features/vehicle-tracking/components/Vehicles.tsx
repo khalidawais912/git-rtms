@@ -5,12 +5,12 @@ import apiClient from "@/shared/api/client";
 import car1Right from "@/public/icons/car1Right.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import carFrontBlue from "../../../public/icons/carFrontBlue.svg";
-import fuel from "../../../public/icons/fuel.svg";
-import seat from "../../../public/icons/seat.svg";
-import transmission from "../../../public/icons/transmission.svg";
-import car2Left from "../../../public/images/car2Left.png";
-import car3Left from "../../../public/images/car3Left.png";
+import carFrontBlue from "@/public/icons/carFrontBlue.svg";
+import fuel from "@/public/icons/fuel.svg";
+import seat from "@/public/icons/seat.svg";
+import transmission from "@/public/icons/transmission.svg";
+import car2Left from "@/public/images/car2Left.png";
+import car3Left from "@/public/images/car3Left.png";
 import { AvailableVehicles } from "../types";
 const Vehicles = () => {
   const [status, setStatus] = useState<string>("all");

@@ -9,9 +9,9 @@ import {
   useMap,
 } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
-import CarCard from "../Map/CarCard";
+import CarCard from "./CarCard";
 import toast, { Toaster } from "react-hot-toast";
-import { Position, Tracking } from "../../types";
+import { Position, Tracking } from "../types";
 const LiveCarTrackingMap = () => {
   const initialCenterPosition = {
     lat: 31.1704,
