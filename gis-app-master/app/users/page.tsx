@@ -1,4 +1,4 @@
-import Users from "./components/Users";
+import Users from "@/features/users/components/Users";
 
 const UsersPage = () => {
   return (

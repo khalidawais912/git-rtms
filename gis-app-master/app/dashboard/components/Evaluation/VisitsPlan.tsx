@@ -5,7 +5,7 @@ import Loader from "@/app/components/Loader/Loader";
 import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
 import useDistrict from "@/app/hooks/useDistrict";
 import useSectors from "@/app/hooks/useSectors";
-import useUsers from "@/app/hooks/useUsers";
+import useUsers from "@/features/users/hooks";
 import apiClient from "@/app/services/api-client";
 import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
 import { exportDataToExcel } from "@/app/utils/exportToExcel";

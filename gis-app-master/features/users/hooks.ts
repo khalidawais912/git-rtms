@@ -1,5 +1,5 @@
-import { USER_API } from "../APIs";
-import useData from "./useData";
+import { USER_API } from "@/app/APIs";
+import useData from "@/app/hooks/useData";
 
 export interface User {
   id: number;

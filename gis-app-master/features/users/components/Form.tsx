@@ -10,7 +10,7 @@ import FormWrapper from "@/app/components/Form/FormWrapper";
 import SubmitButton from "@/app/components/Form/SubmitButton";
 import Spinner from "@/app/components/Spinner";
 import ActionButton from "@/app/components/Table/ActionButton";
-import useDepartments from "@/app/hooks/useDepartments";
+import useDepartments from "@/features/departments/hooks";
 import { Role } from "@/app/hooks/useRoles";
 import apiClient, {
   AxiosError,

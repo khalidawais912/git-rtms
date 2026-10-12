@@ -8,7 +8,7 @@ import RowHeader from "@/app/components/Table/RowHeader";
 import TableData from "@/app/components/Table/TableData";
 import TableHeader from "@/app/components/Table/TableHeader";
 import TableHeading from "@/app/components/Table/TableHeading";
-import useDepartments, { Department } from "@/app/hooks/useDepartments";
+import useDepartments, { Department } from "@/features/departments/hooks";
 import apiClient, { AxiosError } from "@/app/services/api-client";
 import { sort } from "fast-sort";
 import { useState } from "react";
