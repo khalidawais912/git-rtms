@@ -10,18 +10,7 @@ import moreCircle from "../../../public/icons/moreCircle.svg";
 import phone from "../../../public/icons/phone.svg";
 import rightArrowCircle from "../../../public/icons/rightArrowCircle.svg";
 import profilePic6 from "../../../public/images/profilePic6.png";
-
-interface AvailableDrivers {
-  driverId: number;
-  visitId: number;
-  driverName: string;
-  driverNo: string;
-  driverImage: string;
-  vehicleName: string;
-  vehicleColor: string;
-  vehicleNumber: string;
-}
-
+import { AvailableDrivers } from "../types";
 const Drivers = () => {
   const [status, setStatus] = useState<string>("available");
   const items2 = ["a", "a", "a", "a", "a", "a"];

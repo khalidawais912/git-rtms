@@ -13,7 +13,7 @@ import { COORDINATES_API } from "@/shared/api/endpoints";
 import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import search2 from "../../../../public/icons/search2.svg";
-import { StaffTracking } from "./MapCarsComponent";
+import { StaffTracking } from "../../types";
 
 const carIcon = new L.Icon({
   iconUrl: "/images/locationPointRoadBig.png",

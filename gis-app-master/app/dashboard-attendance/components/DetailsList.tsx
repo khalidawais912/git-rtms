@@ -1,6 +1,6 @@
 "use client";
 import { FaDownload, FaSearch } from "react-icons/fa";
-import { AttendanceList } from "../[attendanceFeature]/page";
+import { AttendanceList } from "../types";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import { useEffect, useState } from "react";
 import { sort } from "fast-sort";

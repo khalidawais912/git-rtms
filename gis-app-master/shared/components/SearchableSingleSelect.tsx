@@ -1,11 +1,6 @@
 "use client";
 import Select, { ActionMeta, SingleValue } from "react-select";
-
-interface Option {
-  value: string | number;
-  label: string;
-}
-
+import { Option } from "./types";
 interface Props<T extends Record<string, string | number>> {
   data: T[];
   value: Option | null;

@@ -25,9 +25,7 @@ import { LuSearch } from "react-icons/lu";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { toast } from "react-toastify";
 import { z } from "zod";
-
-type OptionType = { value: string; label: string };
-
+import { OptionType } from "../types";
 const schema = z.object({
   reportName: z.string().min(1, { message: "Please add Report Name!" }),
   attributeIds: z

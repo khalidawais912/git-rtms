@@ -1,4 +1,4 @@
-import { OptionType } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import useDistrict from "@/app/hooks/useDistrict";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";

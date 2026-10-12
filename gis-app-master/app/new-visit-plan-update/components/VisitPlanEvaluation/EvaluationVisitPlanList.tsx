@@ -2,7 +2,8 @@
 import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import Loader from "@/shared/components/Loader/Loader";
 import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
@@ -10,7 +11,8 @@ import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown"
 import { useAuthentication } from "@/features/users";
 import useDistrict from "@/app/hooks/useDistrict";
 import { useDriver } from "@/features/drivers";
-import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";
+import useTempTourPlans from "@/app/hooks/useTempTourPlan";
+import { TempTourPlan } from "@/app/hooks/types";
 import useTourPlans from "@/app/hooks/useTourPlans";
 import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/shared/api/client";
@@ -26,35 +28,8 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
-import Form, { COUTempTourPlan, TempCopyForm, typeStatues } from "./Form";
-
-interface CreateVisit {
-  id: number;
-  projectId: number;
-  department_Id: number;
-  assignedTo: number;
-  status: number;
-  latitude: string | null;
-  longitude: string | null;
-  vehicleID: number;
-  districtID: number;
-  eriValue: number | null;
-  driverID: number;
-  fromDate: string;
-  toDate: string;
-  createdAt: string;
-  updatedAt: string;
-  complete_at: string | null;
-  submitted_at: string | null;
-  issued_at: string | null;
-  tracking_status: boolean;
-  isFocalPerson: boolean;
-  visitPlanGroup: number;
-  cancel_reason: string | null;
-  submitted_from: number | null;
-  submitted_to: number | null;
-}
-
+import Form, { COUTempTourPlan, typeStatues } from "./Form";
+import { TempCopyForm, CreateVisit } from "../../types";
 const EvaluationVisitPlanList = ({
   dashboardType,
 }: {

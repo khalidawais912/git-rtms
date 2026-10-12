@@ -1,7 +1,7 @@
 import Image from "next/image";
 import adobeAcrobat from "@/public/icons/adobeAcrobat.svg";
 import downloadLineBlack from "@/public/icons/downloadLineBlack.svg";
-import { Groups, ReportsData } from "../ProjectDetailsDashboard";
+import { Groups, ReportsData } from "../../../types";
 import { PiFilePdfBold } from "react-icons/pi";
 import { MdOutlineFileDownload } from "react-icons/md";
 

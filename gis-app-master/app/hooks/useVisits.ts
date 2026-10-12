@@ -1,30 +1,6 @@
 import { VISIT_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface Visit {
-  id: number;
-  projectId: number;
-  assignedTo: number;
-  status: number;
-  latitude: string;
-  longitude: string;
-  vehicleID: number;
-  districtID: number;
-  mriValue: number;
-  driverID: number;
-  fromDate: string;
-  toDate: string;
-  createdAt: string;
-  updatedAt: string;
-  complete_at: string;
-  submitted_at: string;
-  issued_at: string;
-  tracking_status: true;
-  visitPlanGroup: number;
-  one_pager_status: string;
-  op_submitted_at: string;
-}
-
+import { Visit } from "./types";
 interface Props {
   refresh?: boolean;
 }

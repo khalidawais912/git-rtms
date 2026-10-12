@@ -7,7 +7,7 @@ import {
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import { useEffect, useMemo, useState } from "react";
-import { VehicleTrackingRecording } from "../page";
+import { VehicleTrackingRecording } from "../types";
 
 const TimelineCustom = ({
   data,

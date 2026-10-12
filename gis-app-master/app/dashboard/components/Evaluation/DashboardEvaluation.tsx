@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import EvaluationMap from "../GoogleMap/EvaluationMap";
 import PCIVReportReview from "./PCIVReportReview";
 import ProjectsTable, { ProjectsList } from "./ProjectsTable/ProjectsTable";
+import { FilterData } from "../../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
@@ -70,12 +71,6 @@ export interface EvaluationMainDashboard {
   ];
   districtList: DistrictList[];
 }
-
-export interface FilterData {
-  filterIdentifier: string;
-  filterValues: string;
-}
-
 const DashboardEvaluation = () => {
   console.log("DashboardEvaluation");
   const [data, setData] = useState<EvaluationMainDashboard>();

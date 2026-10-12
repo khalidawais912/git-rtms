@@ -9,7 +9,7 @@ import greenCircle from "../../../public/icons/greenCircle.svg";
 import threeCirclesVertical from "../../../public/icons/threeCirclesVertical.svg";
 import car1Right from "../../../public/images/car1Right.png";
 import profilePic2 from "../../../public/images/profilePic2.png";
-import { VehicleTrackings } from "./ProjectDetailsDashboard";
+import { VehicleTrackings } from "../types";
 
 interface Props {
   data: VehicleTrackings[];

@@ -2,8 +2,7 @@
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Spinner from "@/shared/components/Spinner";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { Officer, ReportHistoryUser } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { triggerEscapeKeyPress } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport, ReportHistory } from "../types";
 import { APPROVED, REFERBACK, SUBMITTED } from "../statuses";
 import HistoryList from "./HistoryList";
 
@@ -58,18 +57,6 @@ interface Props {
   officers: Officer[];
   onCommentSubmitted?: () => void; //Add callback prop
 }
-
-export interface ReportHistory {
-  id: number;
-  pcIv_id: number;
-  mark_From: number;
-  mark_to: number;
-  remarks: string;
-  mark_date: string;
-  pciv_pdf_path: string;
-  status: number;
-}
-
 const ReportNoting = ({
   data,
   setRefresh,

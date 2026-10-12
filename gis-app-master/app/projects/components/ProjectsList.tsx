@@ -13,7 +13,8 @@ import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
-import useProjects, { Project } from "@/app/hooks/useProjects";
+import useProjects from "@/app/hooks/useProjects";
+import { Project } from "@/app/hooks/types";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import apiClient, { AxiosError } from "@/shared/api/client";
@@ -31,17 +32,6 @@ import AssignUserForm from "./AssignUserForm";
 import GroupingForm from "./GroupingForm";
 import StatusBadge from "./StatusBadge";
 import TableWrapper from "@/shared/components/Table/TableWrapper";
-
-export interface Option {
-  id: number;
-  superGroupLabel: string;
-}
-
-export interface UserOption {
-  id: number;
-  userName: string;
-}
-
 const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
   const PROJECT_API_ENDPOINT = dashboardType
     ? EVALUATION_PROJECT_API

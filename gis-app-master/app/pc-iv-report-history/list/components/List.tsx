@@ -3,7 +3,8 @@ import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
-import useOfficers, { Officer } from "@/app/hooks/useOfficers";
+import useOfficers from "@/app/hooks/useOfficers";
+import { Officer } from "@/app/hooks/types";
 import useReportHistoryUser from "@/app/hooks/useReportHistoryUsers";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
@@ -22,47 +23,11 @@ import {
   SCHEDULED,
   SUBMITTED,
 } from "../../statuses";
+import { SubmittedReport, Tab } from "../../types";
 
 const raleway = Raleway({
   subsets: ["latin"],
 });
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-  isFocalPerson: boolean;
-}
-
-export interface SubmittedReportResponse {
-  totalIssuedCount: number;
-  reports: SubmittedReport[];
-}
-
-interface Tab {
-  id: number;
-  label: string;
-  status: number;
-  role: string;
-  reportSubmittedFrom?: number;
-  reportSubmittedTo?: number;
-  count: number;
-  filteredData: SubmittedReport[] | undefined;
-}
-
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);

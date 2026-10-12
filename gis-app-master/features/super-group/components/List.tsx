@@ -23,12 +23,6 @@ interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  name: string;
-}
-
 const List = ({ dashboardType }: { dashboardType?: string }) => {
   const [refresh, setRefresh] = useState(false);
   const { data, setData, setError, error, isLoading } = useSuperGroups({

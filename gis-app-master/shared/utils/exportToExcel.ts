@@ -1,4 +1,5 @@
 import * as XLSX from "xlsx";
+import { ExcelColumn } from "./types";
 
 /**
  * Exports data to an Excel file.
@@ -83,15 +84,6 @@ export const exportToExcelNewOne = <T extends Record<string, any>>(
   XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
   XLSX.writeFile(workbook, `${filename}.xlsx`);
 };
-
-
-// new version for dynamic column name
-
-export interface ExcelColumn {
-  label: string;
-  value: string;
-}
-
 export const exportDataToExcelDynamicColumn = (
   columns: ExcelColumn[],
   rows: Record<string, any>[],

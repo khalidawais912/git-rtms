@@ -1,12 +1,11 @@
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { ReportHistoryUser } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import { useEffect, useState } from "react";
 import HistoryList from "../../components/HistoryList";
-import { ReportHistory } from "../../components/ReportNoting";
+import { ReportHistory, SubmittedReport } from "../../types";
 import { ISSUED, REFERBACK, SUBMITTED } from "../../statuses";
-import { SubmittedReport } from "./List";
 
 interface Props {
   data: SubmittedReport;

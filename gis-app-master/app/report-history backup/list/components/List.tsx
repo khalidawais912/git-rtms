@@ -22,32 +22,11 @@ import {
   REVIEWED_AND_FORWARD_BY_DD_TO_D,
   SUBMITTED_BY_AD_TO_DD,
 } from "../../statuses";
+import { SubmittedReport } from "../../types";
 
 const raleway = Raleway({
   subsets: ["latin"],
 });
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  sDate: string;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  lastStatus: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-}
-
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);

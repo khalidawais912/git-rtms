@@ -11,22 +11,7 @@ import seat from "../../../public/icons/seat.svg";
 import transmission from "../../../public/icons/transmission.svg";
 import car2Left from "../../../public/images/car2Left.png";
 import car3Left from "../../../public/images/car3Left.png";
-
-interface AvailableVehicles {
-  vehicleId: number;
-  name: string;
-  description: string;
-  vehicleNumber: string;
-  model: string;
-  color: string;
-  trasnmission: string;
-  seatsCapacity: number;
-  fuelType: string;
-  vehicleImage: string;
-  vehicleIcon: string;
-  vehicleSatus: string;
-}
-
+import { AvailableVehicles } from "../types";
 const Vehicles = () => {
   const [status, setStatus] = useState<string>("all");
   const [data, setData] = useState<AvailableVehicles[]>();

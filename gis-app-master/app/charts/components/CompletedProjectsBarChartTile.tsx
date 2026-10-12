@@ -3,11 +3,8 @@ import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import MySimpleBarChart, {
-  ChartGradient,
-  MyBarChartStyle,
-  MyBarChartType,
-} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/shared/components/types";
 
 const CompletedProjectsBarChartTile = ({
   chartSize = "small",

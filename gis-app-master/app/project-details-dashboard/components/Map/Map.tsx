@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import React, { useState } from "react";
 import projectLocation from "../../../../public/images/projectLocation.png";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 const containerStyle = {
   width: "100%",

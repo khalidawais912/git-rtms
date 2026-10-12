@@ -1,17 +1,5 @@
 import axios, { AxiosError, CanceledError } from "axios";
 import Cookies from "js-cookie";
-
-export interface ErrorResponse {
-  responseCode: number;
-  responseMessage: string;
-}
-
-export interface BaseResponse<T> {
-  responseCode: number;
-  responseMessage: string;
-  data: T;
-}
-
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   headers: {

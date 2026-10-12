@@ -1,6 +1,7 @@
 "use client";
 import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import Pagination from "@/shared/components/Table/Pagination";
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
@@ -8,7 +9,7 @@ import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import TableWrapper from "@/shared/components/Table/TableWrapper";
 import { useAuthentication } from "@/features/users";
-import { Project } from "@/app/hooks/useProjects";
+import { Project } from "@/app/hooks/types";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import AssignUserForm from "@/app/projects/components/AssignUserForm";
@@ -27,17 +28,6 @@ interface ListProps {
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  superGroupLabel: string;
-}
-
-export interface UserOption {
-  id: number;
-  userName: string;
-}
-
 const UserProjectsList = ({ refresh }: ListProps) => {
   const { data: sectorsData } = useSectors({ refresh });
   const { data: superGroups } = useSuperGroups({ refresh });

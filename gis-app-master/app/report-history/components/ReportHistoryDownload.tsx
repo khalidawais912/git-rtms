@@ -1,8 +1,7 @@
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { ReportHistoryUser } from "@/app/hooks/types";
 import { exportToPDFNew } from "@/shared/utils";
-import { SubmittedReport } from "../list/components/List";
-import { ReportHistory } from "./ReportNoting";
+import { SubmittedReport, ReportHistory } from "../types";
 
 interface Props {
   data: ReportHistory[];

@@ -4,10 +4,8 @@ import Spinner from "@/shared/components/Spinner";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import { useAuthentication } from "@/features/users";
 import apiClient from "@/shared/api/client";
-import {
-  StaffTracking,
-  TrackingRequestData,
-} from "@/app/staff-tracking/components/StaffTracking";
+import { StaffTracking } from "@/app/staff-tracking/components/StaffTracking";
+import { TrackingRequestData } from "@/app/staff-tracking/types";
 import { formatDateTime } from "@/shared/utils";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { DM_Sans } from "next/font/google";
@@ -18,30 +16,9 @@ import PPTSlideGenerator from "./PPTSlideGenerator/PPTSlideGenerator";
 import { ProjectsList } from "./ProjectsTable/ProjectsTable";
 import { data, tabs } from "./reportAnalysisData";
 import TimeSpentOnProjectSiteFilterMenu from "./TimeSpentOnProjectSiteFilterMenu";
+import { StaffTrackingData, StartEndLatLng } from "../types";
 
 const dmSans = DM_Sans({ subsets: ["latin"], preload: false });
-
-interface StartEndLatLng {
-  visit: {
-    visitID: number;
-    visitStartTime: string;
-    startLatLng: {
-      latitude: string;
-      longitude: string;
-      createdAt: string;
-    };
-    endLatLng: {
-      latitude: string;
-      longitude: string;
-      createdAt: string;
-    };
-  };
-}
-
-interface StaffTrackingData {
-  data: StaffTracking[];
-}
-
 const ReportAnalysis = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
   const [projectsData, setProjectsData] = useState<ProjectsList[]>();

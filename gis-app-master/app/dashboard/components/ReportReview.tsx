@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import apiClient from "@/shared/api/client";
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import { SubmittedReport } from "@/app/report-history/list/components/List";
+import { SubmittedReport } from "@/app/report-history/types";
 
 const ReportReview = ({
   dashboardType = null,

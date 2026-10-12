@@ -1,10 +1,12 @@
 "use client";
 import { DEPARTMENT_ROLES_SORTING_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import { useRoles } from "@/features/roles";
 import apiClient from "@/shared/api/client";
-import { getTimeAgo, hexToRgba, Option } from "@/shared/utils";
+import { getTimeAgo, hexToRgba } from "@/shared/utils";
+import { Option } from "@/shared/utils/types";
 import { Edge, MarkerType, Node } from "@xyflow/react";
 import Image from "next/image";
 import Link from "next/link";

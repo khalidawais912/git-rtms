@@ -1,7 +1,7 @@
 "use client";
 
 import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
-import { OptionType } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import Loader from "@/shared/components/Loader/Loader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";

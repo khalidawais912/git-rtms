@@ -2,15 +2,14 @@
 import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultNegativeNumberOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultNegativeNumberOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import Loader from "@/shared/components/Loader/Loader";
 import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";
+import useTempTourPlans from "@/app/hooks/useTempTourPlan";
+import { TempTourPlan } from "@/app/hooks/types";
 import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
@@ -24,7 +23,8 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
-import Form, { COUTempTourPlan, TempCopyForm } from "./Form";
+import Form, { COUTempTourPlan } from "./Form";
+import { TempCopyForm } from "../../types";
 
 interface CreateVisit {
   id: number;

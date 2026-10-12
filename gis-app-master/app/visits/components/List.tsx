@@ -11,7 +11,8 @@ import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
 import useProjects from "@/app/hooks/useProjects";
 import { useVehicle } from "@/features/vehicles";
-import useVisits, { Visit } from "@/app/hooks/useVisits";
+import useVisits from "@/app/hooks/useVisits";
+import { Visit } from "@/app/hooks/types";
 import {
   APPROVED,
   CANCELLED,
@@ -38,12 +39,6 @@ interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  attributeId: number;
-  label: string;
-}
-
 const List = ({ refresh, setRefresh }: ListProps) => {
   const { data, setData, setError, error, isLoading } = useVisits({
     refresh,

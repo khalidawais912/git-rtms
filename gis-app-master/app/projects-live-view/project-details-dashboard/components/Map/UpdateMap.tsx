@@ -2,7 +2,7 @@
 import { Library } from "@googlemaps/js-api-loader";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
 
 const containerStyle = {
   width: "100%",

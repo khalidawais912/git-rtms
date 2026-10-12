@@ -1,5 +1,5 @@
 import Menu from "@/shared/components/Menu";
-import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { Groups } from "@/app/project-details-dashboard/types";
 import { useEffect, useState } from "react";
 
 interface Props {

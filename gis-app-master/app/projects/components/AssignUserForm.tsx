@@ -3,7 +3,8 @@ import {
   GET_ASSIGNED_USERS_TO_PROJECT_API,
 } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import apiClient from "@/shared/api/client";
 import Image from "next/image";
@@ -12,7 +13,7 @@ import { Modal } from "react-bootstrap";
 import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import user3Black from "../../../public/icons/user3Black.svg";
-import { UserOption } from "./ProjectsList";
+import { UserOption } from "../types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 
 interface Props {

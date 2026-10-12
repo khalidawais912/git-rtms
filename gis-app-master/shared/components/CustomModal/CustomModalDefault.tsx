@@ -3,6 +3,7 @@
 import { ReactNode, useState } from "react";
 import { Modal } from "react-bootstrap";
 import "./CustomModal.css";
+import { AnimationSpeed } from "../types";
 
 // Animation type definitions
 export type ModalAnimationType =
@@ -21,9 +22,6 @@ export type ModalAnimationType =
   | "rotate-3d"
   | "newspaper"
   | "fall";
-
-export type AnimationSpeed = "normal" | "slow" | "fast";
-
 interface Props {
   button: ReactNode;
   body: ReactNode | ((close: () => void) => ReactNode);

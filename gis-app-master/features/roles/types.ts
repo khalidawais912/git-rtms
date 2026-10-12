@@ -4,3 +4,8 @@ export interface Role {
   normalizedName: string;
   concurrencyStamp: string;
 }
+
+export interface Option {
+  rightId: number;
+  rightName: string;
+}

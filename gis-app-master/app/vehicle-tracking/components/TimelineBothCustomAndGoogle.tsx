@@ -4,7 +4,7 @@ import {
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import { VehicleTrackingRecording } from "../page";
+import { VehicleTrackingRecording } from "../types";
 import { RoutePolyline } from "./TimelineCustom";
 import { Directions } from "./TimelineAuto";
 

@@ -4,7 +4,7 @@ import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
 import TileLabel from "@/app/charts/components/TileLabel";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import ListWrapper from "@/shared/components/ListWrapper";
-import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
+import { FilterData } from "@/app/dashboard/types";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
   adpFilters,

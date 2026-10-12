@@ -4,7 +4,7 @@ import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import locationBlueMini from "@/public/icons/locationBlueMini.svg";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Link from "next/link";
-import { StaffTrackings } from "./ProjectDetailsDashboard";
+import { StaffTrackings } from "../types";
 
 interface Props {
   data: StaffTrackings[];

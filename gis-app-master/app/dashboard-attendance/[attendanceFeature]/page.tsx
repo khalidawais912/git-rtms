@@ -18,29 +18,11 @@ import { sort } from "fast-sort";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AttendanceList } from "../types";
 
 interface Props {
   params: { attendanceFeature: string };
 }
-export interface AttendanceList {
-  attandanceId: number;
-  userId: number;
-  employeeName: string;
-  employeePicture: string;
-  department: string;
-  employeeDesignation: string;
-  punchInStatus: string;
-  punchInTime: string;
-  punchOutStatus: string;
-  punchOutTime: string;
-  date: string;
-  isCheckOut: boolean;
-}
-
-export interface AttendaceDetail {
-  attendanceList: AttendanceList[];
-}
-
 const AttendanceDetailsPage = ({ params }: Props) => {
   const { attendanceFeature } = params;
   const currentPath = usePathname();

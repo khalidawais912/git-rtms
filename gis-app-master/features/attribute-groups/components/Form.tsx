@@ -2,10 +2,8 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultNumberOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultNumberOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import CustomTextArea from "@/shared/components/Form/CustomTextArea";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";

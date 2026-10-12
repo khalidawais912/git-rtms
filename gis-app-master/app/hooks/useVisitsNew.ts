@@ -1,30 +1,6 @@
 import { VISIT_NEW_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface VisitNew {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  userId: number;
-  userName: string;
-  designation: string;
-  gsNo: string;
-  sectorId: number;
-  sectorName: string;
-  address: string;
-  city: string;
-  division: string;
-  districtId: number;
-  districtName: string;
-  latitude: string;
-  longitude: string;
-  locationCoordinates: string;
-  status: string;
-  visitStatus: true;
-  approvalDate: string;
-}
-
+import { VisitNew } from "./types";
 interface Props {
   refresh?: boolean;
 }

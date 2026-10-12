@@ -3,9 +3,10 @@ import Button from "@/shared/components/Button";
 import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
 import DeleteModal from "@/shared/components/DeleteModal";
 import CustomCalendar from "@/shared/components/Form/CustomCalender";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import TableData from "@/shared/components/Table/TableData";
-import { TempTourPlan } from "@/app/hooks/useTempTourPlan";
+import { TempTourPlan } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {
   isoToLocalDateString,
@@ -19,17 +20,7 @@ import { FaPaste } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
 import { toast } from "react-toastify";
 import { z } from "zod";
-
-export interface TempCopyForm {
-  district_Id: number;
-  type: number;
-  userId: number;
-  dateFrom: string;
-  dateTo: string;
-  driverId: number;
-  vehicalId: number;
-}
-
+import { TempCopyForm } from "../../types";
 const schema = z.object({
   id: z.number().optional().default(0),
   department_id: z.number().optional().default(0),

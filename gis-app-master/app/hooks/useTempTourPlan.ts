@@ -3,31 +3,7 @@ import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/
 import useData from "@/shared/hooks/useData";
 import { useMemo } from "react";
 import { DashboardTypeEnum } from "../dashboard/types/types";
-
-export interface TempTourPlan {
-  tempId: number;
-  departmentId: number;
-  gsNo: string;
-  projectid: number;
-  projectName: string;
-  projectId: number;
-  district: string;
-  sectors: string;
-  cost: number;
-  type: number;
-  userId: number;
-  meOfficerName: string;
-  section: string;
-  dateFrom: string;
-  dateTo: string;
-  driverName: string;
-  vehicleNumber: string;
-  vehicleId: number;
-  driverId: number;
-  districtId: number;
-  isFocalPerson: boolean;
-}
-
+import { TempTourPlan } from "./types";
 interface Props {
   refresh?: boolean;
 }

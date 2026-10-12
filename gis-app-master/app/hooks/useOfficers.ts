@@ -1,18 +1,6 @@
 import { GET_ALL_OFFICERS_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface Officer {
-  id: number;
-  departmentId: number;
-  userName: string;
-  fullName: string;
-  designation: string;
-  picture: string;
-  email: string;
-  phoneNumber: string;
-  roleName: string;
-}
-
+import { Officer } from "./types";
 interface Props {
   refresh?: boolean;
 }

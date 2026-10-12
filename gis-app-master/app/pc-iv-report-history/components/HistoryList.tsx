@@ -1,12 +1,11 @@
 "use client";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { ReportHistoryUser } from "@/app/hooks/types";
 import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { Accordion } from "react-bootstrap";
 import ReactMarkDown from "react-markdown";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport, ReportHistory } from "../types";
 import ReportHistoryDownload from "./ReportHistoryDownload";
-import { ReportHistory } from "./ReportNoting";
 
 interface Props {
   descendingOrderData: ReportHistory[];

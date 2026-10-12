@@ -4,7 +4,8 @@ import Button from "@/shared/components/Button";
 import DeleteModal from "@/shared/components/DeleteModal";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAttributeGroups } from "@/features/attribute-groups";
-import useProjects, { Project } from "@/app/hooks/useProjects";
+import useProjects from "@/app/hooks/useProjects";
+import { Project } from "@/app/hooks/types";
 import { useSectors, Sector } from "@/features/sectors";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";
@@ -36,12 +37,6 @@ interface ListProps {
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  name: string;
-}
-
 const ProjectsList = ({
   refresh,
   setRefresh,

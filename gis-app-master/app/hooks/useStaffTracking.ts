@@ -1,15 +1,6 @@
 import { COORDINATES_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface StaffTracking {
-  id: number;
-  visitID: number;
-  userID: number;
-  latitude: string;
-  longitude: string;
-  createdAt: string;
-}
-
+import { StaffTracking } from "./types";
 interface Props {
   refresh?: boolean;
 }

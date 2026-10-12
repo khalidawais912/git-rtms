@@ -22,12 +22,6 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
 import GroupingForm from "./GroupingForm";
-
-export interface Option {
-  attributeId: number;
-  label: string;
-}
-
 const List = ({ dashboardType }: { dashboardType?: string }) => {
   const [refresh, setRefresh] = useState(false);
   const [isPageLimit, setPageLimit] = useState(false);

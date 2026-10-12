@@ -9,6 +9,7 @@ import Select, {
 } from "react-select";
 
 import makeAnimated from "react-select/animated";
+import { OptionType } from "../types";
 
 interface Props {
   options: OptionType[];
@@ -34,9 +35,6 @@ interface Props {
   defaultValue?: OptionType | OptionType[] | null;
   radius?: "pill" | undefined;
 }
-
-export type OptionType = { value: string; label: string };
-
 export const defaultOption = { value: "", label: "Select" };
 export const defaultNumberOption = { value: "0", label: "Select" };
 export const defaultNegativeNumberOption = { value: "-1", label: "Select" };

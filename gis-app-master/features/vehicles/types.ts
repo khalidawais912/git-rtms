@@ -13,3 +13,8 @@ export interface Vehicle {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Option {
+  id: number;
+  name: string;
+}

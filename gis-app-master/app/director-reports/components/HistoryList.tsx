@@ -1,9 +1,8 @@
 "use client";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { ReportHistoryUser } from "@/app/hooks/types";
 import { statuses } from "@/app/report-history/statuses";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { SubmittedReport } from "../list/components/List";
-import { ReportHistory } from "./ReportNoting";
+import { SubmittedReport, ReportHistory } from "../types";
 
 interface Props {
   descendingOrderData: ReportHistory[];

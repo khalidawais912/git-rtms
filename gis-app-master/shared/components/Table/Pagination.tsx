@@ -4,7 +4,7 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { PiCircleFill } from "react-icons/pi";
 import { GroupBase, SingleValue, StylesConfig } from "react-select";
 import Button from "../Button";
-import { OptionType } from "../Form/CustomSelect";
+import { OptionType } from "../types";
 import dynamic from "next/dynamic";
 
 const CustomSelect = dynamic(() => import("../Form/CustomSelect"), {

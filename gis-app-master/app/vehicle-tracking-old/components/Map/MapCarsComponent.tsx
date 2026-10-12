@@ -12,37 +12,7 @@ import {
 } from "react-leaflet";
 import carTop2 from "../../../../public/images/carTop2.png";
 import CarCard from "./CarCard";
-
-export interface Tracking {
-  ["GBB-062"]: {
-    Vehicle_Make: string;
-    Vehicle_Model: string;
-    Vehicle_Device: string;
-    Vehicle_DeviceSerial: string;
-    ["Distance traveled"]: number;
-    ["Fuel burned"]: number;
-    ["Engine value"]: string;
-    ["Geofence values"]: number;
-    ["coordnaties list"]: [
-      {
-        lat: number;
-        lon: number;
-        direction: string;
-      }
-    ];
-    Date_time: string;
-    Latitude: number;
-    Longitude: number;
-    Speed: number;
-    Ignition: string;
-    Address: string;
-    ["Last Ignition Off Time"]: string;
-    ["Last Ignition Location"]: string;
-    ["First Ignition On Time"]: string;
-    ["First Ignition Location"]: string;
-  };
-}
-
+import { Tracking } from "../../types";
 const getRotationAngle = (direction: string): number => {
   switch (direction?.toLocaleLowerCase()) {
     case "north":

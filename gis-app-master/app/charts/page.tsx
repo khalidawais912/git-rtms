@@ -11,54 +11,7 @@ import DistrictWiseProjectsBarChartTile from "./components/DistrictWiseProjectsB
 import SectorWiseProgressPieChartTile from "./components/SectorWiseProgressPieChartTile";
 import apiClient, { CanceledError } from "@/shared/api/client";
 import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
-
-export interface AssignedProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface EvaluationTotalProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface SNEProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface OfficerWiseVisits {
-  officerName: string;
-  scheduledCount: number;
-  completedCount: number;
-  cancelledCount: number;
-}
-
-export interface DistrictProject {
-  districtName: string;
-  totalProject: number;
-}
-
-interface Stats {
-  summary: {
-    totalProjects: number;
-    totalVisit: number;
-    unassignedProjects: number;
-    scheduleProjects: number;
-    completedProjects: number;
-    submmittedProjects: number;
-    refferBackProjects: number;
-    approvedByDGProjects: number;
-    issuedProjects: number;
-    cancelProjects: number;
-  };
-  assignedProjects: AssignedProject[];
-  evaluationTotalProject: EvaluationTotalProject[];
-  isSNEProjectCount: SNEProject[];
-  officerWiseVisits: OfficerWiseVisits[];
-  districtProjects: DistrictProject[];
-}
-
+import { Stats } from "./types";
 const ChartsPage = () => {
   const [data, setData] = useState<Stats>();
   const [isLoading, setLoading] = useState(true);

@@ -4,7 +4,7 @@ import { formatHHLStringDate } from "@/shared/utils";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;

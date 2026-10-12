@@ -38,6 +38,7 @@ import {
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SuggestionPopup } from "../types";
 
 // Enhanced dictionary with common words
 const DICTIONARY = new Set([
@@ -354,16 +355,6 @@ const SpellCheckExtension = Extension.create({
     ];
   },
 });
-
-interface SuggestionPopup {
-  word: string;
-  suggestions: string[];
-  x: number;
-  y: number;
-  from: number;
-  to: number;
-}
-
 const RichTextEditor: React.FC = () => {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkDialog, setShowLinkDialog] = useState(false);

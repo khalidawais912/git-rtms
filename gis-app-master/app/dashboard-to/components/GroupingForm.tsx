@@ -7,7 +7,7 @@ import { Modal } from "react-bootstrap";
 import Select, { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import superGroupBlack from "../../../public/icons/superGroupBlack.svg";
-import { Option } from "./UserProjectsList";
+import { Option } from "../types";
 interface Props {
   id: number;
   options: Option[];

@@ -1,7 +1,7 @@
 import Button from "@/shared/components/Button";
 import { Lexend } from "next/font/google";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FilterData } from "./Dashboard";
+import { FilterData, Filter } from "../types";
 import FilterModal from "./FilterModal";
 import { FILTER_SETTING_API } from "@/shared/api/endpoints";
 import apiClient from "@/shared/api/client";
@@ -17,14 +17,6 @@ const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-export interface Filter {
-  label: string;
-  filterIdentifier: string;
-  dataType: string;
-  filterValues: [string];
-}
-
 interface Props {
   handleSubmit: (filterData: FilterData[]) => Promise<void>;
   otherFilters: FilterData[];

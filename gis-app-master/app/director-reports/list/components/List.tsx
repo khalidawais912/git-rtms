@@ -3,8 +3,7 @@ import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Loader from "@/shared/components/Loader/Loader";
 import { DashboardTypeEnum } from "@/app/dashboard/types/types";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { Officer, ReportHistoryUser } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
@@ -22,48 +21,12 @@ import { BsExclamationTriangleFill } from "react-icons/bs";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import { APPROVED, REFERBACK, SUBMITTED } from "../../statuses";
 import ProjectTile from "./ProjectTile";
+import { SubmittedReport, Tab } from "../../types";
 
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-  isFocalPerson: boolean;
-}
-
-export interface SubmittedReportResponse {
-  totalIssuedCount: number;
-  reports: SubmittedReport[];
-}
-
-interface Tab {
-  id: number;
-  label: string;
-  status: number;
-  role: string;
-  reportSubmittedFrom?: number;
-  reportSubmittedTo?: number;
-  count: number;
-  filteredData: SubmittedReport[] | undefined;
-}
-
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
   users: ReportHistoryUser[];

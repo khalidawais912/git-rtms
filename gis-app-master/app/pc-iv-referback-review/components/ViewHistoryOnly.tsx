@@ -1,15 +1,14 @@
 import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Loader from "@/shared/components/Loader/Loader";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
+import { ReportHistoryUser } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import ReactMarkDown from "react-markdown";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport, ReportHistory } from "../types";
 import ReportHistoryDownload from "./ReportHistoryDownload";
-import { ReportHistory } from "./ReportNoting";
 
 interface Props {
   data: SubmittedReport;

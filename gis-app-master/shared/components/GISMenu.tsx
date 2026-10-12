@@ -29,15 +29,7 @@ import truck from "../../public/icons/truck.svg";
 import user3White from "../../public/icons/user3White.svg";
 import visits from "../../public/icons/visits.svg";
 import Button from "./Button";
-
-interface Data {
-  name: string;
-  nameId: string;
-  link: string;
-  icon: any;
-  backgroundColor: string;
-}
-
+import { Data } from "./types";
 const GISMenu = ({
   dashboardType,
 }: {

@@ -5,7 +5,8 @@ import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
-import useProjects, { Project } from "@/app/hooks/useProjects";
+import useProjects from "@/app/hooks/useProjects";
+import { Project } from "@/app/hooks/types";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import apiClient, { AxiosError } from "@/shared/api/client";
@@ -38,17 +39,6 @@ interface ListProps {
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  superGroupLabel: string;
-}
-
-export interface UserOption {
-  id: number;
-  userName: string;
-}
-
 const UserProjectsList = ({
   refresh,
   setRefresh,

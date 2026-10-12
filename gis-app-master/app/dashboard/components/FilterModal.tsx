@@ -5,9 +5,8 @@ import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import filterBlack from "../../../public/icons/filterBlack.svg";
-import { FilterData } from "./Dashboard";
+import { FilterData, Filter } from "../types";
 import { Modal } from "react-bootstrap";
-import { Filter } from "./FilterButtons";
 import {
   adpFilters,
   cmInitiativeFilters,
@@ -16,10 +15,8 @@ import {
 } from "../filters";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
 import { SingleValue } from "react-select";
-import CustomSelect, {
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 
 interface Props {
   otherFilters: FilterData[];

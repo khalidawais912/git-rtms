@@ -14,7 +14,8 @@ import { LOGIN_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
 import Spinner from "@/shared/components/Spinner";
-import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import { LoginFormData, loginSchema } from "../schema";
 import { LoginResponse } from "../types";
 

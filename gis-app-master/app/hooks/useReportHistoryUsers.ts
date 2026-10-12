@@ -1,17 +1,6 @@
 import { GET_ALL_USERS_AND_OFFICERS_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface ReportHistoryUser {
-  id: number;
-  userName: string;
-  fullName: string;
-  email: string;
-  designation: string;
-  picture: string;
-  phoneNumber: string;
-  roleId: string;
-}
-
+import { ReportHistoryUser } from "./types";
 interface Props {
   refresh?: boolean;
 }

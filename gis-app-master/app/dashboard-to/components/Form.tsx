@@ -2,16 +2,14 @@ import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
 import { useAuthentication, Authentication } from "@/features/users";
-import useDistrict, { District } from "@/app/hooks/useDistrict";
+import useDistrict from "@/app/hooks/useDistrict";
+import { District, Project, TourPlan } from "@/app/hooks/types";
 import { useDriver, Driver } from "@/features/drivers";
-import { Project } from "@/app/hooks/useProjects";
-import useTourPlans, { TourPlan } from "@/app/hooks/useTourPlans";
+import useTourPlans from "@/app/hooks/useTourPlans";
 import { useVehicle, Vehicle } from "@/features/vehicles";
 import useVisits from "@/app/hooks/useVisits";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

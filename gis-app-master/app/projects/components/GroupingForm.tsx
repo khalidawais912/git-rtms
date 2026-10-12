@@ -1,6 +1,7 @@
 import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import apiClient from "@/shared/api/client";
 import Image from "next/image";
@@ -9,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import superGroupBlack from "../../../public/icons/superGroupBlack.svg";
-import { Option } from "./ProjectsList";
+import { Option } from "../types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 interface Props {
   id: number;

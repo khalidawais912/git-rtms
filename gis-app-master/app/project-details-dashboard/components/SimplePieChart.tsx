@@ -2,7 +2,7 @@
 
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
-import { Groups, SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { Groups, SingleProjectDashboard } from "../types";
 
 interface Props {
   financialAnalysis: Groups;

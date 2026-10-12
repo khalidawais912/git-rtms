@@ -1,14 +1,6 @@
 import { DISTRICT_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface District {
-  id: number;
-  divisionName: string;
-  districtName: string;
-  latitude: string;
-  longitude: string;
-}
-
+import { District } from "./types";
 interface Props {
   refresh?: boolean;
 }

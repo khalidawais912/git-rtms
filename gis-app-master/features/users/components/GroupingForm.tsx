@@ -1,5 +1,6 @@
 import Button from "@/shared/components/Button";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import Image from "next/image";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
 import { getCpiStatus, getSpiStatus } from "@/shared/utils";
 
 interface Props {

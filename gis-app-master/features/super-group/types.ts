@@ -13,3 +13,8 @@ export interface SuperGroup {
   superGroupLabel: string;
   groupsList: GroupsList[];
 }
+
+export interface Option {
+  id: number;
+  name: string;
+}

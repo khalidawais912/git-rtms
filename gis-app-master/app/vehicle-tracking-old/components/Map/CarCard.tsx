@@ -8,7 +8,7 @@ import petrol from "@/public/icons/petrol.svg";
 import redCircle2 from "@/public/icons/redCircle2.svg";
 import Image from "next/image";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Tracking } from "./MapCarsComponent";
+import { Tracking } from "../../types";
 
 interface Props {
   apiData: Tracking;

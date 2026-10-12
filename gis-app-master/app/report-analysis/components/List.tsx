@@ -28,16 +28,7 @@ import ActionButton from "@/shared/components/Table/ActionButton";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import TableData from "@/shared/components/Table/TableData";
 import CustomInput from "@/shared/components/Form/CustomInput";
-
-export interface ReportTab {
-  reportId: number;
-  reportName: string;
-}
-
-interface ReportRun {
-  [key: string]: string | number | undefined;
-}
-
+import { ReportRun, ReportTab } from "../types";
 const List = () => {
   const [expandArea, setExpandArea] = useState(false);
   const [isActiveTab, setActiveTab] = useState(-1);

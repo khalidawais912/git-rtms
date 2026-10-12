@@ -24,12 +24,6 @@ interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  name: string;
-}
-
 const List = ({ refresh, setRefresh }: ListProps) => {
   const { data, setData, setError, isLoading } = useDriver({
     refresh,

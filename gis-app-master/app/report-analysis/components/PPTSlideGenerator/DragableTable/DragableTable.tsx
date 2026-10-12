@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import TableRow from "./TableRow";
 import { Dispatch, SetStateAction } from "react";
-import { SectorItem } from "../PPTSlideGenerator";
+import { SectorItem } from "../../../types";
 
 interface Props {
   sectors: SectorItem[];

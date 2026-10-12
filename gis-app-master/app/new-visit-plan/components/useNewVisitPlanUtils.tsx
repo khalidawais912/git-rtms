@@ -1,4 +1,4 @@
-import { OptionType } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import { useAuthentication } from "@/features/users";
 import useDistrict from "@/app/hooks/useDistrict";
 import { useDriver } from "@/features/drivers";

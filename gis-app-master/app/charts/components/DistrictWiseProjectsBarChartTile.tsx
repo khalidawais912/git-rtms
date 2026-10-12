@@ -7,12 +7,9 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import MySimpleBarChart, {
-  ChartGradient,
-  MyBarChartStyle,
-  MyBarChartType,
-} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
-import { DistrictProject } from "../page";
+import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/shared/components/types";
+import { DistrictProject } from "../types";
 import { getBlueGradientColor } from "./AssignProjectPartTwoBarChartTile";
 
 interface Props {

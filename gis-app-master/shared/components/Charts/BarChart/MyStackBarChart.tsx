@@ -18,36 +18,13 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { VerticalTick } from "./MySimpleBarChart";
-
-export interface StackValue {
-  value: number;
-  color?: string;
-  gradient?: StackBarGradient;
-}
-
-export interface MyStackBarChartType {
-  label: string;
-
-  value1: StackValue;
-  value2: StackValue;
-
-  total?: number;
-}
-
+import { MyStackBarChartType, StackBarGradient } from "../../types";
 interface Props {
   data: MyStackBarChartType[];
   layout?: "vertical" | "horizontal";
   style?: MyStackBarChartStyle;
   xAxisLabelOrientation?: "horizontal" | "vertical";
 }
-
-export interface StackBarGradient {
-  id: string;
-  from: string;
-  to: string;
-  direction?: "vertical" | "horizontal";
-}
-
 export interface StackBarSegmentStyle {
   /** Must match dataKey in Bar */
   key: string;

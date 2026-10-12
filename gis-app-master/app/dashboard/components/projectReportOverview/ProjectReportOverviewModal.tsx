@@ -2,10 +2,7 @@ import { PROJECT_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import ProgressBar from "@/shared/components/ProgressBar";
-import {
-  Attributes,
-  Groups,
-} from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { Attributes, Groups } from "@/app/project-details-dashboard/types";
 import apiClient from "@/shared/api/client";
 import book from "@/public/icons/book.svg";
 import dotsL from "@/public/icons/dotsL.svg";
@@ -35,36 +32,13 @@ import ProjectProfile from "./components/ProjectProfile";
 import Badge from "../ProjectsTable/components/Badge";
 import Loader from "@/shared/components/Loader/Loader";
 import { triggerEscapeKeyPress } from "@/shared/utils";
+import { Project } from "../../types";
 
 interface Props {
   value: number;
   id: number;
   visitId: number;
 }
-
-export interface Project {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  sectorId: number;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  sectorName: string;
-  groups: Groups[];
-  attributes: Attributes[];
-  evaluationFormula: string;
-  evaluationFormulaWeightage: number;
-  remarks: string;
-  weightage: number;
-  readOnly: number;
-  sortId: number;
-  attributeCode: string;
-  smdpIdentifier: string;
-}
-
 const icons = [
   {
     icon: mainPage,

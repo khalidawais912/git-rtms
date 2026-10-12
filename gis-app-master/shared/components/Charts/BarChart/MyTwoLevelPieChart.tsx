@@ -1,39 +1,10 @@
 "use client";
 
-import {
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  TooltipProps,
-} from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps, PieLabelRenderProps } from "recharts";
 import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
-
-export interface ChartGradient {
-  id: string;
-  from: string;
-  to: string;
-  direction?: "vertical" | "horizontal";
-}
-
-export interface PieItem {
-  label: string;
-  value: number;
-  color?: string;
-  gradient?: ChartGradient;
-
-  [key: string]: any; // ✅ REQUIRED for Recharts
-}
-
-export interface TwoLevelPieData {
-  outer: PieItem[]; // level 1
-  inner: PieItem[]; // level 2
-}
-
 interface Props {
   data: TwoLevelPieData;
   style?: MyTwoLevelPieChartStyle;
@@ -123,7 +94,7 @@ const MyTwoLevelPieChart = ({
 
 export default MyTwoLevelPieChart;
 
-import { PieLabelRenderProps } from "recharts";
+import { MyTwoLevelPieChartStyle, TwoLevelPieData } from "../../types";
 
 const renderInnerLabel = (props: PieLabelRenderProps) => {
   const { cx, cy, midAngle, innerRadius, outerRadius, payload } = props;
@@ -192,33 +163,6 @@ const renderOuterValue = (props: PieLabelRenderProps) => {
     </text>
   );
 };
-
-export interface MyTwoLevelPieChartStyle {
-  height?: number;
-
-  // Outer ring
-  outerInnerRadius?: number | string;
-  outerOuterRadius?: number | string;
-
-  // Inner ring
-  innerInnerRadius?: number | string;
-  innerOuterRadius?: number | string;
-
-  outerLabel?: boolean;
-  innerLabel?: boolean;
-
-  label?: {
-    innerFontSize?: number;
-    outerFontSize?: number;
-    color?: string;
-  };
-
-  stroke?: string;
-  strokeWidth?: number;
-
-  tooltip?: TooltipProps<ValueType, NameType>;
-}
-
 export const tooltipStyles = {
   contentStyle: {
     backgroundColor: "#1E1B39",

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import tickStar from "../../../../public/icons/tickStar.svg";
 import whiteBuilding from "../../../../public/icons/whiteBuilding.svg";
-import { DistrictProjects } from "./MyMap";
+import { DistrictProjects } from "../../types";
 
 interface Props {
   data: DistrictProjects;

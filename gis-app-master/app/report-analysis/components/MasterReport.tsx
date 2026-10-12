@@ -8,7 +8,7 @@ import { useAttributes } from "@/features/attributes";
 import { REPORT_API } from "@/shared/api/endpoints";
 import { toast } from "react-toastify";
 import apiClient, { AxiosError } from "@/shared/api/client";
-import { ReportTab } from "./List";
+import { ReportTab } from "../types";
 import { useRouter } from "next/navigation";
 import Loader from "@/shared/components/Loader/Loader";
 

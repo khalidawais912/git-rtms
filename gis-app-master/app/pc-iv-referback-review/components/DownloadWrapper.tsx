@@ -4,7 +4,7 @@ import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown"
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
 import { exportDataToPDF } from "@/shared/utils";
 import { exportDataToExcelDynamicColumn } from "@/shared/utils/exportToExcel";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport } from "../types";
 
 interface Props {
   data: SubmittedReport[];

@@ -38,6 +38,7 @@ import ReportReview from "./ReportReview";
 import SimplePieChart from "./SimplePieChart";
 import VisitsPlan from "./VisitsPlan";
 import useProjectsTableUtils from "./ProjectsTable/useProjectsTableUtils";
+import { FilterData } from "../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
@@ -92,12 +93,6 @@ export interface MainDashboard {
   projectslist: null;
   disitrictlist: DistrictList[];
 }
-
-export interface FilterData {
-  filterIdentifier: string;
-  filterValues: string;
-}
-
 interface Props {
   dashboardType?: string;
 }

@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProjectDetailsDashboard, {
-  SingleProjectDashboard,
-} from "../../components/ProjectDetailsDashboard";
+import ProjectDetailsDashboard from "../../components/ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
 import Loader from "@/shared/components/Loader/Loader";

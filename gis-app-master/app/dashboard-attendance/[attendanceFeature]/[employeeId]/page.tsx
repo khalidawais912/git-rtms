@@ -12,7 +12,7 @@ import {
   getTimeLeft,
 } from "@/shared/utils";
 import { useEffect, useState } from "react";
-import { AttendanceList } from "../page";
+import { AttendanceList, StaffRecord } from "../../types";
 import { sort } from "fast-sort";
 import Pagination from "@/shared/components/Table/Pagination";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
@@ -21,26 +21,6 @@ import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 interface Props {
   params: { employeeId: string };
 }
-
-interface StaffRecord {
-  userName: string;
-  userDesignation: string;
-  department: string;
-  today: string;
-  todayCheckInStatus: string;
-  todayCheckInTime: string;
-  todayCheckOutStatus: string;
-  todayCheckOutTime: string;
-  totalPresents: number;
-  totalOthers: number;
-  totalLeave: number;
-  totalVisit: number;
-  totalAbsents: number;
-  totalLateComers: number;
-  totalLeftEarly: number;
-  dailyAttandance: AttendanceList[];
-}
-
 const EmployeeProfilePage = ({ params }: Props) => {
   const { employeeId } = params;
   const [data, setData] = useState<StaffRecord>();

@@ -12,16 +12,7 @@ import {
   TileLayer,
 } from "react-leaflet";
 import search2 from "../../../../public/icons/search2.svg";
-
-export interface StaffTracking {
-  id: number;
-  visitID: number;
-  userID: number;
-  latitude: string;
-  longitude: string;
-  createdAt: string;
-}
-
+import { StaffTracking } from "../../types";
 const getRotationAngle = (direction: string): number => {
   switch (direction.toLocaleLowerCase()) {
     case "north":

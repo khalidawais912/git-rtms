@@ -25,27 +25,12 @@ import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
 import useDistrict from "../hooks/useDistrict";
 import useProjects from "../hooks/useProjects";
+import { VehicleTrackingRecording } from "./types";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-interface VehicleData {
-  GpsTime: string;
-  Latitude: number;
-  Longitude: number;
-  Speed: number;
-  Ignition: string;
-  Distance: number;
-  ["Fuel burned"]: number;
-  Direction: string;
-}
-
-export interface VehicleTrackingRecording {
-  [vehicleNumber: string]: VehicleData[];
-}
-
 const NewVehicleTracking = () => {
   const { data: vehicles } = useVehicle();
   const { data: drivers } = useDriver();

@@ -48,6 +48,7 @@ import PCIVReview from "./PCIVReview";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkSquare01Icon } from "@hugeicons/core-free-icons";
 import MarkToProjects from "./MarkToProjects/MarkToProjects";
+import { FilterData } from "../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
@@ -111,12 +112,6 @@ export interface MainDashboard {
     cancelled: number;
   };
 }
-
-export interface FilterData {
-  filterIdentifier: string;
-  filterValues: string;
-}
-
 const DashboardMonitoring = () => {
   const [data, setData] = useState<MainDashboard>();
   const [role, setRole] = useState<string>("");

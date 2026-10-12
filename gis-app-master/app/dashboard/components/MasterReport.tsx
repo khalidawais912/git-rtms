@@ -4,10 +4,8 @@ import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Spinner from "@/shared/components/Spinner";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import {
   ChangeEvent,
   FormEvent,
@@ -18,12 +16,7 @@ import {
 import { toast } from "react-toastify";
 import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
 import DragableTable from "./PPTSlideGenerator/DragableTable/DragableTable";
-
-export interface SectorItem {
-  id: number;
-  title: string;
-}
-
+import { SectorItem } from "../types";
 const MasterReport = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");

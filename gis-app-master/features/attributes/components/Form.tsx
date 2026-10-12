@@ -2,15 +2,13 @@ import Button from "@/shared/components/Button";
 import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import ActionButton from "@/shared/components/Table/ActionButton";
 import TrashIcon from "@/shared/components/TrashIcon";
-import { Attribute } from "../types";
+import { Attribute, Option } from "../types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {
   Dispatch,
@@ -53,19 +51,6 @@ interface Form {
   isMaster: number;
   priority: number;
 }
-
-interface Option {
-  value: string;
-  attributeId: number;
-  sortId: number;
-  isActive: number;
-  label: string;
-  condition: string;
-  createdAt: string;
-  updatedAt: string;
-  remarks: string;
-}
-
 interface Props {
   api: string;
   method: "POST" | "PUT" | "PATCH";

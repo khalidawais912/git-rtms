@@ -42,3 +42,15 @@ export interface Attribute {
     }
   ];
 }
+
+export interface Option {
+  value: string;
+  attributeId: number;
+  sortId: number;
+  isActive: number;
+  label: string;
+  condition: string;
+  createdAt: string;
+  updatedAt: string;
+  remarks: string;
+}

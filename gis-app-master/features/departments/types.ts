@@ -45,3 +45,8 @@ export interface DataAgainstFiled {
   status: boolean;
   updatedAt: string;
 }
+
+export interface Option {
+  value: string;
+  label: string;
+}

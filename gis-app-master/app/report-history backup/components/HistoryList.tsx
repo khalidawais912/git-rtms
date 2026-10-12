@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Accordion } from "react-bootstrap";
 import ReactMarkDown from "react-markdown";
-import { ReportHistory } from "./ReportNoting";
+import { ReportHistory } from "../types";
 
 const HistoryList = ({ data }: { data: ReportHistory[] }) => {
   const [refresh, setRefresh] = useState(false);

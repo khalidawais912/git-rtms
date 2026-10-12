@@ -1,5 +1,5 @@
 import React from "react";
-import { Attributes } from "../ProjectDetailsDashboard";
+import { Attributes } from "../../../types";
 import RenderRichText from "../RenderRichText";
 
 interface Props {

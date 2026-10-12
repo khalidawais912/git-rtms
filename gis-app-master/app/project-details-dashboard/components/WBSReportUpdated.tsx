@@ -1,7 +1,7 @@
 "use client";
 
 import { Asap } from "next/font/google";
-import { Groups } from "./ProjectDetailsDashboard";
+import { Groups } from "../types";
 import WBSAttributesFlow from "./WBSFlow/WBSAttributesFlow";
 import WBSGroupFlow from "./WBSFlow/WBSGroupFlow";
 

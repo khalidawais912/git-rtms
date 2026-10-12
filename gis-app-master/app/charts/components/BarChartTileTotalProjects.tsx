@@ -4,12 +4,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
 import { HiChartBar } from "react-icons/hi";
-import MySimpleBarChart, {
-  ChartGradient,
-  MyBarChartStyle,
-  MyBarChartType,
-} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
-import { EvaluationTotalProject } from "../page";
+import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/shared/components/types";
+import { EvaluationTotalProject } from "../types";
 
 interface Props {
   data: EvaluationTotalProject[];

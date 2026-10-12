@@ -3,7 +3,8 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DashboardTypeEnum } from "../dashboard/types/types";
-import useOfficers, { Officer } from "../hooks/useOfficers";
+import useOfficers from "../hooks/useOfficers";
+import { Officer } from "@/app/hooks/types";
 import useReportHistoryUser from "../hooks/useReportHistoryUsers";
 import List from "./list/components/List";
 import Cookies from "js-cookie";

@@ -1,19 +1,6 @@
 import { TOUR_PLAN_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface TourPlan {
-  id: number;
-  department_Id: number;
-  name: string;
-  tourStartDate: string;
-  tourEndDate: string;
-  approvalDate: string;
-  createdDate: string;
-  updatedDate: string;
-  createdBy: number;
-  updatedBy: number;
-}
-
+import { TourPlan } from "./types";
 interface Props {
   refresh?: boolean;
 }

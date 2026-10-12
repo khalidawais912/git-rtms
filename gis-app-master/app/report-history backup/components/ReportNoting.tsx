@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport, ReportHistory } from "../types";
 import {
   APPROVED_BY_DG_AND_FORWARD_BY_D_TO_DD_FOR_ISSUEANCE,
   APPROVED_BY_DG_AND_FORWARD_BY_DD_TO_AD_FOR_ISSUEANCE,
@@ -60,20 +60,6 @@ interface Props {
   role: string;
   userId: number;
 }
-
-export interface ReportHistory {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  reportPath: string;
-  status: number;
-  sDate: string;
-  reportType: number;
-}
-
 const ReportNoting = ({ data, setRefresh, refresh, role, userId }: Props) => {
   const {
     control,

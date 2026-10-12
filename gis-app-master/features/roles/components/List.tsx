@@ -23,12 +23,6 @@ interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  rightId: number;
-  rightName: string;
-}
-
 const List = ({ refresh, setRefresh }: ListProps) => {
   const [isPageLimit, setPageLimit] = useState(false);
   const { data, setData, setError, error, isLoading } = useRoles({ refresh });

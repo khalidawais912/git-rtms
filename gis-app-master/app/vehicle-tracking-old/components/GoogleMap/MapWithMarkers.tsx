@@ -1,7 +1,7 @@
-import { Position } from "@/app/staff-tracking/components/StaffTracking";
+import { Position } from "@/app/staff-tracking/types";
 import { AdvancedMarker, InfoWindow, useMap } from "@vis.gl/react-google-maps";
 import CarCard from "../Map/CarCard";
-import { Tracking } from "./LiveCarTrackingMap";
+import { Tracking } from "../../types";
 
 interface Props {
   position: Position;

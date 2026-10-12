@@ -1,6 +1,7 @@
 import { ADD_RIGHTS_TO_ROLE_API, GET_RIGHTS_BY_ROLE_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import apiClient from "@/shared/api/client";
 import Image from "next/image";
@@ -9,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import rightsBlack from "../../../public/icons/rightsBlack.svg";
-import { Option } from "./List";
+import { Option } from "../types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 
 interface Props {

@@ -1,17 +1,11 @@
 import Button from "@/shared/components/Button";
-import MySimpleBarChart, {
-  ChartGradient,
-  MyBarChartStyle,
-  MyBarChartType,
-} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType, MyTwoLevelPieChartStyle, TwoLevelPieData } from "@/shared/components/types";
 import { ArrowUpRight03Icon, Location01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import MyTwoLevelPieChart, {
-  MyTwoLevelPieChartStyle,
-  TwoLevelPieData,
-} from "@/shared/components/Charts/BarChart/MyTwoLevelPieChart";
+import MyTwoLevelPieChart from "@/shared/components/Charts/BarChart/MyTwoLevelPieChart";
 
 const SectorWiseProgressPieChartTile = ({
   chartSize = "small",

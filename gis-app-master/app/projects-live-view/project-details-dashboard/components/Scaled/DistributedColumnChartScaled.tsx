@@ -3,7 +3,7 @@
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import DetailAnalysis from "../DetailAnalysis";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
 import Card from "../Card";
 import { GoArrowUpRight } from "react-icons/go";
 

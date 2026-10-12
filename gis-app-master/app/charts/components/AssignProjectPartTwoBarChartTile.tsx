@@ -1,14 +1,11 @@
 import Button from "@/shared/components/Button";
-import { ChartGradient } from "@/shared/components/Charts/BarChart/MySimpleBarChart";
-import MyStackBarChart, {
-  MyStackBarChartStyle,
-  MyStackBarChartType,
-} from "@/shared/components/Charts/BarChart/MyStackBarChart";
+import { ChartGradient, MyStackBarChartType } from "@/shared/components/types";
+import MyStackBarChart, { MyStackBarChartStyle } from "@/shared/components/Charts/BarChart/MyStackBarChart";
 import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import { OfficerWiseVisits } from "../page";
+import { OfficerWiseVisits } from "../types";
 
 interface Props {
   data: OfficerWiseVisits[];

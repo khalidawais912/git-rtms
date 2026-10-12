@@ -6,7 +6,7 @@ import levelUp from "../../../public/icons/levelUp.svg";
 import meter from "../../../public/icons/meter.svg";
 import tideOne from "../../../public/images/tideOne.png";
 import tideTwo from "../../../public/images/tideTwo.png";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../types";
 
 interface Props {
   data: SingleProjectDashboard;

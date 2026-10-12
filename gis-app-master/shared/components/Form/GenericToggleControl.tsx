@@ -3,9 +3,7 @@
 import AnimatedSwap from "@/shared/components/AnimatedSwap";
 import Spinner from "@/shared/components/Spinner";
 import { useId, useState } from "react";
-
-export type ControlType = "switch" | "checkbox" | "radio";
-
+import { ControlType } from "../types";
 interface BaseProps {
   title?: string;
   description?: string;

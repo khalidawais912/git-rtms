@@ -3,19 +3,7 @@ import { EVALUATION_PROJECT_API, PROJECT_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
 import { useSearchParams } from "next/navigation";
 import { DashboardTypeEnum } from "../dashboard/types/types";
-
-export interface Project {
-  id: number;
-  gsNo: string;
-  sectorId: number;
-  name: string;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  smdpProjectID: number;
-}
-
+import { Project } from "./types";
 interface Props {
   refresh?: boolean;
 }

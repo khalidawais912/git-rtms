@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import more from "../../../public/icons/more.svg";
+import { SmdpSync } from "../types";
 
 interface Props {
   api: string;
@@ -16,11 +17,6 @@ interface Props {
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
   showData: boolean;
 }
-
-interface SmdpSync {
-  schemeId: string;
-}
-
 const SmdpSyncForm = ({
   api,
   method,

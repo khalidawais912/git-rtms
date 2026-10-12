@@ -1,4 +1,4 @@
-import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { Groups } from "@/app/project-details-dashboard/types";
 import { getFormattedDate } from "@/shared/utils";
 
 interface Props {

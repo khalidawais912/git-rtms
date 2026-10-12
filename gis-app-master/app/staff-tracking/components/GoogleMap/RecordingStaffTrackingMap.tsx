@@ -10,7 +10,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import StaffCard from "../Map/StaffCard";
-import { Position, StaffTracking } from "../StaffTracking";
+import { StaffTracking } from "../StaffTracking";
+import { Position } from "../../types";
 
 interface Props {
   recordingData: StaffTracking[];

@@ -3,11 +3,8 @@ import { GENERATE_REPORT_API, MARK_TO_EVALUATION_API } from "@/shared/api/endpoi
 import Button from "@/shared/components/Button";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultNegativeNumberOption,
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import { paginationSelectStyles } from "@/shared/components/Table/Pagination";
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
@@ -43,11 +40,8 @@ import { toast } from "react-toastify";
 import { ReportTypeStatusEnum } from "../../types/reportTypeStatus";
 import Badge from "./components/Badge";
 import styles from "./ProjectsTable.module.css";
-import {
-  FilterParams,
-  RangeType,
-  reportStatusOptions,
-} from "./ProjectsTableUtils";
+import { reportStatusOptions } from "./ProjectsTableUtils";
+import { FilterParams, RangeType } from "../../types";
 import GenericToggleControl from "@/shared/components/Form/GenericToggleControl";
 
 export interface ProjectsList {

@@ -3,10 +3,8 @@ import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import { paginationSelectStyles } from "@/shared/components/Table/Pagination";
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
@@ -39,10 +37,7 @@ import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import Badge from "../../ProjectsTable/components/Badge";
 import styles from "../../ProjectsTable/ProjectsTable.module.css";
-import {
-  FilterParams,
-  RangeType,
-} from "../../ProjectsTable/ProjectsTableUtils";
+import { FilterParams, RangeType } from "../../../types";
 import useProjectsTableUtils from "../../ProjectsTable/useProjectsTableUtils";
 import AsyncAction from "@/shared/components/Form/AsyncAction";
 import Spinner from "@/shared/components/Spinner";

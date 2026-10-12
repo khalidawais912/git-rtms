@@ -19,26 +19,6 @@ export const tabs = [
   { label: "Report Iss. Vs Not_Isu. SectWise", backGroundColor: green },
   { label: "Not Issued From (Days) SectWise", backGroundColor: green },
 ];
-
-interface Report {
-  rowLabels: "";
-  no?: "";
-  yes?: "";
-  grandTotal?: "14";
-  ["1%"]?: "";
-  ["100%"]?: "";
-  ["15%"]?: "";
-  ["22%"]?: "";
-  ["28%"]?: "";
-  ["34%"]?: "";
-  ["63%"]?: "";
-  ["73%"]?: "";
-}
-interface props {
-  data: Report[];
-  groups: Report[];
-}
-
 export const data = {
   reportsGenerated: [
     {

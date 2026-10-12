@@ -12,7 +12,7 @@ import {
 } from "react-leaflet";
 import carTop2 from "../../../../public/images/carTop2.png";
 import CarCard from "./CarCard";
-import { Tracking } from "./MapCarsComponent";
+import { Tracking } from "../../types";
 
 const getRotationAngle = (direction: string): number => {
   switch (direction?.toLocaleLowerCase()) {

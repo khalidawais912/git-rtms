@@ -1,4 +1,4 @@
-import type { BaseResponse } from "@/shared/api/client";
+import type { BaseResponse } from "@/shared/api/types";
 
 export interface UserData {
   id: number;

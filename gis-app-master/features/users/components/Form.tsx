@@ -1,18 +1,16 @@
 import Button from "@/shared/components/Button";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, {
-  defaultNumberOption,
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import Spinner from "@/shared/components/Spinner";
 import ActionButton from "@/shared/components/Table/ActionButton";
 import { useDepartments } from "@/features/departments";
 import { Role } from "@/features/roles";
-import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import { createUser, getUser, updateUser } from "../api";
 import { UserFormData, userSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";

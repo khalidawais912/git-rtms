@@ -10,7 +10,7 @@ import phone from "../../../public/icons/phone.svg";
 import twoCirclesVertical from "../../../public/icons/twoCirclesVertical.svg";
 import profilePic4 from "../../../public/images/profilePic4.png";
 import profilePic5 from "../../../public/images/profilePic5.png";
-import { StaffTrackings } from "./ProjectDetailsDashboard";
+import { StaffTrackings } from "../../types";
 
 interface Props {
   data: StaffTrackings[];

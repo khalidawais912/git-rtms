@@ -17,27 +17,10 @@ import useDistrict from "@/app/hooks/useDistrict";
 import apiClient from "@/shared/api/client";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { DistrictList, FilterData, MainDashboard } from "../Dashboard";
+import { DistrictList, MainDashboard } from "../Dashboard";
+import { FilterData, DistrictProjects } from "../../types";
 import DistrictCard from "./DistrictCard";
 import ProjectCard from "./ProjectCard";
-
-export interface DistrictProjects {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  sectorId: number;
-  address: string;
-  city: string;
-  division: string;
-  districtId: number;
-  latitude: string;
-  longitude: string;
-  locationCoordinates: string;
-  status: string;
-  approvalDate: string;
-}
-
 interface Props {
   data: MainDashboard;
   handleSubmit: (filterData: FilterData[]) => Promise<void>;

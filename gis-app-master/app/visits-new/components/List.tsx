@@ -5,7 +5,8 @@ import Loader from "@/shared/components/Loader/Loader";
 import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useVisitsNew, { VisitNew } from "@/app/hooks/useVisitsNew";
+import useVisitsNew from "@/app/hooks/useVisitsNew";
+import { VisitNew } from "@/app/hooks/types";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { Inter } from "next/font/google";
@@ -30,12 +31,6 @@ interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  attributeId: number;
-  label: string;
-}
-
 const List = ({ refresh, setRefresh }: ListProps) => {
   const { data, isLoading, setData } = useVisitsNew({ refresh });
 

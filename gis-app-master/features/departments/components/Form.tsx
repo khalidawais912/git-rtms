@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/shared/components/Button";
-import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import {
   createDepartment,
   getDataAgainstField,
@@ -9,7 +10,7 @@ import {
   updateDepartment,
 } from "../api";
 import { DepartmentWithRights, departmentWithRightsSchema } from "../schema";
-import { FiledList } from "../types";
+import { FiledList, Option } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -23,7 +24,8 @@ import ActionButton from "@/shared/components/Table/ActionButton";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import CustomLabel from "@/shared/components/Form/CustomLabel";
 import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import { FiPlus } from "react-icons/fi";
 
@@ -33,12 +35,6 @@ interface Props {
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: boolean;
 }
-
-interface Option {
-  value: string;
-  label: string;
-}
-
 const Form = ({ method, id, setRefresh }: Props) => {
   const {
     register,

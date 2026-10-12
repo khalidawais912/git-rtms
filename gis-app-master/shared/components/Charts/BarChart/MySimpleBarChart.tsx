@@ -18,23 +18,7 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 import { calculateLeftMargin, calculateXAxisHeight } from "../types";
 import { formatAmountWithCommas } from "@/shared/utils";
-
-export interface ChartGradient {
-  id: string;
-  from: string;
-  to: string;
-  direction?: "vertical" | "horizontal";
-}
-
-export interface MyBarChartType {
-  label: string;
-  value: number;
-  season?: string;
-  percentage?: number;
-  color?: string; // solid color
-  gradient?: ChartGradient; // optional gradient
-}
-
+import { MyBarChartStyle, MyBarChartType } from "../../types";
 interface Props {
   data: MyBarChartType[];
   layout?: "vertical" | "horizontal";
@@ -220,50 +204,6 @@ const MySimpleBarChart = ({
 };
 
 export default MySimpleBarChart;
-
-export interface MyBarChartStyle {
-  height?: number;
-  barSize?: number;
-
-  barRadius?: [number, number, number, number];
-  fallbackBarColor?: string;
-
-  grid?: {
-    stroke?: string;
-    strokeDasharray?: string;
-    vertical?: boolean;
-    horizontal?: boolean;
-  };
-
-  axis?: {
-    tickColor?: string;
-    fontSize?: number;
-
-    padding?: {
-      left?: number;
-      right?: number;
-    };
-
-    marginScaleFactor?: number;
-  };
-
-  tooltip?: TooltipProps<ValueType, NameType>;
-
-  label?: {
-    fontSize?: number;
-    valueColor?: string;
-    percentageColor?: string;
-    seasonColor?: string;
-  };
-
-  margin?: {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  };
-}
-
 export const tooltipStyles = {
   contentStyle: {
     backgroundColor: "#1E1B39",

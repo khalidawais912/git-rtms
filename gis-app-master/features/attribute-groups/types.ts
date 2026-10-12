@@ -10,3 +10,8 @@ export interface AttributeGroup {
   group_type: number;
   group_nature: number;
 }
+
+export interface Option {
+  attributeId: number;
+  label: string;
+}

@@ -10,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import user3Black from "../../../public/icons/user3Black.svg";
-import { UserOption } from "./UserProjectsList";
+import { UserOption } from "../types";
 
 interface Props {
   id: number;

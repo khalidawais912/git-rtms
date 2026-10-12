@@ -10,8 +10,9 @@ import { Button, Modal } from "react-bootstrap";
 import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import dbGrey from "../../../public/icons/dbGrey.svg";
-import { Option } from "./List";
-import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import { Option } from "../types";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 

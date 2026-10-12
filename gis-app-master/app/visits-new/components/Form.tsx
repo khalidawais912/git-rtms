@@ -1,11 +1,12 @@
 import Button from "@/shared/components/Button";
 import { useAuthentication, Authentication } from "@/features/users";
-import useDistrict, { District } from "@/app/hooks/useDistrict";
+import useDistrict from "@/app/hooks/useDistrict";
+import { District, Project, TourPlan, VisitNew } from "@/app/hooks/types";
 import { useDriver, Driver } from "@/features/drivers";
-import useProjects, { Project } from "@/app/hooks/useProjects";
-import useTourPlans, { TourPlan } from "@/app/hooks/useTourPlans";
+import useProjects from "@/app/hooks/useProjects";
+import useTourPlans from "@/app/hooks/useTourPlans";
 import { useVehicle, Vehicle } from "@/features/vehicles";
-import useVisitsNew, { VisitNew } from "@/app/hooks/useVisitsNew";
+import useVisitsNew from "@/app/hooks/useVisitsNew";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";

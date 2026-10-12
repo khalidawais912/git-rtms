@@ -1,6 +1,6 @@
 import { Asap } from "next/font/google";
 import { useEffect } from "react";
-import { Groups } from "./ProjectDetailsDashboard";
+import { Groups } from "../../types";
 
 const asap = Asap({
   subsets: ["latin"],

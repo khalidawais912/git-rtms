@@ -367,21 +367,6 @@ export const renderTinyMCEData = (info: any) => {
   }
   return null;
 };
-
-export interface SingleProjectLessData {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  gsNo: number;
-  sectorId: number;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  sectorName: string;
-}
-
 export const triggerEscapeKeyPress = () => {
   if (typeof window === "undefined") return; // Prevents SSR crash
   const escapeEvent = new KeyboardEvent("keydown", {
@@ -422,7 +407,8 @@ export function addSpaceToCamelCase(text: string) {
 }
 
 import * as XLSX from "xlsx";
-import { OptionType } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import { PdfColumn } from "./types";
 
 export const downloadReportAnalysisToExcel = (
   data: any,
@@ -489,22 +475,6 @@ export const displayStatusText = (statusId: number) => {
                 ? "ISSUED"
                 : "";
 };
-
-export interface Option {
-  label: string;
-  value: string;
-}
-
-export interface StringOption {
-  label: string;
-  value: string;
-}
-
-export interface NumberOption {
-  label: string;
-  value: number;
-}
-
 /**
  * Converts a hex color code to an RGBA string.
  * @param hex - The hex color code (e.g., "#ff0000" or "ff0000").
@@ -668,22 +638,6 @@ export const isValidDate = (dateString: string): boolean => {
   const date = new Date(dateString);
   return !isNaN(date.getTime());
 };
-
-// for new-visit-plan ends
-
-export type Column<T> = {
-  label: string;
-  value?: keyof T;
-  className?: string;
-  render?: (row: T) => React.ReactNode;
-};
-
-// Generic PDF export method
-export interface PdfColumn {
-  label: string;
-  value: string;
-}
-
 export const exportDataToPDF = (
   columns: PdfColumn[],
   rows: any[],

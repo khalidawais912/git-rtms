@@ -2,11 +2,8 @@ import { REPORT_API } from "@/shared/api/endpoints";
 import Avatar from "@/shared/components/Avatar";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import CustomSelect, {
-  defaultNegativeNumberOption,
-  defaultOption,
-  OptionType,
-} from "@/shared/components/Form/CustomSelect";
+import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
 import Pagination from "@/shared/components/Table/Pagination";
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
@@ -28,25 +25,12 @@ import { PiCircleFill } from "react-icons/pi";
 import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
+import { IssuedVsPendingReport } from "../types";
 
 interface Props {
   isActiveTab: number;
   setActiveTab: Dispatch<SetStateAction<number>>;
 }
-
-interface IssuedVsPendingReport {
-  officerName: string;
-  designation: string;
-  profilePicture: string;
-  scheduled: number;
-  completed: number;
-  submitted: number;
-  referredBack: number;
-  approved: number;
-  issued: number;
-  cancelled: number;
-}
-
 const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
   const [data, setData] = useState<IssuedVsPendingReport[]>([]);
   const [visitPlanGroup, setVisitPlanGroup] = useState<number>(-1);

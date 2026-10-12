@@ -8,7 +8,7 @@ import waveDown from "../../../public/icons/waveDown.svg";
 import waveUp from "../../../public/icons/waveUp.svg";
 import tideOne from "../../../public/images/tideOne.png";
 import tideTwo from "../../../public/images/tideTwo.png";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard | undefined;

@@ -7,11 +7,8 @@ import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import userAdd from "../../../public/icons/userAdd.svg";
-import {
-  getCurrentDate,
-  StaffTracking,
-  TrackingRequestData,
-} from "./StaffTracking";
+import { getCurrentDate, StaffTracking } from "./StaffTracking";
+import { TrackingRequestData } from "../types";
 
 interface Props {
   setLiveTrackingRequestBody: Dispatch<SetStateAction<TrackingRequestData>>;

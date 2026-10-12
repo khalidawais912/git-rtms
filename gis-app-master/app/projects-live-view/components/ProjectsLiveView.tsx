@@ -1,7 +1,7 @@
 "use client";
 
 import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
-import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
+import { FilterData } from "@/app/dashboard/types";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
   adpFilters,

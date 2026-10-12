@@ -1,18 +1,3 @@
-// Define the type of the range state
-export interface RangeType {
-  startDate: Date | undefined;
-  endDate: Date | undefined;
-  key: string;
-}
-
-export interface FilterParams {
-  districtName?: string;
-  sectorName?: string;
-  userName?: string;
-  startDate?: string;
-  endDate?: string;
-  reportStatus?: number;
-}
 
 export const reportStatusOptions = [
   { value: "0", label: "SCHEDULED" },

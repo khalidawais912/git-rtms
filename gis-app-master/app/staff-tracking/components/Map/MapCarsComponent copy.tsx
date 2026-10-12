@@ -8,22 +8,13 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import search2 from "../../../../public/icons/search2.svg";
+import { StaffTracking } from "../../types";
 
 const carIcon = new L.Icon({
   iconUrl: "/images/locationPointRoad.png", // Assuming the car icon is stored in public
   iconSize: [26, 33], // Adjust size
   iconAnchor: [25, 25],
 });
-
-export interface StaffTracking {
-  id: number;
-  visitID: number;
-  userID: number;
-  latitude: string;
-  longitude: string;
-  createdAt: string;
-}
-
 const MapCarsComponent = () => {
   const [refresh, setRefresh] = useState(false);
   const [visitId, setVisitId] = useState(3);

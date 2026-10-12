@@ -3,7 +3,7 @@ import {
   formatAmountWithCommas,
   getFormattedDate,
 } from "@/shared/utils";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../types";
 
 interface Props {
   data: SingleProjectDashboard;

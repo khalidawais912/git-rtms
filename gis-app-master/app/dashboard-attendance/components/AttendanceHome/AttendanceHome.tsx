@@ -15,20 +15,7 @@ import { TbFileArrowRight, TbWorldSearch } from "react-icons/tb";
 import { TfiMoreAlt } from "react-icons/tfi";
 import WaveAnimation from "../WaveAnimation";
 import styles from "./AttendanceHome.module.css";
-
-interface DashboardAttendance {
-  count: {
-    totalEmployee: number;
-    present: number;
-    leave: number;
-    visit: number;
-    late: number;
-    leftEarly: number;
-    absent: number;
-    others: number;
-  };
-}
-
+import { DashboardAttendance } from "../../types";
 const AttendanceHome = () => {
   const [data, setData] = useState<DashboardAttendance>();
 
