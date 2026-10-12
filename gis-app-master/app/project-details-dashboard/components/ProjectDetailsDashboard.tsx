@@ -1,8 +1,8 @@
 "use client";
 
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/app/APIs";
-import { setContent } from "@/app/features/content/contentSlice";
-import apiClient from "@/app/services/api-client";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
+import { setContent } from "@/store/contentSlice";
+import apiClient from "@/shared/api/client";
 import { Lexend } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -12,20 +12,20 @@ import Reports from "./Reports";
 import StaffTracking from "./StaffTracking";
 import VehicleTracking from "./VehicleTracking";
 // import Menu from "./Menu";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Menu from "@/app/components/Menu";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import { devMap } from "@/app/utils";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Menu from "@/shared/components/Menu";
+import { setTutorial } from "@/store/tutorialSlice";
+import { devMap } from "@/shared/utils";
 import MyMap from "./GoogleMap/MyMap";
 import Header from "./Header";
 import MonitoringRatingIndex from "./MonitoringRatingIndex";
 // import SimpleLineChart from "./SimpleLineChart";
 // import WBSReportUpdated from "./WBSReportUpdated";
 import dynamic from "next/dynamic";
-import useAuthorization from "@/app/hooks/useAuthorization";
+import useAuthorization from "@/shared/hooks/useAuthorization";
 import WBSSummary from "./WBSFlow/WBSSummary";
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
 
 const DistributedColumnChart = dynamic(
   () => import("./DistributedColumnChart"),

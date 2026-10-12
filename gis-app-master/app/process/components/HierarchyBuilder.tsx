@@ -1,18 +1,18 @@
 "use client";
 
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import HirarchyFlow from "./HirarchyFlow";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Edge, Node } from "@xyflow/react";
 import { HiOutlineTrash } from "react-icons/hi";
 import useRoles from "@/app/hooks/useRoles";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import Select, { SingleValue, StylesConfig } from "react-select";
-import { createdMessage, Option } from "@/app/utils";
+import { createdMessage, Option } from "@/shared/utils";
 import { toast } from "react-toastify";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { DEPARTMENT_ROLES_SORTING_API } from "@/app/APIs";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { DEPARTMENT_ROLES_SORTING_API } from "@/shared/api/endpoints";
 import { GoArrowLeft } from "react-icons/go";
 import { FiArrowRightCircle } from "react-icons/fi";
 import CustomNode from "./CustomNode";

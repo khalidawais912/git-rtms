@@ -4,15 +4,15 @@ import {
   REVERSE_GEO_CODING_API,
   STAFF_TRACKING_API,
   VISIT_API,
-} from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import useAuthentication from "@/app/hooks/useAuthentication";
+} from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import { Project } from "@/app/hooks/useProjects";
-import apiClient from "@/app/services/api-client";
-import { devMap, triggerEscapeKeyPress } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { devMap, triggerEscapeKeyPress } from "@/shared/utils";
 import redCircle from "@/public/icons/redCircle.svg";
 import { motion } from "framer-motion";
 import { Lexend } from "next/font/google";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // import "../Attendance.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-// import { exportToPDF } from "../../utils";
+// import { exportToPDF } from "@/shared/utils";
 import { useRouter } from "next/navigation";
 import { FaDownload, FaSearch } from "react-icons/fa";
 

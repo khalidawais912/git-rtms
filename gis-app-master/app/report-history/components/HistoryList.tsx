@@ -1,6 +1,6 @@
 "use client";
 import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import { getFormattedDate } from "@/app/utils";
+import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { Accordion } from "react-bootstrap";
 import ReactMarkDown from "react-markdown";

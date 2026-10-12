@@ -1,10 +1,10 @@
 "use client";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeading from "@/app/components/Table/TableHeading";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeading from "@/shared/components/Table/TableHeading";
 import useDepartments from "@/features/departments/hooks";
 import useUsers from "@/features/users/hooks";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";

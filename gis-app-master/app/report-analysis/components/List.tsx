@@ -1,12 +1,12 @@
 "use client";
-import { REPORT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
+import { REPORT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import useAttributes from "@/app/hooks/useAttributes";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { deleteMessage } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { deleteMessage } from "@/shared/utils";
 import trashImage from "@/public/images/trash.png";
 import Image from "next/image";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -24,10 +24,10 @@ import Form from "./Form";
 import IssuedVsPendingReports from "./IssuedVsPendingReports";
 import PPTSlideGenerator from "./PPTSlideGenerator/PPTSlideGenerator";
 import TimeSpendOnProjectSiteData from "./TimeSpentOnProjectSite/TimeSpendOnProjectSiteData";
-import ActionButton from "@/app/components/Table/ActionButton";
-import TableHeading from "@/app/components/Table/TableHeading";
-import TableData from "@/app/components/Table/TableData";
-import CustomInput from "@/app/components/Form/CustomInput";
+import ActionButton from "@/shared/components/Table/ActionButton";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import TableData from "@/shared/components/Table/TableData";
+import CustomInput from "@/shared/components/Form/CustomInput";
 
 export interface ReportTab {
   reportId: number;

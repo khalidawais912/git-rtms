@@ -1,5 +1,5 @@
-import { DRIVER_API } from "../APIs";
-import useData from "./useData";
+import { DRIVER_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Driver {
   id: number;

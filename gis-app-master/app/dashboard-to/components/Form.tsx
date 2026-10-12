@@ -1,9 +1,9 @@
-import { GET_USER_PROJECTS_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import ErrorMessage from "@/app/components/ErrorMessage";
+import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import ErrorMessage from "@/shared/components/ErrorMessage";
 import useAuthentication, {
   Authentication,
-} from "@/app/hooks/useAuthentication";
+} from "@/shared/hooks/useAuthentication";
 import useDistrict, { District } from "@/app/hooks/useDistrict";
 import useDriver, { Driver } from "@/app/hooks/useDriver";
 import { Project } from "@/app/hooks/useProjects";
@@ -13,7 +13,7 @@ import useVisits from "@/app/hooks/useVisits";
 import apiClient, {
   AxiosError,
   ErrorResponse,
-} from "@/app/services/api-client";
+} from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

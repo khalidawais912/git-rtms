@@ -10,8 +10,8 @@ import {
   TileLayer,
 } from "react-leaflet";
 // import carIconUrl from "/images/carTop.png"; // Add a car icon to show on the map
-import { COORDINATES_API } from "@/app/APIs";
-import apiClient from "@/app/services/api-client";
+import { COORDINATES_API } from "@/shared/api/endpoints";
+import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import search2 from "../../../../public/icons/search2.svg";
 import { StaffTracking } from "./MapCarsComponent";

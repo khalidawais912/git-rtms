@@ -1,14 +1,14 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import useAuthentication, {
   Authentication,
-} from "@/app/hooks/useAuthentication";
+} from "@/shared/hooks/useAuthentication";
 import useDistrict, { District } from "@/app/hooks/useDistrict";
 import useDriver, { Driver } from "@/app/hooks/useDriver";
 import useProjects, { Project } from "@/app/hooks/useProjects";
 import useTourPlans, { TourPlan } from "@/app/hooks/useTourPlans";
 import useVehicle, { Vehicle } from "@/app/hooks/useVehicle";
 import useVisitsNew, { VisitNew } from "@/app/hooks/useVisitsNew";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

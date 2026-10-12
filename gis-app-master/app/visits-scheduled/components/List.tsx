@@ -1,12 +1,12 @@
 "use client";
-import { VISIT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import DeleteModal from "@/app/components/DeleteModal";
-import DisplayStatusText from "@/app/components/DisplayStatusText";
-import Loader from "@/app/components/Loader/Loader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import { VISIT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import DeleteModal from "@/shared/components/DeleteModal";
+import DisplayStatusText from "@/shared/components/DisplayStatusText";
+import Loader from "@/shared/components/Loader/Loader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useDriver from "@/app/hooks/useDriver";
 import useProjects from "@/app/hooks/useProjects";
 import useVehicle from "@/app/hooks/useVehicle";
@@ -18,8 +18,8 @@ import {
   SCHEDULED,
   SUBMITTED,
 } from "@/app/report-history/statuses";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getFormattedDate, getName } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getFormattedDate, getName } from "@/shared/utils";
 import { sort } from "fast-sort";
 import { Inter } from "next/font/google";
 import Image from "next/image";

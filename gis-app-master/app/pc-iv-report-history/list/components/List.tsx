@@ -1,12 +1,12 @@
 "use client";
-import { PC_IV_WORKFLOW_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Loader from "@/app/components/Loader/Loader";
+import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Loader from "@/shared/components/Loader/Loader";
 import useOfficers, { Officer } from "@/app/hooks/useOfficers";
 import useReportHistoryUser from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";

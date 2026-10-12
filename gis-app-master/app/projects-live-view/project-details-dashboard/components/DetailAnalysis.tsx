@@ -1,7 +1,7 @@
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import { DetailedAnalysis } from "./ProjectDetailsDashboard";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import DistributedColumnChart2 from "./DistributedColumnChart2";
 import LinearChart from "./LinearChart";
 

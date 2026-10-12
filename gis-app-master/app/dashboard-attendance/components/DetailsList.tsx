@@ -1,13 +1,13 @@
 "use client";
 import { FaDownload, FaSearch } from "react-icons/fa";
 import { AttendanceList } from "../[attendanceFeature]/page";
-import TableHeader from "@/app/components/Table/TableHeader";
+import TableHeader from "@/shared/components/Table/TableHeader";
 import { useEffect, useState } from "react";
 import { sort } from "fast-sort";
-import apiClient from "@/app/services/api-client";
-import Button from "@/app/components/Button";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeading from "@/app/components/Table/TableHeading";
+import apiClient from "@/shared/api/client";
+import Button from "@/shared/components/Button";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeading from "@/shared/components/Table/TableHeading";
 
 interface Props {
   attendanceDetails: AttendanceList[];

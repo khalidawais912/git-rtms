@@ -1,6 +1,6 @@
 import Image from "next/image";
 // import profilePic3 from "../../../public/images/profilePic3.png";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import calendar from "../../../public/icons/calendar.svg";

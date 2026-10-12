@@ -3,19 +3,19 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import more from "../../../public/icons/more.svg";
 // import { ToastContainer, toast } from "react-toastify";
-import Button from "@/app/components/Button";
-import CustomInput from "@/app/components/Form/CustomInput";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import SubmitButton from "@/app/components/Form/SubmitButton";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import Button from "@/shared/components/Button";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { FiPlus } from "react-icons/fi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import ActionButton from "@/app/components/Table/ActionButton";
+import ActionButton from "@/shared/components/Table/ActionButton";
 
 const schema = z.object({
   id: z.number().optional().default(0),

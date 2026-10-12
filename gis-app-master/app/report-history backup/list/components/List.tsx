@@ -1,9 +1,9 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import apiClient from "@/app/services/api-client";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import apiClient from "@/shared/api/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";

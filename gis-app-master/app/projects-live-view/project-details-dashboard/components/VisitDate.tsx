@@ -1,4 +1,4 @@
-import { getFormattedDate } from "@/app/utils";
+import { getFormattedDate } from "@/shared/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";

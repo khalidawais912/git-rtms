@@ -1,9 +1,9 @@
 "use client";
-import Button from "@/app/components/Button";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import useAuthorization from "@/app/hooks/useAuthorization";
-import { devMap } from "@/app/utils";
+import Button from "@/shared/components/Button";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import useAuthorization from "@/shared/hooks/useAuthorization";
+import { devMap } from "@/shared/utils";
 import redCircle from "@/public/icons/redCircle.svg";
 import { motion } from "framer-motion";
 import { Lexend } from "next/font/google";

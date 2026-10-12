@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { DashboardTypeEnum } from "@/app/dashboard/types/types";
 import { FaCircle } from "react-icons/fa";

@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import useTourPlans from "@/app/hooks/useTourPlans";
-import { Option } from "@/app/utils";
+import { Option } from "@/shared/utils";
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";

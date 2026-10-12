@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import SectorsTable from "./SectorsTable";
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 
 const Sectors = () => {
   const [refresh, setRefresh] = useState(false);

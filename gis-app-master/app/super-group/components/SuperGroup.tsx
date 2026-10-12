@@ -1,4 +1,4 @@
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 import List from "./List";
 
 const SuperGroup = ({ dashboardType }: { dashboardType?: string }) => {

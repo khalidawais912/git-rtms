@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
@@ -8,7 +8,7 @@ import MySimpleBarChart, {
   ChartGradient,
   MyBarChartStyle,
   MyBarChartType,
-} from "@/app/components/Charts/BarChart/MySimpleBarChart";
+} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
 import { EvaluationTotalProject } from "../page";
 
 interface Props {

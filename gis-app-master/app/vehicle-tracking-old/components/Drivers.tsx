@@ -1,6 +1,6 @@
-import { DRIVER_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import apiClient from "@/app/services/api-client";
+import { DRIVER_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import apiClient from "@/shared/api/client";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";

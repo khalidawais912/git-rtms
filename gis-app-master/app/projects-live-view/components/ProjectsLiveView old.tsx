@@ -1,8 +1,8 @@
 "use client";
 
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
-import CustomInput from "@/app/components/Form/CustomInput";
-import ListWrapper from "@/app/components/ListWrapper";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import ListWrapper from "@/shared/components/ListWrapper";
 import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
@@ -10,7 +10,7 @@ import {
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "@/app/dashboard/filters";
-import apiClient from "@/app/services/api-client";
+import apiClient from "@/shared/api/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";

@@ -1,10 +1,10 @@
 "use client";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import apiClient from "@/app/services/api-client";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
   addSpaceToCamelCase,
@@ -12,8 +12,8 @@ import {
   formatKeyName,
   getFormattedDate,
   getTimeLeft,
-} from "@/app/utils";
-import { exportDataToExcel } from "@/app/utils/exportToExcel";
+} from "@/shared/utils";
+import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

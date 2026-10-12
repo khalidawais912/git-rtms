@@ -1,7 +1,7 @@
 "use client";
-import { FILTER_SETTING_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import apiClient from "@/app/services/api-client";
+import { FILTER_SETTING_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import filterBlack from "../../../public/icons/filterBlack.svg";
@@ -14,12 +14,12 @@ import {
   oldCmInitiativeFilters,
   pastYearCmInitiativeFilters,
 } from "../filters";
-import CustomLabel from "@/app/components/Form/CustomLabel";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
 import { SingleValue } from "react-select";
 import CustomSelect, {
   defaultOption,
   OptionType,
-} from "@/app/components/Form/CustomSelect";
+} from "@/shared/components/Form/CustomSelect";
 
 interface Props {
   otherFilters: FilterData[];

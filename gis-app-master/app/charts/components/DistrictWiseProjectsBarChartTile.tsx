@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import {
   ArrowUpRight03Icon,
   Location01Icon,
@@ -11,7 +11,7 @@ import MySimpleBarChart, {
   ChartGradient,
   MyBarChartStyle,
   MyBarChartType,
-} from "@/app/components/Charts/BarChart/MySimpleBarChart";
+} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
 import { DistrictProject } from "../page";
 import { getBlueGradientColor } from "./AssignProjectPartTwoBarChartTile";
 

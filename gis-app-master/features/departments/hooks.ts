@@ -1,5 +1,5 @@
-import { DEPARTMENT_API } from "@/app/APIs";
-import useData from "@/app/hooks/useData";
+import { DEPARTMENT_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Department {
   id: number;

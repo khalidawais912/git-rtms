@@ -1,8 +1,8 @@
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Loader from "@/app/components/Loader/Loader";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Loader from "@/shared/components/Loader/Loader";
 import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getFormattedDate } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsExclamationTriangleFill } from "react-icons/bs";

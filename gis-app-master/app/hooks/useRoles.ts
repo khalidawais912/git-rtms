@@ -1,5 +1,5 @@
-import { ROLE_API } from "../APIs";
-import useData from "./useData";
+import { ROLE_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Role {
   id: number;

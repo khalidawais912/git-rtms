@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/app/utils";
+import { formatDateTime } from "@/shared/utils";
 import cultus from "@/public/icons/cultus.svg";
 import distanceTraveled from "@/public/icons/distanceTraveled.svg";
 import galon from "@/public/icons/galon.svg";

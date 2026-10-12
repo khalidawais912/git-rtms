@@ -1,6 +1,6 @@
-import { PROJECT_API, SUPER_GROUP_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import apiClient from "@/app/services/api-client";
+import { PROJECT_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";

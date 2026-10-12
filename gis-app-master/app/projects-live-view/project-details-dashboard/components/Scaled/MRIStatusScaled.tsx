@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
-import { getCpiStatus, getSpiStatus } from "@/app/utils";
+import { getCpiStatus, getSpiStatus } from "@/shared/utils";
 
 interface Props {
   spi: number;

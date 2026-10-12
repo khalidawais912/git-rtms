@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import List from "./List";
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 
 const Vehilcles = () => {
   const [refresh, setRefresh] = useState(false);

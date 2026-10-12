@@ -1,5 +1,5 @@
 import List from "./List";
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 
 const Attributes = ({ dashboardType }: { dashboardType?: string }) => {
   return (

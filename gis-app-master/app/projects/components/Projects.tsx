@@ -1,5 +1,5 @@
 import ProjectsList from "./ProjectsList";
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 
 const Projects = ({ dashboardType }: { dashboardType?: string }) => {
   return (

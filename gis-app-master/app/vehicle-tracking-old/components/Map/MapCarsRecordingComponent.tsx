@@ -1,4 +1,4 @@
-import { TRACKING_API } from "@/app/APIs";
+import { TRACKING_API } from "@/shared/api/endpoints";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";

@@ -1,5 +1,5 @@
 "use client";
-import ListWrapper from "@/app/components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 import { useState } from "react";
 import List from "./List";
 

@@ -1,5 +1,5 @@
-import { OptionType } from "@/app/components/Form/CustomSelect";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import { OptionType } from "@/shared/components/Form/CustomSelect";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useDistrict from "@/app/hooks/useDistrict";
 import useDriver from "@/app/hooks/useDriver";
 import useTourPlans from "@/app/hooks/useTourPlans";

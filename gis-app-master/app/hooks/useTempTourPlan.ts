@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "../APIs";
-import useData from "./useData";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 import { useMemo } from "react";
 import { DashboardTypeEnum } from "../dashboard/types/types";
 

@@ -1,26 +1,26 @@
-import { REPORT_API } from "@/app/APIs";
-import Avatar from "@/app/components/Avatar";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
+import { REPORT_API } from "@/shared/api/endpoints";
+import Avatar from "@/shared/components/Avatar";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import CustomSelect, {
   defaultNegativeNumberOption,
   defaultOption,
   OptionType,
-} from "@/app/components/Form/CustomSelect";
-import Pagination from "@/app/components/Table/Pagination";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
+} from "@/shared/components/Form/CustomSelect";
+import Pagination from "@/shared/components/Table/Pagination";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import useTourPlans from "@/app/hooks/useTourPlans";
-import apiClient from "@/app/services/api-client";
-import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/shared/utils";
 import {
   exportDataToExcel,
   exportDataToExcelNew,
   exportToExcelNewOne,
-} from "@/app/utils/exportToExcel";
+} from "@/shared/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

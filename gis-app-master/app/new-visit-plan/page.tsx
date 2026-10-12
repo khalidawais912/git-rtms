@@ -1,4 +1,4 @@
-import ListWrapper from "../components/ListWrapper";
+import ListWrapper from "@/shared/components/ListWrapper";
 import { DashboardType, DashboardTypeEnum } from "../dashboard/types/types";
 import NewVisitPlan from "./components/NewVisitPlan";
 

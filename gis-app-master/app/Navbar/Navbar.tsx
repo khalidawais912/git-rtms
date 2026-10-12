@@ -7,13 +7,13 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { FaPlay, FaYoutube } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import Button from "../components/Button";
-import GISMenu from "../components/GISMenu";
-import Spinner from "../components/Spinner";
-import UserDropDown from "../components/UserDropDown/UserDropDown";
+import Button from "@/shared/components/Button";
+import GISMenu from "@/shared/components/GISMenu";
+import Spinner from "@/shared/components/Spinner";
+import UserDropDown from "@/shared/components/UserDropDown/UserDropDown";
 import DashboardTypeFilter from "../dashboard/components/DashboardTypeFilter";
 import DepartmentCategoryFilter from "../dashboard/components/DepartmentCategoryFilter";
-import { RootState } from "../store";
+import { RootState } from "@/store";
 import styles from "./Navbar.module.css";
 
 const lexend = Lexend({

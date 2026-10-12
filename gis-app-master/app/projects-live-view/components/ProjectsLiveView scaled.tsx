@@ -1,9 +1,9 @@
 "use client";
 
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
 import TileLabel from "@/app/charts/components/TileLabel";
-import CustomInput from "@/app/components/Form/CustomInput";
-import ListWrapper from "@/app/components/ListWrapper";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import ListWrapper from "@/shared/components/ListWrapper";
 import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
@@ -11,8 +11,8 @@ import {
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "@/app/dashboard/filters";
-import apiClient from "@/app/services/api-client";
-import { displayStatusText } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { displayStatusText } from "@/shared/utils";
 import {
   DashboardSquare01Icon,
   LeftToRightListBulletIcon,

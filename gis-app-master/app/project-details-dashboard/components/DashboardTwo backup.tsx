@@ -5,7 +5,7 @@
 // import Menu from "./Menu";
 // import Visits from "./Visits";
 // import { useDispatch } from "react-redux";
-// import { setContent } from "@/app/features/content/contentSlice";
+// import { setContent } from "@/store/contentSlice";
 // import VehicleTracking from "./VehicleTracking";
 // import StaffTracking from "./StaffTracking";
 // import Reports from "./Reports";

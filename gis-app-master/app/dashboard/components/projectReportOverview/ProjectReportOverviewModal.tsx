@@ -1,12 +1,12 @@
-import { PROJECT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import ProgressBar from "@/app/components/ProgressBar";
+import { PROJECT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import ProgressBar from "@/shared/components/ProgressBar";
 import {
   Attributes,
   Groups,
 } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
-import apiClient from "@/app/services/api-client";
+import apiClient from "@/shared/api/client";
 import book from "@/public/icons/book.svg";
 import dotsL from "@/public/icons/dotsL.svg";
 import anchorPoint from "@/public/icons/anchor-point.svg";
@@ -33,8 +33,8 @@ import ObservationsAndRecommendations from "./components/ObservationsAndRecommen
 import ProgressAnalysis from "./components/ProgressAnalysis";
 import ProjectProfile from "./components/ProjectProfile";
 import Badge from "../ProjectsTable/components/Badge";
-import Loader from "@/app/components/Loader/Loader";
-import { triggerEscapeKeyPress } from "@/app/utils";
+import Loader from "@/shared/components/Loader/Loader";
+import { triggerEscapeKeyPress } from "@/shared/utils";
 
 interface Props {
   value: number;

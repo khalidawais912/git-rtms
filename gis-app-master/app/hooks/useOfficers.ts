@@ -1,5 +1,5 @@
-import { GET_ALL_OFFICERS_API } from "../APIs";
-import useData from "./useData";
+import { GET_ALL_OFFICERS_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Officer {
   id: number;

@@ -1,24 +1,24 @@
 "use client";
-import { DELETE_USER_API, REGISTER_USER_API } from "@/app/APIs";
-import DeleteModal2 from "@/app/components/DeleteModal2";
-import TableHeading from "@/app/components/Table/TableHeading";
+import { DELETE_USER_API, REGISTER_USER_API } from "@/shared/api/endpoints";
+import DeleteModal2 from "@/shared/components/DeleteModal2";
+import TableHeading from "@/shared/components/Table/TableHeading";
 import useAuthentication, {
   Authentication,
-} from "@/app/hooks/useAuthentication";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+} from "@/shared/hooks/useAuthentication";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
 // import GroupingForm from "./GroupingForm";
-import Avatar from "@/app/components/Avatar";
-import Loader from "@/app/components/Loader/Loader";
-import Actions from "@/app/components/Table/Actions";
-import Pagination from "@/app/components/Table/Pagination";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableWrapper from "@/app/components/Table/TableWrapper";
+import Avatar from "@/shared/components/Avatar";
+import Loader from "@/shared/components/Loader/Loader";
+import Actions from "@/shared/components/Table/Actions";
+import Pagination from "@/shared/components/Table/Pagination";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableWrapper from "@/shared/components/Table/TableWrapper";
 import useRoles from "@/app/hooks/useRoles";
 import Link from "next/link";
 import GroupingForm from "./GroupingForm";

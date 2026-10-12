@@ -1,11 +1,11 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Spinner from "@/app/components/Spinner";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
 import { Officer } from "@/app/hooks/useOfficers";
 import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { triggerEscapeKeyPress } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { triggerEscapeKeyPress } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -16,7 +16,7 @@ import { SubmittedReport } from "../list/components/List";
 import { APPROVED, REFERBACK, SUBMITTED } from "../statuses";
 import HistoryList from "./HistoryList";
 
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import PdfIframe from "./pdf/PdfIframe";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {

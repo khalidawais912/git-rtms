@@ -1,9 +1,9 @@
-import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import FormWrapper from "@/app/components/Form/FormWrapper";
+import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
 import { SuperGroup } from "@/app/hooks/useSuperGroups";
-import apiClient from "@/app/services/api-client";
+import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
@@ -11,7 +11,7 @@ import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import groupGrey from "../../../public/icons/groupGray.svg";
 import { Option } from "./List";
-import SubmitButton from "@/app/components/Form/SubmitButton";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
 
 interface Props {
   id: number;

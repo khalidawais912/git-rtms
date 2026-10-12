@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/app/components/Button";
-import { setContent } from "@/app/features/content/contentSlice";
-import useAuthorization from "@/app/hooks/useAuthorization";
+import Button from "@/shared/components/Button";
+import { setContent } from "@/store/contentSlice";
+import useAuthorization from "@/shared/hooks/useAuthorization";
 import { DM_Sans, Lexend } from "next/font/google";
 import Image from "next/image";
 import { useEffect, useState } from "react";

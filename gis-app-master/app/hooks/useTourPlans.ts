@@ -1,5 +1,5 @@
-import { TOUR_PLAN_API } from "../APIs";
-import useData from "./useData";
+import { TOUR_PLAN_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface TourPlan {
   id: number;

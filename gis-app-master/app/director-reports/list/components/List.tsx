@@ -1,11 +1,11 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Loader from "@/app/components/Loader/Loader";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Loader from "@/shared/components/Loader/Loader";
 import { DashboardTypeEnum } from "@/app/dashboard/types/types";
 import { Officer } from "@/app/hooks/useOfficers";
 import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";

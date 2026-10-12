@@ -1,8 +1,8 @@
 import {
   MyBarChartStyle,
   MyBarChartType,
-} from "@/app/components/Charts/BarChart/MySimpleBarChart";
-import MySimpleBarChart from "@/app/components/Charts/BarChart/MySimpleBarChart";
+} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
+import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
 
 interface Props {
   tinyBarChartData: MyBarChartType[];

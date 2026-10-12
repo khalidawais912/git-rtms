@@ -1,24 +1,24 @@
 "use client";
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import Loader from "@/app/components/Loader/Loader";
-import Spinner from "@/app/components/Spinner";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import Loader from "@/shared/components/Loader/Loader";
+import Spinner from "@/shared/components/Spinner";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useDistrict from "@/app/hooks/useDistrict";
 import useDriver from "@/app/hooks/useDriver";
 import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";
 import useTourPlans from "@/app/hooks/useTourPlans";
 import useVehicle from "@/app/hooks/useVehicle";
-import apiClient from "@/app/services/api-client";
+import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
   deleteMessage,
   getFormattedDate,
-} from "@/app/utils";
+} from "@/shared/utils";
 import { AxiosError } from "axios";
 import { sort } from "fast-sort";
 import { useState } from "react";

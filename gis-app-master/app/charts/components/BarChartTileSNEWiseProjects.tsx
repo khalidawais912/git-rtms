@@ -1,9 +1,9 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import MySimpleBarChart, {
   ChartGradient,
   MyBarChartStyle,
   MyBarChartType,
-} from "@/app/components/Charts/BarChart/MySimpleBarChart";
+} from "@/shared/components/Charts/BarChart/MySimpleBarChart";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { HiChartBar } from "react-icons/hi";

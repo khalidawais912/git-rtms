@@ -1,5 +1,5 @@
-import { RIGHT_API } from "../APIs";
-import useData from "./useData";
+import { RIGHT_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Right {
   rightId: number;

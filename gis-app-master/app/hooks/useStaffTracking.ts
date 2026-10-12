@@ -1,5 +1,5 @@
-import { COORDINATES_API } from "../APIs";
-import useData from "./useData";
+import { COORDINATES_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface StaffTracking {
   id: number;

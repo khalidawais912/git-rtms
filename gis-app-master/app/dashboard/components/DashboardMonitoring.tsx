@@ -1,14 +1,14 @@
 "use client";
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
-import AnimatedCounter from "@/app/components/AnimatedCounter";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import DashboardWrapper from "@/app/components/DashboardWrapper";
-import Loader from "@/app/components/Loader/Loader";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import apiClient from "@/app/services/api-client";
-import { devMap, formatAmountWithCommas } from "@/app/utils";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import AnimatedCounter from "@/shared/components/AnimatedCounter";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import DashboardWrapper from "@/shared/components/DashboardWrapper";
+import Loader from "@/shared/components/Loader/Loader";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import apiClient from "@/shared/api/client";
+import { devMap, formatAmountWithCommas } from "@/shared/utils";
 import carOutline from "@/public/icons/carOutline.svg";
 import controllingReleaseCircle from "@/public/icons/controllingReleaseCircle.svg";
 import divideCircle from "@/public/icons/divideCircle.svg";
@@ -49,7 +49,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkSquare01Icon } from "@hugeicons/core-free-icons";
 import MarkToProjects from "./MarkToProjects/MarkToProjects";
 
-const Menu = dynamic(() => import("@/app/components/Menu"), { ssr: false });
+const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
 const lexend = Lexend({
   subsets: ["latin"],

@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
-import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "../APIs";
-import useData from "./useData";
+import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 import { DashboardTypeEnum } from "../dashboard/types/types";
 import { useEffect, useMemo } from "react";
 

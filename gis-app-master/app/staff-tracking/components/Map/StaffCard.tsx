@@ -1,5 +1,5 @@
-import useAuthentication from "@/app/hooks/useAuthentication";
-import { formatDateTime } from "@/app/utils";
+import useAuthentication from "@/shared/hooks/useAuthentication";
+import { formatDateTime } from "@/shared/utils";
 import staffMember from "@/public/icons/staffMember.svg";
 import Image from "next/image";
 import { useState } from "react";

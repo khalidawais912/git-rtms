@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import arrowDown from "@/public/icons/arrowDown.svg";
 import arrowTopRight from "@/public/icons/arrowTopRight.svg";
 import leaf from "@/public/icons/leaf.svg";

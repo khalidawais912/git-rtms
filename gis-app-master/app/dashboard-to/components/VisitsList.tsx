@@ -1,15 +1,15 @@
 "use client";
-import { GET_USER_PROJECTS_API, VISIT_API } from "@/app/APIs";
-import DeleteModal from "@/app/components/DeleteModal";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import { GET_USER_PROJECTS_API, VISIT_API } from "@/shared/api/endpoints";
+import DeleteModal from "@/shared/components/DeleteModal";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useSectors from "@/app/hooks/useSectors";
 import useSuperGroups from "@/app/hooks/useSuperGroups";
 import useVisits, { Visit } from "@/app/hooks/useVisits";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { DM_Sans, Inter } from "next/font/google";
 import Image from "next/image";
@@ -29,7 +29,7 @@ import {
   SCHEDULED,
   SUBMITTED,
 } from "@/app/report-history/statuses";
-import DisplayStatusText from "@/app/components/DisplayStatusText";
+import DisplayStatusText from "@/shared/components/DisplayStatusText";
 import useDriver from "@/app/hooks/useDriver";
 import useVehicle from "@/app/hooks/useVehicle";
 import useTourPlans from "@/app/hooks/useTourPlans";

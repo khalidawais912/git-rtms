@@ -9,10 +9,10 @@ import { TbEyeClosed } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import bgVideoNew from "../../public/video/bgVideoNew.mp4";
-import { AxiosError, ErrorResponse } from "../../services/api-client";
-import Button from "../../components/Button";
-import ErrorMessage from "../../components/ErrorMessage";
-import Spinner from "../../components/Spinner";
+import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import Button from "@/shared/components/Button";
+import ErrorMessage from "@/shared/components/ErrorMessage";
+import Spinner from "@/shared/components/Spinner";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Please add Username!" }),

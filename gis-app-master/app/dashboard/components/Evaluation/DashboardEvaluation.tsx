@@ -1,14 +1,14 @@
 "use client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import DashboardWrapper from "@/app/components/DashboardWrapper";
-import Loader from "@/app/components/Loader/Loader";
-// import Menu from "@/app/components/Menu";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import apiClient from "@/app/services/api-client";
-import { devMap } from "@/app/utils";
+import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import DashboardWrapper from "@/shared/components/DashboardWrapper";
+import Loader from "@/shared/components/Loader/Loader";
+// import Menu from "@/shared/components/Menu";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import apiClient from "@/shared/api/client";
+import { devMap } from "@/shared/utils";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
 import { Lexend } from "next/font/google";
@@ -19,7 +19,7 @@ import EvaluationMap from "../GoogleMap/EvaluationMap";
 import PCIVReportReview from "./PCIVReportReview";
 import ProjectsTable, { ProjectsList } from "./ProjectsTable/ProjectsTable";
 
-const Menu = dynamic(() => import("@/app/components/Menu"), { ssr: false });
+const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
 const lexend = Lexend({
   subsets: ["latin"],

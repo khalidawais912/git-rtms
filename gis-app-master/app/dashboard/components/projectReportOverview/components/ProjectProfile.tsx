@@ -1,5 +1,5 @@
 import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 
 interface Props {
   group: Groups;

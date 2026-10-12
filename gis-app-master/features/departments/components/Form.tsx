@@ -1,10 +1,10 @@
 "use client";
-import { DEPARTMENT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
+import { DEPARTMENT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
 import apiClient, {
   AxiosError,
   ErrorResponse,
-} from "@/app/services/api-client";
+} from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -15,12 +15,12 @@ import Select, { SingleValue } from "react-select";
 import { z } from "zod";
 import more from "../../../public/icons/more.svg";
 import { RxCross2 } from "react-icons/rx";
-import ActionButton from "@/app/components/Table/ActionButton";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import CustomInput from "@/app/components/Form/CustomInput";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import SubmitButton from "@/app/components/Form/SubmitButton";
+import ActionButton from "@/shared/components/Table/ActionButton";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
 import { FiPlus } from "react-icons/fi";
 
 const departmentSchema = z.object({

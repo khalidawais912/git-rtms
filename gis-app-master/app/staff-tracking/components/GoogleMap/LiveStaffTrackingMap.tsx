@@ -1,4 +1,4 @@
-import { REVERSE_GEO_CODING_API } from "@/app/APIs";
+import { REVERSE_GEO_CODING_API } from "@/shared/api/endpoints";
 import {
   AdvancedMarker,
   APIProvider,

@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import search3 from "@/public/icons/search3.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

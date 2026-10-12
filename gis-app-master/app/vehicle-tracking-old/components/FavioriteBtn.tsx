@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { useState } from "react";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 

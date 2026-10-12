@@ -1,21 +1,21 @@
-import Button from "@/app/components/Button";
-import CustomInput from "@/app/components/Form/CustomInput";
-import CustomLabel from "@/app/components/Form/CustomLabel";
+import Button from "@/shared/components/Button";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
 import CustomSelect, {
   defaultNumberOption,
   defaultOption,
   OptionType,
-} from "@/app/components/Form/CustomSelect";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import SubmitButton from "@/app/components/Form/SubmitButton";
-import Spinner from "@/app/components/Spinner";
-import ActionButton from "@/app/components/Table/ActionButton";
+} from "@/shared/components/Form/CustomSelect";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
+import Spinner from "@/shared/components/Spinner";
+import ActionButton from "@/shared/components/Table/ActionButton";
 import useDepartments from "@/features/departments/hooks";
 import { Role } from "@/app/hooks/useRoles";
 import apiClient, {
   AxiosError,
   ErrorResponse,
-} from "@/app/services/api-client";
+} from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";

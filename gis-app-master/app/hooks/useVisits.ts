@@ -1,5 +1,5 @@
-import { VISIT_API } from "../APIs";
-import useData from "./useData";
+import { VISIT_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 
 export interface Visit {
   id: number;

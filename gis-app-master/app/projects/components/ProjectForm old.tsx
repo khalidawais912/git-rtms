@@ -3,7 +3,7 @@
 // import { FormEvent, useState } from "react";
 // import more from "../../../public/icons/more.svg";
 // import { ToastContainer, toast } from "react-toastify";
-// import apiClient, { AxiosError } from "@/app/services/api-client";
+// import apiClient, { AxiosError } from "@/shared/api/client";
 // import useSectors from "@/app/hooks/useSectors";
 // import { Project } from "@/app/hooks/useProjects";
 

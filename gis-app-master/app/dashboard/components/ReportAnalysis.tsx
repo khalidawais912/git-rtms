@@ -1,14 +1,14 @@
-import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Spinner from "@/app/components/Spinner";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import apiClient from "@/app/services/api-client";
+import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
+import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import useAuthentication from "@/shared/hooks/useAuthentication";
+import apiClient from "@/shared/api/client";
 import {
   StaffTracking,
   TrackingRequestData,
 } from "@/app/staff-tracking/components/StaffTracking";
-import { formatDateTime } from "@/app/utils";
+import { formatDateTime } from "@/shared/utils";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { DM_Sans } from "next/font/google";
 import { useEffect, useState } from "react";

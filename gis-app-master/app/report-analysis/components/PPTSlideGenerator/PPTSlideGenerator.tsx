@@ -1,13 +1,13 @@
 "use client";
 
-import { GENERATE_REPORT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Spinner from "@/app/components/Spinner";
+import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Spinner from "@/shared/components/Spinner";
 import apiClient, {
   AxiosError,
   ErrorResponse,
-} from "@/app/services/api-client";
+} from "@/shared/api/client";
 import {
   ChangeEvent,
   Dispatch,
@@ -19,9 +19,9 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import DragableTable from "./DragableTable/DragableTable";
-import ToggleBetweenModals from "@/app/components/ToggleBetweenModals";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
+import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
 
 export interface SectorItem {
   id: number;

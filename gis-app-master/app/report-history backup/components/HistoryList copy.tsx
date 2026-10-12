@@ -1,6 +1,6 @@
 // "use client";
-// import Button from "@/app/components/Button";
-// import { getFormattedDate } from "@/app/utils";
+// import Button from "@/shared/components/Button";
+// import { getFormattedDate } from "@/shared/utils";
 // import chevronRight from "@/public/icons/chevronRight.svg";
 // import Image from "next/image";
 // import Link from "next/link";

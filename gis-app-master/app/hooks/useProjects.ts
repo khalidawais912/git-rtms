@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { EVALUATION_PROJECT_API, PROJECT_API } from "../APIs";
-import useData from "./useData";
+import { EVALUATION_PROJECT_API, PROJECT_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
 import { useSearchParams } from "next/navigation";
 import { DashboardTypeEnum } from "../dashboard/types/types";
 

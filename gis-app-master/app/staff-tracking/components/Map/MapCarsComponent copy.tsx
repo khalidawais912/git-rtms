@@ -1,7 +1,7 @@
 // components/MapCars.tsx
 
-import { COORDINATES_API } from "@/app/APIs";
-import apiClient from "@/app/services/api-client";
+import { COORDINATES_API } from "@/shared/api/endpoints";
+import apiClient from "@/shared/api/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Image from "next/image";

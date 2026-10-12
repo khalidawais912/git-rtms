@@ -1,9 +1,9 @@
-import Button from "@/app/components/Button";
-import { ChartGradient } from "@/app/components/Charts/BarChart/MySimpleBarChart";
+import Button from "@/shared/components/Button";
+import { ChartGradient } from "@/shared/components/Charts/BarChart/MySimpleBarChart";
 import MyStackBarChart, {
   MyStackBarChartStyle,
   MyStackBarChartType,
-} from "@/app/components/Charts/BarChart/MyStackBarChart";
+} from "@/shared/components/Charts/BarChart/MyStackBarChart";
 import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";

@@ -2,13 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Suspense } from "react";
-import BgChanger from "./components/BgChanger";
-import BootstrapClient from "./components/BootstrapClient";
-import FooterToggle from "./components/FooterToggle";
-import Loader from "./components/Loader/Loader";
-import NavbarToggle from "./components/NavbarToggle";
-import ReduxProvider from "./components/ReduxProvider";
-import ToastContainers from "./components/ToastContainers";
+import BgChanger from "@/shared/components/BgChanger";
+import BootstrapClient from "@/shared/components/BootstrapClient";
+import FooterToggle from "@/shared/components/FooterToggle";
+import Loader from "@/shared/components/Loader/Loader";
+import NavbarToggle from "@/shared/components/NavbarToggle";
+import ReduxProvider from "@/shared/components/ReduxProvider";
+import ToastContainers from "@/shared/components/ToastContainers";
 import "./globals.css";
 
 // const poppins = Poppins({

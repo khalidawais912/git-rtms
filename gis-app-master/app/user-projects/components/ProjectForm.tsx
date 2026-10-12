@@ -1,6 +1,6 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import useSectors from "@/app/hooks/useSectors";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

@@ -4,20 +4,20 @@ import {
   EVALUATION_TEMP_TOUR_PLAN_API,
   PROJECT_API,
   TEMP_TOUR_PLAN_API,
-} from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
+} from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useProjects, { Project } from "@/app/hooks/useProjects";
 import useSectors from "@/app/hooks/useSectors";
 import useSuperGroups from "@/app/hooks/useSuperGroups";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getName } from "@/app/utils";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getName } from "@/shared/utils";
 import { sort } from "fast-sort";
 import Image from "next/image";
 import { SetStateAction, useEffect, useState } from "react";
@@ -30,7 +30,7 @@ import complete from "../../../public/icons/complete.svg";
 import AssignUserForm from "./AssignUserForm";
 import GroupingForm from "./GroupingForm";
 import StatusBadge from "./StatusBadge";
-import TableWrapper from "@/app/components/Table/TableWrapper";
+import TableWrapper from "@/shared/components/Table/TableWrapper";
 
 export interface Option {
   id: number;

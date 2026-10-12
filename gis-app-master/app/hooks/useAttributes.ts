@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
-import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "../APIs";
+import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "@/shared/api/endpoints";
 import { DashboardTypeEnum } from "../dashboard/types/types";
-import useData from "./useData";
+import useData from "@/shared/hooks/useData";
 import { useSearchParams } from "next/navigation";
 
 export interface Attribute {

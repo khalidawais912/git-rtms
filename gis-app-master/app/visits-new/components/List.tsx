@@ -1,12 +1,12 @@
 "use client";
-import { VISIT_API, VISIT_NEW_API } from "@/app/APIs";
-import DeleteModal from "@/app/components/DeleteModal";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
+import { VISIT_API, VISIT_NEW_API } from "@/shared/api/endpoints";
+import DeleteModal from "@/shared/components/DeleteModal";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
 import useVisitsNew, { VisitNew } from "@/app/hooks/useVisitsNew";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { Inter } from "next/font/google";
 import Image from "next/image";
@@ -20,7 +20,7 @@ import Form from "./Form";
 import useDriver from "@/app/hooks/useDriver";
 import useVehicle from "@/app/hooks/useVehicle";
 import useProjects from "@/app/hooks/useProjects";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useTourPlans from "@/app/hooks/useTourPlans";
 import useDistrict from "@/app/hooks/useDistrict";
 

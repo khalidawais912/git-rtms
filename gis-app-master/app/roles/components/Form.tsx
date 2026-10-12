@@ -1,9 +1,9 @@
-import CustomInput from "@/app/components/Form/CustomInput";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import SubmitButton from "@/app/components/Form/SubmitButton";
-import ActionButton from "@/app/components/Table/ActionButton";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
+import ActionButton from "@/shared/components/Table/ActionButton";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";

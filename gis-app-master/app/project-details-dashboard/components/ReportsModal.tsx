@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { Groups } from "./ProjectDetailsDashboard";
 import RenderRichText from "./RenderRichText";
 

@@ -1,16 +1,16 @@
 "use client";
 
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/app/APIs";
-import { OptionType } from "@/app/components/Form/CustomSelect";
-import Loader from "@/app/components/Loader/Loader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import { OptionType } from "@/shared/components/Form/CustomSelect";
+import Loader from "@/shared/components/Loader/Loader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import useAuthentication from "@/shared/hooks/useAuthentication";
 import useDistrict from "@/app/hooks/useDistrict";
 import useDriver from "@/app/hooks/useDriver";
 import useTempTourPlans from "@/app/hooks/useTempTourPlan";
 import useTourPlans from "@/app/hooks/useTourPlans";
 import useVehicle from "@/app/hooks/useVehicle";
-import apiClient from "@/app/services/api-client";
+import apiClient from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useEffect } from "react";

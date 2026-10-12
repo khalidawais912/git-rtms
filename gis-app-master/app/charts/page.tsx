@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CustomModal from "../components/CustomModal/CustomModal";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import AssignProjectPartTwoBarChartTile from "./components/AssignProjectPartTwoBarChartTile";
 import BarChartTile from "./components/BarChartTile";
 import BarChartTileSNEWiseProjects from "./components/BarChartTileSNEWiseProjects";
@@ -9,8 +9,8 @@ import BarChartTileTotalProjects from "./components/BarChartTileTotalProjects";
 import CompletedProjectsBarChartTile from "./components/CompletedProjectsBarChartTile";
 import DistrictWiseProjectsBarChartTile from "./components/DistrictWiseProjectsBarChartTile";
 import SectorWiseProgressPieChartTile from "./components/SectorWiseProgressPieChartTile";
-import apiClient, { CanceledError } from "../services/api-client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "../APIs";
+import apiClient, { CanceledError } from "@/shared/api/client";
+import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
 
 // export interface SeasonCycle {
 //   totalProduction: number;
