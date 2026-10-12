@@ -74,10 +74,6 @@ const Login = () => {
   }, []);
 
   const onSubmit = async (formData: Login) => {
-    console.log("Form Data:", formData);
-    console.log("API call", process.env.NEXT_PUBLIC_BACKEND_API + LOGIN_API);
-    console.log("API call", LOGIN_API);
-
     try {
       setSubmitting(true);
       const response = await axios.post<Props>(
@@ -87,10 +83,6 @@ const Login = () => {
       );
 
       if (response.data.responseCode === 200) {
-        console.log("responseCode", response.data.responseCode);
-        console.log("responseMessage", response.data.responseMessage);
-        console.log("user logged in successfully", response);
-        // console.log("token: ", response.data.data.token);
         // const expires = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
         // if (Cookies.get("token")) Cookies.remove("token");
         // if (Cookies.get("email")) Cookies.remove("email");
@@ -133,16 +125,11 @@ const Login = () => {
               expires: new Date(response.data.data.expiration),
             },
           );
-          console.log("role", response.data.data.role);
           if (response.data.data.role.length > 0) {
             Cookies.set("role", response.data.data.role[0], {
               expires: new Date(response.data.data.expiration),
             });
           }
-          console.log(
-            "rights",
-            response.data.data.rights.map((rights) => rights.rightName),
-          );
           if (response.data.data.rights.length > 0) {
             Cookies.set(
               "rights",

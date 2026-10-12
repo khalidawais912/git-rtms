@@ -133,8 +133,6 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
   };
 
   const onSubmit = async (formData: User) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     setSubmitting(true);
     try {
       const response = await apiClient({
