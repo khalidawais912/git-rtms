@@ -1,5 +1,5 @@
 import Button from "@/shared/components/Button";
-import useSectors from "@/app/hooks/useSectors";
+import { useSectors } from "@/features/sectors";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";

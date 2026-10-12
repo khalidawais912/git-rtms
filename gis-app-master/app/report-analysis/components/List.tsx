@@ -4,7 +4,7 @@ import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import useAttributes from "@/app/hooks/useAttributes";
+import { useAttributes } from "@/features/attributes";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { deleteMessage } from "@/shared/utils";
 import trashImage from "@/public/images/trash.png";

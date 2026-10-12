@@ -1,6 +1,6 @@
 // "use client";
 // import React, { useEffect, useState } from "react";
-// import SectorForm from "@/app/sectors/components/SectorForm";
+// import SectorForm from "@/features/sectors/components/SectorForm";
 // import Cookies from "js-cookie";
 // import axios from "axios";
 // import { PROJECT_API } from "@/shared/api/endpoints";

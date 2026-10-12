@@ -1,6 +1,6 @@
 import { OptionType } from "@/shared/components/Form/CustomSelect";
 import useDistrict from "@/app/hooks/useDistrict";
-import useSectors from "@/app/hooks/useSectors";
+import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";
 import { useMemo } from "react";
 

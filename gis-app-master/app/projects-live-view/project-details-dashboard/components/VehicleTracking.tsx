@@ -1,5 +1,5 @@
-import useDriver, { Driver } from "@/app/hooks/useDriver";
-import useVehicle, { Vehicle } from "@/app/hooks/useVehicle";
+import { useDriver, Driver } from "@/features/drivers";
+import { useVehicle, Vehicle } from "@/features/vehicles";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

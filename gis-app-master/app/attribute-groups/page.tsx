@@ -1,5 +1,5 @@
 import { DashboardType, DashboardTypeEnum } from "../dashboard/types/types";
-import AttributeGroups from "./components/AttributeGroups";
+import AttributeGroups from "@/features/attribute-groups/components/AttributeGroups";
 
 interface Props {
   searchParams: Promise<{

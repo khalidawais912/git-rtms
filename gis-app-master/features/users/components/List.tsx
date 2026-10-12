@@ -18,7 +18,7 @@ import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableWrapper from "@/shared/components/Table/TableWrapper";
-import useRoles from "@/app/hooks/useRoles";
+import { useRoles } from "@/features/roles";
 import Link from "next/link";
 import GroupingForm from "./GroupingForm";
 import Image from "next/image";

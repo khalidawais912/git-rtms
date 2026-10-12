@@ -1,6 +1,6 @@
 import { VEHICLE_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import useVehicle from "@/app/hooks/useVehicle";
+import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/shared/api/client";
 import car1Right from "@/public/icons/car1Right.svg";
 import Image from "next/image";

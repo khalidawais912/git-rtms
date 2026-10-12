@@ -4,7 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import Form from "./Form";
 import { Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import useAttributes from "@/app/hooks/useAttributes";
+import { useAttributes } from "@/features/attributes";
 import { REPORT_API } from "@/shared/api/endpoints";
 import { toast } from "react-toastify";
 import apiClient, { AxiosError } from "@/shared/api/client";

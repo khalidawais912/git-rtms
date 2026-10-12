@@ -9,7 +9,7 @@ import TableData from "@/shared/components/Table/TableData";
 import TableHeading, {
   defaultStyle,
 } from "@/shared/components/Table/TableHeading";
-import { Attribute } from "@/app/hooks/useAttributes";
+import { Attribute } from "@/features/attributes";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { createdMessage } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

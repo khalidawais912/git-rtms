@@ -2,7 +2,7 @@
 import { DEPARTMENT_ROLES_SORTING_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
-import useRoles from "@/app/hooks/useRoles";
+import { useRoles } from "@/features/roles";
 import apiClient from "@/shared/api/client";
 import { getTimeAgo, hexToRgba, Option } from "@/shared/utils";
 import { Edge, MarkerType, Node } from "@xyflow/react";

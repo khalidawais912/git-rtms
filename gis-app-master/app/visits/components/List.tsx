@@ -8,9 +8,9 @@ import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
-import useDriver from "@/app/hooks/useDriver";
+import { useDriver } from "@/features/drivers";
 import useProjects from "@/app/hooks/useProjects";
-import useVehicle from "@/app/hooks/useVehicle";
+import { useVehicle } from "@/features/vehicles";
 import useVisits, { Visit } from "@/app/hooks/useVisits";
 import {
   APPROVED,

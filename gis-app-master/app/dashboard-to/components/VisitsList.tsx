@@ -6,8 +6,8 @@ import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
-import useSectors from "@/app/hooks/useSectors";
-import useSuperGroups from "@/app/hooks/useSuperGroups";
+import { useSectors } from "@/features/sectors";
+import { useSuperGroups } from "@/features/super-group";
 import useVisits, { Visit } from "@/app/hooks/useVisits";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
@@ -30,8 +30,8 @@ import {
   SUBMITTED,
 } from "@/app/report-history/statuses";
 import DisplayStatusText from "@/shared/components/DisplayStatusText";
-import useDriver from "@/app/hooks/useDriver";
-import useVehicle from "@/app/hooks/useVehicle";
+import { useDriver } from "@/features/drivers";
+import { useVehicle } from "@/features/vehicles";
 import useTourPlans from "@/app/hooks/useTourPlans";
 import useDistrict from "@/app/hooks/useDistrict";
 

@@ -9,10 +9,10 @@ import TableHeading from "@/shared/components/Table/TableHeading";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import { useAuthentication } from "@/features/users";
 import useDistrict from "@/app/hooks/useDistrict";
-import useDriver from "@/app/hooks/useDriver";
+import { useDriver } from "@/features/drivers";
 import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";
 import useTourPlans from "@/app/hooks/useTourPlans";
-import useVehicle from "@/app/hooks/useVehicle";
+import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,

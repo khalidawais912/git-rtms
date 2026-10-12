@@ -6,9 +6,9 @@ import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect"
 import TableData from "@/shared/components/Table/TableData";
 import { Authentication } from "@/features/users";
 import { District } from "@/app/hooks/useDistrict";
-import { Driver } from "@/app/hooks/useDriver";
+import { Driver } from "@/features/drivers";
 import { TempTourPlan } from "@/app/hooks/useTempTourPlan";
-import { Vehicle } from "@/app/hooks/useVehicle";
+import { Vehicle } from "@/features/vehicles";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { isValidDate } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

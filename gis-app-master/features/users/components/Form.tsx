@@ -11,7 +11,7 @@ import SubmitButton from "@/shared/components/Form/SubmitButton";
 import Spinner from "@/shared/components/Spinner";
 import ActionButton from "@/shared/components/Table/ActionButton";
 import { useDepartments } from "@/features/departments";
-import { Role } from "@/app/hooks/useRoles";
+import { Role } from "@/features/roles";
 import { AxiosError, ErrorResponse } from "@/shared/api/client";
 import { createUser, getUser, updateUser } from "../api";
 import { UserFormData, userSchema } from "../schema";

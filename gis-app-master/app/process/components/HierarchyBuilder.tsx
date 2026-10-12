@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Edge, Node } from "@xyflow/react";
 import { HiOutlineTrash } from "react-icons/hi";
-import useRoles from "@/app/hooks/useRoles";
+import { useRoles } from "@/features/roles";
 import { useAuthentication } from "@/features/users";
 import Select, { SingleValue, StylesConfig } from "react-select";
 import { createdMessage, Option } from "@/shared/utils";

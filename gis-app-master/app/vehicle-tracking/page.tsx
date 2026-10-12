@@ -5,7 +5,7 @@ import { VT_RECORDING_API } from "@/shared/api/endpoints";
 import TimelineAuto from "./components/TimelineAuto";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Button from "@/shared/components/Button";
-import useVehicle from "../hooks/useVehicle";
+import { useVehicle } from "@/features/vehicles";
 import Image from "next/image";
 import redCircle from "@/public/icons/redCircle.svg";
 import axios from "axios";
@@ -22,7 +22,7 @@ import { SlCalender } from "react-icons/sl";
 import { FaRegFileAlt } from "react-icons/fa";
 import { Nunito_Sans } from "next/font/google";
 import { useAuthentication } from "@/features/users";
-import useDriver from "../hooks/useDriver";
+import { useDriver } from "@/features/drivers";
 import useDistrict from "../hooks/useDistrict";
 import useProjects from "../hooks/useProjects";
 

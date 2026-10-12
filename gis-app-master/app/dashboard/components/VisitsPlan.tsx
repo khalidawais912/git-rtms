@@ -4,7 +4,7 @@ import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import useDistrict from "@/app/hooks/useDistrict";
-import useSectors from "@/app/hooks/useSectors";
+import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";
 import apiClient from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
