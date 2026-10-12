@@ -139,9 +139,6 @@ const Menu = ({
         )}
         {icon ? (
           <div
-            // className={`col-auto text-white fw-5 ps-2 ${
-            //   isGrouped ? "fs-6" : "fs18px"
-            // }`}
             className={`col text-white fw-5 ps-2`}
           >
             <AutoTextSize

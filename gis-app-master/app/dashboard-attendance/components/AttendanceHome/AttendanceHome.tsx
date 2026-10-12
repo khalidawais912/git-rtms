@@ -45,17 +45,10 @@ const AttendanceHome = () => {
     handleSubmit();
   }, []);
 
-  // const res = await fetch(
-  //   `${process.env.NEXT_PUBLIC_BACKEND_API}${DASHBOARD_ATTENDANCE_API}`
-  // );
-  // const attendanceData: DashboardAttendance = await res.json();
-
   return (
     <div
       className="container-fluid p-2 mb-4"
       style={{
-        // backgroundImage:
-        //   "linear-gradient(to bottom right, rgba(239, 239, 239, 0.6), rgba(255, 255, 255, 0.08))",
         border: "1px solid rgba(255, 255, 255, 0.6)",
         borderRadius: "10px",
         height: "100%",

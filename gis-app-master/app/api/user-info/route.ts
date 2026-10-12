@@ -14,7 +14,6 @@ interface UserInfoResponseData {
   department_Id: number;
   role: string[]; // Or string depending on how it's sent
   rights: { rightName: string }[];
-  // ... any other user-specific data your backend returns
 }
 
 interface BackendUserInfoSuccessResponse {

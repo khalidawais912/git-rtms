@@ -204,7 +204,6 @@ const MapCarsRecordedComponent = () => {
               closeButton={false}
               offset={L.point(0, -16)}
             >
-              {/* {apiData && <CarCard data={d} />} */}
             </Popup>
           </Marker>
         </MapContainer>

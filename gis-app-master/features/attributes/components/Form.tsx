@@ -254,18 +254,6 @@ const Form = ({
     }));
   };
 
-  // const handleDatalistSelect = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  // ) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     // Trim the existing and new values and join them with a single space
-  //     evaluationFormula: prevData.evaluationFormula
-  //       ? `${prevData.evaluationFormula.trim()}${e.target.value.trim()}`
-  //       : e.target.value.trim(),
-  //   }));
-  // };
-
   const handleDatalistSelect = (selected: OptionType | null) => {
     if (!selected) return;
 
@@ -416,7 +404,6 @@ const Form = ({
                     : null,
               },
             });
-            // notifyCreate(errorMessages.created);
             handleClose();
             setFormData({
               attributeId: 0,
@@ -488,14 +475,11 @@ const Form = ({
             });
             console.log("response", response);
             setRefresh((prev) => !prev);
-            // notifyCreate(updated);
             handleClose();
             console.log("after submit formData.readOnly:", formData.readOnly);
           }
         } catch (err) {
           console.log((err as AxiosError).message);
-          // notifyError((err as AxiosError).message);
-          // setError((err as AxiosError).message);
         }
     }
   };
@@ -552,14 +536,6 @@ const Form = ({
         label: d.label,
       };
     });
-
-  // const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
-
-  // // Prepare selected values for react-select in {value, label} format
-  // const selectedAttributeCodeValue: OptionType[] = selectedOptions.map((option) => ({
-  //   value: option.value,
-  //   label: option.label,
-  // }));
 
   return (
     <>
@@ -645,19 +621,6 @@ const Form = ({
                       )
                     }
                   />
-                  {/* <select
-                    className="form-select form-select-sm color-light-dark shadow-none"
-                    style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                    aria-label="Default select example"
-                    name="attributeDataType"
-                    id="attributeDataType"
-                    onChange={handleChange}
-                    value={formData.attributeDataType}
-                  >
-                    <option value="string">String</option>
-                    <option value="number">Number</option>
-                    <option value="date">Date</option>
-                  </select> */}
                 </div>
                 <div
                   className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 text-start mt-0"
@@ -685,26 +648,6 @@ const Form = ({
                       handleSelectChange("attributeType", nv, meta, setFormData)
                     }
                   />
-                  {/* <select
-                    className="form-select form-select-sm color-light-dark shadow-none"
-                    style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                    aria-label="Default select example"
-                    name="attributeType"
-                    id="attributeType"
-                    onChange={handleChange}
-                    value={formData.attributeType}
-                  >
-                    <option value="">None</option>
-                    <option value="textfield">TextField</option>
-                    <option value="select">Select</option>
-                    <option value="file">File</option>
-                    -<option value="radio">Radio</option>
-                    <option value="slider">Slider</option>
-                    <option value="textarea">Textarea</option>
-                    <option value="progress">Progress</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="formula">Formula</option>
-                  </select> */}
                 </div>
                 <div
                   className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 text-start mt-0"
@@ -782,19 +725,6 @@ const Form = ({
                       )
                     }
                   />
-                  {/* <select
-                    className="form-select form-select-sm color-light-dark shadow-none"
-                    style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                    aria-label="Default select example"
-                    name="verificationType"
-                    id="verificationType"
-                    onChange={handleChange}
-                    value={formData.verificationType}
-                  >
-                    <option value="">None</option>
-                    <option value="image">Image</option>
-                    <option value="video">Video</option>
-                  </select> */}
                 </div>
                 <div
                   className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 text-start mt-0"
@@ -827,22 +757,6 @@ const Form = ({
                       )
                     }
                   />
-                  {/* <select
-                    className="form-select form-select-sm color-light-dark shadow-none"
-                    style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                    aria-label="Default select example"
-                    name="smdpIdentifier"
-                    id="smdpIdentifier"
-                    onChange={handleChange}
-                    value={formData.smdpIdentifier}
-                  >
-                    <option value="">None</option>
-                    {projectDetailKeys?.map((key, i) => (
-                      <option key={i} value={key}>
-                        {key}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
                 <div
                   className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 text-start mt-0"
@@ -985,23 +899,6 @@ const Form = ({
                           if (newValue) handleDatalistSelect(newValue);
                         }}
                       />
-                      {/* <select
-                        className="form-select form-select-sm color-light-dark shadow-none"
-                        style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                        aria-label="Default select example"
-                        name="searchAttributeCodes"
-                        id="searchAttributeCodes"
-                        onChange={handleDatalistSelect}
-                      >
-                        <option value="">Select</option>
-                        {data
-                          .filter((d) => d.attributeCode)
-                          .map((d, i) => (
-                            <option key={i} value={d.attributeCode}>
-                              {d.label}
-                            </option>
-                          ))}
-                      </select> */}
                     </div>
                     <div
                       className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 text-start mt-0"
@@ -1039,14 +936,6 @@ const Form = ({
                     >
                       Is Multi Select
                     </label>
-                    {/* <input
-                      className="form-check-input my-switch-primary"
-                      type="checkbox"
-                      id="multiselect"
-                      name="multiselect"
-                      checked={isMultiSelect}
-                      onChange={() => setMultiSelect(!isMultiSelect)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1065,14 +954,6 @@ const Form = ({
                     >
                       Is Required
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="required"
-                      name="required"
-                      checked={isRequired}
-                      onChange={() => setRequired(!isRequired)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1091,14 +972,6 @@ const Form = ({
                     >
                       Status
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="status"
-                      id="status"
-                      checked={isStatus}
-                      onChange={() => setStatus(!isStatus)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1117,14 +990,6 @@ const Form = ({
                     >
                       Is Hidden
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="hidden"
-                      id="hidden"
-                      checked={isHidden}
-                      onChange={() => setHidden(!isHidden)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1143,14 +1008,6 @@ const Form = ({
                     >
                       Is ReadOnly
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="readoOnly"
-                      id="readoOnly"
-                      checked={isReadOnly}
-                      onChange={() => setReadOnly(!isReadOnly)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1169,14 +1026,6 @@ const Form = ({
                     >
                       Is Removeable
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="removeable"
-                      id="removeable"
-                      checked={isRemoveable}
-                      onChange={() => setRemoveable(!isRemoveable)}
-                    /> */}
                   </div>
                 </div>
                 <div
@@ -1195,14 +1044,6 @@ const Form = ({
                     >
                       Is Master
                     </label>
-                    {/* <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="master"
-                      id="master"
-                      checked={isMaster}
-                      onChange={() => setMaster(!isMaster)}
-                    /> */}
                   </div>
                 </div>
               </div>
@@ -1251,45 +1092,11 @@ const Form = ({
                           onChange={(e) => handleOptionChange(index, e)}
                           placeholder="Enter Value"
                         />
-                        {/* <label
-                          htmlFor={`value-${index}`}
-                          className="form-label form-label-color-black fw-5 fs14px"
-                          style={{ marginBottom: "6px" }}
-                        >
-                          Value
-                        </label> */}
-                        {/* <input
-                          type="text"
-                          className="form-control form-control-sm color-light-dark shadow-none"
-                          style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                          id={`value-${index}`}
-                          name="value"
-                          value={option.value}
-                          onChange={(e) => handleOptionChange(index, e)}
-                          placeholder="Enter Value"
-                        /> */}
                       </div>
                       <div
                         className="col-xl-2 col-lg-4 col-md-6 col-sm-6 text-start"
                         style={{ marginBottom: "10px", padding: "0px 10px" }}
                       >
-                        {/* <label
-                          htmlFor={`label-${index}`}
-                          className="form-label form-label-color-black fw-5 fs14px"
-                          style={{ marginBottom: "6px" }}
-                        >
-                          Label
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm color-light-dark shadow-none"
-                          style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                          id={`label-${index}`}
-                          name="label"
-                          value={option.label}
-                          onChange={(e) => handleOptionChange(index, e)}
-                          placeholder="Enter Label"
-                        /> */}
                         <CustomLabel htmlFor={`label-${index}`}>
                           Label
                         </CustomLabel>
@@ -1305,23 +1112,6 @@ const Form = ({
                         className="col-xl-2 col-lg-4 col-md-6 col-sm-6 text-start"
                         style={{ marginBottom: "10px", padding: "0px 10px" }}
                       >
-                        {/* <label
-                          htmlFor="sortId"
-                          className="form-label form-label-color-black fw-5 fs14px"
-                          style={{ marginBottom: "6px" }}
-                        >
-                          Sort Id
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control form-control-sm color-light-dark shadow-none"
-                          style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                          id="sortId"
-                          name="sortId"
-                          value={option.sortId}
-                          onChange={(e) => handleOptionChange(index, e)}
-                          placeholder="Enter sortId value"
-                        /> */}
                         <CustomLabel htmlFor={`sortId-${index}`}>
                           sort Id
                         </CustomLabel>
@@ -1338,23 +1128,6 @@ const Form = ({
                         className="col-xl-2 col-lg-4 col-md-6 col-sm-6 text-start"
                         style={{ marginBottom: "10px", padding: "0px 10px" }}
                       >
-                        {/* <label
-                          htmlFor={`condition-${index}`}
-                          className="form-label form-label-color-black fw-5 fs14px"
-                          style={{ marginBottom: "6px" }}
-                        >
-                          condition
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm color-light-dark shadow-none"
-                          style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                          id={`condition-${index}`}
-                          name="condition"
-                          value={option.condition}
-                          onChange={(e) => handleOptionChange(index, e)}
-                          placeholder="Enter Condition"
-                        /> */}
                         <CustomLabel htmlFor={`condition-${index}`}>
                           Condition
                         </CustomLabel>
@@ -1370,23 +1143,6 @@ const Form = ({
                         className="col-xl-2 col-lg-4 col-md-6 col-sm-6 text-start"
                         style={{ marginBottom: "10px", padding: "0px 10px" }}
                       >
-                        {/* <label
-                          htmlFor={`remarks-${index}`}
-                          className="form-label form-label-color-black fw-5 fs14px"
-                          style={{ marginBottom: "6px" }}
-                        >
-                          Description
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm color-light-dark shadow-none"
-                          style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                          id={`remarks-${index}`}
-                          name="remarks"
-                          value={option.remarks}
-                          onChange={(e) => handleOptionChange(index, e)}
-                          placeholder="Enter Description"
-                        /> */}
                         <CustomLabel htmlFor={`remarks-${index}`}>
                           Description
                         </CustomLabel>
@@ -1418,14 +1174,6 @@ const Form = ({
                                 handleCheckboxChange(index, checked)
                               }
                             />
-                            {/* <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name="isActive"
-                            id={`isActive${index}`}
-                            checked={activeStates[index] || false}
-                            onChange={(checked) => handleCheckboxChange(index, checked)}
-                          /> */}
                           </div>
                         </div>
                       </div>

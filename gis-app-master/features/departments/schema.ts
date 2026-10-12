@@ -22,9 +22,6 @@ export const departmentWithRightsSchema = z.object({
   departmentRights: z
     .array(departmentRightSchema)
     .default([])
-    // .refine((val) => val.length >= 1, {
-    //   message: "Please add at least one department right.",
-    // })
     .optional(),
 });
 

@@ -161,16 +161,6 @@ const Form = ({
                     type="text"
                     placeholder="Enter Name"
                   />
-                  {/* <label htmlFor="name" className="form-label text-white">
-                    Name
-                  </label>
-                  <input
-                    {...register("name")}
-                    id="name"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter TourPlan Name"
-                  /> */}
                   {errors.name && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.name.message}
@@ -195,19 +185,6 @@ const Form = ({
                       />
                     )}
                   />
-                  {/* <label
-                    htmlFor="tourStartDate"
-                    className="form-label text-white"
-                  >
-                    Tour Start Date
-                  </label>
-                  <input
-                    {...register("tourStartDate")}
-                    id="tourStartDate"
-                    type="date"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Tour Start Date"
-                  /> */}
                   {errors.tourStartDate && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.tourStartDate.message}
@@ -230,19 +207,6 @@ const Form = ({
                       />
                     )}
                   />
-                  {/* <label
-                    htmlFor="tourEndDate"
-                    className="form-label text-white"
-                  >
-                    Tour End Date
-                  </label>
-                  <input
-                    {...register("tourEndDate")}
-                    id="tourEndDate"
-                    type="date"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Tour End Date"
-                  /> */}
                   {errors.tourEndDate && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.tourEndDate.message}
@@ -267,19 +231,6 @@ const Form = ({
                       />
                     )}
                   />
-                  {/* <label
-                    htmlFor="approvalDate"
-                    className="form-label text-white"
-                  >
-                    Approval Date
-                  </label>
-                  <input
-                    {...register("approvalDate")}
-                    id="approvalDate"
-                    type="date"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Approval Date"
-                  /> */}
                   {errors.approvalDate && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.approvalDate.message}

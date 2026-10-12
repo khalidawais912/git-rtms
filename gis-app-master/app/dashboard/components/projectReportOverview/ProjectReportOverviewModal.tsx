@@ -155,7 +155,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
             0,
           ) || 0;
 
-    // setTotalValue(totalValue);
     const gainedValue =
       attributes.length > 0
         ? attributes.filter(
@@ -171,7 +170,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
             return gained + (groupGained || 0);
           }, 0) || 0;
 
-    // setGainedValue(gainedValue);
     console.log(
       "gained percentage:",
       gainedValue && totalValue ? (gainedValue / totalValue) * 100 : 0,
@@ -202,9 +200,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
           >
             <div className="row d-flex m-0 align-items-center">
               <ProgressBar value={Math.round(value)} />
-              {/* <div className="col-auto p-0 color-dark-blue fw-bold fs13px">
-                {Math.round(value)}%
-              </div> */}
               <div className="col-auto p-0">
                 <Badge>{Math.round(value)}%</Badge>
               </div>
@@ -324,9 +319,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
                                     </div>
                                   </div>
                                 </div>
-                                {/* <div className="col-lg-1 col-md-2 col-2 ps-0">
-                      {Math.round(value)}%
-                    </div> */}
                               </Accordion.Header>
                               <Accordion.Body>
                                 {group.name.toLowerCase().includes("main") ? (

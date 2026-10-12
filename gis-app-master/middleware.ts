@@ -26,40 +26,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // If the user does not have the required right, redirect
-  // let hasDashboard = false;
-
-  // if (rights.length > 0) {
-  //   for (let i = 0; i < rights.length; i++) {
-  //     const redirectPath = `/${rights[i]}`;
-
-  //     // Check if already on the redirect path to avoid a loop
-  //     if (pathname === redirectPath) {
-  //       hasDashboard = true;
-  //       break; // Exit to prevent redundant redirection
-  //     }
-  //     if (rights[i].toLowerCase() === "dashboard") {
-  //       hasDashboard = true;
-  //       return NextResponse.redirect(new URL(redirectPath, request.url));
-  //     } else if (
-  //       rights[i].toLowerCase().startsWith("dashboard") &&
-  //       rights[i].toLowerCase() !== "project-details-dashboard"
-  //     ) {
-  //       hasDashboard = true;
-  //       return NextResponse.redirect(new URL(redirectPath, request.url));
-  //     }
-  //   }
-
-  //   if (!hasDashboard && pathname !== `/${rights[0]}`) {
-  //     return NextResponse.redirect(new URL(`/${rights[0]}`, request.url));
-  //   }
-  // } else {
-  //   // Redirect to not-authorized page if no rights exist
-  //   if (pathname !== "/not-authorized") {
-  //     return NextResponse.redirect(new URL("/not-authorized", request.url));
-  //   }
-  // }
-
   console.log("User rights:", rights);
   console.log("Required right:", requiredRight);
   console.log("Current pathname:", pathname);

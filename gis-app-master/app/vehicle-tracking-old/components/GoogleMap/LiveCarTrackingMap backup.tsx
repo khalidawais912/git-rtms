@@ -323,13 +323,6 @@ const LiveCarTrackingMap = () => {
                 {apiData && <CarCard apiData={apiData} />}
               </InfoWindow>
             )}
-            {/* <MapWithMarkers
-              position={position}
-              setOpen={setOpen}
-              rotationAngle={rotationAngle}
-              open={open}
-              apiData={apiData}
-            /> */}
           </Map>
         </div>
       )}

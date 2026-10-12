@@ -40,13 +40,10 @@ const Feedback = () => {
   const [data, setData] = useState<Feedback[]>();
   const [userId, setUserId] = useState<number>();
   const { data: users } = useAuthentication({ refresh });
-  // const [singleProjectData, setSingleProjectData] =
-  //   useState<SingleProjectLessData>();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const id = Cookies.get("userId");
-    // const role = Cookies.get("role");
     if (id) setUserId(parseInt(id));
   }, []);
 
@@ -74,20 +71,6 @@ const Feedback = () => {
     if (userId) handleSubmit(userId);
   }, [userId, refresh]);
 
-  // useEffect(() => {
-  //   const handleSubmit = async (projectId: number) => {
-  //     try {
-  //       const response = await apiClient.get(
-  //         `${PROJECT_API}/GetSingleProject?id=${projectId}`
-  //       );
-  //       setSingleProjectData(response.data.data);
-  //     } catch (err) {
-  //       console.error("Submission error:", err);
-  //     }
-  //   };
-  //   if (userId) handleSubmit(userId);
-  // }, [userId]);
-
   const { data: projects } = useProjects({ refresh });
 
   const handleSubmit = async (data: Feedback) => {
@@ -113,7 +96,6 @@ const Feedback = () => {
 
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered =
       data &&
       data.filter((item) =>
@@ -175,16 +157,6 @@ const Feedback = () => {
                 Feedback
               </h2>
             </div>
-            {/* <div className="col text-end">
-            <Button className="btn rounded-circle p-0">
-              <Image
-                src={settingsGrey}
-                alt="settingsGrey"
-                width={24}
-                height={24}
-              />
-            </Button>
-          </div> */}
           </div>
           <div className="row d-flex m-0 mb-3">
             <div className="col">

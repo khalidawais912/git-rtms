@@ -42,13 +42,6 @@ const SummaryDashboard = () => {
   });
 
   const tabs = [
-    // {
-    //   tabName: "All",
-    //   count: 4,
-    //   icon: <FaFile size={30} className="color-sea-blue" />,
-    //   selectLabel: "Name",
-    //   selectOptions: [{ option: "" }],
-    // },
     {
       tabName: "COMMISSIONER",
       count: 1,
@@ -109,13 +102,6 @@ const SummaryDashboard = () => {
       selectLabel: "Department",
       selectOptions: departmentOptions,
     },
-    // {
-    //   tabName: "DGME",
-    //   count: 0,
-    //   icon: <RiBuildingFill size={30} className="color-sea-blue" />,
-    //   selectLabel: "",
-    //   selectOptions: [{ option: "" }],
-    // },
   ];
 
   const handleSelectChange = (
@@ -168,11 +154,6 @@ const SummaryDashboard = () => {
                 <span style={{ marginRight: "5px", display: "inline-block" }}>
                   0
                 </span>
-                {/* &nbsp;&nbsp;
-                <span className="fs12px fw-5" style={{ color: "#A3AED0" }}>
-                  Total Visits
-                </span> */}
-                {/* <HugeiconsIcon icon={ArrowUpRight03Icon} /> */}
               </p>
             </div>
           </div>
@@ -220,13 +201,6 @@ const SummaryDashboard = () => {
                         >
                           {tab.count}
                         </span>
-                        {/* &nbsp;&nbsp;
-                        <span
-                          className="fs12px fw-5"
-                          style={{ color: "#A3AED0" }}
-                        >
-                          Total Visits
-                        </span> */}
                         <HugeiconsIcon icon={ArrowUpRight03Icon} size={21} />
                       </p>
                     </div>
@@ -268,17 +242,6 @@ const SummaryDashboard = () => {
                         id="districtName"
                         onChangeSingle={handleSelectChange}
                       />
-                      {/* <select
-                      className="form-select form-select-sm color-light-dark shadow-none"
-                      style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                      aria-label="Default select example"
-                      name="commissioner"
-                      id="commissioner"
-                    >
-                      <option value="Ali Jibran">
-                        {tab.selectOptions[0].option}
-                      </option>
-                    </select> */}
                     </div>
                     <div style={{ padding: "0px 30px" }}>
                       <Button
@@ -299,7 +262,6 @@ const SummaryDashboard = () => {
             </div>
 
             {/* Divider: show only if NOT last item */}
-            {/* {i !== tabs.length - 1 && ( */}
             <div className="col-auto p-0 m-0">
               <PiLineVerticalThin
                 size={100}
@@ -309,7 +271,6 @@ const SummaryDashboard = () => {
                 color="#EFF0F2"
               />
             </div>
-            {/* )} */}
           </Fragment>
         ))}
         <div className="col ps-0 mt-0">
@@ -348,10 +309,6 @@ const SummaryDashboard = () => {
                 <span style={{ marginRight: "5px", display: "inline-block" }}>
                   0
                 </span>
-                {/* &nbsp;&nbsp;
-                <span className="fs12px fw-5" style={{ color: "#A3AED0" }}>
-                  Total Visits
-                </span> */}
                 <HugeiconsIcon icon={ArrowUpRight03Icon} size={21} />
               </p>
             </div>
@@ -416,15 +373,6 @@ const SummaryDashboard = () => {
                   </div>
                 </form>
               </div>
-              {/* <div className="col-auto p-0">
-                  <Button
-                    className="btn fw-bold bg-color-sea-blue text-white rounded-pill"
-                    style={{ padding: "10px 17px" }}
-                  >
-                    <CgOptions size={21} />
-                    District
-                  </Button>
-                </div> */}
             </div>
           </div>
         </div>

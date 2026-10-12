@@ -60,7 +60,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = data.filter((item) =>
       [
@@ -118,7 +117,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
-      // setError((err as AxiosError).message);
       notifyError((err as AxiosError).message);
     }
   };
@@ -133,15 +131,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
     currentPage * rows,
   );
 
-  // const handleFilterData = (data: VisitNew[], status: string) => {
-  //   setStatus(status);
-  //   setFilteredData(data?.filter((d: any) => d.status === status));
-  // };
-
-  // useEffect(() => {
-  //   handleFilterData(data, status);
-  // }, [data]);
-
   return (
     <>
       {isLoading && <Loader />}
@@ -153,33 +142,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
         handleChange={handleChange}
         form={
           <>
-            {/* <div className="col mb-2">
-              <Button
-                className="btn btn-warning w-100 text-white fw-bold"
-                style={{ letterSpacing: 1 }}
-                onClick={() => handleFilterData(data, "pending")}
-              >
-                Pending
-              </Button>
-            </div>
-            <div className="col mb-2">
-              <Button
-                style={{ letterSpacing: 1 }}
-                className="btn btn-info w-100 text-white fw-bold"
-                onClick={() => handleFilterData(data, "scheduled")}
-              >
-                Scheduled
-              </Button>
-            </div>
-            <div className="col mb-2">
-              <Button
-                style={{ letterSpacing: 1 }}
-                className="btn btn-success w-100 text-white fw-bold"
-                onClick={() => handleFilterData(data, "completed")}
-              >
-                Completed
-              </Button>
-            </div> */}
           </>
         }
       />

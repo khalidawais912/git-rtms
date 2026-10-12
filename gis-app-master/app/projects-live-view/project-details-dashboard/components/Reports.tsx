@@ -11,22 +11,6 @@ interface Props {
 }
 
 const Reports = ({ reports, observations }: Props) => {
-  // const items = ["a", "a", "a", "a"];
-
-  // const refContainer1 = useRef<HTMLDivElement>(null);
-  // const refContent1 = useRef<HTMLDivElement>(null);
-  // const [constraints1, setConstraints1] = useState({});
-
-  // useEffect(() => {
-  //   // Wait until both container and content are rendered
-  //   if (refContainer1.current && refContent1.current) {
-  //     // Calculate the width difference between container and content
-  //     const containerHeight = refContainer1.current.offsetHeight;
-  //     const contentHeight = refContent1.current.scrollHeight;
-  //     // Set drag constraints dynamically based on the difference
-  //     setConstraints1({ bottom: 0, top: -(contentHeight - containerHeight) });
-  //   }
-  // }, []); // Recalculate if the items change
 
   return (
     <div
@@ -107,7 +91,6 @@ const Reports = ({ reports, observations }: Props) => {
                         <p className="m-0 mt-1 fs6px fw-bold text-white">
                           Project Report {i + 1}.pdf
                         </p>
-                        {/* <p className="m-0 fs10px text-secondary">Size: 1.3 MB</p> */}
                       </div>
                     </div>
                   </div>

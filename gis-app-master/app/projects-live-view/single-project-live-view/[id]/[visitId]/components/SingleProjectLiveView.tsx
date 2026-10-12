@@ -85,19 +85,6 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
     handleSubmit(parseInt(id), visitId);
   }, [id]);
 
-  //   const previewDate = (requriedDate: string) => {
-  //     if (requriedDate.length > 0) {
-  //       console.log("requriedDate", requriedDate);
-  //       return new Date(requriedDate).toLocaleDateString("en-GB", {
-  //         weekday: "short",
-  //         year: "numeric",
-  //         month: "short",
-  //         day: "numeric",
-  //       });
-  //     } else {
-  //       return "";
-  //     }
-  //   };
   const previewDate = (requriedDate: string) => {
     if (!requriedDate) return "";
 
@@ -139,20 +126,8 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
               HeaderRightPos={0}
               button={
                 <div className="position-relative h-100">
-                  {/* <video
-                    className="w-100 h-100 overflow-hidden"
-                    style={{ objectFit: "cover", borderRadius: "10px" }}
-                    loop
-                    autoPlay
-                    playsInline
-                    muted
-                  >
-                    <source src="/video/bgVideoNew.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video> */}
                   <iframe
                     src="https://g3.ipcamlive.com/player/player.php?alias=68c96d3f5a152"
-                    // width="800px"
                     height="630px"
                     style={{
                       objectFit: "cover",
@@ -196,7 +171,6 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
                         month: "short",
                         day: "numeric",
                       })}{" "}
-                      {/* 12:19:49 PM */}
                     </p>
                   </div>
                   <div

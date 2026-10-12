@@ -27,7 +27,6 @@ const useData = <T>({ refresh = false, endpoint }: Props) => {
       } catch (err) {
         if (err instanceof CanceledError) return;
         setError((err as AxiosError).message);
-        // notifyError((err as AxiosError).message);
         setLoading(false);
       }
     };

@@ -71,7 +71,6 @@ const VisitsList = () => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString()]
         .filter((field) => field) // Remove undefined fields
@@ -172,29 +171,6 @@ const VisitsList = () => {
                   districts={districts}
                 />
               </div>
-              {/* <div className="col-auto">
-                <form>
-                  <div className="col text-start">
-                    <select
-                      className="color-light-dark pt-1 pb-2"
-                      aria-label="Select User"
-                      name="user"
-                      style={{
-                        outline: "none",
-                        background: "rgba(16, 143, 168, .1)",
-                      }}
-                      onChange={(e) => handleSubmit(Number(e.target.value))}
-                    >
-                      <option value="">Select User</option>
-                      {users.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.userName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </form>
-              </div> */}
             </>
           }
         />
@@ -213,25 +189,10 @@ const VisitsList = () => {
               }}
             >
               <TableHeading name="id" handleSort={() => handleSort("id")} />
-              {/* <TableHeading
-                name="gs No"
-                handleSort={() => handleSort("gsNo")}
-              />
-              <TableHeading
-                name="userName"
-                handleSort={() => handleSort("userName")}
-              />
-              <TableHeading name="name" handleSort={() => handleSort("name")} />
-              <TableHeading
-                name="sector"
-                handleSort={() => handleSort("sectorId")}
-              /> */}
               <TableHeading
                 name="status"
                 handleSort={() => handleSort("status")}
               />
-              {/* <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th> */}
-              {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
               <th className="text-center" style={{ whiteSpace: "nowrap" }}>
                 SUPER GROUP
               </th>
@@ -250,10 +211,6 @@ const VisitsList = () => {
                 key={d.id}
               >
                 <td>{d.id}</td>
-                {/* <td>{d.gsNo}</td>
-                <td>{d.userName}</td>
-                <td>{d.name}</td>
-                <td>{getName(d.sectorId, sectorsData)}</td> */}
                 <td style={{ whiteSpace: "nowrap" }}>
                   {d.status === SCHEDULED ? (
                     <Image
@@ -292,31 +249,11 @@ const VisitsList = () => {
                       alt="complete"
                     />
                   ) : (
-                    // : d.status === "active" || d.status === "Active" ? (
-                    //   <Image
-                    //     src={calender}
-                    //     style={{ marginBottom: "3px" }}
-                    //     alt="calender"
-                    //   />
-                    // )
-                    // : d.status === "draft" || d.status === "Draft" ? (
-                    //   <Image
-                    //     src={clock}
-                    //     style={{ marginBottom: "3px" }}
-                    //     alt="clock"
-                    //   />
-                    // )
                     ""
                   )}
                   &nbsp;
                   <DisplayStatusText statusId={d.status} />
                 </td>
-                {/* <td className="text-center">
-                  <AssignUserForm id={d.id} options={users} />
-                </td> */}
-                {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </td> */}
                 <td className="text-center">
                   <GroupingForm id={d.id} options={superGroups} />
                 </td>

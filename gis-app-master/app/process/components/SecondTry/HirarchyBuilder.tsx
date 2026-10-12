@@ -255,8 +255,6 @@ const HierarchyBuilder = () => {
     }
 
     setNodeId((id) => id + 1);
-    // setRoleId(-1);
-    // setDescription("");
   };
 
   const handleDeleteNode = (idToDelete: string) => {
@@ -509,8 +507,6 @@ const HierarchyBuilder = () => {
     }),
     option: (base, state) => ({
       ...base,
-      // backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-      // color: "#333",
       fontSize: "14px",
     }),
   };
@@ -525,9 +521,6 @@ const HierarchyBuilder = () => {
           border: "1px solid #E2E4E5",
         }}
       >
-        {/* <Button className="btn btn-danger" onClick={logNodesInDisplayOrder}>
-          Log UI Order
-        </Button> */}
 
         <div className="col-12 col-sm-12 col-md-4 col-lg-3">
           <p className="m-0 fs20px fw-5">Department History</p>
@@ -682,13 +675,6 @@ const HierarchyBuilder = () => {
                 }}
               />
             )}
-            {/* <input
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              type="text"
-              className="form-control form-control-sm"
-              placeholder="Admin"
-            /> */}
           </div>
 
           <div className="col mb-3">

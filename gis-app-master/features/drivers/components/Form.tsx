@@ -145,7 +145,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                   type="file"
                   className="d-none"
                   placeholder="Choose Profile Picture"
-                  // onChange={handleFileChange}
                   accept="image/*"
                 />
                 <div className="row d-flex justify-content-center ">
@@ -192,16 +191,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Driver Name"
                   />
-                  {/* <label htmlFor="driverName" className="form-label text-white">
-                    Driver Name
-                  </label>
-                  <input
-                    {...register("driverName")}
-                    id="driverName"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Driver Name"
-                  /> */}
                   {errors.driverName && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.driverName.message}
@@ -221,19 +210,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Mobile Number"
                   />
-                  {/* <label
-                    htmlFor="mobileNumber"
-                    className="form-label text-white"
-                  >
-                    Mobile Number
-                  </label>
-                  <input
-                    {...register("mobileNumber")}
-                    id="mobileNumber"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Mobile Number"
-                  /> */}
                   {errors.mobileNumber && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.mobileNumber.message}
@@ -252,36 +228,12 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     placeholder="Enter User Id"
                   />
 
-                  {/* <label htmlFor="user_Id" className="form-label text-white">
-                    User Id
-                  </label>
-                  <input
-                    {...register("user_Id", { valueAsNumber: true })}
-                    id="user_Id"
-                    type="number"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter User Id"
-                    disabled
-                    value={0}
-                  /> */}
                   {errors.user_Id && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.user_Id.message}
                     </p>
                   )}
                 </div>
-                {/* <div
-                  className="col-lg-4 col-md-6 col-sm-12  text-start mt-0"
-                  style={{ marginBottom: "10px", padding: "0px 10px" }}
-                >
-                  <CustomLabel htmlFor="driverImage">Driver Image</CustomLabel>
-                  <CustomInput
-                    {...register("driverImage")}
-                    id="driverImage"
-                    type="file"
-                    placeholder="Choose Driver Image"
-                  />
-                </div> */}
               </div>
               <SubmitButton>Save Driver</SubmitButton>
             </form>

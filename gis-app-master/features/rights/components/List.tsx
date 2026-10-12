@@ -39,7 +39,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
 
   // Handle search logic
   const handleSearch = (value: string) => {
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = data.filter((item) =>
       [item.rightId.toString(), item.rightName, item.rightIdentifier]
@@ -146,16 +145,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   handleSort={() => handleSort("rightIdentifier")}
                   className="text-nowrap"
                 />
-                {/* <TableHeading
-                  name="created At"
-                  handleSort={() => handleSort("createdAt")}
-                  className="text-nowrap"
-                />
-                <TableHeading
-                  name="updated At"
-                  handleSort={() => handleSort("updatedAt")}
-                  className="text-nowrap"
-                /> */}
                 <TableHeading name="ACTIONS" textClassName="text-center" />
               </tr>
             </thead>
@@ -165,24 +154,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   <RowHeader>{d.rightId}</RowHeader>
                   <TableData>{d.rightName}</TableData>
                   <TableData>{d.rightIdentifier}</TableData>
-                  {/* <TableData>
-                    {d.createdAt &&
-                      new Date(d.createdAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData>
-                  <TableData>
-                    {d.updatedAt &&
-                      new Date(d.updatedAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData> */}
                   <TableData>
                     <Actions
                       deleteNode={

@@ -13,7 +13,6 @@ export interface BaseResponse<T> {
 }
 
 const apiClient = axios.create({
-  // withCredentials: true,
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   headers: {
     "Content-Type": "application/json",

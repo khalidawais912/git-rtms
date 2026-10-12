@@ -48,22 +48,9 @@ interface Props {
 
 const animationOptions: ModalAnimationType[] = [
   "slide-right",
-  // "slide-left",
-  // "slide-top",
-  // "slide-bottom",
   "zoom-in",
-  // "zoom-rotate",
-  // "fade-scale",
-  // "flip-x",
-  // "flip-y",
-  // "bounce",
-  // "elastic",
-  // "rotate-3d",
-  // "newspaper",
-  // "fall",
 ];
 
-// const animationSpeeds: AnimationSpeed[] = ["normal", "slow", "fast"];
 const animationSpeeds: AnimationSpeed[] = ["slow"];
 
 const CustomModal = ({

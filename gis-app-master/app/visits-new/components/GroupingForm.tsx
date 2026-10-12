@@ -76,7 +76,6 @@ const GroupingForm = ({ id, options }: Props) => {
 
     try {
       const response = await apiClient.post(ATTRIBUTE_GROUP_MAPPING_API, data);
-      // notifyCreate(updated);
       console.log(response);
       handleClose();
     } catch (error) {

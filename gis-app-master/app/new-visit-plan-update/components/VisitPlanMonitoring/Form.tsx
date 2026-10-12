@@ -82,7 +82,6 @@ const Form = ({
       <TableData>{field.cost}</TableData>
       <TableData style={{ minWidth: "220px" }}>
         <div
-          // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
           className={`col `}
         >
           <Controller
@@ -110,13 +109,9 @@ const Form = ({
               />
             )}
           />
-          {/* {errors.type && (
-            <p className="text-danger mt-1 fs14px">{errors.type.message}</p>
-          )} */}
         </div>
       </TableData>
       <TableData
-        // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
         className={`col `}
         style={{ minWidth: "240px" }}
       >
@@ -164,7 +159,6 @@ const Form = ({
       <TableData>{field.section}</TableData>
       <TableData style={{ minWidth: "220px" }}>
         <div
-          // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
           className={`col `}
         >
           <Controller
@@ -192,7 +186,6 @@ const Form = ({
       <TableData style={{ minWidth: "220px" }}>
         <div
           className={`col `}
-          // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
         >
           <Controller
             control={control}
@@ -217,10 +210,8 @@ const Form = ({
         </div>
       </TableData>
       <TableData style={{ minWidth: "220px" }}>
-        {/* className="form-control form-control-sm border-0 bg-transparent shadow-none pt-0" */}
         <div
           className={`col `}
-          // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
         >
           <Controller
             control={control}
@@ -247,8 +238,6 @@ const Form = ({
                   );
                   if (selectedOption) {
                     const driverId = Number(selectedOption.value);
-                    // const { dateFrom, dateTo } = getValues();
-                    // checkDriver(driverId, dateFrom, dateTo);
                   }
                 }}
               />
@@ -264,7 +253,6 @@ const Form = ({
       <TableData style={{ minWidth: "220px" }}>
         <div
           className={`col `}
-          // className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
         >
           <Controller
             control={control}
@@ -297,8 +285,6 @@ const Form = ({
                   );
                   if (selectedOption) {
                     const vehicleId = Number(selectedOption.value);
-                    // const { dateFrom, dateTo } = getValues();
-                    // checkVehicle(Number(vehicleId), dateFrom, dateTo);
                   }
                 }}
               />
@@ -311,15 +297,6 @@ const Form = ({
           )}
         </div>
       </TableData>
-      {/* <TableData>
-        <Button
-          className="btn btn-sm bg-color-sea-green text-white "
-          disabled={!isVehicleVerified || !isDriverVerified}
-          onClick={verfiyForm}
-        >
-          Verify
-        </Button>
-      </TableData> */}
       <TableData>
         <button
           type="button"
@@ -329,36 +306,6 @@ const Form = ({
           Delete
         </button>
       </TableData>
-      {/* <TableData>
-        <DeleteModal
-          handleDelete={() => handleDelete(planData.tempId)}
-          id={index}
-        />
-      </TableData> */}
-      {/* <TableData>
-        <Button
-          onClick={copyFormData}
-          className={`btn rounded-circle ${
-            index === copiedRowIndex && "text-success"
-          }`}
-        >
-          <MdContentCopy />
-        </Button>
-      </TableData> */}
-      {/* <TableData>
-        {copiedFormData ? (
-          <Button
-            onClick={() => pasteFormData(copiedFormData)}
-            className="btn rounded-circle"
-          >
-            <FaPaste />
-          </Button>
-        ) : (
-          <Button className="btn rounded-circle" disabled>
-            <FaPaste />
-          </Button>
-        )}
-      </TableData> */}
     </tr>
   );
 };

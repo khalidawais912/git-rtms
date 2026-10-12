@@ -1,14 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import DistributedColumnChart from "./DistributedColumnChart";
 import Reports from "./Reports";
-// import SimplePieChart from "./SimplePieChart";
-// import Menu from "./Menu";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
-// import SimpleLineChart from "./SimpleLineChart";
-// import WBSReportUpdated from "./WBSReportUpdated";
 import dynamic from "next/dynamic";
 import { IoWifi } from "react-icons/io5";
 import ExecutiveSummary from "./ExecutiveSummary";
@@ -218,9 +213,6 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
   const [cpi, setCpi] = useState<number>(0);
   const [spi, setSpi] = useState<number>(0);
 
-  // const dispatch = useDispatch();
-  // useAuthorization("project-details-dashboard");
-
   const getCPIAndSPI = () => {
     if (data) {
       const spi: string | undefined = data?.groups
@@ -275,18 +267,6 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
     }
   }, [data]);
 
-  // const handleButtonClick = (content: string, tutorialLink: string) => {
-  //   dispatch(setContent(content));
-  //   dispatch(setTutorial(tutorialLink));
-  // };
-
-  // useEffect(() => {
-  //   handleButtonClick(
-  //     "projectDetailsDashboard",
-  //     "https://www.youtube.com/watch?v=PDHSsWfMhNM&ab_channel=DirectorateGeneralMonitoringandEvaluation"
-  //   );
-  // }, []);
-
   useEffect(() => {
     console.log("dashboard api", data);
   }, [data]);
@@ -313,26 +293,11 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const wbsData = data.groups.filter((group) =>
-  //       group.name.toLowerCase().includes("work breakdown structure")
-  //     );
-
-  //     const filteredAttributes = data.groups.find((group) =>
-  //       group.name?.toLowerCase().includes("progress analysis")
-  //     )?.attributes[5];
-  //   }
-  // }, [data]);
-
   return (
     <div
       className="row m-0"
       style={
         {
-          // transform: "scale(19.2)",
-          // transformOrigin: "top left",
-          // overflow: "visible",
         }
       }
     >

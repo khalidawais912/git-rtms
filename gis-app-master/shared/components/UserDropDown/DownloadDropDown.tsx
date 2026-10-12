@@ -44,19 +44,6 @@ const DownloadDropDown = ({
 
   return (
     <span className={styles.dropdown} ref={dropdownRef}>
-      {/* <Button
-        className="btn btn-sm rounded-3 shadow-sm"
-        onClick={() => setShow(!show)}
-        style={{
-          background: "rgba(255, 255, 255, 0.62)",
-          border: "1px solid rgba(255, 255, 255, 0.8)",
-        }}
-      >
-        <p className="m-0 text-dark fw-normal">
-          Downloads&nbsp;
-          <Image src={downloadBlack2} alt="download" width={16} height={16} />
-        </p>
-      </Button> */}
       {styleVarient === 1 ? (
         <Button
           className="bg-color-evaluation-theme-blue text-white rounded-pill d-flex align-items-center fs15px fw-bold border-0"

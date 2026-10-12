@@ -14,10 +14,8 @@ import {
   APPROVED_BY_DG_AND_FORWARD_BY_D_TO_DD_FOR_ISSUEANCE,
   D_REFERBACK_ID,
   DD_REFERBACK_ID,
-  // DD_USER_ID,
   DG_REFERBACK_ID,
   DG_USER_ID,
-  // D_USER_ID,
   ISSUED_By_AD,
   REVIEWED_AND_APPROVED_BY_DG_TO_D,
   REVIEWED_AND_FORWARD_BY_D_TO_DG,
@@ -50,13 +48,6 @@ export interface SubmittedReport {
   intiallyDesignation: string;
 }
 
-// export interface StatusTab {
-//   label: string;
-//   status: number;
-//   submittedFrom: number;
-//   submittedTo: number;
-// }
-
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);
@@ -66,41 +57,6 @@ const List = () => {
   const [role, setRole] = useState<string>();
   const [DD_USER_ID, setDD_USER_ID] = useState<number>(0);
   const [D_USER_ID, setD_USER_ID] = useState<number>(0);
-
-  // useBackground("/images/bg2.png", true);
-
-  // useEffect(() => {
-  //   const id = Cookies.get("userId");
-  //   const role = Cookies.get("role");
-
-  //   if ((id && parseInt(id) === 28) || (id && parseInt(id) === 26)) {
-  //     setDD_USER_ID(28);
-  //     setD_USER_ID(26);
-  //   } else if ((id && parseInt(id) === 29) || (id && parseInt(id) === 27)) {
-  //     setDD_USER_ID(29);
-  //     setD_USER_ID(27);
-  //   }
-
-  //   if (id) {
-  //     const convertedId = parseInt(id);
-  //     setUserId(convertedId);
-
-  //     if (convertedId === 28 || convertedId === 26) {
-  //       setDD_USER_ID(28);
-  //       setD_USER_ID(26);
-  //     } else if (convertedId === 29 || convertedId === 27) {
-  //       setDD_USER_ID(29);
-  //       setD_USER_ID(27);
-  //     } else if (convertedId === 51 || convertedId === 52) {
-  //       setDD_USER_ID(51);
-  //       setD_USER_ID(52);
-  //     } else if (convertedId === 50) {
-  //       setDD_USER_ID(28);
-  //       setD_USER_ID(26);
-  //     }
-  //   }
-  //   if (role) setRole(role.toLowerCase());
-  // }, []);
 
   useEffect(() => {
     const id = Cookies.get("userId");
@@ -163,9 +119,6 @@ const List = () => {
         filtered.forEach((item) => latestByProjectId.set(item.projectId, item));
         count = latestByProjectId.size;
 
-        // count = data
-        //   .filter((d) => d.submittedTo === reportSubmittedTo)
-        //   .filter((d) => d.submittedFrom !== D_USER_ID).length;
       } else if (status === -99) {
         const filtered = data.filter(
           (d) =>
@@ -177,11 +130,6 @@ const List = () => {
         filtered.forEach((item) => latestByProjectId.set(item.projectId, item));
         count = latestByProjectId.size;
 
-        // count = data.filter(
-        //   (d) =>
-        //     d.submittedFrom === reportSubmittedFrom &&
-        //     d.submittedTo === reportSubmittedTo
-        // ).length;
       } else if (status === DD_REFERBACK_ID) {
         const filtered = data.filter(
           (d) =>
@@ -192,10 +140,6 @@ const List = () => {
         filtered.forEach((item) => latestByProjectId.set(item.projectId, item));
         count = latestByProjectId.size;
 
-        // count = data.filter(
-        //   (d) =>
-        //     d.submittedFrom === reportSubmittedFrom && d.lastStatus === status
-        // ).length;
       } else if (status === ISSUED_By_AD) {
         const filtered = data
           .filter(
@@ -209,12 +153,6 @@ const List = () => {
         filtered.forEach((item) => latestByProjectId.set(item.projectId, item));
         count = latestByProjectId.size;
 
-        // count = data
-        //   .filter(
-        //     (d) =>
-        //       d.lastStatus === status && d.submittedFrom === reportSubmittedFrom
-        //   )
-        //   .filter((d) => d.submittedTo !== reportSubmittedTo).length;
       } else if (
         status === REVIEWED_AND_FORWARD_BY_D_TO_DG &&
         role === "director general"
@@ -248,12 +186,6 @@ const List = () => {
         filtered.forEach((item) => latestByProjectId.set(item.projectId, item));
         count = latestByProjectId.size;
 
-        // count = data.filter(
-        //   (d) =>
-        //     d.lastStatus === status &&
-        //     d.submittedFrom === reportSubmittedFrom &&
-        //     d.submittedTo === reportSubmittedTo
-        // ).length;
       }
 
       counts[status] = count;
@@ -277,14 +209,6 @@ const List = () => {
 
     return Array.from(latestByProjectId.values());
   };
-
-  // const configureDDId = (loggedInUserId: number | undefined) => {
-  //   return loggedInUserId === DD_USER_ID ? DD_USER_ID : DDE_USER_ID;
-  // };
-
-  // const configureDId = (loggedInUserId: number) => {
-  //   return loggedInUserId === D_USER_ID ? D_USER_ID : DE_USER_ID;
-  // };
 
   const handleFilterData = (
     data: SubmittedReport[],
@@ -385,13 +309,6 @@ const List = () => {
       setFilteredData(uniqueLatestProjects);
       console.log("uniqueLatestProjects", uniqueLatestProjects);
 
-      // setFilteredData(
-      //   data
-      //     ?.filter(
-      //       (d) => d.lastStatus === status && d.submittedFrom === submittedFrom
-      //     )
-      //     .filter((d) => d.submittedTo !== submittedTo)
-      // );
     } else if (
       status === REVIEWED_AND_FORWARD_BY_D_TO_DG &&
       role === "director general"
@@ -438,22 +355,8 @@ const List = () => {
       const uniqueLatestProjects = Array.from(latestByProjectId.values());
       setFilteredData(uniqueLatestProjects);
       console.log("uniqueLatestProjects", uniqueLatestProjects);
-      //--------
-      // setFilteredData(
-      //   data?.filter(
-      //     (d) =>
-      //       d.lastStatus === status &&
-      //       d.submittedFrom === submittedFrom &&
-      //       d.submittedTo === submittedTo
-      //   )
-      // );
     }
   };
-
-  // useEffect(() => {
-  //   console.log("filteredData", filteredData);
-  //   console.log("data", data);
-  // }, [filteredData]);
 
   const tabs = [
     {
@@ -647,21 +550,6 @@ const List = () => {
 
             <div className="col-auto">
               <div className="row d-flex m-0 justify-content-end mb-3">
-                {/* <div className="col-auto text-start">
-                <select
-                  className="form-select w-100 rounded-pill bg-transparent px-3"
-                  style={{
-                    outline: "none",
-                    border: "1px solid rgba(38, 50, 56,.6)",
-                  }}
-                  aria-label="Officer Name"
-                  name="officerName"
-                >
-                  <option value="">Search By Officer&nbsp;&nbsp;⌵</option>
-                  <option value="">officer name</option>
-                  <option value="">officer name</option>
-                </select>
-              </div> */}
                 <div className="col">
                   <form onSubmit={(e) => e.preventDefault()}>
                     <div className="input-group">
@@ -687,8 +575,6 @@ const List = () => {
                           color: "rgba(38, 50, 56,1)",
                         }}
                         placeholder="Search"
-                        // value={searchTerm}
-                        // onChange={handleChange}
                       />
                     </div>
                   </form>
@@ -744,30 +630,6 @@ const List = () => {
                     ))}
                 </div>
               </div>
-              {/* <div className="col-lg-4 col-md-6 col-sm-12 text-auto">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                          <div className="input-group">
-                            <input
-                              type="text"
-                              className="form-control border-0 rounded-pill rounded-end"
-                              style={{
-                                background: "rgba(16, 143, 168, .1)",
-                                outline: "none",
-                                border: "1px solid #D0D5DD",
-                              }}
-                              placeholder="Search"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
-                            <button
-                              className="btn rounded-start rounded-pill bg-color-sea-green text-white"
-                              type="submit"
-                            >
-                              <IoSearch className="mb-1" style={{ color: "#fff" }} />
-                            </button>
-                          </div>
-                        </form>
-                      </div> */}
             </div>
           </div>
           {filteredData?.map((d, i) => (
@@ -879,21 +741,6 @@ const List = () => {
                           </p>
                         </div>
                       )}
-                      {/* <div className="col-auto mb-2">
-                  <p
-                    className="mb-2 fs18px fw-bold"
-                    style={{ color: "#263238", fontWeight: "500" }}
-                  >
-                    Last Status
-                  </p>
-                  <p
-                    className="mb-0 fs14px"
-                    style={{ color: "#263238", fontWeight: "500" }}
-                  >
-                    <RenderStatusBadge status={d.lastStatus} />
-                  </p>
-                </div> */}
-                      {/* hide comment button if status === 1 */}
                       <div className="col d-flex justify-content-end align-items-end">
                         <CustomModal
                           isFullscreen={true}

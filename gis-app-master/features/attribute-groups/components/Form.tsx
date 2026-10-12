@@ -83,7 +83,6 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
         setGroupNature(itemData.group_nature === 1 ? true : false);
       } catch (err) {
         console.log((err as AxiosError).message);
-        // setError((err as AxiosError).message);
       }
     }
   };
@@ -207,18 +206,6 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
                       />
                     )}
                   />
-                  {/* <select
-                    id="parentId"
-                    {...register("parentId", { valueAsNumber: true })}
-                    className="form-select form-select-sm color-light-dark"
-                  >
-                    <option value="0">None</option>
-                    {[...(data || [])].reverse().map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
                 <div
                   className="col-lg-4 col-md-6 col-sm-12 col-12 text-start mt-0"
@@ -267,14 +254,6 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
                       Group Type
                     </label>
 
-                    {/* <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="group_type"
-                        id="group_type"
-                        checked={isGroupType}
-                        onChange={() => setGroupType(!isGroupType)}
-                      /> */}
                   </div>
                 </div>
                 <div
@@ -293,14 +272,6 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
                     >
                       Group Nature
                     </label>
-                    {/* <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="group_nature"
-                        id="group_nature"
-                        checked={isGroupNature}
-                        onChange={() => setGroupNature(!isGroupNature)}
-                      /> */}
                   </div>
                 </div>
               </div>

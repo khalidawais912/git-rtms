@@ -99,7 +99,6 @@ const SectorForm = ({ api, method, id, setRefresh, refresh, data }: Props) => {
       });
       console.log("Response:", response);
       setRefresh((prev) => !prev);
-      // setData((prevData) => [...prevData, response.data.data]);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
     } catch (err) {
@@ -192,18 +191,6 @@ const SectorForm = ({ api, method, id, setRefresh, refresh, data }: Props) => {
                       />
                     )}
                   />
-                  {/* <select
-                    {...register("parentId", { valueAsNumber: true })}
-                    className="form-select form-select-sm color-light-dark"
-                    id="parentId"
-                  >
-                    <option value="0">None</option>
-                    {data?.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.name}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
                 <div
                   className="col-lg-4 col-md-6 col-sm-12 col-12 text-start mt-0"

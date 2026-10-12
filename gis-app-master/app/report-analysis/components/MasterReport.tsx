@@ -103,24 +103,3 @@ const MasterReport = () => {
 
 export default MasterReport;
 
-{
-  /* <CustomModal
-            isFullscreen={true}
-            HeaderTopPos={0}
-            HeaderRightPos={0}
-            button={
-              <Button className="btn">
-                <div>
-                  <FiPlus size={24} />
-                </div>
-                <p className="fs14px fw-5 mb-1 ">No Master Report</p>
-                <p className="fs12px mb-1 " style={{ color: "#595959" }}>
-                  There is no master report. Click on icon to create your first
-                  master report.
-                </p>
-              </Button>
-            }
-            body={<Form />}
-            modalId={"master-report-form"}
-          /> */
-}

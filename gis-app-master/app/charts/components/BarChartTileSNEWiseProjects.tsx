@@ -55,68 +55,6 @@ const BarChartTileSNEWiseProjects = ({ chartSize = "small", data }: Props) => {
     value: item.totalAssignedProjects, // 🔥 dynamic field access
     gradient: colors[i],
   }));
-  // const data: MyBarChartType[] = [
-  //   {
-  //     label: "NOT SET",
-  //     value: 50,
-  //     season: "Nov-Jun",
-  //     percentage: 98.94,
-  //     gradient: {
-  //       id: "sne-1",
-  //       from: "#00E331",
-  //       to: "#00911F",
-  //       direction: "vertical", // optional
-  //     },
-  //   },
-  //   {
-  //     label: "NO",
-  //     value: 25,
-  //     season: "Dec-Jan",
-  //     percentage: 0.05,
-  //     gradient: {
-  //       id: "sne-2",
-  //       from: "#A4A4A4",
-  //       to: "#4A4A4A",
-  //       direction: "vertical", // optional
-  //     },
-  //   },
-  //   {
-  //     label: "COST",
-  //     value: 60,
-  //     season: "Aug-Oct",
-  //     percentage: 0.17,
-  //     gradient: {
-  //       id: "sne-3",
-  //       from: "#E27D02",
-  //       to: "#BB6802",
-  //       direction: "vertical", // optional
-  //     },
-  //   },
-  //   {
-  //     label: "STAFF",
-  //     value: 40,
-  //     season: "Jun-Nov",
-  //     percentage: 0.83,
-  //     gradient: {
-  //       id: "sne-4",
-  //       from: "#F87015",
-  //       to: "#EB5B0D",
-  //       direction: "vertical", // optional
-  //     },
-  //   },
-  //   {
-  //     label: "BOTH",
-  //     value: 55,
-  //     season: "Jun-Nov",
-  //     percentage: 0.83,
-  //     gradient: {
-  //       id: "sne-5",
-  //       from: "#00E396",
-  //       to: "#05B278",
-  //       direction: "vertical", // optional
-  //     },
-  //   },
-  // ];
 
   const smallChartStyle: MyBarChartStyle = {
     height: 292,
@@ -139,14 +77,6 @@ const BarChartTileSNEWiseProjects = ({ chartSize = "small", data }: Props) => {
       seasonColor: "#000",
     },
 
-    //   tooltip: {
-    //     contentStyle: {
-    //       backgroundColor: "#1E1B39",
-    //       borderRadius: 6,
-    //       border: "none",
-    //     },
-    //     itemStyle: { color: "#fff" },
-    //   },
   };
 
   const largeChartStyle: MyBarChartStyle = {
@@ -238,114 +168,6 @@ const BarChartTileSNEWiseProjects = ({ chartSize = "small", data }: Props) => {
             </span>
           </span>
         ))}
-        {/* <span
-          className="d-flex align-items-center gap-2"
-          style={{ padding: "4.5px 4px" }}
-        >
-          <span className="p-1">
-            <div
-              style={{
-                width: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                height: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                backgroundImage:
-                  "linear-gradient(to bottom, #00E331 , #00911F)",
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 12 * (chartSize === "small" ? 1 : 2) + "px",
-            }}
-          >
-            NOT SET
-          </span>
-        </span>
-        <span
-          className="d-flex align-items-center gap-2"
-          style={{ padding: "4.5px 4px" }}
-        >
-          <span className="p-1">
-            <div
-              style={{
-                width: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                height: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                backgroundImage:
-                  "linear-gradient(to bottom, #A4A4A4 , #4A4A4A)",
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 12 * (chartSize === "small" ? 1 : 2) + "px",
-            }}
-          >
-            NO
-          </span>
-        </span>
-        <span
-          className="d-flex align-items-center gap-2"
-          style={{ padding: "4.5px 4px" }}
-        >
-          <span className="p-1">
-            <div
-              style={{
-                width: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                height: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                backgroundImage: "linear-gradient(to bottom, #E27D02, #BB6802)",
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 12 * (chartSize === "small" ? 1 : 2) + "px",
-            }}
-          >
-            COST
-          </span>
-        </span>
-        <span
-          className="d-flex align-items-center gap-2"
-          style={{ padding: "4.5px 4px" }}
-        >
-          <span className="p-1">
-            <div
-              style={{
-                width: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                height: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                backgroundImage: "linear-gradient(to bottom, #F87015, #EB5B0D)",
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 12 * (chartSize === "small" ? 1 : 2) + "px",
-            }}
-          >
-            STAFF
-          </span>
-        </span>
-
-        <span
-          className="d-flex align-items-center gap-2"
-          style={{ padding: "4.5px 4px" }}
-        >
-          <span className="p-1">
-            <div
-              style={{
-                width: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                height: 8 * (chartSize === "small" ? 1 : 2) + "px",
-                backgroundImage: "linear-gradient(to bottom, #00E396, #05B278)",
-              }}
-            />
-          </span>
-          <span
-            style={{
-              fontSize: 12 * (chartSize === "small" ? 1 : 2) + "px",
-            }}
-          >
-            BOTH
-          </span>
-        </span> */}
       </div>
     </Card>
   );

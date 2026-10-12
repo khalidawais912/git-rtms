@@ -2,7 +2,6 @@
 import { SMDP_SYNC_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import DeleteModal from "@/shared/components/DeleteModal";
-// import DownloadPDFBtn from "@/shared/components/DownloadPDFBtn";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAttributeGroups } from "@/features/attribute-groups";
 import useProjects, { Project } from "@/app/hooks/useProjects";
@@ -320,7 +319,6 @@ const ProjectsList = ({
                         name="status"
                         handleSort={() => handleSort("status")}
                       />
-                      {/* <th style={{ whiteSpace: "nowrap" }}>ATTRIBUTE GROUPS</th> */}
                       <th colSpan={3}>
                         <div className="text-center"></div>
                       </th>
@@ -360,22 +358,10 @@ const ProjectsList = ({
                           )}
                           &nbsp;{d.status}
                         </td>
-                        {/* <td className="text-center">
-                          <GroupingForm id={d.id} options={attributeGroups} />
-                        </td> */}
                         <td>
                           <DeleteModal handleDelete={handleDelete} id={d.id} />
                         </td>
-                        <td>{/* <DownloadPDFBtn /> */}</td>
-                        {/* <td>
-                          <Form
-                            api={PROJECT_API}
-                            method="PUT"
-                            id={d.id}
-                            setRefresh={setRefresh}
-                            refresh={refresh}
-                          />
-                        </td> */}
+                        <td></td>
                       </tr>
                     ))}
                   </tbody>

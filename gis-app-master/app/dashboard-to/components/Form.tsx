@@ -236,21 +236,6 @@ const Form = ({
                       >
                         Visit Plan Group
                       </label>
-                      {/* <Controller
-                        name="visitPlanGroup"
-                        control={control}
-                        defaultValue={null}
-                        render={({ field }) => (
-                          <Select
-                            placeholder="Select"
-                            {...field}
-                            options={visitPlans?.map((d: any) => ({
-                              value: d.id,
-                              label: d.name,
-                            }))}
-                          />
-                        )}
-                      /> */}
                       <select
                         {...register("visitPlanGroup", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"

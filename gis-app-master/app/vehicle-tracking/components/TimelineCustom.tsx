@@ -16,7 +16,6 @@ const TimelineCustom = ({
   data: VehicleTrackingRecording;
   vehicleNo: string;
 }) => {
-  //   const position = { lat: 31.5204, lng: 74.3587 }; // lahore
   const position = { lat: 43.6532, lng: -79.3832 };
 
   return (

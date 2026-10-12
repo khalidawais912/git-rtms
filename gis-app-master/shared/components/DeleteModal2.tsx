@@ -63,9 +63,6 @@ const DeleteModal2 = ({ handleDelete, userName, icon }: Props) => {
                       Are you sure you want to delete this record?
                     </p>
                   </div>
-                  {/* <div className="col text-center mb-4">
-                    <p className="text-white fs-4">Infrastructure</p>
-                  </div> */}
                   <div className="col">
                     <div className="row d-flex">
                       <div

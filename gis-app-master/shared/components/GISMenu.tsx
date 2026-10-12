@@ -71,13 +71,6 @@ const GISMenu = ({
         icon: dashboard,
         backgroundColor: "linear-gradient(to bottom right, #5746DD , #26AE92)",
       },
-      // {
-      //   name: "DG Dashboard",
-      //   nameId: "dashboard",
-      //   link: "/dashboard",
-      //   icon: dashboard,
-      //   backgroundColor: "linear-gradient(to bottom right, #3e86d6 , #235aa6)",
-      // },
       {
         name: "Attendance Dashboard",
         nameId: "dashboard-attendance",
@@ -85,34 +78,6 @@ const GISMenu = ({
         icon: dashboard,
         backgroundColor: "linear-gradient(to bottom right, #43abd1 , #2680ad)",
       },
-      // {
-      //   name: "Director Dashboard",
-      //   nameId: "dashboard",
-      //   link: "/dashboard",
-      //   icon: dashboard,
-      //   backgroundColor: "linear-gradient(to bottom right, #4364d9 , #211fab)",
-      // },
-      // {
-      //   name: "Deputy Director Dashboard",
-      //   nameId: "dashboard",
-      //   link: "/dashboard",
-      //   icon: dashboard,
-      //   backgroundColor: "linear-gradient(to bottom right, #3d76d1 , #217a9c)",
-      // },
-      // {
-      //   name: "Officer Dashboard",
-      //   nameId: "dashboard-officer",
-      //   link: "/dashboard-officer",
-      //   icon: dashboard,
-      //   backgroundColor: "linear-gradient(to bottom right, #5746DD , #26AE92)",
-      // },
-      // {
-      //   name: "IT Dashboard",
-      //   nameId: "dashboard-it",
-      //   link: "/dashboard-it",
-      //   icon: dashboard,
-      //   backgroundColor: "linear-gradient(to bottom right, #5746DD , #26AE92)",
-      // },
       {
         name: "TO Dashboard",
         nameId: "dashboard-to",
@@ -127,14 +92,6 @@ const GISMenu = ({
         icon: dashboard,
         backgroundColor: "linear-gradient(to bottom right, #5746DD , #26AE92)",
       },
-      // {
-      //   name: "Summary Dashboard",
-      //   nameId: "dashboard-summary",
-      //   link: "/department-dashboard-summary",
-      //   icon: dashboard,
-      //   backgroundColor:
-      //     "linear-gradient(to bottom right, red ,#E48E6E , yellow)",
-      // },
       {
         name: "Vehicle Tracking",
         nameId: "vehicle-tracking",
@@ -233,13 +190,6 @@ const GISMenu = ({
         icon: visitSchedule,
         backgroundColor: "linear-gradient(to bottom right, #259799, #1b4d9e )",
       },
-      // {
-      //   name: "Visits New",
-      //   nameId: "visits-new",
-      //   link: "/visits-new",
-      //   icon: visits,
-      //   backgroundColor: "linear-gradient(to bottom right, #28A811 , yellow)",
-      // },
       {
         name: "Departments",
         nameId: "departments",
@@ -269,20 +219,6 @@ const GISMenu = ({
         backgroundColor: "linear-gradient(to bottom right, #a8118f , #11a89b)",
       },
 
-      // {
-      //   name: "Visits",
-      //   nameId: "visits",
-      //   link: "/visits",
-      //   icon: visits,
-      //   backgroundColor: "linear-gradient(to bottom right, #28A897 , yellow)",
-      // },
-      // {
-      //   name: "Visits Scheduled",
-      //   nameId: "visitsScheduled",
-      //   link: "/visitsScheduled",
-      //   icon: visitSchedule,
-      //   backgroundColor: "linear-gradient(to bottom right, #28A897 , violet)",
-      // },
       {
         name: "Project Document Names",
         nameId: "project-document-names",
@@ -363,12 +299,10 @@ const GISMenu = ({
                 >
                   <motion.div
                     className="col"
-                    // style={{ borderRadius: "10px" }}
                     whileTap={{ scale: 0.9 }}
                     whileHover={{
                       scale: 1.05,
                       transition: { duration: 0.2 },
-                      // boxShadow: "0px 2.5px 3px .5px rgba(0, 0, 0, 0.6)",
                     }}
                   >
                     <div

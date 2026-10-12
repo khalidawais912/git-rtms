@@ -383,7 +383,6 @@ const RichTextEditor: React.FC = () => {
             levels: [1, 2, 3],
           },
         }),
-        // Underline,
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
@@ -396,15 +395,6 @@ const RichTextEditor: React.FC = () => {
             class: "text-blue-600 underline hover:text-blue-800",
           },
         }),
-        // Image.configure({
-        //   inline: true,
-        //   HTMLAttributes: {
-        //     class: "max-w-full h-auto rounded-lg",
-        //   },
-        // }),
-        // Table.configure({
-        //   resizable: true,
-        // }),
         TableRow,
         TableCell,
         TableHeader,
@@ -617,7 +607,6 @@ const RichTextEditor: React.FC = () => {
 
   const addImage = () => {
     if (imageUrl) {
-      // editor?.chain().focus().setImage({ src: imageUrl }).run();
       setImageUrl("");
       setShowImageDialog(false);
     }

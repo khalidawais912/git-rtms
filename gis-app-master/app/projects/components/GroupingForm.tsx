@@ -44,7 +44,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
         };
         setSelectedOptions([selectedOptions]);
       }
-      // setSelectedOptions(data.superGroupID); // Set the selected groups as objects
     } catch (error) {
       console.error("Error fetching selected groups:", error);
     }
@@ -59,11 +58,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
   };
 
   const handleClose = () => setShow(false);
-
-  // useEffect(() => {
-
-  //   fetchSelectedOptions();
-  // }, [id, refresh]);
 
   const handleSelectGroup = (
     newValue: SingleValue<{ value: string; label: string }>,
@@ -107,8 +101,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
         );
         console.log(response);
       }
-      // notifyCreate(updated);
-      // console.log(response);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);

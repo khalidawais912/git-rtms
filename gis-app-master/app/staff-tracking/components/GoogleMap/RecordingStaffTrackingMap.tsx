@@ -241,7 +241,6 @@ const RecordingStaffTrackingMap: any = ({
                 </AdvancedMarker>
               </Fragment>
             ))}
-            {/* <MapWithMarkers /> */}
           </Map>
         )}
       </div>

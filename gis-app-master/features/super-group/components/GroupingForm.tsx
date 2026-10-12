@@ -99,7 +99,6 @@ const GroupingForm = ({ id, options, dashboardType, superGroups }: Props) => {
         `${SUPER_GROUP_API_Endpoint}/addGroupsToSuperGroup`,
         data
       );
-      // notifyCreate(updated);
       console.log(response);
       handleClose();
     } catch (error) {

@@ -26,15 +26,6 @@ function UpdateMap({ data }: Props) {
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
-  // const center = {
-  //   lat: parseFloat(
-  //     data.projectLat ? data.projectLat : data.vehicalTrackings[0].startLat
-  //   ),
-  //   lng: parseFloat(
-  //     data.projectlong ? data.projectlong : data.vehicalTrackings[0].startLong
-  //   ),
-  // };
-
   const center = {
     lat: 0,
     lng: 0,
@@ -47,7 +38,6 @@ function UpdateMap({ data }: Props) {
         const { InfoWindow } = google.maps;
 
         const pin = new PinElement({
-          // glyph: "P",
           background: "#ff0000",
         });
 

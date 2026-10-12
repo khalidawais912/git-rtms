@@ -46,7 +46,6 @@ const Pagination = ({
   // Determine the data to display for the current page
   const indexOfLastRow = currentPage * rows;
   const indexOfFirstRow = indexOfLastRow - rows;
-  //   const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
 
   // for pagination buttons
   const totalPages = Math.ceil(
@@ -154,11 +153,6 @@ const Pagination = ({
     };
   });
 
-  // useEffect(() => {
-  //   setSelectedOptions([rowCountOptions[0]]);
-  //   handleRowsPerPage(parseInt(rowCountOptions[0].value));
-  // }, []);
-
   return (
     <>
       <div className="row m-0 justify-content-between align-items-center pb-2">
@@ -265,30 +259,6 @@ const Pagination = ({
                 />
               </Button>
             </div>
-            {/* <div className="col ps-0" style={{ paddingRight: "10px" }}>
-              <Button
-                className={`btn btn-sm rounded-circle text-white border-0 d-flex justify-content-center align-items-center m-1 ${
-                  currentPage === totalPages
-                    ? "bg-color-light-gray "
-                    : "bg-color-evaluation-theme-blue"
-                }`}
-                onClick={handleLastPage}
-                disabled={currentPage === totalPages}
-                style={{
-                  width: "27px",
-                  height: "27px",
-                  padding: 0, // remove extra padding from btn-sm
-                }}
-              >
-                <Image
-                  src="/icons/evaluation/doubleArrowLeft.svg"
-                  alt="doubleArrowLeft"
-                  width={13}
-                  height={13}
-                  style={{ rotate: "180deg" }}
-                />
-              </Button>
-            </div> */}
           </div>
         </div>
         <div className="col-auto">
@@ -322,24 +292,6 @@ const Pagination = ({
             />
           )}
 
-          {/* <select
-            className="rounded bg-color-evaluation-theme-blue text-white p-2"
-            style={{
-              color: "#fff",
-              border: "1px solid #445E84",
-              outline: "none",
-            }}
-            aria-label="Rows per page"
-            id="rowPerPage"
-            value={rows}
-            onChange={handleRowsPerPage}
-          >
-            {[10, 20, 30, 40, 50].map((num) => (
-              <option key={num} value={num}>
-                &nbsp;{num}
-              </option>
-            ))}
-          </select> */}
         </div>
       </div>
     </>

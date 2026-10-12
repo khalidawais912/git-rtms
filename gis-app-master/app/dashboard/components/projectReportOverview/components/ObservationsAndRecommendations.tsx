@@ -8,11 +8,6 @@ const ObservationsAndRecommendations = ({ group }: Props) => {
   return (
     <div
       className="col p-0"
-      // style={{
-      //   height: "541px",
-      //   overflow: "hidden",
-      //   overflowY: "scroll",
-      // }}
     >
       <div className="row d-flex flex-column mb-3">
         {group.attributes.length > 0 &&

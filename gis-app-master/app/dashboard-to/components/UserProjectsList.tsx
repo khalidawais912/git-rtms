@@ -79,7 +79,6 @@ const UserProjectsList = ({
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.gsNo, item.name, item.status]
         .filter((field) => field) // Remove undefined fields
@@ -231,7 +230,6 @@ const UserProjectsList = ({
                 handleSort={() => handleSort("status")}
               />
               <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th>
-              {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
               <th style={{ whiteSpace: "nowrap" }}>SUPER GROUP</th>
             </tr>
           </thead>
@@ -302,27 +300,9 @@ const UserProjectsList = ({
                 <td className="text-center">
                   <AssignUserForm id={d.id} options={users} />
                 </td>
-                {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </td> */}
                 <td className="text-center">
                   <GroupingForm id={d.id} options={superGroups} />
                 </td>
-                {/* <td>
-                  <DeleteModal handleDelete={handleDelete} id={d.id} />
-                </td> */}
-                {/* <td>
-                  <DownloadPDFBtn />
-                </td> */}
-                {/* <td>
-                  <ProjectForm
-                    api={PROJECT_API}
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </td> */}
               </tr>
             ))}
           </tbody>

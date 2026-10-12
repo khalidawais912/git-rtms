@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-// import "../Attendance.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-// import { exportToPDF } from "@/shared/utils";
 import { useRouter } from "next/navigation";
 import { FaDownload, FaSearch } from "react-icons/fa";
 
@@ -39,7 +37,6 @@ const PresentAttendance = () => {
 
     if (!token) {
       alert("Please log in to access the page");
-      // router.push('/login');
       return;
     }
 
@@ -63,7 +60,6 @@ const PresentAttendance = () => {
         setSelectedDate(getFormattedDate(response.data.date));
       }
     } catch (err) {
-      // setError(err.message);
       alert("Failed to fetch attendance");
     }
   };
@@ -84,7 +80,6 @@ const PresentAttendance = () => {
 
   // Log the updated attendanceData after it changes
   useEffect(() => {
-    // console.log("Updated attendanceData: ", attendanceData.attendanceList);  // Correct way to log the state after it updates
   }, [attendanceData]); // Only runs when attendanceData changes
 
   // Real-time search handler
@@ -172,19 +167,6 @@ const PresentAttendance = () => {
                 </div>
               </div>
               &nbsp;
-              {/* <div>
-                <Image
-                  style={{ cursor: "pointer" }}
-                  //   onClick={() =>
-                  //     exportToPDF(attendanceData, selectedDate, pageName)
-                  //   }
-                  className="me-2 img1"
-                  src={exportIcon}
-                  alt="Export Icon"
-                  width={40}
-                  height={40}
-                />
-              </div> */}
               <input
                 type="date"
                 value={selectedDate}
@@ -207,17 +189,6 @@ const PresentAttendance = () => {
                   <FaSearch className="text-white" />
                 </div>
               </div>
-              {/* <div>
-                <Image
-                  style={{ cursor: "pointer" }}
-                  onClick={handleDateSubmit}
-                  className="ms-1 img1"
-                  src={searchIcon}
-                  alt="Search Icon"
-                  width={40}
-                  height={40}
-                />
-              </div> */}
             </div>
           </div>
         </section>

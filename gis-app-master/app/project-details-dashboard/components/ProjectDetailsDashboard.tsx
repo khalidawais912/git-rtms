@@ -6,12 +6,9 @@ import apiClient from "@/shared/api/client";
 import { Lexend } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-// import DistributedColumnChart from "./DistributedColumnChart";
 import Reports from "./Reports";
-// import SimplePieChart from "./SimplePieChart";
 import StaffTracking from "./StaffTracking";
 import VehicleTracking from "./VehicleTracking";
-// import Menu from "./Menu";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Menu from "@/shared/components/Menu";
@@ -20,8 +17,6 @@ import { devMap } from "@/shared/utils";
 import MyMap from "./GoogleMap/MyMap";
 import Header from "./Header";
 import MonitoringRatingIndex from "./MonitoringRatingIndex";
-// import SimpleLineChart from "./SimpleLineChart";
-// import WBSReportUpdated from "./WBSReportUpdated";
 import dynamic from "next/dynamic";
 import useAuthorization from "@/shared/hooks/useAuthorization";
 import WBSSummary from "./WBSFlow/WBSSummary";
@@ -205,23 +200,6 @@ export interface SingleProjectDashboard {
   detailAnalysis: DetailedAnalysis[];
 }
 
-// export interface SingleProjectDashboard {
-//   projectId: number;
-//   projectName: string;
-//   projectLat: string;
-//   projectlong: string;
-//   lastVisitTime: string;
-//   plannedProgress: number;
-//   achievedProgress: number;
-//   financalProgress: number;
-//   allocation: number;
-//   releases: number;
-//   utilization: number;
-//   vehicalTrackings: VehicleTrackings[];
-//   staffTrackings: StaffTrackings[];
-//   reports: ReportsData[];
-// }
-
 const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -403,18 +381,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const wbsData = data.groups.filter((group) =>
-  //       group.name.toLowerCase().includes("work breakdown structure")
-  //     );
-
-  //     const filteredAttributes = data.groups.find((group) =>
-  //       group.name?.toLowerCase().includes("progress analysis")
-  //     )?.attributes[5];
-  //   }
-  // }, [data]);
-
   const [showAllWbs, setShowAllWbs] = useState(false);
   return (
     <>
@@ -478,7 +444,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                           key={attribute.attributeId}
                           outline="1px solid rgba(232, 192, 15, 0.4)"
                           background="rgba(12, 140, 233,.5)"
-                          // icon="/icons/archery.svg"
                           value={parseFloat(attribute.values[0]?.value)}
                           label={
                             attribute.label.toLowerCase() ===
@@ -512,7 +477,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                           key={attribute.attributeId}
                           outline="1px solid rgba(232, 192, 15, 0.4)"
                           background="rgba(240, 175, 25,1)"
-                          // icon="/icons/archery.svg"
                           value={parseFloat(attribute.values[0]?.value)}
                           label={
                             attribute.label.toLowerCase() ===
@@ -839,15 +803,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                     ))}
               </div>
             )}
-            {/* {data.groups && (
-            <WBSReportUpdated
-              majorDeliverables={
-                data.groups.find((group) =>
-                  group.name.toLowerCase().includes("work breakdown structure")
-                )!
-              }
-            />
-          )} */}
             <VehicleTracking data={data.vehicalTrackings} />
             <div
               className="row mb-3"
@@ -867,7 +822,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                 />
               </div>
             </div>
-            {/* <BottomArea /> */}
           </>
         )}
       </div>

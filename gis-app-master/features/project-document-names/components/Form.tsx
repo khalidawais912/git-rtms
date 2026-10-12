@@ -88,7 +88,6 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
       });
       console.log("Response:", response);
       setRefresh((prev) => !prev);
-      // setData((prevData) => [...prevData, response.data.data]);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
     } catch (err) {

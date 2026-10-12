@@ -9,7 +9,6 @@ import {
 
 interface Props<T> {
   children: (
-    // BEFORE: React.RefObject<HTMLTableRowElement | null>
     firstRowRef: React.RefObject<HTMLTableRowElement> // AFTER: Remove the | null from the RefObject generic
   ) => ReactNode;
   setRows: Dispatch<SetStateAction<number>>;

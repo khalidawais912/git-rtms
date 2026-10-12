@@ -99,7 +99,6 @@ const VideoTypeFilter = () => {
         }}
         onClick={() => {
           setSelectedButton(2);
-          // handleStatusChange(TypeEnum.EVALUATION);
         }}
       >
         Drone

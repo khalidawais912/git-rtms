@@ -118,8 +118,6 @@ const MonitoringVisitPlanList = ({
       );
       toast.success(response.data?.message || "Saved successfully!");
 
-      // ✅ Refresh after save
-      // setData((prev) => [...prev]); // if useData supports refetch trigger
     } catch (err) {
       const error = err as AxiosError<{ message?: string; errors?: string[] }>;
       const message =
@@ -185,7 +183,6 @@ const MonitoringVisitPlanList = ({
       const response = await apiClient.delete(
         `${TEMP_TOUR_PLAN_API}/${tempId}`,
       );
-      // toast.success("Item deleted successfully!");
       // Remove row from field array
       console.log("delete response", response);
       remove(index);

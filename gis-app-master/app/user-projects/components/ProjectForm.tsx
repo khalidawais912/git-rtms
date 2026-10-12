@@ -43,7 +43,6 @@ const ProjectForm = ({ api, method, id, setRefresh, refresh }: Props) => {
     reset,
     formState: { errors },
   } = useForm<Project>({ resolver: zodResolver(schema) });
-  // console.log(errors);
   const [show, setShow] = useState(false);
   const modalId = `formModal-${id}`;
 

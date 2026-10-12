@@ -23,13 +23,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
       ?.attributes.find(
         (attribute) => attribute.label.toLowerCase() === "pc-i cost"
       )?.values[0]?.value;
-    // setCalculatedData(
-    //   financialAnalysis.attributes.slice(1, -2).map((attribute) => {
-    //     const value = parseFloat(attribute.values[0]?.value || "0");
-    //     const percentage = (value / accumulativePc1Cost) * 100; // Calculate percentage and fix to 2 decimal points
-    //     return `${Math.round(percentage)}%`;
-    //   })
-    // );
     setCalculatedData(["30%", "70%"]);
 
     // Initialize series and labels
@@ -43,7 +36,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
       .slice(1, -2)
       .map((attribute) => attribute.label);
 
-    // setSeries(parsedSeries);
     const oneThirdValue = Number(accumulativePc1Cost) / 3;
     setSeries([
       Math.round(oneThirdValue),
@@ -51,7 +43,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
     ]);
     setLabels(parsedLabels);
   }, [financialAnalysis, projectProfile]);
-  // const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // Render chart only when both series and labels are initialized
@@ -80,15 +71,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
         },
         legend: {
           show: false, // Keep the legend visible if needed
-          // formatter: function (val, opts) {
-          //   return `${val}: ${opts.w.globals.series[opts.seriesIndex]}%`;
-          // },
-          // position: "bottom", // Position legend at the bottom
-          // onItemHover: {
-          //   highlightDataSeries: false, // Disable highlighting on hover
-          // },
-          // fontSize: "16px",
-          // fontWeight: "500",
         },
         dataLabels: {
           enabled: true, // Enable data labels on the chart slices
@@ -131,7 +113,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
         borderRadius: "9px",
       }}
     >
-      {/* <button onClick={() => setRefresh(!refresh)}>refresh chart</button> */}
 
       <p className="m-0 fw-bold fs10px text-center text-white">PC-I Analysis</p>
       <div className="position-relative w-100" style={{ height: "80px" }}>

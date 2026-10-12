@@ -31,7 +31,6 @@ export const getIssuedColumns = () => [
 const DownloadWrapper = ({ data, fileName }: Props) => {
   const columns = getColumns(fileName);
   const columnsWithIssued = getIssuedColumns();
-  // const headers = ["Sr No.", ...columns.map((c) => c.label)];
 
   const buildRows = () => {
     const rows = data.map((d, index) => ({
@@ -47,18 +46,6 @@ const DownloadWrapper = ({ data, fileName }: Props) => {
       }),
       projectName: d.projectName,
     }));
-
-    // Add totals
-    // const totals = calculateTotals(data);
-
-    // rows.push({
-    //   "Sr No.": "TOTAL",
-    //   "Name of District": "",
-    //   "Complaints Filed": totals.totalFiled,
-    //   Disposal: totals.totalDisposal,
-    //   "Percentage of Disposal (%)": totals.totalPercentage,
-    //   "Pending Complaints": totals.totalPending,
-    // });
 
     return rows;
   };

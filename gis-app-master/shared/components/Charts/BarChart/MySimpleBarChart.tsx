@@ -85,7 +85,6 @@ const MySimpleBarChart = ({
           left: leftMargin,
         }}
       >
-        {/* ================= SVG GRADIENTS ================= */}
         <defs>
           {data.map((entry) =>
             entry.gradient ? (
@@ -104,7 +103,6 @@ const MySimpleBarChart = ({
           )}
         </defs>
 
-        {/* ================= AXES ================= */}
         {layout === "vertical" ? (
           <>
             <XAxis
@@ -173,11 +171,9 @@ const MySimpleBarChart = ({
           {...style?.tooltip}
           cursor={{ fill: "transparent" }}
           labelFormatter={(label) => label}
-          // formatter={(value, _name, props) => {
           formatter={(value) => {
             return [
               `${formatAmountWithCommas(Number(value), 0)}${unit}`,
-              // props.payload.label, // 👈 replaces "value"
             ];
           }}
         />
@@ -189,7 +185,6 @@ const MySimpleBarChart = ({
           horizontal={style?.grid?.horizontal ?? true}
         />
 
-        {/* ================= BAR ================= */}
         <Bar
           dataKey="value"
           radius={
@@ -311,52 +306,7 @@ export const defaultVerticalChartStyle: MyBarChartStyle = {
     seasonColor: "#fff",
   },
 
-  //   tooltip: {
-  //     contentStyle: {
-  //       backgroundColor: "#1E1B39",
-  //       borderRadius: 6,
-  //       border: "none",
-  //     },
-  //     itemStyle: { color: "#fff" },
-  //   },
 };
-
-// const WrappedTick = ({
-//   x,
-//   y,
-//   payload,
-//   fontSize,
-//   fill,
-//   lineGap = 2,
-//   offset = 20, // 👈 distance from axis line
-// }: {
-//   x?: number;
-//   y?: number;
-//   payload?: { value: string };
-//   fontSize: number;
-//   fill: string;
-//   lineGap?: number;
-//   offset?: number;
-// }) => {
-//   if (!payload?.value || x == null || y == null) return null;
-
-//   const words = payload.value.split(" ");
-
-//   return (
-//     <text x={x} y={y} textAnchor="middle" fill={fill}>
-//       {words.map((word, index) => (
-//         <tspan
-//           key={index}
-//           x={x}
-//           dy={index === 0 ? offset : fontSize + lineGap}
-//           fontSize={fontSize}
-//         >
-//           {word}
-//         </tspan>
-//       ))}
-//     </text>
-//   );
-// };
 
 interface VerticalTickProps {
   x?: number;

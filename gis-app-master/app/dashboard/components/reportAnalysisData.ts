@@ -18,7 +18,6 @@ export const tabs = [
   { label: "Completion Rate_No SectWise", backGroundColor: green },
   { label: "Report Iss. Vs Not_Isu. SectWise", backGroundColor: green },
   { label: "Not Issued From (Days) SectWise", backGroundColor: green },
-  // { label: "Time Spent on Project Site", backGroundColor: "#fcb103" },
 ];
 
 interface Report {

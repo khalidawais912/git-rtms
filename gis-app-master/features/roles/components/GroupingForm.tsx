@@ -80,7 +80,6 @@ const GroupingForm = ({ id, options, name }: Props) => {
         `${ADD_RIGHTS_TO_ROLE_API}?RoleID=${id}`,
         data
       );
-      // notifyCreate(updated);
       console.log(response);
       handleClose();
     } catch (error) {

@@ -158,10 +158,8 @@ const MyProgressBarChart = ({
         <CartesianGrid strokeDasharray="5 3" />
         <Tooltip />
 
-        {/* TOTAL (background) */}
         <Bar dataKey="total" radius={[20, 20, 20, 20]} fill="#E5E7EB" />
 
-        {/* GAIN (progress) */}
         <Bar
           dataKey="gain"
           radius={[20, 20, 20, 20]}

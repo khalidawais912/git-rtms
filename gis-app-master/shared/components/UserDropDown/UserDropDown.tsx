@@ -142,7 +142,6 @@ const UserDropDown = () => {
                   className="m-0 text-start mt-1 fs11px fw-normal"
                   style={{ color: "#575757" }}
                 >
-                  {/* {currentTime} */}
                   {firstName} {lastName}
                 </p>
               </div>
@@ -210,16 +209,6 @@ const UserDropDown = () => {
                 </div>
               </Link>
             )}
-            {/* <Link href="" className="fw-normal">
-          <Image
-            src={settingBlack}
-            alt="settingBlack"
-            width={20}
-            height={20}
-            className="me-2 mb-1"
-          />
-          Settings
-        </Link> */}
             <div className="pt-0 pb-0 ps-3 pe-3">
               <div className="dropdown-divider m-0"></div>
             </div>

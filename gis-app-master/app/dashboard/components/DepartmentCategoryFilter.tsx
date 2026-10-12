@@ -71,7 +71,6 @@ const DepartmentCategoryFilter = () => {
           }}
           onClick={() => {
             setSelectedButton(0);
-            // handleStatusChange("");
           }}
         >
           Sponsoring
@@ -88,7 +87,6 @@ const DepartmentCategoryFilter = () => {
           }}
           onClick={() => {
             setSelectedButton(1);
-            // handleStatusChange(TypeEnum.EVALUATION);
           }}
         >
           Executing
@@ -105,7 +103,6 @@ const DepartmentCategoryFilter = () => {
           }}
           onClick={() => {
             setSelectedButton(2);
-            // handleStatusChange(TypeEnum.EVALUATION);
           }}
         >
           Both

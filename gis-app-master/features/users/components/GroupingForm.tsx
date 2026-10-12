@@ -28,30 +28,6 @@ const GroupingForm = ({ id, options, userName }: Props) => {
   };
   const handleClose = () => setShow(false);
 
-  // uncomment this hook if api is giving role id, until keep it commented
-  // Fetch previously selected groups
-  // useEffect(() => {
-  //   const fetchSelectedOptions = async () => {
-  //     try {
-  //       const response = await apiClient.get(`${ROLE_API}/${id}`);
-  //       const data = response.data.data; // Assuming this returns an array of group objects
-  //       if (data.roleId) {
-  //         const selectedOptions = {
-  //           id: data.roleId,
-  //           name:
-  //             options.find((option) => option.id === data.roleId)?.name || "",
-  //         };
-  //         setSelectedOptions([selectedOptions]);
-  //       }
-  //       // setSelectedOptions(data.superGroupID); // Set the selected groups as objects
-  //     } catch (error) {
-  //       console.error("Error fetching selected groups:", error);
-  //     }
-  //   };
-
-  //   fetchSelectedOptions();
-  // }, [id, refresh]);
-
   const handleSelectGroup = (
     newValue: SingleValue<{ value: string; label: string }>,
     actionMeta: ActionMeta<{ value: string; label: string }>,
@@ -84,7 +60,6 @@ const GroupingForm = ({ id, options, userName }: Props) => {
     try {
       const response = await updateUserRole(userName, roleName);
       console.log(response);
-      // notifyCreate(updated);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);

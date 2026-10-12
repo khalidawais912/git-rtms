@@ -655,25 +655,12 @@ const ProjectsTable = ({
 
   // Export to Excel — reuses buildExportRows(), no duplicate calculation
   const exportToExcel = () => {
-    // exportDataToExcel(
-    //   // buildExportRows(),
-    //   exportHeaders,
-    //   `${exportFilenameBase}.xlsx`,
-    // );
   };
 
   // Export to PDF — same rows, same headers, no duplicate calculation
   const exportToPdf = () => {
     console.log(buildExportRows() , "buildExportRows data is heree..... 656");
     
-    // exportDataToPDFNEW(
-    //   exportHeaders,
-    //   buildExportRows(),
-    //   `${exportFilenameBase}.pdf`,
-    //   undefined,
-    //   undefined,
-    //   "landscape",
-    // );
   };
 
   const [districtName, setDistrictName] = useState<string>("");
@@ -1010,55 +997,6 @@ const ProjectsTable = ({
                     District
                   </CustomLabel>
 
-                  {/* <select
-                  className="w-100"
-                  style={{
-                    background: "rgba(16, 143, 168, .1)",
-                    outline: "none",
-                    border: "1px solid #D0D5DD",
-                  }}
-                  aria-label="District"
-                  name="districtName"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setDistrictName(value);
-                    setDropdownFilterValue((prev) => {
-                      if (value === "") {
-                        // Remove "District" from the filter
-                        return prev.filter(
-                          (item) => !item.startsWith("District:")
-                        );
-                      } else {
-                        // Add/Update "District" in the filter
-                        const updated = prev.filter(
-                          (item) => !item.startsWith("District:")
-                        );
-                        return [...updated, `District: ${value}`];
-                      }
-                    });
-                    setDistrictName(e.target.value);
-                    applyFilters({
-                      districtName: e.target.value,
-                      sectorName,
-                      userName,
-                      startDate: dateRangeState[0].startDate
-                        ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                        : "",
-                      endDate: dateRangeState[0].endDate
-                        ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                        : "",
-                      reportStatus,
-                    });
-                  }}
-                  disabled={searchTerm ? true : false}
-                >
-                  <option value="">Select</option>
-                  {districts.map((district) => (
-                    <option key={district.id} value={district.districtName}>
-                      {district.districtName}
-                    </option>
-                  ))}
-                </select> */}
                 </div>
               )}
               {keys.includes("visitStartDate") && (
@@ -1084,7 +1022,6 @@ const ProjectsTable = ({
                                 moveRangeOnFirstSelection={false}
                                 maxDate={new Date()} // Restrict future dates
                                 dateDisplayFormat="dd/MM/yyyy"
-                                // className={styles.customDateRange}
                               />
                               <p>
                                 Selected Range:{" "}
@@ -1172,55 +1109,6 @@ const ProjectsTable = ({
                     Sector
                   </CustomLabel>
 
-                  {/* <select
-                id="sectorName"
-                className="w-100"
-                style={{
-                  background: "rgba(16, 143, 168, .1)",
-                  outline: "none",
-                  border: "1px solid #D0D5DD",
-                }}
-                aria-label="Sector"
-                name="sectorName"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setSectorName(value);
-                  setDropdownFilterValue((prev) => {
-                    if (value === "") {
-                      // Remove "Sector" from the filter
-                      return prev.filter(
-                        (item) => !item.startsWith("Sector:")
-                      );
-                    } else {
-                      // Add/Update "Sector" in the filter
-                      const updated = prev.filter(
-                        (item) => !item.startsWith("Sector:")
-                      );
-                      return [...updated, `Sector: ${value}`];
-                    }
-                  });
-                  applyFilters({
-                    districtName,
-                    sectorName: e.target.value,
-                    userName,
-                    startDate: dateRangeState[0].startDate
-                      ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                      : "",
-                    endDate: dateRangeState[0].endDate
-                      ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                      : "",
-                    reportStatus: reportStatus,
-                  });
-                }}
-                disabled={searchTerm ? true : false}
-              >
-                <option value="">Select</option>
-                {sectors.map((sector) => (
-                  <option key={sector.id} value={sector.name}>
-                    {sector.name}
-                  </option>
-                ))}
-              </select> */}
                 </div>
               )}
               {keys.includes("userName") && (
@@ -1248,55 +1136,6 @@ const ProjectsTable = ({
                     User
                   </CustomLabel>
 
-                  {/* <select
-                id="userName"
-                className="w-100"
-                style={{
-                  background: "rgba(16, 143, 168, .1)",
-                  outline: "none",
-                  border: "1px solid #D0D5DD",
-                }}
-                aria-label="UserName"
-                name="userName"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setUserName(value);
-                  setDropdownFilterValue((prev) => {
-                    if (value === "") {
-                      // Remove "User" from the filter
-                      return prev.filter(
-                        (item) => !item.startsWith("User:")
-                      );
-                    } else {
-                      // Add/Update "User" in the filter
-                      const updated = prev.filter(
-                        (item) => !item.startsWith("User:")
-                      );
-                      return [...updated, `User: ${value}`];
-                    }
-                  });
-                  applyFilters({
-                    districtName,
-                    sectorName,
-                    userName: e.target.value,
-                    startDate: dateRangeState[0].startDate
-                      ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                      : "",
-                    endDate: dateRangeState[0].endDate
-                      ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                      : "",
-                    reportStatus: reportStatus,
-                  });
-                }}
-                disabled={searchTerm ? true : false}
-              >
-                <option value="">Select</option>
-                {users.map((user) => (
-                  <option key={user.user_Id} value={user.name}>
-                    {user.name}
-                  </option>
-                ))}
-              </select> */}
                 </div>
               )}
               {keys.includes("deadline") && (
@@ -1327,57 +1166,6 @@ const ProjectsTable = ({
                     Report Status
                   </CustomLabel>
 
-                  {/* <select
-                id="reportStatus"
-                className="w-100"
-                style={{
-                  background: "rgba(16, 143, 168, .1)",
-                  outline: "none",
-                  border: "1px solid #D0D5DD",
-                }}
-                aria-label="Report Status"
-                name="reportStatus"
-                onChange={(e) => {
-                  const value = Number(e.target.value);
-                  setReportStatus(value);
-                  setDropdownFilterValue((prev) => {
-                    if (value === -1) {
-                      // Remove "Report Status" from the filter
-                      return prev.filter(
-                        (item) => !item.startsWith("Report Status:")
-                      );
-                    } else {
-                      // Add/Update "Report Status" in the filter
-                      const updated = prev.filter(
-                        (item) => !item.startsWith("Report Status:")
-                      );
-                      return [...updated, `Report Status: ${value}`];
-                    }
-                  });
-                  applyFilters({
-                    districtName,
-                    sectorName,
-                    userName,
-                    startDate: dateRangeState[0].startDate
-                      ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                      : "",
-                    endDate: dateRangeState[0].endDate
-                      ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                      : "",
-                    reportStatus: Number(e.target.value),
-                  });
-                }}
-                disabled={searchTerm ? true : false}
-              >
-                <option value="-1">Select</option>
-                <option value="0">SCHEDULED</option>
-                <option value="1">COMPLETED</option>
-                <option value="2">CANCELLED</option>
-                <option value="3">SUBMITTED</option>
-                <option value="4">APPROVED</option>
-                <option value="5">REFERBACK</option>
-                <option value="6">ISSUED</option>
-              </select> */}
                 </div>
               )}
             </div>
@@ -1391,7 +1179,6 @@ const ProjectsTable = ({
                   style={{ marginBottom: "14.86px" }}
                   onClick={toggleSidenav}
                 >
-                  {/* <FaSearch className="img-fluid" /> */}
                   <div
                     className="d-flex justify-content-center align-items-center rounded-circle bg-white"
                     style={{
@@ -1527,8 +1314,6 @@ const ProjectsTable = ({
             isExpanded ? styles.shiftRight : ""
           } flex-grow-1 p-3 overflow-hidden pt-0 pb-0`}
         >
-          {/* <div style={{ height: "96vh", overflow: "hidden" }}> */}
-          {/* <ScrollWrapper> */}
 
           <div
             className="row d-flex align-items-center"
@@ -1598,21 +1383,6 @@ const ProjectsTable = ({
               />
             </div>
           </div>
-          {/* <TableHeader
-          heading={label}
-          searchTerm={searchTerm}
-          filteredData={filteredData}
-          data={modifiedData}
-          handleChange={dropdownFilterValue.length > 0 ? undefined : handleChange}
-          form={
-            <div className="col-auto">
-              <DownloadDropDown
-                onClickPdf={exportToPdf}
-                onClickExcel={exportToExcel}
-              />
-            </div>
-          }
-        /> */}
           <div
             className="table-responsive mb-2"
             style={{
@@ -1925,7 +1695,6 @@ const ProjectsTable = ({
                             <div className="d-flex justify-content-center">
                               <GenericToggleControl
                                 controlType="checkbox"
-                                // title="Mark to Evaluation"
                                 // description="Include this item in final grading calculations."
                                 checked={d.markToEvaluation}
                                 onCheckedChange={async (val) =>
@@ -2213,7 +1982,6 @@ const ProjectsTable = ({
                 )}
               </tbody>
             </table>
-            {/* </ScrollWrapper> */}
           </div>
 
           <div className="row m-0 justify-content-between align-items-center pb-2">
@@ -2375,87 +2143,6 @@ const ProjectsTable = ({
             </div>
           </div>
 
-          {/* <div className="row d-flex mb-2 m-0">
-          <div className="col-lg-6 col-md-3 col-sm-12 mt-2">
-            {indexOfFirstRow + 1} -{" "}
-            {Math.min(indexOfLastRow, modifiedData.length)} of{" "}
-            {modifiedData.length}
-          </div>
-          <div className="col-lg-6 col-md-9 col-sm-12">
-            <div className="row d-flex m-0 me-2 justify-content-end align-items-center">
-              <div className="col-lg-2 col-md-1 col"></div>
-              <div className="col-lg-5 col-md-4 col text-end">
-                <label htmlFor="rowPerPage" className="form-label mt-2">
-                  Rows Per Page:
-                </label>
-              </div>
-              <div className="col-lg-1 col-md-3 col text-start p-0">
-                <select
-                  className="rounded bg-color-sea-green text-white shadow p-2"
-                  style={{
-                    color: "#fff",
-                    border: "1px solid #445E84",
-                    outline: "none",
-                  }}
-                  aria-label="Rows per page"
-                  name="rowPerPage"
-                  id="rowPerPage"
-                  value={rows}
-                  onChange={handleRowsPerPage}
-                >
-                  {[10, 20, 30, 40, 50].map((num) => (
-                    <option key={num} value={num}>
-                      &nbsp;{num}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col text-center">
-          <Button
-            className="btn bg-color-sea-green shadow me-2 text-white"
-            onClick={handleFirstPage}
-            disabled={currentPage === 1}
-            style={{
-              border: "1px solid #445E84",
-            }}
-          >
-            <MdFirstPage size={20} />
-          </Button>
-          <Button
-            className="btn bg-color-sea-green shadow me-2 text-white"
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            style={{
-              border: "1px solid #445E84",
-            }}
-          >
-            <MdNavigateBefore size={20} />
-          </Button>
-          {renderPageNumbers()}
-          <Button
-            className="btn bg-color-sea-green shadow me-2 text-white"
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            style={{
-              border: "1px solid #445E84",
-            }}
-          >
-            <MdNavigateNext size={20} />
-          </Button>
-          <Button
-            className="btn bg-color-sea-green shadow text-white"
-            onClick={handleLastPage}
-            disabled={currentPage === totalPages}
-            style={{
-              border: "1px solid #445E84",
-            }}
-          >
-            <MdLastPage size={20} />
-          </Button>
-        </div> */}
         </div>
       </div>
     </div>

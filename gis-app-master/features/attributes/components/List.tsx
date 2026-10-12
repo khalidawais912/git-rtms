@@ -47,7 +47,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = [...(data || [])].reverse().filter((item) =>
       [
@@ -75,7 +74,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm !== "") {
-      // handleSearch();
     }
   };
 
@@ -147,7 +145,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
 
   return (
     <>
-      {/* {error && <p className="text-danger">{error}</p>} */}
       {isLoading && <Loader />}
       <TableHeader
         heading="Attributes"

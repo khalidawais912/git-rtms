@@ -9,22 +9,6 @@ interface Props {
 }
 
 const Reports = ({ reports, observations }: Props) => {
-  // const items = ["a", "a", "a", "a"];
-
-  // const refContainer1 = useRef<HTMLDivElement>(null);
-  // const refContent1 = useRef<HTMLDivElement>(null);
-  // const [constraints1, setConstraints1] = useState({});
-
-  // useEffect(() => {
-  //   // Wait until both container and content are rendered
-  //   if (refContainer1.current && refContent1.current) {
-  //     // Calculate the width difference between container and content
-  //     const containerHeight = refContainer1.current.offsetHeight;
-  //     const contentHeight = refContent1.current.scrollHeight;
-  //     // Set drag constraints dynamically based on the difference
-  //     setConstraints1({ bottom: 0, top: -(contentHeight - containerHeight) });
-  //   }
-  // }, []); // Recalculate if the items change
 
   return (
     <div
@@ -40,14 +24,10 @@ const Reports = ({ reports, observations }: Props) => {
             <h4 className="fw-bold mt-2">{reports.length} Reports</h4>
           </div>
         </div>
-        {/* <div className="col text-end pe-0">
-          <ReportsModal observations={observations} />
-        </div> */}
       </div>
       <div className="row pb-2">
         <div
           className="col"
-          // ref={refContainer1}
           style={{
             height: "150px",
             whiteSpace: "nowrap",
@@ -57,10 +37,6 @@ const Reports = ({ reports, observations }: Props) => {
         >
           <div
             className="d-flex flex-column"
-            // ref={refContent1}
-            // drag="y" // Allow horizontal dragging
-            // dragConstraints={constraints1} // Adjust based on content size
-            // whileTap={{ cursor: "grabbing" }}
           >
             {reports.map((d, i) => (
               <div key={i}>
@@ -98,7 +74,6 @@ const Reports = ({ reports, observations }: Props) => {
                             <p className="m-0 mt-1 fs13px fw-bold">
                               Project Report {i + 1}.pdf
                             </p>
-                            {/* <p className="m-0 fs10px text-secondary">Size: 1.3 MB</p> */}
                           </div>
                         </div>
                       </div>

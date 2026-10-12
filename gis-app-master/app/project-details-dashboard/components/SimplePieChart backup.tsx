@@ -53,9 +53,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile }: Props) => {
         },
         legend: {
           show: true, // Keep the legend visible if needed
-          // formatter: function (val, opts) {
-          //   return `${val}: ${opts.w.globals.series[opts.seriesIndex]}%`;
-          // },
           position: "bottom", // Position legend at the bottom
           onItemHover: {
             highlightDataSeries: false, // Disable highlighting on hover

@@ -180,33 +180,9 @@ const RecordingCarTrackingMap = () => {
           <Map
             mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
             defaultZoom={17}
-            // defaultCenter={position}
             center={{ lat: position.lat + 0.0015, lng: position.lng }}
             gestureHandling={"greedy"}
           >
-            {/* <AdvancedMarker position={position} onClick={() => setOpen(!open)}>
-              <div
-                style={{
-                  transform: `rotate(${rotationAngle}deg)`,
-                  transition: "transform 2s",
-                }}
-              >
-                <img
-                  src="/images/carTop2.png"
-                  alt="carTop2"
-                  style={{ width: "56px", height: "70px" }}
-                />
-              </div>
-            </AdvancedMarker>
-            {open && (
-              <InfoWindow
-                position={position}
-                pixelOffset={[0, -70]}
-                onCloseClick={() => setOpen(false)}
-              >
-                {apiData && <CarCard apiData={apiData} />}
-              </InfoWindow>
-            )} */}
             <MapWithMarkers
               position={position}
               setOpen={setOpen}

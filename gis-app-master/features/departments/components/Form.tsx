@@ -62,7 +62,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
       departmentRights: [],
     },
   });
-  //   const [filedList, setFiledList] = useState<Record<string, string>>({});
 
   const [filedList, setFiledList] = useState<FiledList>({
     "1": "",
@@ -71,9 +70,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
     "4": "",
     "5": "",
   });
-  //   const [dataAgainstFiled, setDataAgainstFiled] = useState<DataAgainstFiled[]>(
-  //     []
-  //   );
   const [fieldValueOptionsMap, setFieldValueOptionsMap] = useState<{
     [index: number]: Option[];
   }>({});
@@ -182,41 +178,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
     }
   };
 
-  // Options for your dropdown
-  //   const fieldValueOptions = [
-  //     { value: "true", label: "True" },
-  //     { value: "false", label: "False" },
-  //     { value: "read", label: "Read" },
-  //     { value: "write", label: "Write" },
-  //     // Add more as needed
-  //   ];
-
-  //   const [rightsData, setRightsData] = useState<DepartmentRight[]>([
-  //     {
-  //       id: 0,
-  //       department_Id: 0,
-  //       fieldName: "",
-  //       fieldValue: "",
-  //     },
-  //   ]);
-
-  //   const handleDeleteRight = (index: number) => {
-  //     setRightsData((prevData) => prevData.filter((_, i) => i !== index));
-  //   };
-
-  // Function to handle adding new option
-  //   const addNewRole = () => {
-  //     setRightsData((prevOptions) => [
-  //       ...prevOptions,
-  //       {
-  //         id: 0,
-  //         department_Id: 0,
-  //         fieldName: "",
-  //         fieldValue: "",
-  //       },
-  //     ]);
-  //   };
-
   const onSubmit = async (formData: DepartmentWithRights) => {
     console.log("Form Data:", formData);
     console.log(errors);
@@ -239,7 +200,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
           : await updateDepartment(modifiedFormData);
       console.log("Response:", response);
       setRefresh((prev) => !prev);
-      // setData((prevData) => [...prevData, response.data.data]);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
     } catch (err) {
@@ -247,18 +207,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
       toast.error((err as AxiosError).message);
     }
   };
-
-  //   const handleRightChange = (
-  //     index: number,
-  //     e: React.ChangeEvent<HTMLInputElement>
-  //   ) => {
-  //     const { name, value } = e.target;
-  //     setRightsData((prevOptions) =>
-  //       prevOptions.map((option, i) =>
-  //         i === index ? { ...option, [name]: value } : option
-  //       )
-  //     );
-  //   };
 
   return (
     <>
@@ -444,31 +392,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
                             />
                           )}
                         />
-                        {/* <select
-                          {...register(`departmentRights.${index}.fieldName`, {
-                            onChange: (e) => {
-                              const selectedId = Number(e.target.value);
-                              if (!selectedId) {
-                                setFieldValueOptionsMap((prev) => ({
-                                  ...prev,
-                                  [index]: [],
-                                }));
-                                return;
-                              }
-
-                              // Fetch new options if a valid field is selected
-                              getDataAgainstFiled(selectedId, index);
-                            },
-                          })}
-                          className="form-select form-select-sm"
-                        >
-                          <option value="">Select Field Name</option>
-                          {Object.entries(filedList)?.map(([key, value]) => (
-                            <option key={key} value={key}>
-                              {value}
-                            </option>
-                          ))}
-                        </select> */}
                         {errors.departmentRights?.[index]?.fieldName && (
                           <p className="text-danger mt-1 fs14px">
                             {
@@ -519,7 +442,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
                   {fields.length > 0 && (
                     <div className="row mt-2 m-0">
                       <div className="col ps-0">
-                        {/* <h6 className="fs16px fw-6 mb-2">Remove Rights</h6> */}
                         {fields.map((field, index) => {
                           const id = 0;
                           // Get current fieldName value from form state
@@ -546,72 +468,7 @@ const Form = ({ method, id, setRefresh }: Props) => {
                     </div>
                   )}
                 </>
-                {/* <div className="col mb-3">
-                    <p className="mt-4 fs18px fw-6 ">Add Roles</p>
-                    <div className="row">
-                      <div className="col-6 text-start">
-                        <select className="form-select form-select-sm color-light-dark">
-                          <option value="">Select</option>
-                          <option value="sponsoring_id">Sponsoring ID</option>
-                        </select>
-                      </div>
-                      <div className="col-5 text-start ps-0">
-                        <select className="form-select form-select-sm color-light-dark">
-                          <option value="">Select</option>
-                          <option value="none">None</option>
-                        </select>
-                      </div>
-                      <div className="col-auto text-end ps-0">
-                        <Button
-                          type="button"
-                          className="btn rounded-circle border border-dark bg-white"
-                        >
-                          <FaPlus />
-                        </Button>
-                      </div>
-                    </div>
-                  </div> */}
-                {/* <div className="col-12 col col-sm-12 col-md-12 col-lg-4 mb-3 text-start">
-                    <label htmlFor="logo" className="form-label fs14px fw-5">
-                      Logo
-                    </label>
-                    <input
-                      {...register("logo")}
-                      id="logo"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Select your logo"
-                    />
-                    {errors.logo && (
-                      <p className="text-danger mt-1 fs14px">{errors.logo.message}</p>
-                    )}
-                  </div> */}
               </div>
-              {/* <div className="row d-flex justify-content-center">
-                <div className="col col-12 col-sm-12 col-md-4 col-lg-3 mb-2">
-                  <Button
-                    className="btn btn-light w-100 border rounded-pill fs13px"
-                    style={{ paddingTop: "9px", paddingBottom: "9px" }}
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-                <div className="col col-12 col-sm-12 col-md-4 col-lg-3">
-                  <Button
-                    className="btn text-white w-100 border-0 rounded-pill fs13px"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, #0C8CE9 ,#1A67A0)",
-                      paddingTop: "9px",
-                      paddingBottom: "9px",
-                    }}
-                    type="submit"
-                  >
-                    Save
-                  </Button>
-                </div>
-              </div> */}
               <SubmitButton>Save Department</SubmitButton>
             </form>
           </FormWrapper>

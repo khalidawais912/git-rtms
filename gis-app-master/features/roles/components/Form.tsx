@@ -36,7 +36,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
     reset,
     formState: { errors },
   } = useForm<Role>({ resolver: zodResolver(schema) });
-  // console.log(errors);
   const modalId = `formModal-${id}`;
   const createdMessage = "Created Successfully";
   const updatedMessage = "Updated Successfully";
@@ -117,16 +116,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Role Name"
                   />
-                  {/* <label htmlFor="name" className="form-label text-white">
-                  Name
-                </label>
-                <input
-                  {...register("name")}
-                  id="name"
-                  type="text"
-                  className="form-control form-control-sm color-light-dark"
-                  placeholder="Enter Role Name"
-                /> */}
                   {errors.name && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.name.message}
@@ -146,19 +135,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Normalized Name"
                   />
-                  {/* <label
-                      htmlFor="normalizedName"
-                      className="form-label text-white"
-                    >
-                      Normalized Name
-                    </label>
-                    <input
-                      {...register("normalizedName")}
-                      id="normalizedName"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter Normalized Name"
-                    /> */}
                 </div>
                 <div
                   className="col-lg-4 col-md-6 col-sm-12 text-start mt-0"
@@ -173,19 +149,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Concurrency Stamp"
                   />
-                  {/* <label
-                      htmlFor="concurrencyStamp"
-                      className="form-label text-white"
-                    >
-                      Concurrency Stamp
-                    </label>
-                    <input
-                      {...register("concurrencyStamp")}
-                      id="concurrencyStamp"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter Concurrency Stamp"
-                    /> */}
                 </div>
               </div>
               <SubmitButton>Save Role</SubmitButton>

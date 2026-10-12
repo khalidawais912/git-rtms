@@ -26,28 +26,6 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
 
-// const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
-//   ssr: false,
-// });
-
-// import { Sapling } from "@saplingai/sapling-js/observer";
-
-// export default function Editor() {
-//   useEffect(() => {
-//     Sapling.init({
-//       key: process.env.NEXT_PUBLIC_SAPLING_PUBLIC_KEY || "", // use public key
-//       endpointHostname: "https://api.sapling.ai",
-//       editPathname: "/api/v1/edits",
-//       statusBadge: true,
-//       mode: "dev",
-//     });
-
-//     const editor = document.getElementById("editor");
-//     if (editor) {
-//       Sapling.observe(editor);
-//     }
-//   }, []);
-
 const schema = z.object({
   id: z.number().optional().default(0),
   visitId: z.number().optional().default(-1),
@@ -158,11 +136,6 @@ const ReportNoting = ({
       descendingOrderReportsHistory[0].status === REFERBACK
     ) {
       setReferback(true);
-      // setValue(
-      //   "submittedTo",
-      //   reportsHistory &&
-      //     reportsHistory[0].submittedFrom
-      // );
     }
 
     console.log("submittedTo", submittedTo);
@@ -333,17 +306,6 @@ const ReportNoting = ({
   const [isMarked, setMarked] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<boolean>(false);
 
-  // const checkGrammar = useCallback(async (text: string) => {
-  //   const res = await fetch("/api/v1/sapling", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ text }),
-  //   });
-  //   const data = await res.json();
-  //   console.log("Sapling grammar suggestions:", data);
-  //   return data;
-  // }, []);
-
   const mdeOptions = useMemo<SimpleMDEOptions>(
     () => ({
       toolbar: [
@@ -399,14 +361,10 @@ const ReportNoting = ({
             <div className="row d-flex m-0">
               {viewPdf && (
                 <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
-                  {/* <PdfFileViewer /> */}
                   <PdfIframe
                     iframeKey={data.reportPath}
                     reportPath={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
                   />
-                  {/* <EditPdfFileViewer
-                fileUrl={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
-              /> */}
                 </div>
               )}
               <div
@@ -477,17 +435,6 @@ const ReportNoting = ({
                               )}
                             />
                           </div>
-                          {/* <div className="col"> */}
-                          {/* <p>new editor</p>*/}
-                          {/* <RichTextEditor />*/}
-                          {/* <MarkdownEditorWithSpellcheck /> */}
-                          {/* <ClientSideCustomEditor /> */}
-                          {/* <SaplingEditorWithHighlight /> */}
-                          {/* <SaplingEditor /> */}
-                          {/* <GrammarEditor /> */}
-                          {/* <SimpleMdeEditor /> */}
-                          {/* <QuillWithSpellChecker /> */}
-                          {/* </div> */}
                           <div className="row mx-0 mb-3">
                             {role !== "director" &&
                               (data.status === SUBMITTED ||
@@ -542,12 +489,6 @@ const ReportNoting = ({
                             {role === "director" &&
                               selectedTabLabel !== "APPROVED BY (DG)" && (
                                 <>
-                                  {/* <label
-                                    className="form-check-label"
-                                    htmlFor="reject"
-                                  >
-                                    Referback:
-                                  </label> */}
                                   <div className="mb-2">
                                     <select
                                       value={submittedTo || ""}
@@ -630,12 +571,6 @@ const ReportNoting = ({
                               selectedTabLabel ===
                                 "SUBMITTED BY (DIRECTOR)") && (
                               <>
-                                {/* <label
-                                  className="form-check-label"
-                                  htmlFor="reject"
-                                >
-                                  Approved:
-                                </label> */}
                                 {(role === "deputy director" &&
                                   descendingOrderReportsHistory[0].status ===
                                     SUBMITTED) ||

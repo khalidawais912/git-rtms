@@ -95,7 +95,6 @@ const DistributedColumnChart = () => {
         },
       },
       title: {
-        // text: "Distributed Column Chart",
         align: "left",
       },
     } as ApexOptions,

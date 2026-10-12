@@ -90,48 +90,6 @@ const MapCarsComponent = () => {
     console.log("staff center", position);
   }, [data]);
 
-  // useEffect(() => {
-  //   // Dummy data for car movement animation
-  //   const interval = setInterval(() => {
-  //     setPosition((prevPosition) => {
-  //       const [latA, lngA] = prevPosition;
-  //       const [latB, lngB] = path[arrayIndex]; // Destination
-  //       console.log("path with array index:", path[arrayIndex]);
-  //       console.log("latA:", latA, "lngA", lngA);
-  //       console.log("latB:", latB, "lngB", lngB);
-  //       setArrayIndex(arrayIndex++);
-  //       if (path.length - 1 === arrayIndex) {
-  //         clearInterval(interval); // Stop movement when car reaches destination
-  //         return prevPosition;
-  //       }
-  //       return [latB + speed, lngB + speed]; // Move towards Point B
-  //     });
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [path]);
-
-  // useEffect(() => {
-  //   // Dummy data for car movement animation
-  //   const interval = setInterval(() => {
-  //     setPosition2((prevPosition) => {
-  //       const [latA, lngA] = prevPosition;
-  //       const [latB, lngB] = path2[arrayIndex2]; // Destination
-  //       console.log("path with array index:", path2[arrayIndex2]);
-  //       console.log("latA:", latA, "lngA", lngA);
-  //       console.log("latB:", latB, "lngB", lngB);
-  //       setArrayIndex2(arrayIndex2++);
-  //       if (path2.length - 1 === arrayIndex2) {
-  //         clearInterval(interval); // Stop movement when car reaches destination
-  //         return prevPosition;
-  //       }
-  //       return [latB + speed, lngB + speed]; // Move towards Point B
-  //     });
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [path]);
-
   return (
     <>
       <div className="row">
@@ -188,36 +146,8 @@ const MapCarsComponent = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
           {/* Draw the line from Point A to Point B */}
-          {/* <Polyline positions={path} color="blue" />
-      <Polyline positions={path2} color="red" /> */}
 
           {/* Moving Car */}
-          {/* <Marker position={position} icon={carIcon} ref={markerRef}>
-        <Popup
-          maxWidth={195}
-          className="mapPopup"
-          closeButton={false}
-          offset={L.point(-12, -16)}
-        >
-          <CarCard />
-        </Popup>
-      </Marker> */}
-          {/* {data && (
-        <Marker
-          position={[parseInt(data[0].latitude), parseInt(data[0].longitude)]}
-          icon={carIcon}
-          ref={markerRef}
-        >
-          <Popup
-            maxWidth={195}
-            className="mapPopup"
-            closeButton={false}
-            offset={L.point(0, -16)}
-          >
-            <CarCard latitude={data[0].latitude} />
-          </Popup>
-        </Marker>
-      )} */}
           {data?.map((d: any, i) => (
             <Marker
               key={i}
@@ -226,7 +156,6 @@ const MapCarsComponent = () => {
               ref={markerRef2}
             >
               <Popup closeButton={false} offset={L.point(-10, -20)}>
-                {/* <CarCard data={d} /> */}
               </Popup>
             </Marker>
           ))}

@@ -46,7 +46,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
 
   // Handle search logic
   const handleSearch = (value: string) => {
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = data.filter((item) =>
       [
@@ -65,7 +64,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm !== "") {
-      // handleSearch();
     }
   };
 

@@ -51,7 +51,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.driverName, item.mobileNumber]
         .filter((field) => field) // Remove undefined fields
@@ -64,7 +63,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm !== "") {
-      // handleSearch();
     }
   };
 
@@ -259,16 +257,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   name="mobile number"
                   handleSort={() => handleSort("mobileNumber")}
                 />
-                {/* <TableHeading
-                  className="text-nowrap"
-                  name="created at"
-                  handleSort={() => handleSort("createdAt")}
-                />
-                <TableHeading
-                  className="text-nowrap"
-                  name="updated at"
-                  handleSort={() => handleSort("updatedAt")}
-                /> */}
                 <TableHeading name="ACTIONS" textClassName="text-center" />
               </tr>
             </thead>
@@ -279,17 +267,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   <TableData>{d.driverName}</TableData>
                   <TableData>
                     {d.driverImage && d.driverImage.length > 0 && (
-                      // <img
-                      //   className="img-fluid rounded-circle shadow-sm"
-                      //   style={{
-                      //     width: "70px",
-                      //     height: "70px",
-                      //     objectFit: "cover",
-                      //     objectPosition: "center top",
-                      //   }}
-                      //   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.driverImage}`}
-                      //   alt="driverImage"
-                      // />
                       <Avatar
                         src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.driverImage}`}
                         width={70}
@@ -298,24 +275,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                     )}
                   </TableData>
                   <TableData>{d.mobileNumber}</TableData>
-                  {/* <TableData>
-                    {d.createdAt &&
-                      new Date(d.createdAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData>
-                  <TableData>
-                    {d.updatedAt &&
-                      new Date(d.updatedAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData> */}
                   <TableData>
                     <Actions
                       deleteNode={

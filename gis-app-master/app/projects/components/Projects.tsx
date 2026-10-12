@@ -5,11 +5,6 @@ const Projects = ({ dashboardType }: { dashboardType?: string }) => {
   return (
     <ListWrapper>
       <ProjectsList dashboardType={dashboardType} />
-      {/* <span>
-          Image:
-          <DownloadPDFBtn />
-        </span>
-        <DownloadFile /> */}
     </ListWrapper>
   );
 };

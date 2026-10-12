@@ -179,49 +179,6 @@ const PPTSlideGenerator = () => {
     }
   }, [priority, fromDate, toDate]);
 
-  // const getSectors = async () => {
-  //   if (priority.length <= 0) {
-  //     toast.info("Please Select Atleast one Priority!");
-  //     return;
-  //   }
-  //   if (fromDate.length <= 0) {
-  //     toast.info("Please select 'From Date'!");
-  //     return;
-  //   }
-  //   if (toDate.length <= 0) {
-  //     toast.info("Please select 'To Date'!");
-  //     return;
-  //   }
-  //   console.log("sectors async data: ", {
-  //     pirority: priority,
-  //     to: new Date(toDate).toISOString().split("T")[0],
-  //     from: new Date(fromDate).toISOString().split("T")[0],
-  //     sector: [""],
-  //   });
-  //   try {
-  //     const response = await apiClient.post(
-  //       `${GENERATE_REPORT_API}/GetSectorAsync`,
-  //       {
-  //         pirority: priority,
-  //         to: new Date(toDate).toISOString().split("T")[0],
-  //         from: new Date(fromDate).toISOString().split("T")[0],
-  //         sector: [""],
-  //       }
-  //     );
-
-  //     console.log(response);
-  //     setSectorNames(response.data.data);
-  //     toast.success("Sectors Obtained Successfully");
-  //   } catch (err) {
-  //     setSectorNames([]);
-  //     console.error("Submission error:", err);
-  //     toast.error(
-  //       (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-  //         (err as AxiosError<ErrorResponse>).message
-  //     );
-  //   }
-  // };
-
   useEffect(() => {
     if (priority.length > 0 || fromDate.length > 0 || toDate.length > 0)
       getSectors();

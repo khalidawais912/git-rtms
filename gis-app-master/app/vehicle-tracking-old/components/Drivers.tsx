@@ -75,18 +75,6 @@ const Drivers = () => {
               Drivers
             </h4>
           </div>
-          {/* <div className="col text-end">
-            <Button
-              className="btn p-1 mt-1 fs12px"
-              style={{
-                padding: "15px 20px 15px 20px",
-                fontWeight: 600,
-                letterSpacing: "1px",
-              }}
-            >
-              See All
-            </Button>
-          </div> */}
         </div>
       </div>
       <div className="row d-flex mb-1">
@@ -170,13 +158,6 @@ const Drivers = () => {
                             style={{ width: "auto", height: "auto" }}
                             alt="driver Image"
                           />
-                          {/* <div className="text-center">
-                          <MdOutlineStar style={{ color: "#FEC003" }} />
-                          <MdOutlineStar style={{ color: "#FEC003" }} />
-                          <MdOutlineStar style={{ color: "#FEC003" }} />
-                          <MdOutlineStarHalf style={{ color: "#FEC003" }} />
-                          <MdOutlineStarOutline style={{ color: "#FEC003" }} />
-                        </div> */}
                           <p
                             className="m-0 fs12px fw-normal text-center"
                             style={{ color: "#627394" }}
@@ -224,19 +205,6 @@ const Drivers = () => {
                             />{" "}
                             {d.visitId ? d.visitId : "Lahore"}
                           </p>
-                          {/* <p
-                          className="m-0 fs8px fw-normal rounded p-1"
-                          style={{ background: "#FFE8B2" }}
-                        >
-                          <Image
-                            src={warning}
-                            style={{ marginBottom: "1px" }}
-                            alt="warning"
-                            width={10}
-                            height={10}
-                          />
-                          &nbsp;&nbsp;License not Checked for 1 year.
-                        </p> */}
                         </div>
                       </div>
                     </div>

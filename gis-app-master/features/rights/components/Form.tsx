@@ -37,7 +37,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
     reset,
     formState: { errors },
   } = useForm<Right>({ resolver: zodResolver(schema) });
-  // console.log(errors);
   const modalId = `formModal-${id}`;
   const createdMessage = "Created Successfully";
   const updatedMessage = "Updated Successfully";
@@ -121,16 +120,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Right Name"
                   />
-                  {/* <label htmlFor="rightName" className="form-label text-white">
-                    Right Name
-                  </label>
-                  <input
-                    {...register("rightName")}
-                    id="rightName"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Right Name"
-                  /> */}
                   {errors.rightName && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.rightName.message}
@@ -151,19 +140,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     placeholder="Enter Right Identifier"
                   />
 
-                  {/* <label
-                    htmlFor="rightIdentifier"
-                    className="form-label text-white"
-                  >
-                    Right Identifier
-                  </label>
-                  <input
-                    {...register("rightIdentifier")}
-                    id="rightIdentifier"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Right Identifier"
-                  /> */}
                 </div>
               </div>
               <SubmitButton>Save Right</SubmitButton>

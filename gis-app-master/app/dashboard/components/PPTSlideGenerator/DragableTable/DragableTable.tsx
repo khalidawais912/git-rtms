@@ -59,7 +59,6 @@ const DragableTable = ({ sectors, setSectors }: Props) => {
             <tr>
               <th scope="col">Sr</th>
               <th scope="col">Sectors</th>
-              {/* <th scope="col">Drag</th> */}
             </tr>
           </thead>
           <tbody>

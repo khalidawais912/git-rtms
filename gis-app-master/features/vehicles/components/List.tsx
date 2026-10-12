@@ -49,7 +49,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [
         item.id.toString(),
@@ -198,16 +197,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   name="vehicle Icon"
                   handleSort={() => handleSort("vehicleIcon")}
                 />
-                {/* <TableHeading
-                  className="text-nowrap"
-                  name="created at"
-                  handleSort={() => handleSort("createdAt")}
-                />
-                <TableHeading
-                  className="text-nowrap"
-                  name="updated at"
-                  handleSort={() => handleSort("updatedAt")}
-                /> */}
                 <TableHeading name="ACTIONS" textClassName="text-center" />
               </tr>
             </thead>
@@ -236,16 +225,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                         width={70}
                         height={70}
                       />
-                      // <img
-                      //   className="img-fluid rounded-3"
-                      //   style={{
-                      //     width: "70px",
-                      //     height: "70px",
-                      //     objectFit: "contain",
-                      //   }}
-                      //   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.vehicleImage}`}
-                      //   alt="vehicleImage"
-                      // />
                     )}
                   </TableData>
                   <TableData className="text-center">
@@ -263,24 +242,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                       />
                     )}
                   </TableData>
-                  {/* <TableData>
-                    {d.createdAt &&
-                      new Date(d.createdAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData>
-                  <TableData>
-                    {d.updatedAt &&
-                      new Date(d.updatedAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData> */}
                   <TableData>
                     <Actions
                       deleteNode={

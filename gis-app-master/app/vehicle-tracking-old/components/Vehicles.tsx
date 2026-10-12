@@ -32,7 +32,6 @@ const Vehicles = () => {
   const [data, setData] = useState<AvailableVehicles[]>();
   const [filteredData, setFilteredData] = useState<AvailableVehicles[]>();
   const [refresh, setRefresh] = useState(false);
-  // const { data: vehicles } = useVehicle({ refresh });
 
   const items2 = [
     {
@@ -66,21 +65,6 @@ const Vehicles = () => {
       carIcon: car2Left,
     },
   ];
-
-  // const refContainer2 = useRef<HTMLDivElement>(null);
-  // const refContent2 = useRef<HTMLDivElement>(null);
-  // const [constraints2, setConstraints2] = useState({});
-
-  // useEffect(() => {
-  //   // Wait until both container and content are rendered
-  //   if (refContainer2.current && refContent2.current) {
-  //     // Calculate the width difference between container and content
-  //     const containerHeight = refContainer2.current.offsetHeight;
-  //     const contentHeight = refContent2.current.scrollHeight;
-  //     // Set drag constraints dynamically based on the difference
-  //     setConstraints2({ bottom: 0, top: -(contentHeight - containerHeight) });
-  //   }
-  // }, [data, status]); // Recalculate if the items change
 
   useEffect(() => {
     const handleSubmit = async () => {
@@ -156,7 +140,6 @@ const Vehicles = () => {
               setFilteredData(
                 data?.filter((d) => d.vehicleSatus === "available")
               );
-              // handleSubmit("available");
             }}
           >
             Available
@@ -178,7 +161,6 @@ const Vehicles = () => {
             onClick={() => {
               setStatus("in_use");
               setFilteredData(data?.filter((d) => d.vehicleSatus === "in_use"));
-              // handleSubmit("in_use");
             }}
           >
             On Visit
@@ -229,9 +211,6 @@ const Vehicles = () => {
                       />
                     )}
                   </div>
-                  {/* <div className="col-lg-1 col-md-1 col text-end p-0">
-                    <FavioriteBtn />
-                  </div> */}
                 </div>
                 <div
                   className="row ps-0 pe-0 m-0 pb-1 mb-2"
@@ -247,14 +226,6 @@ const Vehicles = () => {
                     <div className="col p-0">
                       <p className="m-0 fs14px fw-bold">{d.description}</p>
                     </div>
-                    {/* <div className="col p-0">
-                      <p
-                        className="m-0 fs12px fw-normal text-end"
-                        style={{ color: "#757575" }}
-                      >
-                        001031 KM
-                      </p>
-                    </div> */}
                   </div>
                 </div>
                 <div className="row d-flex m-0 justify-content-between">

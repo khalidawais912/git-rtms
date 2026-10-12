@@ -141,11 +141,6 @@ interface ProjectVisit {
 const StaffTracking = () => {
   const [mapStatus, setMapStatus] = useState(false);
   const dispatch = useDispatch();
-  // useAuthorization("staff-tracking");
-  // const [userId, setUserId] = useState<number>();
-  // const [visitId, setVisitId] = useState<number>();
-  // const [visits, setVisits] = useState();
-  // const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState<StaffTracking[]>();
   const [recordingTrackingRequestBody, setRecordingTrackingRequestBody] =
@@ -661,14 +656,6 @@ const StaffTracking = () => {
             {devMap && (
               <div>
                 <>
-                  {/* <RecordingStaffTrackingMap
-                        trackingRequestBody={recordingTrackingRequestBody}
-                        fetchRecordingData={fetchRecordingData}
-                        position={position}
-                        setPosition={setPosition}
-                        path={path}
-                        recordingData={recordingData}
-                      /> */}
                   {isCombineRouteSelected ? (
                     <div className="col" style={{ marginTop: "60px" }}>
                       {recordingData && startLocation && endLocation && (
@@ -715,7 +702,6 @@ const StaffTracking = () => {
                 </>
               </div>
             )}
-            {/* <Visits /> */}
           </div>
 
           {recordingData &&
@@ -739,7 +725,6 @@ const StaffTracking = () => {
                       officerDuration={officerDuration}
                     />
                   </div>
-                  {/* <ScheduleVisit /> */}
                 </div>
               </>
             )}
@@ -754,7 +739,6 @@ const StaffTracking = () => {
                 )}
                 {devMap && data && (
                   <div className="position-relative" style={{ zIndex: 0 }}>
-                    {/* {mapStatus ? <MapCarsRecorded /> : <MapCars />} */}
                     <>
                       <LiveStaffTrackingMap
                         data={data}
@@ -765,7 +749,6 @@ const StaffTracking = () => {
                     </>
                   </div>
                 )}
-                {/* <Visits /> */}
               </div>
             </div>
           </div>
@@ -782,7 +765,6 @@ const StaffTracking = () => {
               selectedButton === 2 && (
                 <StaffMemberInRecording recordingData={recordingData} />
               )}
-            {/* <ScheduleVisit /> */}
           </div>
         </div>
       )}

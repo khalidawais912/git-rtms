@@ -119,7 +119,6 @@ const HierarchyBuilder = () => {
     console.log("idToDelete", idToDelete);
     console.log("nodes", nodes);
     const filtered = nodes.filter((node) => node.id !== idToDelete);
-    // console.log("remaining nodes", filtered);
     let newNodes = [];
     console.log("nodes.length", nodes.length);
     for (let i = 0; i < nodes.length; i++) {
@@ -235,56 +234,6 @@ const HierarchyBuilder = () => {
     setSelectedNodeId(node.id);
   };
 
-  //   function getSortedNodes(
-  //     nodes: NodeWithData[],
-  //     edges: Edge[]
-  //   ): NodeWithData[] {
-  //     const inDegree: Record<string, number> = {};
-  //     const graph: Record<string, string[]> = {};
-
-  //     nodes.forEach((node) => {
-  //       inDegree[node.id] = 0;
-  //       graph[node.id] = [];
-  //     });
-
-  //     edges.forEach((edge) => {
-  //       graph[edge.source].push(edge.target);
-  //       inDegree[edge.target] = (inDegree[edge.target] || 0) + 1;
-  //     });
-
-  //     const queue: string[] = Object.keys(inDegree).filter(
-  //       (id) => inDegree[id] === 0
-  //     );
-  //     const sorted: NodeWithData[] = [];
-
-  //     while (queue.length) {
-  //       const currentId = queue.shift()!;
-  //       const node = nodes.find((n) => n.id === currentId);
-  //       if (node) sorted.push(node);
-
-  //       for (const neighbor of graph[currentId]) {
-  //         inDegree[neighbor]--;
-  //         if (inDegree[neighbor] === 0) queue.push(neighbor);
-  //       }
-  //     }
-
-  //     return sorted;
-  //   }
-
-  //   function buildHierarchyPayload(sortedNodes: NodeWithData[]): {
-  //     roleId: number;
-  //     sortOrder: number;
-  //     description: string;
-  //   }[] {
-  //     return sortedNodes.map((node, index) => ({
-  //       roleId: node.data.roleId,
-  //       sortOrder: index + 1,
-  //       description: `${node.data.name} - ${node.data.designation}`,
-  //     }));
-  //   }
-
-  //   const sorted = getSortedNodes(nodes, edges);
-  // const payload = buildHierarchyPayload(sorted);
   const { data: roles } = useRoles();
   const defaultNumberOption = { value: "-1", label: "Select" };
 
@@ -312,8 +261,6 @@ const HierarchyBuilder = () => {
     }),
     option: (base, state) => ({
       ...base,
-      // backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-      // color: "#333",
       fontSize: "14px",
     }),
   };
@@ -363,15 +310,6 @@ const HierarchyBuilder = () => {
                 }}
               />
             )}
-            {/* <input
-            id="role"
-            type="text"
-            className="form-control form-control-sm color-light-dark fw-5"
-            placeholder="Admin"
-            style={{ border: "1px solid #E2E4E5" }}
-            onChange={(e) => setRole(e.target.value)}
-            value={role}
-          /> */}
           </div>
           <div className="col mb-3">
             <p className="fs14px fw-5 mb-2">Stage Color</p>

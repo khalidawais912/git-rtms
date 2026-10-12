@@ -65,7 +65,6 @@ const StackedColumnChart = () => {
         position: "top",
       },
       title: {
-        // text: "Grouped Stacked Column Chart",
         align: "left",
       },
     } as ApexOptions,

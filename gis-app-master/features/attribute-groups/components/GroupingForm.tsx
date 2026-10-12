@@ -92,7 +92,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
           ATTRIBUTE_GROUP_MAPPING_API_Endpoint,
           data
         );
-        // notifyCreate(updated);
         console.log(response);
         handleClose();
       }

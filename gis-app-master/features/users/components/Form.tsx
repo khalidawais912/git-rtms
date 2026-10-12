@@ -241,13 +241,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                     type="text"
                     placeholder="Enter first Name"
                   />
-                  {/* <input
-                      {...register("userProfile.firstName")}
-                      id="firstName"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter first Name"
-                    /> */}
                   {errors?.userProfile?.firstName && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.userProfile.firstName.message}
@@ -283,17 +276,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                     placeholder="Enter UserName"
                     autoComplete="username"
                   />
-                  {/* <label htmlFor="username" className="form-label text-white">
-                      UserName
-                    </label>
-                    <input
-                      {...register("username")}
-                      id="username"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter User Name"
-                      autoComplete="username"
-                    /> */}
                   {errors.username && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.username.message}
@@ -312,17 +294,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                     placeholder="Enter Email"
                     autoComplete="email"
                   />
-                  {/* <label htmlFor="email" className="form-label text-white">
-                      Email
-                    </label>
-                    <input
-                      {...register("email")}
-                      id="email"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter Email"
-                      autoComplete="email"
-                    /> */}
                   {errors.email && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.email.message}
@@ -340,19 +311,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                     type="text"
                     placeholder="Enter Designation"
                   />
-                  {/* <label
-                      htmlFor="designation"
-                      className="form-label text-white"
-                    >
-                      Designation
-                    </label>
-                    <input
-                      {...register("userProfile.designation")}
-                      id="designation"
-                      type="text"
-                      className="form-control form-control-sm color-light-dark"
-                      placeholder="Enter Designation"
-                    /> */}
                   {errors?.userProfile?.designation && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.userProfile.designation.message}
@@ -395,21 +353,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                     )}
                   />
 
-                  {/* <label htmlFor="roleID" className="form-label text-white">
-                      Role
-                    </label> */}
-                  {/* <select
-                      id="roleID"
-                      {...register("roleID", { valueAsNumber: true })}
-                      className="form-select form-select-sm color-light-dark"
-                    >
-                      <option value="">None</option>
-                      {roles?.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.name}
-                        </option>
-                      ))}
-                    </select> */}
                   {errors.roleID && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.roleID.message}
@@ -473,20 +416,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                       placeholder="Enter password"
                       autoComplete="new-password"
                     />
-                    {/* <label
-                        htmlFor="password"
-                        className="form-label text-white"
-                      >
-                        Password
-                      </label>
-                      <input
-                        {...register("password")}
-                        id="password"
-                        type={buttonType === true ? "password" : "text"}
-                        className="form-control form-control-sm color-light-dark"
-                        placeholder="Enter Password"
-                        autoComplete="new-password"
-                      /> */}
                     <Button
                       className="btn position-absolute rounded-3"
                       style={{ top: 32, zIndex: 3, right: 5 }}
@@ -543,23 +472,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                       />
                     )}
                   />
-                  {/* <label htmlFor="bps" className="form-label text-white">
-                      BPS
-                    </label>
-                    <select
-                      id="bps"
-                      {...register("userProfile.bps", { valueAsNumber: true })}
-                      className="form-select form-select-sm color-light-dark"
-                    >
-                      <option value="0">None</option>
-                      {Array.from({ length: 22 }, (_, i) => i + 1)?.map(
-                        (num) => (
-                          <option key={num} value={num}>
-                            {num}
-                          </option>
-                        )
-                      )}
-                    </select> */}
                   {errors?.userProfile?.bps && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.userProfile.bps.message}
@@ -604,58 +516,12 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
                       />
                     )}
                   />
-                  {/* <label htmlFor="section" className="form-label text-white">
-                      Section
-                    </label>
-                    <select
-                      id="section"
-                      {...register("userProfile.section")}
-                      className="form-select form-select-sm color-light-dark"
-                    >
-                      <option value="">None</option>
-                      <option value="M">M</option>
-                      <option value="E">E</option>
-                    </select> */}
                   {errors?.userProfile?.section && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.userProfile.section.message}
                     </p>
                   )}
                 </div>
-                {/* <div
-                  className="col-lg-4 col-md-6 col-sm-12 text-start mt-0"
-                  style={{ marginBottom: "10px", padding: "0px 10px" }}
-                >
-                  <CustomLabel htmlFor="profilePicture">
-                    Profile Picture
-                  </CustomLabel>
-                  <CustomInput
-                    id="profilePicture"
-                    type="file"
-                    placeholder="Choose Profile Picture"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                  />
-                  {errors?.userProfile?.profilePicture && (
-                    <p className="text-danger mt-1 fs14px">
-                      {errors.userProfile.profilePicture.message}
-                    </p>
-                  )}
-                  {previewUrl && (
-                    <img
-                      src={previewUrl}
-                      alt="Preview"
-                      className="rounded-circle overflow-hidden"
-                      style={{
-                        marginTop: "10px",
-                        width: "120px",
-                        height: "120px",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  )}
-                </div> */}
               </div>
 
               <SubmitButton disabled={isSubmitting}>

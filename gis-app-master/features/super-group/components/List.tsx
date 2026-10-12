@@ -55,7 +55,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.superGroupLabel]
         .filter((field) => field) // Remove undefined fields
@@ -155,12 +154,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
                   textClassName="text-nowrap text-center"
                 />
                 <TableHeading name="ACTIONS" textClassName="text-center" />
-                {/* <th>
-                <div className="text-center">Attribute Groups</div>
-              </th>
-              <th colSpan={2}>
-                <div className="text-center"></div>
-              </th> */}
               </tr>
             </thead>
             <tbody>

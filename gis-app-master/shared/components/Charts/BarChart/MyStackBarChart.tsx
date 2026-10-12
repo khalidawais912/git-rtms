@@ -141,7 +141,6 @@ const MyStackBarChart = ({
           left: leftMargin,
         }}
       >
-        {/* ================= SVG GRADIENTS ================= */}
         <defs>
           {data.flatMap((row) =>
             [row.value1, row.value2]

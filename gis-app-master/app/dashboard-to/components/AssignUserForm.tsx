@@ -79,7 +79,6 @@ const AssignUserForm = ({ id, options }: Props) => {
 
     try {
       const response = await apiClient.post(ASSIGN_USER_TO_PROJECT_API, data);
-      // notifyCreate(updated);
       console.log(response);
       handleClose();
     } catch (error) {

@@ -27,8 +27,6 @@ const customStyles: StylesConfig<Option, false> = {
   }),
   option: (base, state) => ({
     ...base,
-    // backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-    // color: "#333",
     fontSize: "14px",
   }),
 };

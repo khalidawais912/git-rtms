@@ -19,7 +19,6 @@ import {
   APPROVED_BY_DG_AND_FORWARD_BY_DD_TO_AD_FOR_ISSUEANCE,
   D_REFERBACK_ID,
   DD_REFERBACK_ID,
-  // DD_USER_ID,
   DG_REFERBACK_ID,
   DG_USER_ID,
   REVIEWED_AND_APPROVED_BY_DG_TO_D,
@@ -141,91 +140,6 @@ const ReportNoting = ({ data, setRefresh, refresh, role, userId }: Props) => {
     reportsHistory,
   ]);
 
-  // useEffect(() => {
-  //   if (
-  //     role === "deputy director" &&
-  //     reportsHistory &&
-  //     reportsHistory[reportsHistory?.length - 1].status ===
-  //       APPROVED_BY_DG_AND_FORWARD_BY_D_TO_DD_FOR_ISSUEANCE
-  //   ) {
-  //     setValue("submittedTo", data.intiallyUserId);
-  //   } else {
-  //     if (!submittedTo) {
-  //       const defaultOfficer = officers.find(
-  //         (officer) => officer.id === data.submittedFrom
-  //       )?.id;
-  //       if (defaultOfficer) setValue("submittedTo", defaultOfficer);
-  //     }
-  //   }
-  // }, [
-  //   data.submittedFrom,
-  //   officers,
-  //   setValue,
-  //   submittedTo,
-  //   role,
-  //   reportsHistory,
-  // ]);
-
-  // function getNextStatus({
-  //   role,
-  //   lastStatus,
-  //   isRejected,
-  // }: {
-  //   role: string | undefined;
-  //   lastStatus: number;
-  //   isRejected: boolean;
-  // }): number {
-  //   const lowerRole = role?.toLowerCase();
-
-  //   if (lowerRole === "deputy director") {
-  //     if (lastStatus === SUBMITTED_BY_AD_TO_DD) {
-  //       return isRejected ? DD_REFERBACK_ID : REVIEWED_AND_FORWARD_BY_DD_TO_D;
-  //     }
-
-  //     if (lastStatus === REVIEWED_AND_FORWARD_BY_D_TO_DG) {
-  //       return APPROVED_BY_DG_AND_FORWARD_BY_DD_TO_AD_FOR_ISSUEANCE;
-  //     }
-
-  //     if (lastStatus === D_REFERBACK_ID && isRejected) {
-  //       return DD_REFERBACK_ID;
-  //     }
-  //   }
-
-  //   if (lowerRole === "director") {
-  //     if (lastStatus === REVIEWED_AND_FORWARD_BY_DD_TO_D) {
-  //       return isRejected ? D_REFERBACK_ID : REVIEWED_AND_FORWARD_BY_D_TO_DG;
-  //     }
-
-  //     if (isRejected && lastStatus === D_REFERBACK_ID) {
-  //       return D_REFERBACK_ID;
-  //     }
-  //   }
-
-  //   if (lowerRole === "director general") {
-  //     if (lastStatus === REVIEWED_AND_FORWARD_BY_D_TO_DG) {
-  //       return isRejected ? DG_REFERBACK_ID : REVIEWED_AND_APPROVED_BY_DG_TO_D;
-  //     }
-  //   }
-
-  //   // fallback if nothing matched
-  //   return DD_REFERBACK_ID;
-  // }
-
-  // const modifiedFormData = {
-  //   ...formData,
-  //   visitId: data.visitId,
-  //   projectId: data.projectId,
-  //   submittedFrom: userId,
-  //   submittedUser: data.submittedUser,
-  //   reportPath: data.reportPath,
-  //   status: getNextStatus({
-  //     role,
-  //     lastStatus: data.lastStatus,
-  //     isRejected,
-  //   }),
-  //   reportType: data.reportType,
-  // };
-
   const onSubmit = async (formData: ReportNoting) => {
     console.log(errors);
     if (role) {
@@ -315,18 +229,6 @@ const ReportNoting = ({ data, setRefresh, refresh, role, userId }: Props) => {
     }
   };
 
-  // const handleMarkedReport = async (data: ReportHistory) => {
-  //   try {
-  //     const response = await apiClient.post(
-  //       `${REPORTS_HISTORY_API}/MarkedReport`,
-  //       data
-  //     );
-  //     console.log("marked report: ", response.data.data);
-  //   } catch (err) {
-  //     console.error("Submission error:", err);
-  //   }
-  // };
-
   useEffect(() => {
     const getReportHistory = async (visitId: number, projectId: number) => {
       try {
@@ -372,87 +274,11 @@ const ReportNoting = ({ data, setRefresh, refresh, role, userId }: Props) => {
         >
           {reportsHistory && (
             <div className="row d-flex m-0">
-              {/* <div className="col-lg-4 col-md-12 col-sm-12 mb-3">
-              <div
-                className="col p-4 me-1"
-                style={{
-                  background: "#FAFAFA",
-                  borderRadius: "12px",
-                }}
-              >
-                <div className="row d-flex m-0 mb-2">
-                  <div className="col text-end">
-                    <Link
-                      target="_blank"
-                      href={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
-                      className="btn rounded-pill fs15px text-wrap"
-                      style={{ background: "#E4E4E4" }}
-                    >
-                      Veiw{" "}
-                      {data.reportType === ONE_PAGER_REPORT_ID
-                        ? "One Pager"
-                        : "Complete"}{" "}
-                      Report
-                    </Link>
-                  </div>
-                </div>
-                <h1
-                  className="fw-bold text-wrap text-break"
-                  style={{ fontSize: "36px" }}
-                >
-                  {
-                    users.find((user) => user.id === data.submittedFrom)
-                      ?.fullName
-                  }
-                </h1>
-                <p
-                  className="mb-2 fs18px fw-normal"
-                  style={{ color: "#1E1E1E", opacity: 0.8 }}
-                >
-                  {
-                    users.find((user) => user.id === data.submittedFrom)
-                      ?.designation
-                  }
-                </p>
-                <p
-                  className="mb-2 fs18px fw-normal"
-                  style={{ color: "#1E1E1E", opacity: 0.8 }}
-                >
-                  Marked To :{" "}
-                  {users.find((user) => user.id === data.submittedTo)?.fullName}
-                </p>
-                <hr className="mb-3" style={{ opacity: ".1" }} />
-                <div className="row d-flex m-0 mb-2">
-                  <div className="col">
-                    <p
-                      className="mb-1 fw-normal text-break"
-                      style={{ color: "#1E1E1E", opacity: 0.6 }}
-                    >
-                      Last modification:&nbsp;
-                      {new Date(data.sDate).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </div>
-                <Button className="btn bg-color-sea-blue fs18px rounded-pill text-white w-100 py-3 mb-2 fw-bold">
-                  <IoArrowBack size={21} />
-                  &nbsp;&nbsp;&nbsp;Back
-                </Button>
-              </div>
-            </div> */}
               {viewPdf && (
                 <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
-                  {/* <PdfFileViewer /> */}
                   <PdfIframe
                     reportPath={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
                   />
-                  {/* <EditPdfFileViewer
-                fileUrl={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
-              /> */}
                 </div>
               )}
               <div

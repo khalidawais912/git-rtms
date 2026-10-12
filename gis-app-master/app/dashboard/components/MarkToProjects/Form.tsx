@@ -56,7 +56,6 @@ const Form = ({ setRefresh, id }: Props) => {
       });
       console.log("Response:", response);
       setRefresh((prev) => !prev);
-      // setData((prevData) => [...prevData, response.data.data]);
       toast.success(updatedMessage);
     } catch (err) {
       console.error("Submission error:", err);
@@ -94,10 +93,6 @@ const Form = ({ setRefresh, id }: Props) => {
                 onCheckedChange={async (e) => {
                   console.log(e, "testing");
                 }}
-                // onCheckedChange={async (val) =>
-                //   await handleMarkToEvaluation(d.id, val)
-                // }
-                // disabled={d.markToEvaluation}
               />
             </div>
           </div>

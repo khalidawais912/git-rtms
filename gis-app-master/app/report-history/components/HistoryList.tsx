@@ -23,11 +23,6 @@ const HistoryList = ({ descendingOrderData, users }: Props) => {
               style={{ height: "500px", overflow: "scroll" }}
             >
               <div className="col mb-2 text-end">
-                {/* <ReportHistoryDownload
-                  data={ascendingOrderData}
-                  users={users}
-                  submittedReport={submittedReport}
-                /> */}
               </div>
               {descendingOrderData?.map((d) => (
                 <div

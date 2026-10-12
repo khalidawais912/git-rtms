@@ -178,7 +178,6 @@ const SmdpAllProjectsSyncForm = ({
                     className="form-select form-select-sm"
                     aria-label="Default select example"
                     name="categoryType"
-                    //   onChange={handleChange}
                   >
                     <option value="">Select</option>
                     <option value="Scheduled">CM INITIATIVE</option>

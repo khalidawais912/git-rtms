@@ -158,7 +158,6 @@ const MapWithMarkers = ({
     handleDistrictClick(districtId, !isActive); // Toggle project markers
     if (
       activeFilter === "cmInitiative"
-      // && districts.find((district) => district.id === districtId)?.districtName
     ) {
       handleSubmit([
         ...cmInitiativeFilters,
@@ -220,7 +219,6 @@ const MapWithMarkers = ({
     });
     if (
       activeFilter === "cmInitiative"
-      // && districts.find((district) => district.id === districtId)?.districtName
     ) {
       handleSubmit([
         ...cmInitiativeFilters,
@@ -276,13 +274,6 @@ const MapWithMarkers = ({
           overflow: "hidden",
         }}
       >
-        {/* <Map
-            mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
-            defaultZoom={7}
-            defaultCenter={InitialCenterPosition}
-            gestureHandling={"greedy"}
-            style={{ borderRadius: "10px" }}
-          > */}
         {(activeDistrict ? [activeDistrict] : districtList)
           .filter((district) => district.latitude && district.longitude)
           .map((district) => (

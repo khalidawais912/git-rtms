@@ -89,7 +89,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data?.dailyAttandance.filter((item) =>
       [
         item.userId.toString(),
@@ -506,7 +505,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
                   <p className="fw-bold p-0 m-0 mt-3">
                     Employee ID: {employeeId}
                   </p>
-                  {/* <p className="p-0 m-0 text-secondary">Date of Join:-</p> */}
                 </div>
 
                 {/* Dotted border and form section */}
@@ -523,7 +521,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
                         className="badge bg-danger ms-3"
                         style={{ fontSize: "14px" }}
                       >
-                        {/* {data?.today} */}
                       </span>
                     </h3>
                     <div className="col">

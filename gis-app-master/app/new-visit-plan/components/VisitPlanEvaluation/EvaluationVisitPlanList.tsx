@@ -85,11 +85,6 @@ const EvaluationVisitPlanList = ({
   // State for search input
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const [tempJsonDataCreateVisit, setTempJsonDataCreateVisit] =
-  //   useState<CreateVisit[]>();
-  // const [tempJsonDataTourPlan, setTempJsonDataTourPlan] =
-  //   useState<COUTempTourPlan[]>();
-
   // State for filtered data
   const [filteredData, setFilteredData] = useState<TempTourPlan[]>([]);
 
@@ -101,7 +96,6 @@ const EvaluationVisitPlanList = ({
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [
         item.gsNo.toString(),
@@ -220,25 +214,7 @@ const EvaluationVisitPlanList = ({
     console.log("formsData", formsData);
     const filteredFormsData = formsData.filter((form) => form !== undefined);
     console.log("filteredFormsData", filteredFormsData);
-    // setTempJsonDataTourPlan(filteredFormsData);
-    // try {
-    //   const response = await apiClient.post(
-    //     `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-or-update`,
-    //     filteredFormsData,
-    //   );
 
-    //   toast.success(response.data.message);
-
-    //   // If backend returns updated records with real IDs, replace state
-    //   if (response.data.data) {
-    //     setFormsData(response.data.data); // or reset([...response.data.data])
-    //   }
-
-    //   setRefresh((prev) => !prev);
-    // } catch (err) {
-    //   console.log("err", err);
-    //   toast.error((err as AxiosError)?.message);
-    // }
   };
 
   const createVisit = async (formsData: COUTempTourPlan[]) => {
@@ -297,7 +273,6 @@ const EvaluationVisitPlanList = ({
         `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-visit`,
         modifiedFormData,
       );
-      // setTempJsonDataCreateVisit(modifiedFormData);
       toast.success(response.data.responseMessage);
       setFormsData([]);
       setFilteredData([]);
@@ -381,39 +356,10 @@ const EvaluationVisitPlanList = ({
   return (
     <div className="py-2">
       {isLoading && <Loader />}
-      {/* <TableHeader
-        heading="M&E Visit Plan for the month of May-2025"
-        searchTerm={searchTerm}
-        filteredData={filteredData}
-        data={data}
-        handleChange={handleChange}
-        form={
-          <div className="col-auto">
-            <Form
-              api={DEPARTMENT_API + "/CreateDepartmentWithRights"}
-              method="POST"
-              setRefresh={setRefresh}
-              refresh={refresh}
-            />
-          </div>
-        }
-      /> */}
       <div className="row m-0">
         <div className="col"></div>
         <div className="col">
           <h4 className="fw-bold mb-3 text-center">Evalution Visit Plan</h4>
-          {/* <p className="fw-bold">temp tour plan</p> */}
-          {/* <pre>
-            {tempJsonDataTourPlan
-              ? JSON.stringify(tempJsonDataTourPlan, null, 2)
-              : ""}
-          </pre> */}
-          {/* <p className="fw-bold">create visit plan</p>
-          <pre>
-            {tempJsonDataCreateVisit
-              ? JSON.stringify(tempJsonDataCreateVisit, null, 2)
-              : ""}
-          </pre> */}
         </div>
         <div className="col text-end" style={{ zIndex: 10 }}>
           {formsData.filter((form) => form !== undefined).length > 0 && (
@@ -453,15 +399,6 @@ const EvaluationVisitPlanList = ({
           </div>
         )}
       </div>
-      {/* <div className="col-4">
-        <select
-          className="form-select form-select-sm color-light-dark"
-          id="visitPlans"
-        >
-          <option value="">Select</option>
-        </select>
-        
-      </div> */}
 
       <div className="table-responsive mb-2" style={{ margin: "0 -12px" }}>
         <div

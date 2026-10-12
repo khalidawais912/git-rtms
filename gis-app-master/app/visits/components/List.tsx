@@ -67,7 +67,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = data.filter((item) =>
       [
@@ -305,19 +304,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                       alt="complete"
                     />
                   ) : (
-                    // : d.status === "active" || d.status === "Active" ? (
-                    //   <Image
-                    //     src={calender}
-                    //     style={{ marginBottom: "3px" }}
-                    //     alt="calender"
-                    //   />
-                    // ) : d.status === "draft" || d.status === "Draft" ? (
-                    //   <Image
-                    //     src={clock}
-                    //     style={{ marginBottom: "3px" }}
-                    //     alt="clock"
-                    //   />
-                    // )
                     ""
                   )}
                   &nbsp;

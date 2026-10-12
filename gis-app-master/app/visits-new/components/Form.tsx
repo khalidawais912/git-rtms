@@ -117,28 +117,6 @@ const Form = ({
       setValue("status", itemData.status);
       setValue("updatedAt", new Date().toISOString());
     }
-    // try {
-    //   const response = await apiClient.get(
-    //     `${api}/GetVisitByVisitId?VisitID=${id}`
-    //   );
-    //   const itemData = response.data.data;
-    //   // const formatFromDate = itemData[0].fromDate.split("T")[0];
-    //   // const formatToDate = itemData[0].toDate.split("T")[0];
-    //   // setValue("visitPlanGroup", itemData[0].visitPlanGroup);
-    //   // setValue("assignedTo", itemData[0].assignedTo);
-    //   // setValue("vehicleID", itemData[0].vehicleID);
-    //   // setValue("driverID", itemData[0].driverID);
-    //   setValue("createdAt", itemData[0].createdAt);
-    //   setValue("complete_at", itemData[0].complete_at);
-    //   setValue("submitted_at", itemData[0].submitted_at);
-    //   setValue("issued_at", itemData[0].issued_at);
-    //   setValue("reportPath", itemData[0].reportPath);
-    //   setValue("tracking_status", itemData[0].tracking_status);
-    //   setValue("visitPlanPath", itemData[0].visitPlanPath);
-    // } catch (err) {
-    //   console.log((err as AxiosError).message);
-    //   setError((err as AxiosError).message);
-    // }
   };
 
   const onSubmit = async (formData: Visit) => {

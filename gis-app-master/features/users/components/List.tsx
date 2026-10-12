@@ -9,7 +9,6 @@ import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
-// import GroupingForm from "./GroupingForm";
 import Avatar from "@/shared/components/Avatar";
 import Loader from "@/shared/components/Loader/Loader";
 import Actions from "@/shared/components/Table/Actions";
@@ -49,7 +48,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.userName, item.fullName, item.designation, item.email]
         .filter((field) => field) // Remove undefined fields
@@ -62,7 +60,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm !== "") {
-      // handleSearch();
     }
   };
 
@@ -192,19 +189,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                         href={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
                         target="_blank"
                       >
-                        {/* <img
-                        className="rounded-circle shadow-sm"
-                        style={{
-                          objectFit: "cover",
-                          objectPosition: "center top",
-                          width: "70px",
-                          height: "70px",
-                        }}
-                        // width={70}
-                        // height={70}
-                        src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
-                        alt="picture"
-                      /> */}
                         <Image
                           className="rounded-circle shadow-sm"
                           style={{
@@ -218,11 +202,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                           src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
                           alt="picture"
                         />
-                        {/* <Avatar
-                          src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
-                          width={70}
-                          height={70}
-                        /> */}
                       </Link>
                     )}
                   </TableData>
@@ -247,14 +226,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                     />
                   </TableData>
 
-                  {/* <TableData>
-                  <Form
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </TableData> */}
                 </tr>
               ))}
             </tbody>

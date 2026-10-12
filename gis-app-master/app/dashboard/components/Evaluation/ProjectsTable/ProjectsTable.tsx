@@ -1002,55 +1002,6 @@ const ProjectsTable = ({
                     District Name
                   </CustomLabel>
 
-                  {/* <select
-                  className="w-100"
-                  style={{
-                    background: "rgba(16, 143, 168, .1)",
-                    outline: "none",
-                    border: "1px solid #D0D5DD",
-                  }}
-                  aria-label="District Name"
-                  name="districtName"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setDistrictName(value);
-                    setDropdownFilterValue((prev) => {
-                      if (value === "") {
-                        // Remove "District Name" from the filter
-                        return prev.filter(
-                          (item) => !item.startsWith("District Name:")
-                        );
-                      } else {
-                        // Add/Update "District Name" in the filter
-                        const updated = prev.filter(
-                          (item) => !item.startsWith("District Name:")
-                        );
-                        return [...updated, `District Name: ${value}`];
-                      }
-                    });
-                    setDistrictName(e.target.value);
-                    applyFilters({
-                      districtName: e.target.value,
-                      sectorName,
-                      userName,
-                      startDate: dateRangeState[0].startDate
-                        ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                        : "",
-                      endDate: dateRangeState[0].endDate
-                        ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                        : "",
-                      reportStatus,
-                    });
-                  }}
-                  disabled={searchTerm ? true : false}
-                >
-                  <option value="">Select</option>
-                  {districts.map((district) => (
-                    <option key={district.id} value={district.districtName}>
-                      {district.districtName}
-                    </option>
-                  ))}
-                </select> */}
                 </div>
               )}
               {keys.includes("visitStartDate") && (
@@ -1076,7 +1027,6 @@ const ProjectsTable = ({
                                 moveRangeOnFirstSelection={false}
                                 maxDate={new Date()} // Restrict future dates
                                 dateDisplayFormat="dd/MM/yyyy"
-                                // className={styles.customDateRange}
                               />
                               <p>
                                 Selected Range:{" "}
@@ -1164,55 +1114,6 @@ const ProjectsTable = ({
                     Sector Name
                   </CustomLabel>
 
-                  {/* <select
-                id="sectorName"
-                className="w-100"
-                style={{
-                  background: "rgba(16, 143, 168, .1)",
-                  outline: "none",
-                  border: "1px solid #D0D5DD",
-                }}
-                aria-label="Sector Name"
-                name="sectorName"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setSectorName(value);
-                  setDropdownFilterValue((prev) => {
-                    if (value === "") {
-                      // Remove "Sector Name" from the filter
-                      return prev.filter(
-                        (item) => !item.startsWith("Sector Name:")
-                      );
-                    } else {
-                      // Add/Update "Sector Name" in the filter
-                      const updated = prev.filter(
-                        (item) => !item.startsWith("Sector Name:")
-                      );
-                      return [...updated, `Sector Name: ${value}`];
-                    }
-                  });
-                  applyFilters({
-                    districtName,
-                    sectorName: e.target.value,
-                    userName,
-                    startDate: dateRangeState[0].startDate
-                      ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                      : "",
-                    endDate: dateRangeState[0].endDate
-                      ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                      : "",
-                    reportStatus: reportStatus,
-                  });
-                }}
-                disabled={searchTerm ? true : false}
-              >
-                <option value="">Select</option>
-                {sectors.map((sector) => (
-                  <option key={sector.id} value={sector.name}>
-                    {sector.name}
-                  </option>
-                ))}
-              </select> */}
                 </div>
               )}
               {keys.includes("userName") && (
@@ -1240,82 +1141,8 @@ const ProjectsTable = ({
                     User Name
                   </CustomLabel>
 
-                  {/* <select
-                id="userName"
-                className="w-100"
-                style={{
-                  background: "rgba(16, 143, 168, .1)",
-                  outline: "none",
-                  border: "1px solid #D0D5DD",
-                }}
-                aria-label="UserName"
-                name="userName"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setUserName(value);
-                  setDropdownFilterValue((prev) => {
-                    if (value === "") {
-                      // Remove "User Name" from the filter
-                      return prev.filter(
-                        (item) => !item.startsWith("User Name:")
-                      );
-                    } else {
-                      // Add/Update "User Name" in the filter
-                      const updated = prev.filter(
-                        (item) => !item.startsWith("User Name:")
-                      );
-                      return [...updated, `User Name: ${value}`];
-                    }
-                  });
-                  applyFilters({
-                    districtName,
-                    sectorName,
-                    userName: e.target.value,
-                    startDate: dateRangeState[0].startDate
-                      ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-                      : "",
-                    endDate: dateRangeState[0].endDate
-                      ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-                      : "",
-                    reportStatus: reportStatus,
-                  });
-                }}
-                disabled={searchTerm ? true : false}
-              >
-                <option value="">Select</option>
-                {users.map((user) => (
-                  <option key={user.user_Id} value={user.name}>
-                    {user.name}
-                  </option>
-                ))}
-              </select> */}
                 </div>
               )}
-              {/* {keys.includes("deadline") && (
-            <div className="col mb-3 text-start">
-              <label htmlFor="reportStatus" className="form-label">
-                Report Status
-              </label>
-              <Select
-                options={[defaultNumberOption, ...reportStatusOptions]}
-                name="reportStatus"
-                id="reportStatus"
-                isClearable
-                isSearchable
-                menuPlacement="auto"
-                menuPosition="absolute"
-                menuPortalTarget={document.body}
-                styles={customStyles}
-                onChange={(
-                  newValue: SingleValue<{ value: string; label: string }>
-                ) => {
-                  if (newValue) {
-                    handleReportStatusChange(newValue);
-                  }
-                }}
-              />
-            </div>
-          )} */}
             </div>
             <div className={`col p-0 ${isExpanded && "d-none"}`}>
               <ul
@@ -1327,7 +1154,6 @@ const ProjectsTable = ({
                   style={{ marginBottom: "14.86px" }}
                   onClick={toggleSidenav}
                 >
-                  {/* <FaSearch className="img-fluid" /> */}
                   <div
                     className="d-flex justify-content-center align-items-center rounded-circle bg-white"
                     style={{
@@ -1428,20 +1254,6 @@ const ProjectsTable = ({
                     </div>
                   </li>
                 )}
-                {/* {keys.includes("deadline") && (
-              <li
-                className="list-group-item border-0 bg-transparent cursor-pointer mb-3"
-                onClick={toggleSidenav}
-              >
-                <Image
-                  className="img-fluid"
-                  src="/icons/submittedReport.svg"
-                  alt="dates"
-                  width={20}
-                  height={20}
-                />
-              </li>
-            )} */}
               </ul>
             </div>
           </div>
@@ -1461,8 +1273,6 @@ const ProjectsTable = ({
             isExpanded ? styles.shiftRight : ""
           } flex-grow-1 p-3 overflow-hidden pt-0 pb-0`}
         >
-          {/* <div style={{ height: "96vh", overflow: "hidden" }}> */}
-          {/* <ScrollWrapper> */}
 
           <div
             className="row d-flex align-items-center"
@@ -1629,46 +1439,6 @@ const ProjectsTable = ({
                         handleSort={() => handleSort(`${k}`)}
                       />
                     ))}
-                    {/* <TableHeading
-                  name="project Name"
-                  handleSort={() => handleSort("projectName")}
-                />
-                <TableHeading
-                  name="sector Name"
-                  handleSort={() => handleSort("sectorName")}
-                />
-                <TableHeading
-                  name="district Name"
-                  handleSort={() => handleSort("districtName")}
-                />
-                <TableHeading
-                  name="no. of Visits"
-                  handleSort={() => handleSort("visitCount")}
-                />
-                <TableHeading
-                  name="user Name"
-                  handleSort={() => handleSort("userName")}
-                />
-                <TableHeading
-                  name="report Completion"
-                  handleSort={() => handleSort("reportCompletion")}
-                />
-                <TableHeading
-                  name="visit Date"
-                  handleSort={() => handleSort("visitStartDate")}
-                />
-                <TableHeading
-                  name="completed Date"
-                  handleSort={() => handleSort("completedDate")}
-                />
-                <TableHeading
-                  name="deadline"
-                  handleSort={() => handleSort("deadline")}
-                />
-                <TableHeading
-                  name="report generated"
-                  handleSort={() => handleSort("fileGenrated")}
-                /> */}
                   </tr>
                 )}
               </thead>
@@ -1722,43 +1492,7 @@ const ProjectsTable = ({
                           </TableData>
                         );
                       }
-                      // if (key === "deadline") {
-                      //   const submittedTime = new Date(d.submittedDate);
-                      //   const deadlineTime = new Date(d.deadline);
 
-                      //   return (
-                      //     <td key="deadline">
-                      //       {d.deadline && d.submittedDate ? (
-                      //         <>
-                      //           <div
-                      //             className={`text-center ${
-                      //               submittedTime <= deadlineTime
-                      //                 ? "text-success"
-                      //                 : "text-danger"
-                      //             }`}
-                      //           >
-                      //             {deadlineColumnValue(
-                      //               d.submittedDate,
-                      //               d.deadline
-                      //             )}
-                      //           </div>
-                      //         </>
-                      //       ) : d.deadline ? (
-                      //         <span
-                      //           className={`text-wrap ${
-                      //             getTimeLeft(d.deadline).includes("-")
-                      //               ? "text-danger"
-                      //               : ""
-                      //           }`}
-                      //         >
-                      //           {getTimeLeft(d.deadline).replace("-", "")}
-                      //         </span>
-                      //       ) : (
-                      //         "NA"
-                      //       )}
-                      //     </td>
-                      //   );
-                      // }
                       // For other keys
                       return (
                         <TableData key={key}>
@@ -1801,19 +1535,6 @@ const ProjectsTable = ({
                                   {d[key]}
                                 </div>
                               ) : // ) : label === "PC(IV) Submitted by Department" ? (
-                              //   <div
-                              //     className="text-start color-sea-blue cursor-pointer"
-                              //     onClick={(e) => {
-                              //       e.preventDefault();
-                              //       reportPdfDownload(
-                              //         d.visitId,
-                              //         d.id,
-                              //         ReportTypeStatusEnum.EVALUATION,
-                              //       );
-                              //     }}
-                              //   >
-                              //     {d[key]}
-                              //   </div>
                               label === "No. of Visits (Umbrella)" ? (
                                 <div
                                   className="text-start color-sea-blue cursor-pointer"
@@ -1861,30 +1582,6 @@ const ProjectsTable = ({
                           ),
                         )}
                       </TableData>
-                      {/* <td className="text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.revisedAllocation || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
-                      {/* <td className="text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.pnDReleases || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
-                      {/* <td className="rounded-end text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.utilization || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
                       <td colSpan={7}></td>
                     </tr>
                     <tr className="bg-color-sea-blue">
@@ -1902,37 +1599,12 @@ const ProjectsTable = ({
                           ),
                         )}
                       </TableData>
-                      {/* <td className="text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.revisedAllocation || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
-                      {/* <td className="text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.pnDReleases || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
-                      {/* <td className="rounded-end text-nowrap">
-                    {formatAmountWithCommas(
-                      projectsData.reduce(
-                        (sum, d) => sum + (d.utilization || 0),
-                        0
-                      )
-                    )}
-                  </td> */}
                       <td colSpan={7}></td>
                     </tr>
                   </>
                 )}
               </tbody>
             </table>
-            {/* </ScrollWrapper> */}
           </div>
           <div className="row m-0 justify-content-between align-items-center pb-2">
             <div className="col-auto">

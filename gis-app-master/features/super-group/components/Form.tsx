@@ -2,7 +2,6 @@ import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import more from "../../../public/icons/more.svg";
-// import { ToastContainer, toast } from "react-toastify";
 import Button from "@/shared/components/Button";
 import CustomInput from "@/shared/components/Form/CustomInput";
 import CustomLabel from "@/shared/components/Form/CustomLabel";

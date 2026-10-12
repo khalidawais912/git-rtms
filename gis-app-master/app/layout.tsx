@@ -11,16 +11,6 @@ import ReduxProvider from "@/shared/components/ReduxProvider";
 import ToastContainers from "@/shared/components/ToastContainers";
 import "./globals.css";
 
-// const poppins = Poppins({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700", "800"],
-// });
-
-// const plusJakartaSans = Plus_Jakarta_Sans({
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700", "800"],
-// });
-
 const plusJakartaSans = localFont({
   src: "../public/fonts/PlusJakartaSans-VariableFont_wght.ttf",
   variable: "--font-plus-jakarta-sans",

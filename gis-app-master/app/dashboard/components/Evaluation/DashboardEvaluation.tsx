@@ -4,7 +4,6 @@ import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import DashboardWrapper from "@/shared/components/DashboardWrapper";
 import Loader from "@/shared/components/Loader/Loader";
-// import Menu from "@/shared/components/Menu";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
 import apiClient from "@/shared/api/client";
@@ -83,7 +82,6 @@ const DashboardEvaluation = () => {
   const [role, setRole] = useState<string>("");
   const [departmentId, setDepartmentId] = useState<number>();
   const dispatch = useDispatch();
-  // useAuthorization("dashboard");
 
   useEffect(() => {
     const userRole = Cookies.get("role");
@@ -309,40 +307,6 @@ const DashboardEvaluation = () => {
       )
       .map((key) => key as keyof ProjectsList);
 
-  // useEffect(() => {
-  //   getProjectsList("TotalProject");
-  // }, []);
-
-  // useEffect(() => {
-  //   if (projectsData) {
-  //     const filteredProjects = projectsData?.filter((project) => {
-  //       const utilizationPercentage =
-  //         ((project.expUpToJune + project.utilization) / project.cost) * 100;
-  //       return utilizationPercentage >= 20 && utilizationPercentage <= 80;
-  //     });
-  //     setUtilizationData(filteredProjects);
-  //   }
-  // }, [projectsData]);
-  // useEffect(() => {
-  //   if (projectsData) {
-  //     const updatedProjects = projectsData.map((project) => ({
-  //       ...project,
-  //       utilPercent: Math.round(
-  //         ((project.expUpToJune + project.utilization) / project.cost) * 100
-  //       ),
-  //     }));
-
-  //     setOpenUtilizationData(updatedProjects); // Store filtered projects with utilPercent
-
-  //     // Now apply the filter based on computed utilPercent
-  //     const filteredProjects = updatedProjects.filter(
-  //       (project) => project.utilPercent >= 20 && project.utilPercent <= 80
-  //     );
-
-  //     setUtilizationData(filteredProjects); // Store filtered projects with utilPercent
-  //   }
-  // }, [projectsData]);
-
   return (
     <DashboardWrapper>
       {(departmentId === 0 || departmentId === 1) && (
@@ -363,8 +327,6 @@ const DashboardEvaluation = () => {
                     <div
                       className="position-absolute"
                       style={{
-                        // background:
-                        //   "linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))",
                         padding: "1px",
                         borderRadius: "10px",
                         width: "98%",
@@ -584,24 +546,6 @@ const DashboardEvaluation = () => {
                 <PCIVReportReview />
               </div>
             )}
-            {/* <div className="col p-0 pe-1">
-              <Link
-                href="/pc-iv-report-history"
-                target="_blank"
-                className="shadow-none w-100 position-relative text-decoration-none"
-              >
-                <Menu
-                  background="rgba(12, 140, 233, 0.2)"
-                  outline="1px solid rgba(12, 140, 233, 0.4)"
-                  icon="/icons/reportReview.svg"
-                  value={0}
-                  label="PC-IV Review"
-                  showTides={false}
-                  showArrow={true}
-                  textWrap={false}
-                />
-              </Link>
-            </div> */}
           </div>
 
           <div className={`row ${lexend.className} m-0`}>
@@ -630,8 +574,6 @@ const DashboardEvaluation = () => {
                         <div
                           className="position-absolute"
                           style={{
-                            // background:
-                            //   "linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))",
                             padding: "1px",
                             borderRadius: "10px",
                             width: "98%",
@@ -692,23 +634,9 @@ const DashboardEvaluation = () => {
                         className="position-relative btn p-0 pe-1 shadow-none w-100"
                         onClick={() => getProjectsList("single")}
                       >
-                        {/* <div
-                          className="position-absolute"
-                          style={{
-                            background:
-                              "linear-gradient( rgba(163, 12, 233, 0), rgba(163, 12, 233, 0.2),rgba(163, 12, 233, 0.2))",
-                            transition: "all .4s",
-                            opacity: !isHover1 ? 1 : 0,
-                            borderRadius: "10px",
-                            width: "98%",
-                            height: "92%",
-                          }}
-                        ></div> */}
                         <div
                           className="position-absolute"
                           style={{
-                            // background:
-                            //   "linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))",
                             padding: "1px",
                             borderRadius: "10px",
                             width: "98%",
@@ -775,8 +703,6 @@ const DashboardEvaluation = () => {
                       value={data ? data.successful : 0}
                       label="Successful"
                       showTides={false}
-                      // tideOneImage="/images/tideOneGreen.png"
-                      // tideTwoImage="/images/tideTwoGreen.png"
                       showArrow={true}
                       textWrap={false}
                       labelColor="#129E5C"
@@ -826,8 +752,6 @@ const DashboardEvaluation = () => {
                       value={data ? data.partiallySuccessful : 0}
                       label="Partial Success"
                       showTides={false}
-                      // tideOneImage="/images/tideOneYellow.png"
-                      // tideTwoImage="/images/tideTwoYellow.png"
                       showArrow={true}
                       textWrap={false}
                       labelColor="#AA8B2A"
@@ -875,8 +799,6 @@ const DashboardEvaluation = () => {
                       value={data ? data.notSuccessful : 0}
                       label="Not Successful"
                       showTides={false}
-                      // tideOneImage="/images/tideOneRed.png"
-                      // tideTwoImage="/images/tideTwoRed.png"
                       showArrow={true}
                       textWrap={false}
                       labelColor="#BA2323"
@@ -947,520 +869,6 @@ const DashboardEvaluation = () => {
               />
             </div>
           </div>
-
-          {/* <div className={`row ${lexend.className} m-0`}>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                modalId={"TotalProject"}
-                button={
-                  <Button
-                    className="position-relative btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("all")}
-                  >
-                    <div
-                      className="position-absolute"
-                      style={{
-                        // background:
-                        //   "linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))",
-                        padding: "1px",
-                        borderRadius: "10px",
-                        width: "98%",
-                        height: "92%",
-                      }}
-                    ></div>
-                    <Menu
-                      background="linear-gradient(to right, #155E95 , #2377B6)"
-                      icon="/icons/eyeBold.svg"
-                      value={data ? data.totalSubmittedPCIvs : 0}
-                      label="Submitted PC(IV)s"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                      isGrouped={false}
-                      toggleLabel={true}
-                      sneCount={data ? data.snEs : 0}
-                      nonSneCount={data ? data.nonSNEs : 0}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="Submitted PC(IV)s"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-4 p-0">
-              <div
-                className="col px-1 py-0 me-1 text-center mb-2"
-                style={{
-                  background: "rgba(12, 140, 233,.2)",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(12, 140, 233,.4)",
-                }}
-              >
-                <p className="mb-0 text-white fs14px">Projects Evaluated</p>
-                <div className="row m-0 d-flex flex-nowrap">
-                  <CustomModal
-                    HeaderRightPos={0}
-                    HeaderTopPos={17}
-                    buttonColumn="col p-0"
-                    isFullscreen={true}
-                    modalId={"umbrella"}
-                    button={
-                      <Button
-                        className="position-relative btn p-0 pe-1 shadow-none w-100"
-                        onClick={() => getProjectsList("umbrella")}
-                      >
-                        <div
-                          className="position-absolute"
-                          style={{
-                            padding: "1px",
-                            borderRadius: "10px",
-                            width: "98%",
-                            height: "92%",
-                          }}
-                        ></div>
-                        <Menu
-                          background={`linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))`}
-                          icon="/icons/cubes.svg"
-                          value={
-                            data ? data.noOfVisitsMultipleSitesOrUmbrella : 0
-                          }
-                          label="No. of Visits (Umbrella)"
-                          showTides={false}
-                          showArrow={true}
-                          textWrap={false}
-                          isGrouped={true}
-                          toggleLabel={true}
-                          sneCount={
-                            data
-                              ? data.noOfVisitsMultipleSitesOrUmbrellaTotalSNEs
-                              : 0
-                          }
-                          nonSneCount={
-                            data
-                              ? data.noOfVisitsMultipleSitesOrUmbrellaTotalNonSNEs
-                              : 0
-                          }
-                        />
-                      </Button>
-                    }
-                    body={
-                      <>
-                        <div className="container-fluid border-0 p-0">
-                          {projectsData && filteredOtherKeys ? (
-                            <ProjectsTable
-                              role={role}
-                              keys={filteredOtherKeys}
-                              label="No. of Visits (Umbrella)"
-                              projectsData={projectsData}
-                              setProjectsData={setProjectsData}
-                            />
-                          ) : (
-                            <Loader />
-                          )}
-                        </div>
-                      </>
-                    }
-                  />
-                  <CustomModal
-                    HeaderRightPos={0}
-                    HeaderTopPos={17}
-                    buttonColumn="col p-0"
-                    isFullscreen={true}
-                    modalId={"single"}
-                    button={
-                      <Button
-                        className="position-relative btn p-0 pe-1 shadow-none w-100"
-                        onClick={() => getProjectsList("single")}
-                      >
-                        <div
-                          className="position-absolute"
-                          style={{
-                            padding: "1px",
-                            borderRadius: "10px",
-                            width: "98%",
-                            height: "92%",
-                          }}
-                        ></div>
-                        <Menu
-                          background={`linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))`}
-                          icon="/icons/cubes.svg"
-                          value={data ? data.noOfVisitsSingle : 0}
-                          label="No. of Visits (Single)"
-                          showTides={false}
-                          showArrow={true}
-                          textWrap={false}
-                          isGrouped={true}
-                          toggleLabel={true}
-                          sneCount={data ? data.noOfVisitsSingleTotalSNEs : 0}
-                          nonSneCount={
-                            data ? data.noOfVisitsSingleTotalNonSNEs : 0
-                          }
-                        />
-                      </Button>
-                    }
-                    body={
-                      <>
-                        <div className="container-fluid border-0 p-0">
-                          {projectsData && filteredOtherKeys ? (
-                            <ProjectsTable
-                              role={role}
-                              keys={filteredOtherKeys}
-                              label="No. of Visits (Single)"
-                              projectsData={projectsData}
-                              setProjectsData={setProjectsData}
-                            />
-                          ) : (
-                            <Loader />
-                          )}
-                        </div>
-                      </>
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"successful"}
-                allowOpen={data && data.successful === 0 ? false : true}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("successful")}
-                    disabled={data && data.successful === 0}
-                  >
-                    <Menu
-                      background="rgba(39, 192, 77, 0.35)"
-                      outline="1px solid rgba(43, 171, 45, 0.4)"
-                      icon="/icons/doubleTick.svg"
-                      value={data ? data.successful : 0}
-                      label="Successful"
-                      showTides={false}
-                      // tideOneImage="/images/tideOneGreen.png"
-                      // tideTwoImage="/images/tideTwoGreen.png"
-                      showArrow={true}
-                      textWrap={false}
-                      labelColor="#129E5C"
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredOtherKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredOtherKeys}
-                          label="Successful Projects"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"partial"}
-                allowOpen={
-                  data && data.partiallySuccessful === 0 ? false : true
-                }
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("partial")}
-                    disabled={data && data.partiallySuccessful === 0}
-                  >
-                    <Menu
-                      background="rgba(218, 248, 21, 0.4)"
-                      outline="1px solid rgba(225, 186, 15, 0.4)"
-                      icon="/icons/bulb.svg"
-                      value={data ? data.partiallySuccessful : 0}
-                      label="Partial Success"
-                      showTides={false}
-                      // tideOneImage="/images/tideOneYellow.png"
-                      // tideTwoImage="/images/tideTwoYellow.png"
-                      showArrow={true}
-                      textWrap={false}
-                      labelColor="#AA8B2A"
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredOtherKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredOtherKeys}
-                          label="Partial Success Projects"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"notsuccessful"}
-                allowOpen={data && data.notSuccessful === 0 ? false : true}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("notsuccessful")}
-                    disabled={data && data.notSuccessful === 0}
-                  >
-                    <Menu
-                      background="rgba(233, 12, 16, 0.26)"
-                      outline="1px solid rgba(233, 12, 16, 0.4)"
-                      icon="/icons/critical.svg"
-                      value={data ? data.notSuccessful : 0}
-                      label="Not Successful"
-                      showTides={false}
-                      // tideOneImage="/images/tideOneRed.png"
-                      // tideTwoImage="/images/tideTwoRed.png"
-                      showArrow={true}
-                      textWrap={false}
-                      labelColor="#BA2323"
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredOtherKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredOtherKeys}
-                          label="Not Successful Projects"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-          </div> */}
-
-          {/* <div
-            className={`row ${lexend.className} d-flex justify-content-center m-0`}
-          >
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"inprogress"}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("inprogress")}
-                  >
-                    <Menu
-                      background="rgba(12, 140, 233, 0.2)"
-                      outline="1px solid rgba(12, 140, 233, 0.4)"
-                      icon="/icons/inProcess.svg"
-                      value={data ? data.reportsInProgress : 0}
-                      label="Reports In Progress"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="Reports In Progress"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"pc-iv"}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("InProcess")}
-                  >
-                    <Menu
-                      background="rgba(12, 140, 233, 0.2)"
-                      outline="1px solid rgba(12, 140, 233, 0.4)"
-                      icon="/icons/file.svg"
-                      value={0}
-                      label="PC-IV"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="PC-IV"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            {(role.toLowerCase().includes("director") ||
-              role.toLowerCase() === "department head") && (
-              <div className="col-12 col-sm-6 col-md-6 col-lg-2 p-0">
-                <ReportReview />
-              </div>
-            )}
-            <div className="p-1 col-12 col-sm-12 col-md-12 col-lg-5 col-xl-4">
-              {role !== "Special Role" && (
-                <div
-                  className={`col mb-2 shadow-sm fs14px p-0 h-100 ${lexend.className}`}
-                  style={{
-                    background:
-                      "linear-gradient(to right, #C6D9F1,#C6D9F1 , #E3F1C6,#E3F1C6)",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <div
-                    className={`row d-flex m-0 h-100 ${styles.hoverWrapper}`}
-                  >
-                    <div className={`p-0 ${styles.hoverWrapper}`}>
-                      <div className={styles.hoverItem}>
-                        <Link
-                          href="/vehicle-tracking"
-                          target="_blank"
-                          className="text-decoration-none text-dark h-100 d-flex align-items-center justify-content-center"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#C6D9F1",
-                          }}
-                        >
-                          <div className="d-flex align-items-center justify-content-center">
-                            <div className="me-2 ps-2">
-                              <Image
-                                src={carOutline}
-                                alt="Vehicle Icon"
-                                width={24}
-                                height={24}
-                              />
-                            </div>
-                            <div className="text-start fw-5">
-                              Vehicle Tracking
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className={`${styles.hoverItem}`}>
-                        <Link
-                          href="/staff-tracking"
-                          target="_blank"
-                          className="text-decoration-none text-dark h-100 d-flex align-items-center justify-content-center"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#E3F1C6",
-                          }}
-                        >
-                          <div className="d-flex align-items-center justify-content-center">
-                            <div className="me-2 ps-2">
-                              <Image
-                                src={staffTracking2}
-                                alt="staffTracking2"
-                                width={24}
-                                height={24}
-                              />
-                            </div>
-                            <div className="text-start">Staff Tracking</div>
-                          </div>
-                        </Link>
-                      </div>
-                      <div className={`${styles.hoverItem}`}>
-                        <VisitsPlan
-                          getProjectsList={getProjectsList}
-                          projectsData={projectsData ? projectsData : []}
-                          setProjectsData={setProjectsData}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div> */}
 
           <div className={`${lexend.className}`}>
             <div className="p-1 col">
@@ -1497,8 +905,6 @@ const DashboardEvaluation = () => {
                     <div
                       className="position-absolute"
                       style={{
-                        // background:
-                        //   "linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))",
                         padding: "1px",
                         borderRadius: "10px",
                         width: "98%",

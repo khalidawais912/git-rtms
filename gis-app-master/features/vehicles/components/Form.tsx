@@ -167,7 +167,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                       type="file"
                       className="d-none"
                       placeholder="Choose Profile Picture"
-                      // onChange={handleFileChange}
                       accept="image/*"
                     />
                     <div className="row d-flex justify-content-center ">
@@ -222,7 +221,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                       type="file"
                       className="d-none"
                       placeholder="Choose Profile Picture"
-                      // onChange={handleFileChange}
                       accept="image/*"
                     />
                     <div className="row d-flex justify-content-center ">
@@ -268,16 +266,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Name"
                   />
-                  {/* <label htmlFor="name" className="form-label text-white">
-                    Name
-                  </label>
-                  <input
-                    {...register("name")}
-                    id="name"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Name"
-                  /> */}
                   {errors.name && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.name.message}
@@ -295,19 +283,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Description"
                   />
-                  {/* <label
-                    htmlFor="description"
-                    className="form-label text-white"
-                  >
-                    Description
-                  </label>
-                  <input
-                    {...register("description")}
-                    id="description"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Description"
-                  /> */}
                   {errors.description && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.description.message}
@@ -327,19 +302,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Vehicle Number"
                   />
-                  {/* <label
-                    htmlFor="vehicleNumber"
-                    className="form-label text-white"
-                  >
-                    Vehicle Number
-                  </label>
-                  <input
-                    {...register("vehicleNumber")}
-                    id="vehicleNumber"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter vehicleNumber"
-                  /> */}
                   {errors.vehicleNumber && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.vehicleNumber.message}
@@ -357,16 +319,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Model"
                   />
-                  {/* <label htmlFor="model" className="form-label text-white">
-                    Model
-                  </label>
-                  <input
-                    {...register("model")}
-                    id="model"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Model"
-                  /> */}
                   {errors.model && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.model.message}
@@ -384,16 +336,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Color"
                   />
-                  {/* <label htmlFor="color" className="form-label text-white">
-                    Color
-                  </label>
-                  <input
-                    {...register("color")}
-                    id="color"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Color"
-                  /> */}
                   {errors.color && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.color.message}
@@ -411,19 +353,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Trasnmission"
                   />
-                  {/* <label
-                    htmlFor="trasnmission"
-                    className="form-label text-white"
-                  >
-                    Trasnmission
-                  </label>
-                  <input
-                    {...register("trasnmission")}
-                    id="trasnmission"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Trasnmission"
-                  /> */}
                   {errors.trasnmission && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.trasnmission.message}
@@ -443,19 +372,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="number"
                     placeholder="Enter Seats Capacity"
                   />
-                  {/* <label
-                    htmlFor="seatsCapacity"
-                    className="form-label text-white"
-                  >
-                    Seats Capacity
-                  </label>
-                  <input
-                    {...register("seatsCapacity", { valueAsNumber: true })}
-                    id="seatsCapacity"
-                    type="number"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter Seats Capacity"
-                  /> */}
                   {errors.seatsCapacity && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.seatsCapacity.message}
@@ -473,60 +389,12 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                     type="text"
                     placeholder="Enter Fuel Type"
                   />
-                  {/* <label htmlFor="fuelType" className="form-label text-white">
-                    Fuel Type
-                  </label>
-                  <input
-                    {...register("fuelType")}
-                    id="fuelType"
-                    type="text"
-                    className="form-control form-control-sm color-light-dark"
-                    placeholder="Enter fuel Type"
-                  /> */}
                   {errors.fuelType && (
                     <p className="text-danger mt-1 mb-0">
                       {errors.fuelType.message}
                     </p>
                   )}
                 </div>
-                {/* <div
-                  className="col-lg-4 col-md-6 col-sm-12  text-start mt-0"
-                  style={{ marginBottom: "10px", padding: "0px 10px" }}
-                >
-                  <CustomLabel htmlFor="vehicleImage">
-                    Vehicle Image
-                  </CustomLabel>
-                  <CustomInput
-                    {...register("vehicleImage")}
-                    id="vehicleImage"
-                    type="file"
-                    placeholder="Enter Vehicle Image"
-                    disabled
-                  />
-                  {errors.vehicleImage && (
-                    <p className="text-danger mt-1 mb-0">
-                      {errors.vehicleImage.message}
-                    </p>
-                  )}
-                </div>
-                <div
-                  className="col-lg-4 col-md-6 col-sm-12  text-start mt-0"
-                  style={{ marginBottom: "10px", padding: "0px 10px" }}
-                >
-                  <CustomLabel htmlFor="vehicleIcon">Vehicle Icon</CustomLabel>
-                  <CustomInput
-                    {...register("vehicleIcon")}
-                    id="vehicleIcon"
-                    type="file"
-                    placeholder="Enter Vehicle Icon"
-                    disabled
-                  />
-                  {errors.vehicleIcon && (
-                    <p className="text-danger mt-1 mb-0">
-                      {errors.vehicleIcon.message}
-                    </p>
-                  )}
-                </div> */}
               </div>
               <SubmitButton>Save Vehicle</SubmitButton>
             </form>

@@ -212,14 +212,6 @@ const List = ({
 
   useEffect(() => {
     const tabs = [
-      // {
-      // id: 0,
-      //   label: "All",
-      //   status: -99,
-      //   reportSubmittedFrom: userId,
-      //   reportSubmittedTo: userId,
-      //   filteredData:data;
-      // },
       {
         id: 1,
         label: "SUBMITTED BY (AD)",
@@ -337,14 +329,6 @@ const List = ({
         count: 0,
         filteredData: undefined,
       },
-      // {
-      // id: 14,
-      //   label: "ISSUED",
-      //   status: ISSUED,
-      //   direction: undefined,
-      //   tabKey: `${ISSUED}`,
-      //   count: 0,
-      // },
     ];
 
     if (data) {
@@ -775,61 +759,8 @@ const List = ({
                     </Link>
                   </div>
 
-                  {/* <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === tabs.length
-                          ? "text-dark"
-                          : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === tabs.length
-                            ? "3px solid #0c8ce9"
-                            : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(tabs.length);
-                        setSelectedLabel("Issued")
-                        setFilteredData(
-                          data?.filter((d) => d.status === ISSUED)
-                        );
-                      }}
-                    >
-                      Issued
-                      {data?.filter((d) => d.status === ISSUED).length > 0 && (
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {data?.filter((d) => d.status === ISSUED).length}
-                        </span>
-                      )}
-                    </Button>
-                  </div> */}
                 </div>
               </div>
-              {/* <div className="col-lg-4 col-md-6 col-sm-12 text-auto">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                          <div className="input-group">
-                            <input
-                              type="text"
-                              className="form-control border-0 rounded-pill rounded-end"
-                              style={{
-                                background: "rgba(16, 143, 168, .1)",
-                                outline: "none",
-                                border: "1px solid #D0D5DD",
-                              }}
-                              placeholder="Search"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
-                            <button
-                              className="btn rounded-start rounded-pill bg-color-sea-green text-white"
-                              type="submit"
-                            >
-                              <IoSearch className="mb-1" style={{ color: "#fff" }} />
-                            </button>
-                          </div>
-                        </form>
-                      </div> */}
             </div>
           </div>
           {dataToRender && dataToRender?.length > 0 ? (
@@ -1026,15 +957,6 @@ const List = ({
               <div>No reports found.</div>
             </div>
           )}
-          {/* {data?.length === 0(
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
-      )} */}
         </div>
       ) : (
         ""

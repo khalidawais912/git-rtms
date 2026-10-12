@@ -46,7 +46,6 @@ const MyTwoLevelPieChart = ({
   return (
     <ResponsiveContainer width="100%" height={style.height ?? 300}>
       <PieChart>
-        {/* ================= SVG GRADIENTS ================= */}
         <defs>
           {[...data.outer, ...data.inner].map(
             (item) =>
@@ -66,7 +65,6 @@ const MyTwoLevelPieChart = ({
           )}
         </defs>
 
-        {/* ================= OUTER PIE ================= */}
         <Pie
           data={data.outer}
           dataKey="value"
@@ -92,7 +90,6 @@ const MyTwoLevelPieChart = ({
           ))}
         </Pie>
 
-        {/* ================= INNER PIE ================= */}
         <Pie
           data={data.inner}
           dataKey="value"

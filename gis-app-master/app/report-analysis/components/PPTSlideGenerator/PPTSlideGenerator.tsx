@@ -188,49 +188,6 @@ const PPTSlideGenerator = ({ isActiveTab, setActiveTab }: Props) => {
     }
   }, [priority, fromDate, toDate]);
 
-  // const getSectors = async () => {
-  //   if (priority.length <= 0) {
-  //     toast.info("Please Select Atleast one Priority!");
-  //     return;
-  //   }
-  //   if (fromDate.length <= 0) {
-  //     toast.info("Please select 'From Date'!");
-  //     return;
-  //   }
-  //   if (toDate.length <= 0) {
-  //     toast.info("Please select 'To Date'!");
-  //     return;
-  //   }
-  //   console.log("sectors async data: ", {
-  //     pirority: priority,
-  //     to: new Date(toDate).toISOString().split("T")[0],
-  //     from: new Date(fromDate).toISOString().split("T")[0],
-  //     sector: [""],
-  //   });
-  //   try {
-  //     const response = await apiClient.post(
-  //       `${GENERATE_REPORT_API}/GetSectorAsync`,
-  //       {
-  //         pirority: priority,
-  //         to: new Date(toDate).toISOString().split("T")[0],
-  //         from: new Date(fromDate).toISOString().split("T")[0],
-  //         sector: [""],
-  //       }
-  //     );
-
-  //     console.log(response);
-  //     setSectorNames(response.data.data);
-  //     toast.success("Sectors Obtained Successfully");
-  //   } catch (err) {
-  //     setSectorNames([]);
-  //     console.error("Submission error:", err);
-  //     toast.error(
-  //       (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-  //         (err as AxiosError<ErrorResponse>).message
-  //     );
-  //   }
-  // };
-
   useEffect(() => {
     if (priority.length > 0 || fromDate.length > 0 || toDate.length > 0)
       getSectors();
@@ -441,28 +398,6 @@ const PPTSlideGenerator = ({ isActiveTab, setActiveTab }: Props) => {
                         </table>
                       </div>
                     </div>
-                    {/* <div className="d-flex flex-wrap m-0">
-                      {sectorNames?.map((sector, i) => (
-                        <div key={i} className="col p-2">
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              value={sector}
-                              onChange={handleSectorChange}
-                              checked={sectors.some((s) => s.title === sector)}
-                              id={sector}
-                            />
-                            <label
-                              className="form-check-label text-wrap"
-                              htmlFor={sector}
-                            >
-                              {sector}
-                            </label>
-                          </div>
-                        </div>
-                      ))}
-                    </div> */}
                   </div>
                 )}
                 <div className="row m-0 justify-content-center">

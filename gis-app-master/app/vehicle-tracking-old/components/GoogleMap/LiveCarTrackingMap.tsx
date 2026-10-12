@@ -72,36 +72,6 @@ const LiveCarTrackingMap = () => {
             defaultCenter={initialCenterPosition}
             gestureHandling={"greedy"}
           >
-            {/* <AdvancedMarker
-              position={position}
-              onClick={() => {
-                setOpen(!open);
-                handleMarkerClick(position);
-              }}
-              clickable={true}
-            >
-              <div
-                style={{
-                  transform: `rotate(${rotationAngle}deg)`,
-                  transition: "transform 2s",
-                }}
-              >
-                <img
-                  src="/images/carTop2.png"
-                  alt="carTop2"
-                  style={{ width: "56px", height: "70px" }}
-                />
-              </div>
-            </AdvancedMarker> */}
-            {/* {open && (
-              <InfoWindow
-                position={position}
-                pixelOffset={[0, -70]}
-                onCloseClick={() => setOpen(false)}
-              >
-                {apiData && <CarCard apiData={apiData} />}
-              </InfoWindow>
-            )} */}
             <MapWithMarkers />
           </Map>
         </div>
@@ -298,10 +268,6 @@ const MapWithMarkers = () => {
     },
     300
   ); // Adjust debounce timing as needed
-
-  // const handleMarkerClick = () => {
-  //   toggleFollowMode();
-  // };
 
   // Debounce utility
   function debounce(fn: Function, delay: number) {

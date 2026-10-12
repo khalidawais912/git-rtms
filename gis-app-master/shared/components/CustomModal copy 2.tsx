@@ -51,7 +51,6 @@ const CustomModal = ({
 
   // Helper function to randomly select 1500 or -1500
   const getRandomXPosition = (): 1500 | -1500 => {
-    // Math.random() < 0.5 gives a 50% chance for each value
     return Math.random() < 0.5 ? 1500 : -1500;
   };
 

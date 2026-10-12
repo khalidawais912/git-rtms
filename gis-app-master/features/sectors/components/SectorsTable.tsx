@@ -180,16 +180,6 @@ const SectorsTable = ({ refresh, setRefresh }: SectorsTableProps) => {
                   name="sort id"
                   handleSort={() => handleSort("sortId")}
                 />
-                {/* <TableHeading
-                  className="text-nowrap"
-                  name="created at"
-                  handleSort={() => handleSort("createdAt")}
-                />
-                <TableHeading
-                  className="text-nowrap"
-                  name="update at"
-                  handleSort={() => handleSort("updateAt")}
-                /> */}
                 <TableHeading name="ACTIONS" textClassName="text-center" />
               </tr>
             </thead>
@@ -210,24 +200,6 @@ const SectorsTable = ({ refresh, setRefresh }: SectorsTableProps) => {
                     <TableData>{d.description}</TableData>
                     <TableData>{getParentSector(d.parentId, data)}</TableData>
                     <TableData className="text-center">{d.sortId}</TableData>
-                    {/* <TableData>
-                      {d.createdAt &&
-                        new Date(d.createdAt).toLocaleDateString("en-GB", {
-                          weekday: "short",
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                    </TableData> */}
-                    {/* <TableData>
-                      {d.updateAt &&
-                        new Date(d.updateAt).toLocaleDateString("en-GB", {
-                          weekday: "short",
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                    </TableData> */}
                     <TableData>
                       <Actions
                         deleteNode={

@@ -147,7 +147,6 @@ const TimeSpendOnProjectSiteData = ({
           };
 
           const alignedResults = results.map((item) => item ?? placeholder); // Replace null/undefined with a valid placeholder
-          // setRecordingData((prev) => [...alignedResults]);
           setRecordingData([...alignedResults]);
         })
         .catch((err) => console.error("Error fetching recording data:", err));
@@ -162,9 +161,7 @@ const TimeSpendOnProjectSiteData = ({
         STAFF_TRACKING_API,
         recordingTrackingRequestBody,
       );
-      // console.log("recording data response:", response.data.data[0]);
       return response.data.data[0];
-      // setRecordingData((prev) => [...prev, response.data.data[0]]);
     } catch (err) {
       console.log(err);
       return null;

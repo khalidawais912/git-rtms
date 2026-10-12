@@ -30,7 +30,6 @@ export const GET_USER_PROJECTS_API = `/api/ProjectUserAssigning/GetUserAssingedP
 export const VISIT_API = `/api/Visits`;
 export const TRACKING_API = `https://webtrack.itecknologi.com/fleet/api/Directorate/reporting.php`;
 export const VT_RECORDING_API = `https://webtrack.itecknologi.com/fleet/api/Directorate/track.php`;
-// export const VT_RECORDING_API = `https://webtrack.itecknologi.com/fleet/api/Directorate/track.php?starttime=2025-03-20%2000:00:00&endtime=2025-03-24%2023:59:59&v_ids=GBB-062,GBE-154,GBE-165`;
 export const COORDINATES_API = `/api/Coordinates`;
 export const DISTRICT_API = `/api/District`;
 export const MAIN_DASHBOARD_API = `/api/MainDashboard`;

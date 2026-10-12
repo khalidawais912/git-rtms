@@ -67,7 +67,6 @@ const MapCarsComponent = () => {
   const [path, setPath] = useState<[number, number][]>([]); // Empty path initially
   const [direction, setDirection] = useState<string>("north"); // Empty path initially
   const [rotationAngle, setRotationAngle] = useState<number>(0); // Track rotation angle
-  // const [apiData, setAPIData] = useState<Tracking>();
   const [arrayIndex, setArrayIndex] = useState(0);
   const markerRef = useRef<L.Marker>(null);
   const duration = 500; // Duration between each move (in ms)
@@ -132,7 +131,6 @@ const MapCarsComponent = () => {
             )
           ) {
             setPath((prevPath) => [...prevPath, latestCoordinates]);
-            // setDirection(data["GBB-062"].Direction);
 
             if (!position) {
               setPosition(latestCoordinates);
@@ -273,7 +271,6 @@ const MapCarsComponent = () => {
               closeButton={false}
               offset={L.point(0, -16)}
             >
-              {/* {data && <VisitCard data={data[0]} />} */}
             </Popup>
           </Marker>
         </MapContainer>

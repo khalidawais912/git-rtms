@@ -13,11 +13,6 @@ export const useAttributes = ({ refresh = false }: Props = {}) => {
   const serachParams = useSearchParams();
   const dashboardType = serachParams.get("dashboardType");
 
-  // const endpoint =
-  //   dashboardType === TypeEnum.EVALUATION
-  //     ? EVALUATION_ATTRIBUTES_API
-  //     : ATTRIBUTES_API;
-
   // useMemo to ensure recomputation when dashboardType changes
   const endpoint = useMemo(() => {
     return dashboardType === DashboardTypeEnum.EVALUATION

@@ -96,12 +96,7 @@ const NewVehicleTracking = () => {
   const [isCombineRouteSelected, setCombineRouteSelected] =
     useState<boolean>(true);
 
-  // const fromTime = new Date(fromDate).toLocaleTimeString();
-  // const toTime = new Date(toDate).toLocaleTimeString();
-
   console.log("params updated", fromDate, toDate, vehicleNo);
-  // console.log("fromTime", fromTime);
-  // console.log("toTime", toTime);
 
   const handleSubmit = async (
     fromDate: string,
@@ -197,143 +192,6 @@ const NewVehicleTracking = () => {
                         <p className="text-secondary fs17px">
                           Set the Filter to check appropriate results.
                         </p>
-                        {/* <div
-                      className="row d-flex"
-                      style={{
-                        overflowX: "scroll",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <motion.div
-                        className="d-flex"
-                        drag="x" // Allow horizontal dragging
-                        dragConstraints={{ left: -400, right: 0 }} // Adjust based on content size
-                        whileTap={{ cursor: "grabbing" }}
-                      >
-                        {filterOptions.map((option, i) => (
-                          <div className="col-auto pe-3 py-1">
-                            <Button
-                              onClick={() => setFilterOption(i)}
-                              className={`btn rounded-pill px-3 py-2 fs18px ${
-                                filterOption === i
-                                  ? "text-light"
-                                  : "border border-dark"
-                              }`}
-                              style={{
-                                background: `${
-                                  filterOption === i
-                                    ? "radial-gradient(#0C8CE9, #13629B)"
-                                    : ""
-                                }`,
-                                transition: "all .5s",
-                              }}
-                            >
-                              {option.icon} {option.label}
-                            </Button>
-                          </div>
-                        ))}
-                      </motion.div>
-                      <div>
-                        <div className="col mb-3 text-start">
-                          <label htmlFor="vehicles" className="form-label">
-                            Vehicles
-                          </label>
-                          <select
-                            className="form-select 
-                            aria-label="vehicles"
-                            id="vehicles"
-                            value={vehicleNo}
-                            onChange={(e) => {
-                              setVehicleNo(e.target.value);
-                              setLiveMap(false);
-                            }}
-                          >
-                            <option value="">Select</option>
-                            {vehicles.map((vehicle) => (
-                              <option
-                                key={vehicle.id}
-                                value={vehicle.vehicleNumber}
-                              >
-                                {vehicle.vehicleNumber}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="col mb-3 text-start">
-                          <label htmlFor="date" className="form-label">
-                            From Date with Time
-                          </label>
-                          <input
-                            type="datetime-local"
-                            className="form-control"
-                            id="date"
-                            placeholder="Select start Date"
-                            value={fromDate}
-                            onChange={(e) => setFromDate(e.target.value)}
-                          />
-                        </div>
-
-                        <div className="col mb-3 text-start">
-                          <label htmlFor="date" className="form-label">
-                            To Date with Time
-                          </label>
-                          <input
-                            type="datetime-local"
-                            className="form-control"
-                            id="date"
-                            placeholder="Select end Date"
-                            value={toDate}
-                            onChange={(e) => setToDate(e.target.value)}
-                          />
-                        </div>
-
-                        <div className="row m-0">
-                          <div className="col-lg-6 col-md-6 col-sm-12 text-end">
-                            <Button
-                              className="btn w-50 fs-5 text-white"
-                              type="submit"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                              style={{
-                                backgroundImage:
-                                  "linear-gradient(to right, #0C8CE9 , #13629B)",
-                                border: "0px",
-                              }}
-                              disabled={
-                                fromDate === "" ||
-                                toDate === "" ||
-                                vehicleNo === ""
-                              }
-                              onClick={() => {
-                                handleSubmit(fromDate, toDate, vehicleNo);
-                                setLiveMap(false);
-                                setSelectedButton(2);
-                              }}
-                            >
-                              Filter
-                            </Button>
-                          </div>
-                          <div className="col-lg-6 col-md-6 col-sm-12 text-start">
-                            <Button
-                              className="btn w-50 fs-5"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                              style={{
-                                border: "2px solid #0C8CE9",
-                                color: "#0C8CE9",
-                              }}
-                              onClick={() => {
-                                setFromDate("");
-                                setToDate("");
-                              }}
-                            >
-                              Reset
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div> */}
                         <div className="row m-0 mb-3">
                           {filterOptions.map((option, i) => (
                             <div key={i} className="col-auto ps-0 mb-2">
@@ -608,18 +466,6 @@ const NewVehicleTracking = () => {
                             </>
                           )}
                         </div>
-                        {/* <div className="col mb-3">
-                          <Button
-                            className="btn w-100 rounded-pill text-light fs21px px-4 py-3"
-                            style={{
-                              background: "radial-gradient(#0C8CE9, #13629B)",
-                              padding: "25px 21px",
-                            }}
-                            onClick={() => setViewResults(true)}
-                          >
-                            See {3} Results
-                          </Button>
-                        </div> */}
                         <div
                           className="col"
                           style={{
@@ -651,48 +497,6 @@ const NewVehicleTracking = () => {
                             Clear All Filters
                           </Button>
                         </div>
-                        {/* <div className="row m-0">
-                      <div className="col-lg-6 col-md-6 col-sm-12 text-end">
-                        <Button
-                          className="btn w-50 fs-5 text-white"
-                          type="submit"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(to right, #0C8CE9 , #13629B)",
-                            border: "0px",
-                          }}
-                          disabled={
-                            fromDate === "" || toDate === "" || vehicleNo === ""
-                          }
-                          onClick={() => {
-                            handleSubmit(fromDate, toDate, vehicleNo);
-                            setLiveMap(false);
-                            setSelectedButton(2);
-                          }}
-                        >
-                          Filter
-                        </Button>
-                      </div>
-                      <div className="col-lg-6 col-md-6 col-sm-12 text-start">
-                        <Button
-                          className="btn w-50 fs-5"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                          style={{
-                            border: "2px solid #0C8CE9",
-                            color: "#0C8CE9",
-                          }}
-                          onClick={() => {
-                            setFromDate("");
-                            setToDate("");
-                          }}
-                        >
-                          Reset
-                        </Button>
-                      </div>
-                    </div> */}
                       </div>
                       <div
                         className="col-12 col-lg-6 "

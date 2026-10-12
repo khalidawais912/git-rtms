@@ -40,7 +40,6 @@ const ReportHistoryDownload = ({ data, users, submittedReport }: Props) => {
         })}
         ` +
         ")",
-      //   "Report Link": d.reportPath,
       Comments: d.remarks.replace(/\r\n?/g, "\n").substring(0, 200), // limit length if needed
     }));
   }
@@ -51,7 +50,6 @@ const ReportHistoryDownload = ({ data, users, submittedReport }: Props) => {
     { header: "From", dataKey: "From" },
     { header: "To", dataKey: "To" },
     { header: "Date", dataKey: "Date" },
-    // { header: "Report Link", dataKey: "Report Link" },
     { header: "Comments", dataKey: "Comments" },
   ];
 

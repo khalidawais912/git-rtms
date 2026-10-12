@@ -44,19 +44,11 @@ const Login = () => {
     try {
       setSubmitting(true);
       const response = await axios.post<LoginResponse>(
-        // LOGIN_API,
         process.env.NEXT_PUBLIC_BACKEND_API + LOGIN_API,
         formData,
       );
 
       if (response.data.responseCode === 200) {
-        // const expires = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 minutes from now
-        // if (Cookies.get("token")) Cookies.remove("token");
-        // if (Cookies.get("email")) Cookies.remove("email");
-        // if (Cookies.get("userName")) Cookies.remove("userName");
-        // if (Cookies.get("userId")) Cookies.remove("userId");
-        // if (Cookies.get("role")) Cookies.remove("role");
-        // if (Cookies.get("rights")) Cookies.remove("rights");
         if (!isCookiesSaved) {
           setCookiesSaved(true);
           Cookies.set("token", response.data.data.token, {
@@ -205,31 +197,7 @@ const Login = () => {
                     style={{ marginBottom: "20px" }}
                   >
                     <div className="col">
-                      {/* <label htmlFor="username" className="form-label text-white">
-                    User ID
-                  </label> */}
                       <div className="input-group mb-1">
-                        {/* <span
-                      className="input-group-text border-0"
-                      id="basic-addon1"
-                      style={{ background: "rgba(255, 255, 255, 0.7)" }}
-                    >
-                      <Image
-                        src={userGrey}
-                        alt="userGrey"
-                        width={17}
-                        height={17}
-                        style={{
-                          color: "#7e7e7e !important",
-                        }}
-                      />
-                      <Image
-                        src={verticalLineGrey}
-                        alt="verticalLineGrey"
-                        width={17}
-                        height={17}
-                      />
-                    </span> */}
                         <input
                           {...register("username")}
                           type="text"
@@ -252,28 +220,7 @@ const Login = () => {
                     style={{ marginBottom: "20px" }}
                   >
                     <div className="col">
-                      {/* <label htmlFor="password" className="form-label text-white">
-                    Password
-                  </label> */}
                       <div className="input-group mb-1 position-relative">
-                        {/* <span
-                      className="input-group-text border-0"
-                      id="basic-addon1"
-                      style={{ background: "rgba(255, 255, 255, 0.7)" }}
-                    >
-                      <Image
-                        src={passwordGrey}
-                        alt="password"
-                        width={17}
-                        height={17}
-                      />
-                      <Image
-                        src={verticalLineGrey}
-                        alt="verticalLineGrey"
-                        width={17}
-                        height={17}
-                      />
-                    </span> */}
                         <input
                           {...register("password")}
                           type={buttonType === true ? "password" : "text"}
@@ -303,19 +250,6 @@ const Login = () => {
                       )}
                     </div>
                   </div>
-                  {/* <div className="form-check" style={{ marginBottom: "20px" }}>
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  id="rememberMe"
-                />
-                <label
-                  className="form-check-label text-white fs14px fw-5 "
-                  htmlFor="rememberMe"
-                >
-                  Remember Me
-                </label>
-              </div> */}
                   <div className="row d-flex flex-colum justify-content-center mb-3">
                     <div className="col">
                       <Button

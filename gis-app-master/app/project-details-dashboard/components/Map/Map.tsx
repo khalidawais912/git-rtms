@@ -27,11 +27,6 @@ function Map({ data }: Props) {
   });
   const [isOpen, setIsOpen] = useState(false); // State to control InfoWindow visibility
 
-  // const center = {
-  //   lat: parseFloat(data.projectLat),
-  //   lng: parseFloat(data.projectlong),
-  // };
-
   const center = {
     lat: 0,
     lng: 0,
@@ -62,7 +57,6 @@ function Map({ data }: Props) {
                 width: "300px",
               }}
             >
-              {/* <p className="fs-6 fw-normal m-0">{data.projectName}</p> */}
               {/* Add any other details or style as needed */}
             </div>
           </InfoWindow>

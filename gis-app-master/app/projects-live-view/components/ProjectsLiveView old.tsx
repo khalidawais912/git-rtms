@@ -48,9 +48,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309
             );
@@ -70,9 +67,6 @@ const ProjectsLiveView = () => {
                 const numB = Number(b.gsNo) || 0;
                 return numA - numB;
               });
-
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
 
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309
@@ -94,9 +88,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309
             );
@@ -117,9 +108,6 @@ const ProjectsLiveView = () => {
               const numB = parseInt(String(b.gsNo).trim(), 10) || 0;
               return numA - numB;
             });
-
-          // setProjectsData(sortedData ?? []);
-          // console.log("sortedData data", sortedData);
 
           const specificPoject = response.data.data.find(
             (project: ProjectsList) => Number(project.gSno) === 309
@@ -164,8 +152,6 @@ const ProjectsLiveView = () => {
                   border: "1px solid #CBD5E1",
                 }}
                 placeholder="Search"
-                // value={searchTerm}
-                // onChange={handleChange}
                 id="search"
               />
             </div>

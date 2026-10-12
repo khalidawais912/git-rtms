@@ -22,7 +22,6 @@ const lexend = Lexend({
 const VehicleTracking = () => {
   const [mapStatus, setMapStatus] = useState(true);
   const dispatch = useDispatch();
-  // useAuthorization("vehicle-tracking");
 
   const handleButtonClick = (content: string, tutorialLink: string) => {
     dispatch(setContent(content));
@@ -57,14 +56,6 @@ const VehicleTracking = () => {
                 className="col position-absolute text-end"
                 style={{ zIndex: 1, left: 200, top: 10 }}
               >
-                {/* <Button
-                  className={`btn ps-2 pe-2 ${
-                    mapStatus ? "btn-danger" : "btn-success"
-                  }`}
-                  onClick={() => setMapStatus(!mapStatus)}
-                >
-                  {mapStatus ? "Live" : "Recording"}
-                </Button> */}
                 <div
                   className={`row d-flex flex-wrap rounded-pill m-0 ${lexend.className}`}
                   style={{ background: "rgba(235, 239, 253, 0.33)" }}
@@ -146,7 +137,6 @@ const VehicleTracking = () => {
               </div>
               {devMap && (
                 <div className="position-relative" style={{ zIndex: 0 }}>
-                  {/* {mapStatus ? <MapCarsRecorded /> : <MapCars />} */}
                   {mapStatus ? (
                     <LiveCarTrackingMap />
                   ) : (
@@ -154,16 +144,11 @@ const VehicleTracking = () => {
                   )}
                 </div>
               )}
-              {/* <Destination /> */}
-              {/* <Test /> */}
             </div>
           </div>
         </div>
         <div className="col-lg-3 col-md-12 col">
           <div className="row d-flex flex-lg-column">
-            {/* <div className="col">
-              <Drivers />
-            </div> */}
             <div className="col">
               <Vehicles />
             </div>

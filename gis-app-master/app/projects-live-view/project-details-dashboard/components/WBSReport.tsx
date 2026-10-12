@@ -30,7 +30,6 @@ const WBSReport = ({ majorDeliverables }: Props) => {
                 <div
                   className="col px-4 py-2 d-inline-block shadow"
                   style={{
-                    // "linear-gradient(to bottom right, #14BAE3 , #13B1E6, #11AADF,#0B98C5)",
                     background:
                       "linear-gradient(to bottom right, #1090b0 , #0a4582)",
                     borderRadius: "8px",
@@ -196,7 +195,6 @@ const WBSReport = ({ majorDeliverables }: Props) => {
                 <div
                   className="col px-4 py-2 d-inline-block shadow"
                   style={{
-                    // "linear-gradient(to bottom right, #14BAE3 , #13B1E6, #11AADF,#0B98C5)",
                     background:
                       "linear-gradient(to bottom right, #1090b0 , #0a4582)",
                     borderRadius: "8px",
@@ -293,21 +291,3 @@ const WBSReport = ({ majorDeliverables }: Props) => {
 };
 
 export default WBSReport;
-// {Math.round(
-//   majorDeliverables.group.reduce((sum, g) => {
-//     const groupTotal = g.attributes
-//       .filter(
-//         (attribute) =>
-//           attribute.attributeId !== 68 &&
-//           attribute.attributeId !== 69
-//       )
-//       .reduce((attrSum, attribute) => {
-//         const value = attribute.values[0]?.value; // Raw value
-//         const numericValue = parseFloat(value); // Convert to number
-//         return (
-//           attrSum + (isNaN(numericValue) ? 0 : numericValue)
-//         ); // Add valid numbers
-//       }, 0);
-//     return sum + groupTotal; // Add group total to the sum
-//   }, 0)
-// )}

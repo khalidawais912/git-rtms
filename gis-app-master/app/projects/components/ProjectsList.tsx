@@ -59,7 +59,6 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
   const [isPageLimit, setPageLimit] = useState(false);
 
   const deleteMessage = "Deleted Successfully!";
-  // const syncMessage = "Attribute Values synced Successfully!";
 
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
@@ -73,7 +72,6 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.gsNo, item.name, item.status]
         .filter((field) => field) // Remove undefined fields
@@ -191,32 +189,6 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
         handleChange={handleChange}
         form={
           <>
-            {/* <div className="col-auto text-end mb-2">
-                <ProjectForm
-              api={PROJECT_API_ENDPOINT}
-              method="POST"
-              setRefresh={setRefresh}
-              refresh={refresh}
-            />
-                <SmdpSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
-            {/* <div className="col-auto text-end">
-                <SmdpAllProjectsSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
           </>
         }
       />
@@ -254,13 +226,6 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
                   name="ADD TO VISIT PLAN"
                   className="text-nowrap"
                 />
-                {/* <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th> */}
-                {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
-                {/* <th style={{ whiteSpace: "nowrap" }}>SUPER GROUP</th> */}
-                {/* <th colSpan={1}>
-                <div className="text-center"></div>
-              </th> */}
-                {/* <th className="text-nowrap">ADD TO VISIT PLAN</th> */}
               </tr>
             </thead>
             <tbody>
@@ -273,60 +238,11 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
                     {getName(d.sectorId, sectorsData)}
                   </TableData>
                   <TableData className="text-nowrap">
-                    {/* {d.status.toLowerCase() === "scheduled" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status.toLowerCase() === "not confirmed" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : d.status.toLowerCase() === "un-approved" ? (
-                    <Image
-                      src={cancel}
-                      style={{ marginBottom: "3px" }}
-                      alt="cancel"
-                    />
-                  ) : d.status.toLowerCase() === "completed" ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status.toLowerCase().startsWith("approved") ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status.toLowerCase() === "active" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status.toLowerCase() === "draft" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : (
-                    ""
-                  )}
-                  &nbsp; */}
                     <StatusBadge status={d.status} />
                   </TableData>
                   <TableData className="text-center">
                     <AssignUserForm id={d.id} options={users} />
                   </TableData>
-                  {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </TableData> */}
                   <TableData className="text-center">
                     <GroupingForm
                       id={d.id}
@@ -342,21 +258,6 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
                       <AiOutlinePlus size={26} />
                     </Button>
                   </TableData>
-                  {/* <TableData>
-                  <DeleteModal handleDelete={handleDelete} id={d.id} />
-                </TableData> */}
-                  {/* <TableData>
-                  <DownloadPDFBtn />
-                </TableData> */}
-                  {/* <TableData>
-                  <ProjectForm
-                    api={PROJECT_API_ENDPOINT}
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </TableData> */}
                 </tr>
               ))}
             </tbody>

@@ -128,14 +128,6 @@ const CompletedProjectsBarChartTile = ({
       seasonColor: "#000",
     },
 
-    //   tooltip: {
-    //     contentStyle: {
-    //       backgroundColor: "#1E1B39",
-    //       borderRadius: 6,
-    //       border: "none",
-    //     },
-    //     itemStyle: { color: "#fff" },
-    //   },
   };
 
   const largeChartStyle: MyBarChartStyle = {

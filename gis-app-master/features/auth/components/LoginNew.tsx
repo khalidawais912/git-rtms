@@ -134,31 +134,7 @@ const LoginNew = () => {
                 style={{ marginBottom: "20px" }}
               >
                 <div className="col">
-                  {/* <label htmlFor="username" className="form-label text-white">
-                    User ID
-                  </label> */}
                   <div className="input-group mb-1">
-                    {/* <span
-                      className="input-group-text border-0"
-                      id="basic-addon1"
-                      style={{ background: "rgba(255, 255, 255, 0.7)" }}
-                    >
-                      <Image
-                        src={userGrey}
-                        alt="userGrey"
-                        width={17}
-                        height={17}
-                        style={{
-                          color: "#7e7e7e !important",
-                        }}
-                      />
-                      <Image
-                        src={verticalLineGrey}
-                        alt="verticalLineGrey"
-                        width={17}
-                        height={17}
-                      />
-                    </span> */}
                     <input
                       {...register("username")}
                       type="text"
@@ -180,28 +156,7 @@ const LoginNew = () => {
                 style={{ marginBottom: "20px" }}
               >
                 <div className="col">
-                  {/* <label htmlFor="password" className="form-label text-white">
-                    Password
-                  </label> */}
                   <div className="input-group mb-1 position-relative">
-                    {/* <span
-                      className="input-group-text border-0"
-                      id="basic-addon1"
-                      style={{ background: "rgba(255, 255, 255, 0.7)" }}
-                    >
-                      <Image
-                        src={passwordGrey}
-                        alt="password"
-                        width={17}
-                        height={17}
-                      />
-                      <Image
-                        src={verticalLineGrey}
-                        alt="verticalLineGrey"
-                        width={17}
-                        height={17}
-                      />
-                    </span> */}
                     <input
                       {...register("password")}
                       type={buttonType === true ? "password" : "text"}
@@ -224,27 +179,6 @@ const LoginNew = () => {
                         <FaRegEye size={20} />
                       )}
                     </Button>
-                    {/* <div
-                      className="input-group-text border-0 m-0"
-                      id="basic-addon1"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.7)",
-                        borderTopRightRadius: "11.7px",
-                        borderBottomRightRadius: "11.7px",
-                      }}
-                    >
-                      <Button
-                        className="btn"
-                        type="button"
-                        onClick={() => setButtonType(!buttonType)}
-                      >
-                        {buttonType ? (
-                          <TbEyeClosed size={20} />
-                        ) : (
-                          <FaRegEye size={20} />
-                        )}
-                      </Button>
-                    </div> */}
                   </div>
                   {errors.password && (
                     <ErrorMessage>{errors.password.message}</ErrorMessage>

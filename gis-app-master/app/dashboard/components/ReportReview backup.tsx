@@ -51,12 +51,6 @@ const ReportReview = () => {
             textWrap={false}
           />
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {/* {role.toLowerCase() === "deputy director" &&
-              data.filter((d) => d.lastStatus === 0).length}
-            {role.toLowerCase() === "director" &&
-              data.filter((d) => d.lastStatus === 1).length}
-            {role.toLowerCase() === "director general" &&
-              data.filter((d) => d.lastStatus === 2).length} */}
             {role.toLowerCase() === "deputy director" &&
               data.filter((d) => d.status === 0).length}
             {role.toLowerCase() === "director" &&

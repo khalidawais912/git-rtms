@@ -20,15 +20,6 @@ export const useSuperGroups = ({ refresh = false }: Props = {}) => {
       : SUPER_GROUP_API;
   }, [dashboardType]);
 
-  //   const endpoint = useMemo(() => {
-  //   const type = dashboardType as TypeEnum | null;
-  //   if (!type || type === undefined) return SUPER_GROUP_API;
-  //   if (type === TypeEnum.EVALUATION) return EVALUATION_SUPER_GROUP_API;
-
-  //   console.log("dashboardType:", dashboardType, " -> endpoint:", endpoint);
-  //   return SUPER_GROUP_API;
-  // }, [dashboardType]);
-
   useEffect(() => {
     console.log("endpoint", endpoint);
   }, [endpoint]);

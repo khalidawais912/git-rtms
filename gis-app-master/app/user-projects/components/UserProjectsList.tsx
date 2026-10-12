@@ -56,7 +56,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.gsNo, item.name, item.status]
         .filter((field) => field) // Remove undefined fields
@@ -144,26 +143,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
         handleChange={handleChange}
         form={
           <>
-            {/* <div className="col text-end mb-2">
-                <SmdpSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
-            {/* <div className="col text-end mb-2">
-                <SmdpAllProjectsSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
             <div className="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
               <form>
                 <div className="col text-start">
@@ -191,23 +170,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                       }}
                     />
                   )}
-                  {/* <select
-                      className="color-light-dark pt-1 pb-2"
-                      aria-label="Select User"
-                      name="user"
-                      style={{
-                        outline: "none",
-                        background: "rgba(16, 143, 168, .1)",
-                      }}
-                      onChange={(e) => handleSubmit(Number(e.target.value))}
-                    >
-                      <option value="">Select User</option>
-                      {users.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.userName}
-                        </option>
-                      ))}
-                    </select> */}
                 </div>
               </form>
             </div>
@@ -271,9 +233,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                     />
                     <TableHeading name="ASSIGN USER" className="text-nowrap" />
                     <TableHeading name="SUPER GROUP" className="text-nowrap" />
-                    {/* <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th> */}
-                    {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
-                    {/* <th style={{ whiteSpace: "nowrap" }}>SUPER GROUP</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -284,80 +243,14 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                       <TableData>{d.name}</TableData>
                       <TableData>{getName(d.sectorId, sectorsData)}</TableData>
                       <TableData className="text-nowrap">
-                        {/* {d.status === "scheduled" || d.status === "Scheduled" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status === "not confirmed" ||
-                    d.status === "Not Confirmed" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : d.status === "cancel" || d.status === "Cancel" ? (
-                    <Image
-                      src={cancel}
-                      style={{ marginBottom: "3px" }}
-                      alt="cancel"
-                    />
-                  ) : d.status === "completed" || d.status === "Completed" ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status.startsWith("approved") ||
-                    d.status.startsWith("Approved") ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status === "active" || d.status === "Active" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status === "draft" || d.status === "Draft" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : (
-                    ""
-                  )}
-                  &nbsp;{d.status} */}
                         <StatusBadge status={d.status} />
                       </TableData>
                       <TableData className="text-center">
                         <AssignUserForm id={d.id} options={users} />
                       </TableData>
-                      {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </TableData> */}
                       <TableData className="text-center">
                         <GroupingForm id={d.id} options={superGroups} />
                       </TableData>
-                      {/* <TableData>
-                  <DeleteModal handleDelete={handleDelete} id={d.id} />
-                </TableData> */}
-                      {/* <TableData>
-                  <DownloadPDFBtn />
-                </TableData> */}
-                      {/* <TableData>
-                  <ProjectForm
-                    api={PROJECT_API}
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </TableData> */}
                     </tr>
                   ))}
                 </tbody>

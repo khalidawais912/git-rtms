@@ -39,8 +39,6 @@ const FilterModal = ({
   userFiltersData,
 }: Props) => {
   const [count, setCount] = useState(otherFilters.length);
-  // State to hold filter data
-  // const [filterData, setOtherFilters] = useState<FilterData[]>([]);
 
   // Ref array for select elements to reset them on "Reset" click
   const selectRefs = useRef<Array<HTMLSelectElement | null>>([]);
@@ -83,14 +81,6 @@ const FilterModal = ({
       return updatedFilters;
     });
 
-    // const nonEmptySelects = selectRefs.current.filter(
-    //   (select) => select && select.value
-    // ).length;
-    // setCount(nonEmptySelects);
-    // setSelectedIndices((prev) => ({
-    //   ...prev,
-    //   [index]: value !== "", // True if an option is selected, false if default
-    // }));
   };
 
   // Reset function to clear filters and reset selects
@@ -196,56 +186,9 @@ const FilterModal = ({
                           }
                           menuPlacement="auto"
                         />
-                        {/* <select
-                          id={d.label}
-                          ref={(el) => {
-                            selectRefs.current[i] = el;
-                          }} // Type-safe ref assignment
-                          className="form-select form-select-sm"
-                          aria-label={d.label}
-                          name={d.label}
-                          style={{
-                            backgroundColor: selectedIndices[i]
-                              ? "yellow"
-                              : "white", // Change background color
-                          }}
-                          onChange={(e) =>
-                            handleSelectChange(
-                              d.filterIdentifier,
-                              e.target.value,
-                              i
-                            )
-                          }
-                          value={
-                            otherFilters.find(
-                              (f) => f.filterIdentifier === d.filterIdentifier
-                            )?.filterValues || ""
-                          }
-                        >
-                          <option value="">Select</option>
-                          {d.filterValues.map((f, j) => (
-                            <option key={j} value={f}>
-                              {f}
-                            </option>
-                          ))}
-                        </select> */}
                       </div>
                     );
                   })}
-                  {/* <div className="col-lg-6 col-md-6 col-sm-12 text-start mb-3">
-                      <label htmlFor="sectorId" className="form-label">
-                        Department
-                      </label>
-                      <select
-                        className="form-select form-select-sm"
-                        name="sectorId"
-                        //   onChange={}
-                        //   value={}
-                      >
-                        <option value={0}>None</option>
-                        <option value={1}>asd</option>
-                      </select>
-                    </div> */}
                 </div>
                 <div className="row d-flex">
                   <div className="col-lg-6 col-md-6 col-sm-12 text-end">

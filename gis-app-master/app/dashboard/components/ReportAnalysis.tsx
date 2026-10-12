@@ -150,7 +150,6 @@ const ReportAnalysis = () => {
           };
 
           const alignedResults = results.map((item) => item ?? placeholder); // Replace null/undefined with a valid placeholder
-          // setRecordingData((prev) => [...alignedResults]);
           setRecordingData([...alignedResults]);
         })
         .catch((err) => console.error("Error fetching recording data:", err));
@@ -165,9 +164,7 @@ const ReportAnalysis = () => {
         STAFF_TRACKING_API,
         recordingTrackingRequestBody,
       );
-      // console.log("recording data response:", response.data.data[0]);
       return response.data.data[0];
-      // setRecordingData((prev) => [...prev, response.data.data[0]]);
     } catch (err) {
       console.log(err);
       return null;
@@ -479,7 +476,6 @@ const ReportAnalysis = () => {
             </div>
           ) : (
             <div className="col mb-3 text-end">
-              {/* <DownloadDropDown onClickExcel={()=>downloadReportAnalysisToExcel(data[selectedIndex],"ReportAnalysis.xlsx")} /> */}
             </div>
           )}
           <div
@@ -490,55 +486,6 @@ const ReportAnalysis = () => {
             }}
           >
             {selectedIndex === 0 ? (
-              // <table className="table table-hover fs17px">
-              //   <thead
-              //     style={{
-              //       background: "#4F81BD",
-              //       borderTopRightRadius: "10px",
-              //     }}
-              //   >
-              //     <tr className="text-center">
-              //       <td
-              //         className="text-secondary border-bottom-0 text-light"
-              //         style={{
-              //           borderTopLeftRadius: "10px",
-              //         }}
-              //       >
-              //         S.no
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Row Labels
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         No
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Yes
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Grand Total
-              //       </td>
-              //     </tr>
-              //   </thead>
-              //   <tbody>
-              //     {data.reportsGenerated?.map((d, i) => (
-              //       <tr key={i}>
-              //         <td>{i + 1}</td>
-              //         <td className="text-start">{d.rowLabels}</td>
-              //         <td>{d.no}</td>
-              //         <td>{d.yes}</td>
-              //         <td>{d.grandTotal}</td>
-              //       </tr>
-              //     ))}
-              // <tr className="bg-light fw-normal">
-              //         <td></td>
-              //         <td className="text-start">Grand Total</td>
-              //         <td>39</td>
-              //         <td>62</td>
-              //         <td>101</td>
-              //       </tr>
-              //   </tbody>
-              // </table>
               <></>
             ) : selectedIndex === 1 ? (
               <table className="table table-hover fs17px">

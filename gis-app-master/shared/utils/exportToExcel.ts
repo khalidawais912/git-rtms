@@ -65,24 +65,6 @@ export const exportDataToExcelNew = (
   XLSX.writeFile(workbook, filename);
 };
 
-// With "Any" type
-// export const exportToExcel = (
-//   columns: { header: string; dataKey: string }[],
-//   tableRows: any[],
-//   filename: string
-// ) => {
-//   // Header row
-//   const worksheetData = [
-//     columns.map((col) => col.header),
-//     ...tableRows.map((row) => columns.map((col) => row[col.dataKey])),
-//   ];
-
-//   const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-//   const workbook = XLSX.utils.book_new();
-//   XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
-//   XLSX.writeFile(workbook, `${filename}.xlsx`);
-// };
-
 // With Generic type
 export const exportToExcelNewOne = <T extends Record<string, any>>(
   columns: { header: string; dataKey: keyof T }[], // 👈 keyof T ensures only valid keys

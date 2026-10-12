@@ -204,22 +204,6 @@ const VisitsPlan = ({
               <div className="text-start">Visits Plan</div>
             </div>
           </div>
-          // <Button
-          //   className="row d-flex flex-nowrap m-0 justify-content-center btn w-100 fw-normal fs14px"
-          //   style={{
-          //     borderRadius: "8px",
-          //     background: "#C6F1DF",
-          //   }}
-          // >
-          //   <div className="col-auto pe-1 my-auto">
-          //     <Image src={visitPlan} alt="visitPlan" width={24} height={24} />
-          //   </div>
-          //   <div className="col-auto p-0">
-          //     Visits
-          //     <br />
-          //     Plan
-          //   </div>
-          // </Button>
         }
         body={
           <div
@@ -358,7 +342,6 @@ const VisitsPlan = ({
                                 <tr key={j}>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="rounded-pill rounded-end border-0 fs14px fw-bold px-0 py-1"
@@ -467,7 +450,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -483,7 +465,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -499,7 +480,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -515,7 +495,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -531,7 +510,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -547,7 +525,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 text-center fs14px fw-normal px-0 py-1"
@@ -563,7 +540,6 @@ const VisitsPlan = ({
                                   </td>
                                   <td
                                     style={{
-                                      // background: "rgba(241, 241, 241, 0.88)",
                                       color: "#414651",
                                     }}
                                     className="border-0 fs14px fw-bold px-0 py-1"

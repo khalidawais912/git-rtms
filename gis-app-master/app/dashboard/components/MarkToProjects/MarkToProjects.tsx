@@ -67,13 +67,6 @@ const MarkToProjects = ({ role }: Props) => {
   }, [refresh]);
 
   const handleUpdate = async (projectId: number) => {
-    // const response = await apiClient.put(MARK_TO_EVALUATION_API, {
-    //   id: projectId,
-    //   requestForPCIV: true,
-    //   letterofRequestPCIV: "string",
-    //   requestForPCIVDate: "2026-10-01T07:29:11.146Z",
-    //   submittedPCIVDate: "2026-10-01T07:29:11.146Z",
-    // });
   };
 
   const handleDelete = async (id: number) => {

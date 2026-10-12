@@ -39,10 +39,6 @@ export const getFormattedDate = (
   return `${day}-${month}-${year}`;
 };
 
-// Usage examples
-// const shortDate = getFormattedDate(new Date(), "short"); // Outputs: "Sep 10, 2024"
-// const numericDate = getFormattedDate(new Date(), "numeric"); // Outputs: "10.9.2024"
-
 export const getName = (id: number, data: any) => {
   const record = data.find((item: any) => item.id === id);
   if (record?.name) return record?.name;
@@ -76,9 +72,7 @@ export function formatDateTime(dateTimeString: string, formatType: string) {
 
 export const devMap = true;
 
-// "yyyy-MM-dd" to the desired format "dd-MMM-yyyy"
 export function formatHHLStringDate(inputDate: string): string {
-  //HHL(High Level Language) - human readable
   const months = [
     "Jan",
     "Feb",
@@ -129,17 +123,6 @@ export const exportToPDF = (
   const doc = new jsPDF("landscape");
   doc.setFont("helvetica", "bold"); // Set font to bold
   doc.setFontSize(16); // Set font size for the heading
-  // const titleText = `${label} ${
-  // new Date(selectedDate).toLocaleDateString(
-  //                           "en-GB",
-  //                           {
-  //                             weekday: "short",
-  //                             day: "2-digit",
-  //                             month: "short",
-  //                             year: "numeric",
-  //                           },
-  //                         )
-  // }`;
   const titleText = label;
   const pageWidth = doc.internal.pageSize.width;
   const textWidth = doc.getTextWidth(titleText);
@@ -150,50 +133,10 @@ export const exportToPDF = (
   doc.setFont("helvetica", "normal"); // Change font back to normal for other text
   doc.setFontSize(10); // Set a smaller font size for the rest of the content
 
-  // Define columns and rows for the PDF table
-  // const columns = [
-  //   { header: "GS NO", dataKey: "id" },
-  //   { header: "Project Name", dataKey: "projectName" },
-  // { header: "Sr", dataKey: "userId" },
-  // { header: "Name", dataKey: "employeeName" },
-  // { header: "Designation", dataKey: "employeeDesignation" },
-  // { header: "In Time", dataKey: "punchInTime" },
-  // { header: "Punch In", dataKey: "punchInStatus" },
-  // { header: "Out Time", dataKey: "punchOutTime" },
-  // { header: "Punch Out", dataKey: "punchOutStatus" },
-  // ];
-
-  // Map over your attendance data to create rows for the table
-  // const trimDataMethod = (designation: any) => {
-  //   let updatedText = "";
-  //   let trimedText = designation.trim();
-
-  //   for (let i = 0; i < trimedText.length; i++) {
-  //     if (i !== trimedText.length - 1) {
-  //       updatedText += trimedText[i];
-  //     }
-  //   }
-
-  //   return updatedText.trim() + ")";
-  // };
-
-  // const tableRows =
-  //   attendanceData &&
-  //   attendanceData?.map((data: any, index: any) => ({
-  //     id: index + 1,
-  //     projectName: data.projectName,
-  // employeeDesignation: trimDataMethod(data.employeeDesignation),
-  // punchInTime: data.punchInTime,
-  // punchInStatus: data.punchInStatus,
-  // punchOutTime: data.punchOutTime,
-  // punchOutStatus: data.punchOutStatus,
-  // }));
-
   // Add table to PDF using autoTable plugin
   doc.autoTable({
     columns,
     body: tableRows,
-    // startY: 20,
     theme: "grid", // Options: 'grid', 'plain', or 'striped'
 
     headStyles: {
@@ -212,15 +155,6 @@ export const exportToPDF = (
       halign: "left", // Horizontal text alignment: 'left', 'center', 'right'
       valign: "middle", // Adjust table body font size if needed
     },
-    // columnStyles: {
-    //   0: { cellWidth: "auto" }, // First column width set to 30
-    //   1: { cellWidth: "auto", halign: "left" }, // Second column width set to 50
-    //   2: { cellWidth: 80, overflow: "hidden" }, // Third column auto width
-    //   3: { cellWidth: 18, halign: "center" }, // Fourth column width set to 40
-    //   4: { cellWidth: "auto", halign: "center" }, // Fourth column width set to 40
-    //   5: { cellWidth: 18, halign: "center" }, // Fourth column width set to 40
-    //   6: { cellWidth: "auto", halign: "center" }, // Fourth column width set to 40
-    // },
   });
 
   // Save the PDF
@@ -236,17 +170,6 @@ export const exportToPDFNew = (
   const doc = new jsPDF("landscape");
   doc.setFont("helvetica", "bold"); // Set font to bold
   doc.setFontSize(16); // Set font size for the heading
-  // const titleText = `${label} ${
-  // new Date(selectedDate).toLocaleDateString(
-  //                             "en-GB",
-  //                             {
-  //                               weekday: "short",
-  //                               day: "2-digit",
-  //                               month: "short",
-  //                               year: "numeric",
-  //                             },
-  //                           )
-  // }`;
   const titleText = `${label}`;
   const pageWidth = doc.internal.pageSize.width;
   const margin = 20; // side margin
@@ -262,45 +185,6 @@ export const exportToPDFNew = (
   // Reset font style for the rest of the content
   doc.setFont("helvetica", "normal"); // Change font back to normal for other text
   doc.setFontSize(16); // Set a smaller font size for the rest of the content
-
-  // Define columns and rows for the PDF table
-  // const columns = [
-  //   { header: "GS NO", dataKey: "id" },
-  //   { header: "Project Name", dataKey: "projectName" },
-  // { header: "Sr", dataKey: "userId" },
-  // { header: "Name", dataKey: "employeeName" },
-  // { header: "Designation", dataKey: "employeeDesignation" },
-  // { header: "In Time", dataKey: "punchInTime" },
-  // { header: "Punch In", dataKey: "punchInStatus" },
-  // { header: "Out Time", dataKey: "punchOutTime" },
-  // { header: "Punch Out", dataKey: "punchOutStatus" },
-  // ];
-
-  // Map over your attendance data to create rows for the table
-  // const trimDataMethod = (designation: any) => {
-  //   let updatedText = "";
-  //   let trimedText = designation.trim();
-
-  //   for (let i = 0; i < trimedText.length; i++) {
-  //     if (i !== trimedText.length - 1) {
-  //       updatedText += trimedText[i];
-  //     }
-  //   }
-
-  //   return updatedText.trim() + ")";
-  // };
-
-  // const tableRows =
-  //   attendanceData &&
-  //   attendanceData?.map((data: any, index: any) => ({
-  //     id: index + 1,
-  //     projectName: data.projectName,
-  // employeeDesignation: trimDataMethod(data.employeeDesignation),
-  // punchInTime: data.punchInTime,
-  // punchInStatus: data.punchInStatus,
-  // punchOutTime: data.punchOutTime,
-  // punchOutStatus: data.punchOutStatus,
-  // }));
 
   // Add table to PDF using autoTable plugin
   doc.autoTable({
@@ -343,15 +227,6 @@ export const exportToPDFNew = (
       fontStyle: "bold",
     },
 
-    // columnStyles: {
-    //   0: { cellWidth: "auto" }, // First column width set to 30
-    //   1: { cellWidth: "auto", halign: "left" }, // Second column width set to 50
-    //   2: { cellWidth: 80, overflow: "hidden" }, // Third column auto width
-    //   3: { cellWidth: 18, halign: "center" }, // Fourth column width set to 40
-    //   4: { cellWidth: "auto", halign: "center" }, // Fourth column width set to 40
-    //   5: { cellWidth: 18, halign: "center" }, // Fourth column width set to 40
-    //   6: { cellWidth: "auto", halign: "center" }, // Fourth column width set to 40
-    // },
   });
 
   // Save the PDF

@@ -55,7 +55,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = [...(data || [])].reverse().filter((item) =>
       [item.id.toString(), item.name, item.parentName]
         .filter((field) => field) // Remove undefined fields
@@ -165,16 +164,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
                   name="sort id"
                   handleSort={() => handleSort("sortId")}
                 />
-                {/* <TableHeading
-                  className="text-nowrap"
-                  name="created at"
-                  handleSort={() => handleSort("createdAt")}
-                />
-                <TableHeading
-                  className="text-nowrap"
-                  name="updated at"
-                  handleSort={() => handleSort("updatedAt")}
-                /> */}
                 <TableHeading name="Attributes" textClassName="text-center" />
                 <TableHeading name="Actions" textClassName="text-center" />
               </tr>
@@ -187,24 +176,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
                   <TableData>{d.description}</TableData>
                   <TableData>{d.parentName}</TableData>
                   <TableData className="text-center">{d.sortId}</TableData>
-                  {/* <TableData>
-                    {d.createdAt &&
-                      new Date(d.createdAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData>
-                  <TableData>
-                    {d.updatedAt &&
-                      new Date(d.updatedAt).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                  </TableData> */}
                   <TableData className="text-center">
                     <GroupingForm
                       id={d.id}

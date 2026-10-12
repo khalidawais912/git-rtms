@@ -9,7 +9,6 @@ import {
   Popup,
   TileLayer,
 } from "react-leaflet";
-// import carIconUrl from "/images/carTop.png"; // Add a car icon to show on the map
 import { COORDINATES_API } from "@/shared/api/endpoints";
 import apiClient from "@/shared/api/client";
 import Image from "next/image";
@@ -171,7 +170,6 @@ const MapCarsManualComponent = () => {
               closeButton={false}
               offset={L.point(0, -16)}
             >
-              {/* {data && <CarCard data={data[0]} />} */}
             </Popup>
           </Marker>
         </MapContainer>
