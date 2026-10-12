@@ -10,6 +10,7 @@ import FormWrapper from "@/app/components/Form/FormWrapper";
 import SubmitButton from "@/app/components/Form/SubmitButton";
 import Spinner from "@/app/components/Spinner";
 import ActionButton from "@/app/components/Table/ActionButton";
+import useDepartments from "@/app/hooks/useDepartments";
 import { Role } from "@/app/hooks/useRoles";
 import apiClient, {
   AxiosError,
@@ -89,6 +90,7 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
   const [buttonType, setButtonType] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
+  const { data: departments } = useDepartments();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -120,6 +122,10 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
         setValue("email", itemData.email);
         setValue("password", itemData.password);
         setValue("roleID", itemData.roleID);
+        setValue(
+          "userProfile.department_Id",
+          itemData.userProfile?.department_Id ?? 0,
+        );
       } catch (error) {
         console.log(error);
       }
@@ -154,6 +160,13 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
   };
 
   const roleIdOptions: OptionType[] = roles?.map((d) => {
+    return {
+      value: d.id.toString(),
+      label: d.name,
+    };
+  });
+
+  const departmentOptions: OptionType[] = departments?.map((d) => {
     return {
       value: d.id.toString(),
       label: d.name,
@@ -449,6 +462,50 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
                   {errors.roleID && (
                     <p className="text-danger mt-1 fs14px">
                       {errors.roleID.message}
+                    </p>
+                  )}
+                </div>
+                <div
+                  className="col-lg-4 col-md-6 col-sm-12 text-start mt-0"
+                  style={{ marginBottom: "10px", padding: "0px 10px" }}
+                >
+                  <CustomLabel htmlFor="userProfile.department_Id">
+                    Department
+                  </CustomLabel>
+                  <Controller
+                    name="userProfile.department_Id"
+                    control={control}
+                    render={({ field }) => (
+                      <CustomSelect
+                        {...field}
+                        id="userProfile.department_Id"
+                        closeMenuOnSelect={true}
+                        options={[defaultNumberOption, ...departmentOptions]}
+                        value={
+                          departmentOptions.find(
+                            (option) => option.value === String(field.value),
+                          )
+                            ? [
+                                departmentOptions.find(
+                                  (option) =>
+                                    option.value === String(field.value),
+                                )!,
+                              ]
+                            : []
+                        }
+                        onChangeSingle={(selectedOption) => {
+                          const singleOption =
+                            selectedOption as SingleValue<OptionType>;
+                          field.onChange(
+                            singleOption ? Number(singleOption.value) : 0,
+                          );
+                        }}
+                      />
+                    )}
+                  />
+                  {errors?.userProfile?.department_Id && (
+                    <p className="text-danger mt-1 fs14px">
+                      {errors.userProfile.department_Id.message}
                     </p>
                   )}
                 </div>
