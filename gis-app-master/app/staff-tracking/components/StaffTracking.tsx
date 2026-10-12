@@ -9,7 +9,7 @@ import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import { Project } from "@/app/hooks/useProjects";
 import apiClient from "@/shared/api/client";
 import { devMap, triggerEscapeKeyPress } from "@/shared/utils";

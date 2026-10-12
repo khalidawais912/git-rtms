@@ -7,7 +7,7 @@ import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import TableWrapper from "@/shared/components/Table/TableWrapper";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import { Project } from "@/app/hooks/useProjects";
 import useSectors from "@/app/hooks/useSectors";
 import useSuperGroups from "@/app/hooks/useSuperGroups";

@@ -1,7 +1,7 @@
 "use client";
 import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/shared/api/endpoints";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import apiClient from "@/shared/api/client";
 import {
   StaffTracking,

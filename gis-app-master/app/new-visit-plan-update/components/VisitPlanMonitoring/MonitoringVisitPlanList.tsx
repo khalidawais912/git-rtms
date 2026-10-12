@@ -4,7 +4,7 @@ import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/
 import { OptionType } from "@/shared/components/Form/CustomSelect";
 import Loader from "@/shared/components/Loader/Loader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import useDistrict from "@/app/hooks/useDistrict";
 import useDriver from "@/app/hooks/useDriver";
 import useTempTourPlans from "@/app/hooks/useTempTourPlan";

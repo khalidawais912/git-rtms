@@ -10,12 +10,11 @@ import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import Spinner from "@/shared/components/Spinner";
 import ActionButton from "@/shared/components/Table/ActionButton";
-import useDepartments from "@/features/departments/hooks";
+import { useDepartments } from "@/features/departments";
 import { Role } from "@/app/hooks/useRoles";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/shared/api/client";
+import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import { createUser, getUser, updateUser } from "../api";
+import { UserFormData, userSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -24,60 +23,16 @@ import toast from "react-hot-toast";
 import { FaRegEye } from "react-icons/fa";
 import { TbEyeClosed, TbFileUpload } from "react-icons/tb";
 import { SingleValue } from "react-select";
-import { z } from "zod";
-
-const schema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Please add Name!" })
-    .regex(/^\S*$/, { message: "Username should not contain spaces!" }),
-  email: z.string().email({ message: "Please enter valid email!" }),
-  password: z
-    .string()
-    .min(8, { message: "Please add Password!" })
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter!",
-    })
-    .regex(/\d/, { message: "Password must contain atleast on number!" })
-    .regex(/[!@#$%^&*(),.?":{}|<>]/, {
-      message: "Password must contain at least on special character!",
-    }),
-  roleID: z
-    .preprocess(
-      (val) => (val === "" || val === undefined ? undefined : String(val)),
-      z.string({ invalid_type_error: "Please add Role Id!" }),
-    )
-    .optional()
-    .default(""),
-
-  userProfile: z.object({
-    id: z.number().optional().default(0),
-    department_Id: z.number().optional().default(0),
-    user_Id: z.number().optional().default(0),
-    firstName: z.string().min(1, { message: "Please add First Name!" }),
-    lastName: z.string().min(1, { message: "Please add Last Name!" }),
-    profilePicture: z.string().optional().default(""),
-    designation: z.string().optional().default(""),
-    budget_Code: z.string().optional().default(""),
-    vendor_Code: z.string().optional().default(""),
-    bps: z.number().optional().default(0),
-    status: z.boolean().optional().default(true),
-    section: z.string().optional().default(""),
-  }),
-});
-
-type User = z.infer<typeof schema>;
 
 interface Props {
-  api: string;
-  method: "POST" | "PUT" | "PATCH";
+  method: "POST" | "PUT";
   id?: number;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: boolean;
   roles: Role[];
 }
 
-const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
+const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
   const {
     register,
     handleSubmit,
@@ -85,7 +40,7 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
     reset,
     control,
     formState: { errors },
-  } = useForm<User>({ resolver: zodResolver(schema) });
+  } = useForm<UserFormData>({ resolver: zodResolver(userSchema) });
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [buttonType, setButtonType] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File>();
@@ -116,8 +71,7 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
     setPreviewUrl(null);
     if (method === "PUT") {
       try {
-        const response = await apiClient.get(`${api}/${id}`);
-        const itemData = response.data.data;
+        const itemData = await getUser(id!);
         setValue("username", itemData.username);
         setValue("email", itemData.email);
         setValue("password", itemData.password);
@@ -132,14 +86,13 @@ const Form = ({ api, method, id, setRefresh, refresh, roles }: Props) => {
     }
   };
 
-  const onSubmit = async (formData: User) => {
+  const onSubmit = async (formData: UserFormData) => {
     setSubmitting(true);
     try {
-      const response = await apiClient({
-        method: method,
-        url: method === "POST" ? api : `${api}/${id}`,
-        data: formData,
-      });
+      const response =
+        method === "POST"
+          ? await createUser(formData)
+          : await updateUser(id!, formData);
       console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);

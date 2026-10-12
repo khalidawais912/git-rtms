@@ -1,5 +1,4 @@
 "use client";
-import { DEPARTMENT_API } from "@/shared/api/endpoints";
 import DeleteModal from "@/shared/components/DeleteModal";
 import Loader from "@/shared/components/Loader/Loader";
 import Actions from "@/shared/components/Table/Actions";
@@ -8,8 +7,10 @@ import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useDepartments, { Department } from "@/features/departments/hooks";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import { deleteDepartment } from "../api";
+import { useDepartments } from "../hooks";
+import { Department } from "../types";
+import { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -87,7 +88,7 @@ const List = ({ refresh, setRefresh }: Props) => {
 
   const handleDelete = async (id: number) => {
     try {
-      await apiClient.delete(`${DEPARTMENT_API}/${id}`);
+      await deleteDepartment(id);
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
@@ -111,7 +112,6 @@ const List = ({ refresh, setRefresh }: Props) => {
         form={
           <div className="col-auto">
             <Form
-              api={DEPARTMENT_API + "/CreateWithRights"}
               method="POST"
               setRefresh={setRefresh}
               refresh={refresh}
@@ -178,7 +178,6 @@ const List = ({ refresh, setRefresh }: Props) => {
                       }
                       formNode={
                         <Form
-                          api={DEPARTMENT_API}
                           method="PUT"
                           id={d.id}
                           setRefresh={setRefresh}

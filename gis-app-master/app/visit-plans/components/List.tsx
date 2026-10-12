@@ -8,7 +8,7 @@ import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import useTourPlans, { TourPlan } from "@/app/hooks/useTourPlans";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";

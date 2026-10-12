@@ -1,28 +1,15 @@
-import { USER_API } from "@/shared/api/endpoints";
 import useData from "@/shared/hooks/useData";
-
-export interface User {
-  id: number;
-  name: string;
-  designation: string;
-  attendance_id: number;
-  machine_num: number;
-  status: true;
-  created_at: string;
-  updated_at: string;
-  departmentId: number;
-  created_by: string;
-  updated_by: string;
-  user_Id: number;
-  bps: number;
-  userImage: string;
-}
+import { GET_ALL_STAFF_API, GET_ALL_USERS_API } from "./api";
+import { Authentication, User } from "./types";
 
 interface Props {
   refresh?: boolean;
 }
 
-const useUsers = ({ refresh = false }: Props = {}) =>
-  useData<User>({ refresh, endpoint: USER_API + "/GetAllUsers" });
+/** Login accounts (username, email, role). */
+export const useAuthentication = ({ refresh = false }: Props = {}) =>
+  useData<Authentication>({ refresh, endpoint: GET_ALL_USERS_API });
 
-export default useUsers;
+/** Staff profiles (designation, department, BPS). */
+export const useUsers = ({ refresh = false }: Props = {}) =>
+  useData<User>({ refresh, endpoint: GET_ALL_STAFF_API });

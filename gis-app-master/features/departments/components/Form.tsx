@@ -1,10 +1,15 @@
 "use client";
-import { DEPARTMENT_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/shared/api/client";
+import { AxiosError, ErrorResponse } from "@/shared/api/client";
+import {
+  createDepartment,
+  getDataAgainstField,
+  getDepartment,
+  getFieldList,
+  updateDepartment,
+} from "../api";
+import { DepartmentWithRights, departmentWithRightsSchema } from "../schema";
+import { FiledList } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -12,7 +17,6 @@ import Modal from "react-bootstrap/Modal";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Select, { SingleValue } from "react-select";
-import { z } from "zod";
 import more from "../../../public/icons/more.svg";
 import { RxCross2 } from "react-icons/rx";
 import ActionButton from "@/shared/components/Table/ActionButton";
@@ -23,67 +27,8 @@ import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect"
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import { FiPlus } from "react-icons/fi";
 
-const departmentSchema = z.object({
-  id: z.number().optional().default(0),
-  name: z.string().min(1, { message: "Please add Department Name!" }),
-  shortName: z.string().min(1, { message: "Please add Short Name!" }),
-  logo: z.string().optional().default("-"),
-  address: z.string().min(1, { message: "Please add Address!" }),
-  email: z.string().email(),
-  phoneNumber: z.string().min(1, { message: "Please add Phone number!" }),
-});
-
-const departmentRightSchema = z.object({
-  id: z.number().optional().default(0),
-  department_Id: z.number().optional().default(0),
-  fieldName: z.string().min(1, { message: "Please add Field Name!" }),
-  fieldValue: z.string().min(1, { message: "Please add Field Value!" }),
-});
-
-export const schema = z.object({
-  department: departmentSchema,
-  departmentRights: z
-    .array(departmentRightSchema)
-    .default([])
-    // .refine((val) => val.length >= 1, {
-    //   message: "Please add at least one department right.",
-    // })
-    .optional(),
-});
-
-export type DepartmentWithRights = z.infer<typeof schema>;
-
-interface FiledList {
-  "1": string;
-  "2": string;
-  "3": string;
-  "4": string;
-  "5": string;
-}
-
-interface DataAgainstFiled {
-  id: number;
-  // for parameter 1
-  divisionName: string;
-  districtName: string;
-  latitude: string;
-  longitude: string;
-  // for parameter 2 and 3
-  name: string; // for parameter 4 and 5
-  description: string;
-  // for parameter 3
-  parentId: number;
-  createdAt: string; // for parameter 4
-  updateAt: string;
-  sortId: number;
-  // for parameter 4 and 5
-  status: boolean;
-  updatedAt: string;
-}
-
 interface Props {
-  api: string;
-  method: "POST" | "PUT" | "PATCH";
+  method: "POST" | "PUT";
   id?: number;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: boolean;
@@ -94,7 +39,7 @@ interface Option {
   label: string;
 }
 
-const Form = ({ api, method, id, setRefresh }: Props) => {
+const Form = ({ method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -104,7 +49,7 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
     control,
     formState: { errors },
   } = useForm<DepartmentWithRights>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(departmentWithRightsSchema),
     defaultValues: {
       department: {
         id: 0,
@@ -136,9 +81,7 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
   useEffect(() => {
     const getFiledList = async () => {
       try {
-        const response = await apiClient.get(`${DEPARTMENT_API}/GetFieldList`);
-        console.log(response);
-        setFiledList(response.data.data);
+        setFiledList(await getFieldList());
       } catch (err) {
         console.error("Submission error:", err);
         toast.error(
@@ -151,16 +94,10 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
   }, []);
 
   const getDataAgainstFiled = async (id: number, index: number) => {
-    console.log(`${DEPARTMENT_API}/GetDataAgainstField?id=${id}`);
     try {
-      const response = await apiClient.get(
-        `${DEPARTMENT_API}/GetDataAgainstField?id=${id}`,
-      );
-      console.log(response);
-      //   setDataAgainstFiled(response.data.data);
-      const data = response.data.data;
+      const data = await getDataAgainstField(id);
       const options = Array.isArray(data)
-        ? data.map((item: any) => ({
+        ? data.map((item) => ({
             value: item.id.toString(),
             label:
               item.districtName ||
@@ -206,9 +143,7 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
     setShow(true);
     if (method === "PUT") {
       try {
-        const response = await apiClient.get(`${api}/${id}`);
-        console.log("get response", response.data);
-        const itemData: DepartmentWithRights = response.data.data;
+        const itemData = await getDepartment(id!);
         setValue("department.id", itemData.department.id);
         setValue("department.name", itemData.department.name);
         setValue("department.shortName", itemData.department.shortName);
@@ -298,11 +233,10 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
     console.log("modified Form Data:", modifiedFormData);
 
     try {
-      const response = await apiClient({
-        method: method,
-        url: method === "POST" ? api : `${api}/Update`,
-        data: modifiedFormData,
-      });
+      const response =
+        method === "POST"
+          ? await createDepartment(modifiedFormData)
+          : await updateDepartment(modifiedFormData);
       console.log("Response:", response);
       setRefresh((prev) => !prev);
       // setData((prevData) => [...prevData, response.data.data]);

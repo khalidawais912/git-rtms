@@ -5,8 +5,8 @@ import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect"
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useDepartments from "@/features/departments/hooks";
-import useUsers from "@/features/users/hooks";
+import { useDepartments } from "@/features/departments";
+import { useUsers } from "@/features/users";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Manrope } from "next/font/google";

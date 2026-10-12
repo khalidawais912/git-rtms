@@ -1,4 +1,4 @@
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import { formatDateTime } from "@/shared/utils";
 import staffMember from "@/public/icons/staffMember.svg";
 import Image from "next/image";

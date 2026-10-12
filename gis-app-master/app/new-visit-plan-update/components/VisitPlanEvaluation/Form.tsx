@@ -4,7 +4,7 @@ import DeleteModal from "@/shared/components/DeleteModal";
 import CustomCalendar from "@/shared/components/Form/CustomCalender";
 import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
 import TableData from "@/shared/components/Table/TableData";
-import { Authentication } from "@/shared/hooks/useAuthentication";
+import { Authentication } from "@/features/users";
 import { District } from "@/app/hooks/useDistrict";
 import { Driver } from "@/app/hooks/useDriver";
 import { TempTourPlan } from "@/app/hooks/useTempTourPlan";

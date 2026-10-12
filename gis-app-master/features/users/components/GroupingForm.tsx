@@ -1,16 +1,15 @@
-import { UPDATE_USER_ROLE_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomSelect, { OptionType } from "@/shared/components/Form/CustomSelect";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
-import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import rolesBlack from "../../../public/icons/rolesBlack.svg";
-import { Option } from "./List";
+import { updateUserRole } from "../api";
+import { RoleOption as Option } from "../types";
 interface Props {
   id: number;
   options: Option[];
@@ -83,9 +82,7 @@ const GroupingForm = ({ id, options, userName }: Props) => {
 
     console.log("selectedOptions", selectedOptions);
     try {
-      const response = await apiClient.post(
-        `${UPDATE_USER_ROLE_API}?UserName=${userName}&RoleName=${roleName}`,
-      );
+      const response = await updateUserRole(userName, roleName);
       console.log(response);
       // notifyCreate(updated);
       handleClose();

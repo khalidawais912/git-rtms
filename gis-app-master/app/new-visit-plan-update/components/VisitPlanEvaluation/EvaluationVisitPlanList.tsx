@@ -7,7 +7,7 @@ import Loader from "@/shared/components/Loader/Loader";
 import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import useDistrict from "@/app/hooks/useDistrict";
 import useDriver from "@/app/hooks/useDriver";
 import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";

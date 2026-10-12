@@ -5,7 +5,7 @@ import CustomLabel from "@/shared/components/Form/CustomLabel";
 import FormWrapper from "@/shared/components/Form/FormWrapper";
 import SubmitButton from "@/shared/components/Form/SubmitButton";
 import ActionButton from "@/shared/components/Table/ActionButton";
-import { Authentication } from "@/shared/hooks/useAuthentication";
+import { Authentication } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";

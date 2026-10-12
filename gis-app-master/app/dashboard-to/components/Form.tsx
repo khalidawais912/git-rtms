@@ -1,9 +1,7 @@
 import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
-import useAuthentication, {
-  Authentication,
-} from "@/shared/hooks/useAuthentication";
+import { useAuthentication, Authentication } from "@/features/users";
 import useDistrict, { District } from "@/app/hooks/useDistrict";
 import useDriver, { Driver } from "@/app/hooks/useDriver";
 import { Project } from "@/app/hooks/useProjects";

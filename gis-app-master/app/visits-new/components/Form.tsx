@@ -1,7 +1,5 @@
 import Button from "@/shared/components/Button";
-import useAuthentication, {
-  Authentication,
-} from "@/shared/hooks/useAuthentication";
+import { useAuthentication, Authentication } from "@/features/users";
 import useDistrict, { District } from "@/app/hooks/useDistrict";
 import useDriver, { Driver } from "@/app/hooks/useDriver";
 import useProjects, { Project } from "@/app/hooks/useProjects";

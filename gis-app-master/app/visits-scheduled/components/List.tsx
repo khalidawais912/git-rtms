@@ -6,7 +6,7 @@ import DeleteModal from "@/shared/components/DeleteModal";
 import DisplayStatusText from "@/shared/components/DisplayStatusText";
 import Loader from "@/shared/components/Loader/Loader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import useDriver from "@/app/hooks/useDriver";
 import useProjects from "@/app/hooks/useProjects";
 import useVehicle from "@/app/hooks/useVehicle";

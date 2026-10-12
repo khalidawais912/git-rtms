@@ -5,7 +5,7 @@ import Loader from "@/shared/components/Loader/Loader";
 import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import useSectors from "@/app/hooks/useSectors";
 import useSuperGroups from "@/app/hooks/useSuperGroups";
 import useVisits, { Visit } from "@/app/hooks/useVisits";

@@ -1,11 +1,7 @@
 export const AUTH_API = `/api/Authentication`;
 export const LOGIN_API = `/api/Authentication/login`;
-export const REGISTER_USER_API = `/api/Authentication/register`;
-export const DELETE_USER_API = `/api/Authentication/DeleteUser`;
-export const GET_ALL_USERS_API = `/api/Authentication/users`;
 export const GET_ALL_USERS_AND_OFFICERS_API = `/api/Authentication/GetAllOfficersList`;
 export const GET_ALL_OFFICERS_API = `/api/Authentication/GetOfficers`;
-export const UPDATE_USER_ROLE_API = `/api/Authentication/UpdateUserRole`;
 export const SECTOR_API = `/api/Sectors`;
 export const PROJECT_API = `/api/Projects`;
 export const EVALUATION_PROJECT_API = `/api/EvaluationProject`;

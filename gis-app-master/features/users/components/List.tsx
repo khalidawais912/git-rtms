@@ -1,11 +1,10 @@
 "use client";
-import { DELETE_USER_API, REGISTER_USER_API } from "@/shared/api/endpoints";
 import DeleteModal2 from "@/shared/components/DeleteModal2";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useAuthentication, {
-  Authentication,
-} from "@/shared/hooks/useAuthentication";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import { AxiosError } from "@/shared/api/client";
+import { deleteUser } from "../api";
+import { useAuthentication } from "../hooks";
+import { Authentication } from "../types";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -27,11 +26,6 @@ import Image from "next/image";
 interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export interface Option {
-  id: number;
-  name: string;
 }
 
 const List = ({ refresh, setRefresh }: ListProps) => {
@@ -80,7 +74,7 @@ const List = ({ refresh, setRefresh }: ListProps) => {
 
   const handleDelete = async (userName: string) => {
     try {
-      await apiClient.delete(`${DELETE_USER_API}?UserName=${userName}`);
+      await deleteUser(userName);
       // remove the deleted item from the data array
       setData((prevData) =>
         prevData.filter((item) => item.userName !== userName),
@@ -137,7 +131,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
         form={
           <div className="col-auto">
             <Form
-              api={REGISTER_USER_API}
               method="POST"
               setRefresh={setRefresh}
               refresh={refresh}
@@ -256,7 +249,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
 
                   {/* <TableData>
                   <Form
-                    api={USER_API}
                     method="PUT"
                     id={d.id}
                     setRefresh={setRefresh}

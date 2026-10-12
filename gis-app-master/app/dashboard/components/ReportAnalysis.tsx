@@ -2,7 +2,7 @@ import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Spinner from "@/shared/components/Spinner";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/shared/hooks/useAuthentication";
+import { useAuthentication } from "@/features/users";
 import apiClient from "@/shared/api/client";
 import {
   StaffTracking,
