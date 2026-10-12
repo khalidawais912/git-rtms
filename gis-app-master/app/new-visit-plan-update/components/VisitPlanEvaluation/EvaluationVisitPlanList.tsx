@@ -7,7 +7,7 @@ import { OptionType } from "@/shared/components/types";
 import Loader from "@/shared/components/Loader/Loader";
 import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { useAuthentication } from "@/features/users";
 import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";

@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { AttendanceList, StaffRecord } from "../../types";
 import { sort } from "fast-sort";
 import Pagination from "@/shared/components/Table/Pagination";
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 
 interface Props {

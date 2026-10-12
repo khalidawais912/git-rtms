@@ -7,7 +7,7 @@ import { OptionType } from "@/shared/components/types";
 import Loader from "@/shared/components/Loader/Loader";
 import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { useTempTourPlans, TempTourPlan } from "@/features/tour-plans";
 import apiClient from "@/shared/api/client";
 import {

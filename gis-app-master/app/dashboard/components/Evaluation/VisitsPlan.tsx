@@ -2,7 +2,7 @@ import { VISIT_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { useDistrict } from "@/features/districts";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";

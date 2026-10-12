@@ -6,7 +6,7 @@ import BgChanger from "@/shared/components/BgChanger";
 import BootstrapClient from "@/shared/components/BootstrapClient";
 import FooterToggle from "@/shared/components/FooterToggle";
 import Loader from "@/shared/components/Loader/Loader";
-import NavbarToggle from "@/shared/components/NavbarToggle";
+import NavbarToggle from "@/features/layout/components/NavbarToggle";
 import ReduxProvider from "@/shared/components/ReduxProvider";
 import ToastContainers from "@/shared/components/ToastContainers";
 import "./globals.css";

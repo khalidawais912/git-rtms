@@ -1,4 +1,4 @@
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { ReportHistoryUser } from "@/features/users";
 import { exportToPDFNew, getFormattedDate } from "@/shared/utils";
 import { SubmittedReport, ReportHistory } from "../types";

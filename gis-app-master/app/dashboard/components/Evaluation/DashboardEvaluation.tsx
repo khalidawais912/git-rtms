@@ -2,7 +2,7 @@
 import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import DashboardWrapper from "@/shared/components/DashboardWrapper";
+import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
 import Loader from "@/shared/components/Loader/Loader";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";

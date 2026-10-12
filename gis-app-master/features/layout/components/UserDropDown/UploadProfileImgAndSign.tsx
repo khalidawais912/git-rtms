@@ -2,8 +2,8 @@ import { Agreement03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import CustomInput from "../Form/CustomInput";
-import FormWrapper from "../Form/FormWrapper";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,9 +11,9 @@ import apiClient, { AxiosError } from "@/shared/api/client";
 import { USER_API } from "@/shared/api/endpoints";
 import { toast } from "react-toastify";
 import { updatedMessage } from "@/shared/utils";
-import Button from "../Button";
-import SubmitButton from "../Form/SubmitButton";
-import CustomLabel from "../Form/CustomLabel";
+import Button from "@/shared/components/Button";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
 
 // FileList only exists in the browser, so check it lazily to keep SSR from crashing
 const fileList = z.custom<FileList>(

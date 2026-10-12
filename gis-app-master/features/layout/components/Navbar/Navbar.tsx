@@ -8,11 +8,11 @@ import { Suspense, useEffect, useState } from "react";
 import { FaPlay, FaYoutube } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Button from "@/shared/components/Button";
-import GISMenu from "@/shared/components/GISMenu";
+import GISMenu from "./GISMenu";
 import Spinner from "@/shared/components/Spinner";
-import UserDropDown from "@/shared/components/UserDropDown/UserDropDown";
-import DashboardTypeFilter from "../dashboard/components/DashboardTypeFilter";
-import DepartmentCategoryFilter from "../dashboard/components/DepartmentCategoryFilter";
+import UserDropDown from "../UserDropDown/UserDropDown";
+import DashboardTypeFilter from "./DashboardTypeFilter";
+import DepartmentCategoryFilter from "./DepartmentCategoryFilter";
 import { RootState } from "@/store";
 import styles from "./Navbar.module.css";
 

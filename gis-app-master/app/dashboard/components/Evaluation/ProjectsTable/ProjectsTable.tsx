@@ -9,7 +9,7 @@ import { paginationSelectStyles } from "@/shared/components/Table/Pagination";
 import RowHeader from "@/shared/components/Table/RowHeader";
 import TableData from "@/shared/components/Table/TableData";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {

@@ -1,6 +1,6 @@
 "use client";
 
-import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
 import { exportDataToPDF } from "@/shared/utils";
 import { exportDataToExcelDynamicColumn } from "@/shared/utils/exportToExcel";

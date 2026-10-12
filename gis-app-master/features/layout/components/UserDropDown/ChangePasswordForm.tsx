@@ -15,8 +15,8 @@ import { FaRegEye } from "react-icons/fa";
 import { MdOutlineLockReset } from "react-icons/md";
 import { TbEyeClosed } from "react-icons/tb";
 import { z } from "zod";
-import Button from "../Button";
-import Spinner from "../Spinner";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
 
 const schema = z.object({
   UserName: z.string().min(1, { message: "Please add Username!" }),

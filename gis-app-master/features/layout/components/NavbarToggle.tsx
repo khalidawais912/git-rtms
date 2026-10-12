@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Navbar from "@/app/Navbar/Navbar";
+import Navbar from "@/features/layout/components/Navbar/Navbar";
 import { allPagesPath } from "@/shared/utils";
 
 const NavbarToggle = () => {

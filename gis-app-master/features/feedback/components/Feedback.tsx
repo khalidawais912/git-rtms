@@ -17,27 +17,16 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoSearch } from "react-icons/io5";
 import { useDispatch } from "react-redux";
+import { FeedbackItem } from "../types";
 
 const lexend = Lexend({
   subsets: ["latin"],
 });
 
-export interface Feedback {
-  id: number;
-  projectId: number;
-  userId: number;
-  remarks: string;
-  commentPath: string;
-  reportTo: number;
-  status: number;
-  reportDate: string;
-  resolvedDate: string;
-}
-
 const Feedback = () => {
   const [selectedButton, setSelectedButton] = useState(2);
   const [refresh, setRefresh] = useState(false);
-  const [data, setData] = useState<Feedback[]>();
+  const [data, setData] = useState<FeedbackItem[]>();
   const [userId, setUserId] = useState<number>();
   const { data: users } = useAuthentication({ refresh });
   const dispatch = useDispatch();
@@ -73,7 +62,7 @@ const Feedback = () => {
 
   const { data: projects } = useProjects({ refresh });
 
-  const handleSubmit = async (data: Feedback) => {
+  const handleSubmit = async (data: FeedbackItem) => {
     console.log("feedback data", data);
     try {
       const response = await apiClient.put(FEEDBACK_API, data);
@@ -92,7 +81,7 @@ const Feedback = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // State for filtered data
-  const [filteredData, setFilteredData] = useState<Feedback[]>([]);
+  const [filteredData, setFilteredData] = useState<FeedbackItem[]>([]);
 
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +109,7 @@ const Feedback = () => {
     handleSearch(e);
   };
 
-  const handleFilterData = (data: Feedback[], status: number) => {
+  const handleFilterData = (data: FeedbackItem[], status: number) => {
     if (status === -1) {
       setFilteredData(
         data

@@ -1,6 +1,6 @@
 "use client";
 import { FEEDBACK_API } from "@/shared/api/endpoints";
-import { Feedback } from "@/app/feedback/components/Feedback";
+import { FeedbackItem } from "@/features/feedback";
 import apiClient from "@/shared/api/client";
 import downArrowBold from "@/public/icons/downArrowBold.svg";
 import feedback from "@/public/icons/feedback.svg";
@@ -10,10 +10,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import Button from "../Button";
-import Spinner from "../Spinner";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
 import ChangePasswordForm from "./ChangePasswordForm";
-import styles from "./UserDropDown.module.css";
+import styles from "@/shared/components/DownloadDropDown/Dropdown.module.css";
 import UploadProfileImgAndSign from "./UploadProfileImgAndSign";
 
 const UserDropDown = () => {
@@ -96,7 +96,7 @@ const UserDropDown = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const [data, setData] = useState<Feedback[]>();
+  const [data, setData] = useState<FeedbackItem[]>();
   useEffect(() => {
     const handleSubmit = async (userId: number) => {
       try {
