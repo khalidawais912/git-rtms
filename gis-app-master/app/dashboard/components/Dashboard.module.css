@@ -1,0 +1,75 @@
+.menuDiv .hoverOverlay {
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+.menuDiv:hover .hoverOverlay {
+  opacity: 0;
+}
+
+.noOfProjectMenu {
+  background: rgba(163, 12, 233, 0);
+  outline: 1px solid rgba(163, 12, 233, 0);
+  transition: all 0.4s, outline 0.4s;
+}
+
+.noOfProjectMenu:hover {
+  background: rgba(163, 12, 233, 0.2);
+  outline: 1px solid rgba(163, 12, 233, 0.4);
+}
+
+.noOfVisitsMenu {
+  background: rgba(12, 140, 233, 0);
+  outline: 1px solid rgba(12, 140, 233, 0);
+  transition: all 0.4s, outline 0.4s;
+}
+
+.noOfVisitsMenu:hover {
+  background: rgba(12, 140, 233, 0.2);
+  outline: 1px solid rgba(12, 140, 233, 0.4);
+}
+
+/* ============= */
+.hoverWrapper {
+  display: flex;
+  width: 100%;
+  /* gap: 8px;  */
+}
+
+.hoverItem {
+  flex: 1;
+  overflow: hidden;
+  transition: flex 0.5s ease, opacity 0.5s ease;
+}
+
+/* Expand hovered item */
+.hoverWrapper:hover .hoverItem {
+  flex: 0; /* all items shrink initially */
+  opacity: 0.3; /* optional fade-out for unhovered */
+  padding: 0px;
+}
+
+.hoverItem:hover {
+  flex: 3 !important; /* hovered item expands */
+  opacity: 1 !important;
+  z-index: 2;
+}
+
+.hoverItem .btn {
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.hoverItem:hover .btn {
+  transform: translateY(-2px);
+}
+
+.bgBlur {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(239, 239, 239, 0.6),
+    rgba(255, 255, 255, 0.08)
+  );
+  -webkit-backdrop-filter: blur(76px);
+  backdrop-filter: blur(76px);
+}

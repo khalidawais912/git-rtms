@@ -1,0 +1,4 @@
+.bgGradientEvaluation {
+  background: linear-gradient(to right, #2377b6, #155e95);
+  transition: all 0.3s ease-in-out;
+}

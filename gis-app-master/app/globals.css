@@ -1,0 +1,478 @@
+@import "leaflet/dist/leaflet.css";
+
+main {
+  min-height: calc(100vh - 106px);
+}
+
+#map {
+  height: 100vh;
+  width: 100%;
+}
+
+.color-dark-blue {
+  color: #108fa8 !important;
+  transition: all 0.3s;
+}
+
+.color-sea-blue {
+  color: #0c8ce9 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-light-blue {
+  background: #72b8ea !important;
+  transition: all 0.3s;
+}
+
+.bg-color-sea-blue {
+  background: #0c8ce9 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-matte-blue {
+  background: #4bacc6 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-matte-light-blue {
+  background: #c6d9f1 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-sea-green {
+  background: #108fa8 !important;
+  transition: all 0.3s;
+}
+
+.bg-transparent {
+  background: rgba(255, 255, 255, 0) !important;
+}
+
+.bg-white {
+  background: #fff !important;
+  transition: all 0.3s;
+}
+
+.color-light-dark {
+  color: #7e7e7e !important;
+  transition: all 0.3s;
+}
+
+.bg-color-light-gray {
+  background: #c4c4c4 !important;
+  transition: all 0.3s;
+}
+
+.color-dark-gray {
+  color: #344054 !important;
+  transition: all 0.3s;
+}
+
+.bg-silver {
+  background: #d9d9d9 !important;
+  transition: all 0.3s;
+}
+
+.color-evaluation-light-blue {
+  color: #2377b6 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-evaluation-light-blue {
+  background: #2377b6 !important;
+  transition: all 0.3s;
+}
+
+.color-evaluation-dark-blue {
+  color: #155e95 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-evaluation-dark-blue {
+  background: #155e95 !important;
+  transition: all 0.3s;
+}
+
+.color-evaluation-theme-blue {
+  color: #1c6ba6 !important;
+  transition: all 0.3s;
+}
+
+.bg-color-evaluation-theme-blue {
+  background: #1c6ba6 !important;
+  transition: all 0.3s;
+}
+
+.form-label-color-black {
+  color: #2a2a2b;
+}
+
+.custom-modal .modal-content {
+  background: rgba(255, 255, 255, 0) !important;
+  border: none;
+}
+
+.gismenu-modal .modal-content {
+  background: rgba(255, 255, 255, 0) !important;
+  border: none;
+}
+
+.gismenu-modal {
+  max-width: none !important;
+  width: 98%;
+}
+
+.ev-charts-modal .modal-content {
+  background: rgba(255, 255, 255, 0) !important;
+  border: none;
+}
+
+.ev-charts-modal {
+  max-width: none !important;
+  width: 90%;
+}
+
+.new-custom-modal .modal-content {
+  border-radius: 12px !important;
+  /* background: rgba(255, 255, 255, 0) !important; */
+}
+
+.custom-backdrop {
+  opacity: 0 !important;
+}
+
+/* body {
+  background-image: url("../public/images/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+} */
+
+.bg-blur {
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.bg-blur-3 {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(93, 211, 255, 0.05),
+    rgba(94, 204, 255, 0.05),
+    rgba(94, 192, 255, 0.05),
+    rgba(94, 195, 255, 0.05)
+  );
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+
+.bg-blur-2 {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(93, 211, 255, 0.12),
+    rgba(94, 204, 255, 0.12),
+    rgba(94, 192, 255, 0.12),
+    rgba(94, 195, 255, 0.12)
+  );
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
+}
+
+/* Chrome, Safari, Edge, Opera */
+.sortId::-webkit-outer-spin-button,
+.sortId::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.sortId[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.custom-input::placeholder {
+  color: #80889e !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 1; /* Ensures full visibility in Firefox */
+}
+
+.custom-input:focus {
+  box-shadow: 0 0 0 1.5px #0c8ce9 !important;
+}
+
+select {
+  font-size: 0.8rem !important;
+  padding: 10px 12px !important;
+  border-radius: 7px !important;
+}
+
+.fs28px {
+  font-size: 1.75rem !important;
+}
+
+.fs26px {
+  font-size: 1.625rem !important;
+}
+
+.fs24px {
+  font-size: 1.5rem !important;
+}
+
+.fs23px {
+  font-size: 1.438rem !important;
+}
+
+.fs22px {
+  font-size: 1.375rem !important;
+}
+
+.fs21px {
+  font-size: 1.313rem !important;
+}
+
+.fs20px {
+  font-size: 1.25rem !important;
+}
+
+.fs18px {
+  font-size: 1.125rem !important;
+}
+
+.fs17px {
+  font-size: 1.063rem !important;
+}
+
+.fs15px {
+  font-size: 0.938rem !important;
+}
+
+.fs14px {
+  font-size: 0.875rem !important;
+}
+
+.fs13px {
+  font-size: 0.813rem;
+}
+
+.fs12-5px {
+  font-size: 0.781rem !important;
+}
+
+.fs12px {
+  font-size: 0.75rem !important;
+}
+
+.fs11px {
+  font-size: 0.688rem !important;
+}
+
+.fs10px {
+  font-size: 0.625rem !important;
+}
+
+.fs9px {
+  font-size: 0.563rem !important;
+}
+
+.fs8px {
+  font-size: 0.5rem !important;
+}
+
+.fs7px {
+  font-size: 0.438rem !important;
+}
+
+.fs6px {
+  font-size: 0.375rem !important;
+}
+
+.fs5px {
+  font-size: 0.313rem !important;
+}
+
+.fs4px {
+  font-size: 0.25rem !important;
+}
+
+.fs3px {
+  font-size: 0.188rem !important;
+}
+
+.fw-5 {
+  font-weight: 500;
+}
+
+.fw-6 {
+  font-weight: 600;
+}
+
+.fw-8 {
+  font-weight: 800;
+}
+
+.login-input {
+  padding: 20px !important;
+  border-radius: 11.7px !important;
+}
+
+.whiteSpaceNoWrap {
+  white-space: nowrap;
+}
+
+.letterSpacing1px {
+  letter-spacing: 1px;
+}
+
+/* dashboardThree search input */
+.dSearchInput::placeholder {
+  color: #1b2559 !important;
+  transition: all 0.3s;
+  font-weight: 500 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+}
+
+.mapPopup .leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+}
+
+.custom-marker {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 1s ease-in-out; /* Smooth transition over 1 second */
+}
+
+.gm-style-iw button.gm-ui-hover-effect {
+  display: none !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  transition: all 0.3s;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #22a3bd;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #108fa8;
+  transition: all 0.3s;
+}
+
+/* .ps__rail-y {
+  background: transparent;
+  width: 4px;
+}
+.ps:hover .ps__rail-y {
+  width: 16px;
+}
+.ps__thumb-y {
+  background-color: #22a3bd !important;
+  border-radius: 4px;
+}
+.ps:hover .ps__thumb-y {
+  background-color: #108fa8 !important;
+} */
+
+#dateFilterSideNavAccordian .accordion-button {
+  background: rgba(255, 255, 255, 0.8) !important;
+  padding: 10px 12px;
+  border-radius: 7px;
+  color: #545861;
+  font-weight: 500;
+  box-shadow: 0 0 0 1.5px #eff0f2;
+  border: 0px;
+  color: #80889e !important;
+  font-size: 0.875rem !important;
+  font-weight: 500;
+  opacity: 1; /* Ensures full visibility in Firefox */
+}
+
+#dateFilterSideNavAccordian .accordion-button:focus {
+  box-shadow: 0 0 0 1.5px #0c8ce9 !important;
+}
+
+/* #dateFilterSideNavAccordian .accordion-button:not(.collapsed) {
+  background-color: red;
+  box-shadow: none;
+} */
+
+.custom-editor .CodeMirror,
+.CodeMirror-scroll {
+  height: 165px !important;
+  min-height: 165px !important;
+  max-height: 165px !important;
+  padding-bottom: 40px;
+}
+
+.custom-editor .CodeMirror-lines {
+  padding-bottom: 20px; /* extra spacing inside content */
+}
+
+/* custom toggle switch */
+/* Default appearance of your variant */
+.form-switch .form-check-input.my-switch-primary {
+  background-color: "#BBC5CB";
+  border: "0px";
+}
+
+.placeholder-bold::placeholder {
+  color: #475569; /* placeholder color */
+  font-weight: bold; /* make it bold */
+  font-size: 15px; /* or whatever size */
+}
+
+.placeholder-scaled::placeholder {
+  color: #62748e; /* placeholder color */
+  font-weight: 400; /* make it bold */
+  font-size: 183.74px; /* or whatever size */
+}
+
+.placeholder-scaled-down::placeholder {
+  color: #62748e; /* placeholder color */
+  font-weight: 400; /* make it bold */
+  font-size: 9.57px; /* or whatever size */
+}
+
+.dynamic-font {
+  font-size: clamp(12px, 2vw, 18px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.CodeMirror {
+  spellcheck: true;
+  -webkit-user-modify: read-write;
+}
+
+.apexcharts-series path {
+  stroke-linecap: round !important;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) !important;
+}
+
+.recharts-wrapper *:focus {
+  outline: none !important;
+}

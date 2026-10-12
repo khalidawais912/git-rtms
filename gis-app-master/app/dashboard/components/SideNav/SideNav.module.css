@@ -1,0 +1,32 @@
+.sidenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px; /* Collapsed width */
+  background-color: #111;
+  overflow-x: hidden;
+  transition: width 0.3s ease; /* Smooth transition */
+  padding-top: 10px;
+}
+
+.sidenav.expanded {
+  width: 250px; /* Expanded width */
+}
+
+.sidenav .btn {
+  width: 100%;
+  text-align: center;
+}
+
+.sidenav .nav-link {
+  padding: 10px 15px;
+  display: block;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.sidenav .nav-link:hover {
+  background-color: #575757;
+  color: white;
+}

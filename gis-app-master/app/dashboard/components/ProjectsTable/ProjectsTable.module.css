@@ -1,0 +1,96 @@
+/* projects table */
+
+/* .sidenav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 74.3px; 
+  background-color: #111;
+  overflow-x: hidden;
+  transition: width 0.3s ease; 
+  padding: 22.8px 14.86px;
+  border-radius: 10px;
+  margin-top: 4px;
+  margin-left: 2px;
+} */
+
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidenav {
+  flex-shrink: 0;
+  width: 74px;
+  transition: width 0.3s ease;
+  display: flex; /* enable flex */
+  flex-direction: column; /* stack items vertically */
+}
+
+.sidenav.expanded {
+  width: 400px;
+}
+
+.sidenav::-webkit-scrollbar {
+  width: 8px; /* set width smaller */
+}
+
+.mainContent {
+  flex: 1; /* Take remaining space */
+  transition: all 0.3s ease;
+  overflow: auto;
+}
+
+.sidenav .btn {
+  width: 100%;
+  text-align: center;
+}
+
+.sidenav .nav-link {
+  padding: 10px 15px;
+  display: block;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.sidenav .nav-link:hover {
+  background-color: #575757;
+  color: white;
+}
+
+/* Date Range */
+/* .customDateRange { */
+/* Set desired width */
+/* width: 300px; */
+/* } */
+
+/* .customDateRange .rdrCalendarWrapper { */
+/* Adjust calendar container width */
+/* width: 300px; */
+/* } */
+
+/* .customDateRange .rdrMonths { */
+/* Adjust calendar months section */
+/* width: 300px; */
+/* } */
+
+/* .customDateRange .rdrMonth { */
+/* Adjust individual month width */
+/* min-width: 280px; */
+/* } */
+
+.headingCollapsed {
+  max-height: 0;
+  width: 0%;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.headingExpanded {
+  max-height: 44px; /* pick a value bigger than your content */
+  width: 100%;
+  opacity: 1;
+  transition: all 0.3s ease;
+}

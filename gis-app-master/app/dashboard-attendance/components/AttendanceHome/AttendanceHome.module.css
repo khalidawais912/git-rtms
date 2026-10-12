@@ -1,0 +1,26 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1.5s ease forwards;
+}
+.shadowMulti {
+  box-shadow: 0 1px 2px rgba(12, 140, 233, 0.1),
+    /* Standard soft shadow */ 0 2px 3px rgba(217, 55, 89, 0.3),
+    /* Shadow with the first gradient color */ 0 4px 8px rgba(181, 69, 145, 0.3); /* Shadow with the second gradient color */
+  border-radius: 10px; /* Match the box's border radius */
+  transition: all 0.3s ease; /* Optional: for hover effect */
+}
+
+.shadowMulti:hover {
+  box-shadow: 0 2px 4px rgba(12, 140, 233, 0.1),
+    0 6px 14px rgba(12, 140, 233, 0.4), 0 10px 20px rgba(38, 174, 146, 0.4); /* Intensified shadow on hover */
+}

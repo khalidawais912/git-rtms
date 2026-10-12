@@ -1,0 +1,26 @@
+.gm-style-iw-c {
+  background-color: rgba(0, 0, 0, 0) !important;
+  padding: 0px !important;
+}
+
+.gm-style-iw-d {
+  overflow: hidden !important;
+}
+
+.gm-style-iw-ch {
+  padding: 0px !important;
+}
+/* You might also need to adjust other elements like the close button or pointer */
+/* .gm-style-iw button { */
+/* Style the close button if needed */
+/* } */
+
+.district-card-bg-blur {
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.26),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
