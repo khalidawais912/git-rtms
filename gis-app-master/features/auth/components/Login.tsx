@@ -10,53 +10,20 @@ import { useForm } from "react-hook-form";
 import { FaRegEye } from "react-icons/fa";
 import { TbEyeClosed } from "react-icons/tb";
 import { toast } from "react-toastify";
-import { z } from "zod";
 import { LOGIN_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
 import Spinner from "@/shared/components/Spinner";
 import { AxiosError, ErrorResponse } from "@/shared/api/client";
-
-const schema = z.object({
-  username: z.string().min(1, { message: "Please add Username!" }),
-  password: z.string().min(1, { message: "Please add Password!" }),
-});
-
-export type Login = z.infer<typeof schema>; // this interface is for form data
-
-export interface UserData {
-  id: number;
-  userName: string;
-  email: string;
-}
-
-interface UserProfile {
-  department_Id: number;
-  firstName: string;
-  lastName: string;
-}
-
-interface Props {
-  responseCode: number;
-  responseMessage: string;
-  data: {
-    token: string;
-    expiration: string;
-    role: [string];
-    rights: { rightName: string }[];
-    userData: UserData;
-    userProfile: UserProfile;
-  };
-}
+import { LoginFormData, loginSchema } from "../schema";
+import { LoginResponse } from "../types";
 
 const Login = () => {
-  // const [userName, setUserName] = useState("super_admin");
-  // const [password, setPassword] = useState("Rtmes@1122");
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Login>({ resolver: zodResolver(schema) });
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
   const [buttonType, setButtonType] = useState(true);
   const [isSubmitting, setSubmitting] = useState(false);
   const [isCookiesSaved, setCookiesSaved] = useState(false);
@@ -73,10 +40,10 @@ const Login = () => {
     setClient(true);
   }, []);
 
-  const onSubmit = async (formData: Login) => {
+  const onSubmit = async (formData: LoginFormData) => {
     try {
       setSubmitting(true);
-      const response = await axios.post<Props>(
+      const response = await axios.post<LoginResponse>(
         // LOGIN_API,
         process.env.NEXT_PUBLIC_BACKEND_API + LOGIN_API,
         formData,

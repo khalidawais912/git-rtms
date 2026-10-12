@@ -7,53 +7,20 @@ import { useForm } from "react-hook-form";
 import { FaRegEye } from "react-icons/fa";
 import { TbEyeClosed } from "react-icons/tb";
 import { toast } from "react-toastify";
-import { z } from "zod";
-import bgVideoNew from "../../public/video/bgVideoNew.mp4";
+import bgVideoNew from "@/public/video/bgVideoNew.mp4";
 import { AxiosError, ErrorResponse } from "@/shared/api/client";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
 import Spinner from "@/shared/components/Spinner";
-
-const schema = z.object({
-  username: z.string().min(1, { message: "Please add Username!" }),
-  password: z.string().min(1, { message: "Please add Password!" }),
-});
-
-export type Login = z.infer<typeof schema>; // this interface is for form data
-
-export interface UserData {
-  id: number;
-  userName: string;
-  email: string;
-}
-
-interface UserProfile {
-  department_Id: number;
-  firstName: string;
-  lastName: string;
-}
-
-interface Props {
-  responseCode: number;
-  responseMessage: string;
-  data: {
-    token: string;
-    expiration: string;
-    role: [string];
-    rights: { rightName: string }[];
-    userData: UserData;
-    userProfile: UserProfile;
-  };
-}
+import { LoginFormData, loginSchema } from "../schema";
+import { LoginRouteResponse } from "../types";
 
 const LoginNew = () => {
-  // const [userName, setUserName] = useState("super_admin");
-  // const [password, setPassword] = useState("Rtmes@1122");
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Login>({ resolver: zodResolver(schema) });
+  } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
   const [buttonType, setButtonType] = useState(true);
   const [isSubmitting, setSubmitting] = useState(false);
   const [isCookiesSaved, setCookiesSaved] = useState(false);
@@ -64,22 +31,19 @@ const LoginNew = () => {
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
 
-  const onSubmit = async (formData: Login) => {
-    console.log("Form Data:", formData);
+  const onSubmit = async (formData: LoginFormData) => {
     try {
       setSubmitting(true);
-      console.log("api url", "/api/auth/login", formData);
-      const response = await axios.post<Props>(`/api/auth/login`, formData);
-      console.log("response", response);
+      // The route sets the auth cookies and returns { message, user }.
+      const response = await axios.post<LoginRouteResponse>(
+        `/api/auth/login`,
+        formData,
+      );
       if (response.status === 200) {
-        console.log("responseCode", response.data.responseCode);
-        console.log("responseMessage", response.data.responseMessage);
-        console.log("user logged in successfully", response);
-
         window.location.href = "/";
         notifyCreate(createdMessage);
       } else {
-        notifyError(response.data.responseMessage);
+        notifyError(response.data.message || errorMessage);
       }
     } catch (err) {
       setSubmitting(false);
