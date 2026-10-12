@@ -10,7 +10,7 @@ import TableData from "@/shared/components/Table/TableData";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import useTourPlans from "@/app/hooks/useTourPlans";
+import { useTourPlans } from "@/features/tour-plans";
 import apiClient from "@/shared/api/client";
 import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/shared/utils";
 import {

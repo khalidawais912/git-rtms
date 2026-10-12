@@ -1,6 +1,6 @@
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Loader from "@/shared/components/Loader/Loader";
-import { ReportHistoryUser } from "@/app/hooks/types";
+import { ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";

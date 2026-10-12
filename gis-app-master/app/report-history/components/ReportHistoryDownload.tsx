@@ -1,5 +1,5 @@
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
-import { ReportHistoryUser } from "@/app/hooks/types";
+import { ReportHistoryUser } from "@/features/users";
 import { exportToPDFNew } from "@/shared/utils";
 import { SubmittedReport, ReportHistory } from "../types";
 

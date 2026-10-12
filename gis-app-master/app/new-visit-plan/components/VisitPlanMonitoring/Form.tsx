@@ -5,7 +5,7 @@ import CustomCalendar from "@/shared/components/Form/CustomCalender";
 import CustomSelect from "@/shared/components/Form/CustomSelect";
 import { OptionType } from "@/shared/components/types";
 import TableData from "@/shared/components/Table/TableData";
-import { TempTourPlan } from "@/app/hooks/types";
+import { TempTourPlan } from "@/features/tour-plans";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {
   isoToLocalDateString,

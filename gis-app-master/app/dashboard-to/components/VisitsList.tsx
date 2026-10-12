@@ -8,8 +8,7 @@ import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
-import useVisits from "@/app/hooks/useVisits";
-import { Visit } from "@/app/hooks/types";
+import { useVisits, Visit } from "@/features/visits";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { DM_Sans, Inter } from "next/font/google";
@@ -33,8 +32,8 @@ import {
 import DisplayStatusText from "@/shared/components/DisplayStatusText";
 import { useDriver } from "@/features/drivers";
 import { useVehicle } from "@/features/vehicles";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useTourPlans } from "@/features/tour-plans";
+import { useDistrict } from "@/features/districts";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],

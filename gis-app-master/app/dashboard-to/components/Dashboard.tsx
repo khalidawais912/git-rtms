@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/shared/components/Button";
-import useTourPlans from "@/app/hooks/useTourPlans";
+import { useTourPlans } from "@/features/tour-plans";
 import { Option } from "@/shared/utils/types";
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";

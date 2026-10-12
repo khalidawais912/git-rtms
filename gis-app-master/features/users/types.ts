@@ -33,3 +33,28 @@ export interface RoleOption {
   id: number;
   name: string;
 }
+
+/** Officer returned by GET /api/Authentication/GetOfficers. */
+export interface Officer {
+  id: number;
+  departmentId: number;
+  userName: string;
+  fullName: string;
+  designation: string;
+  picture: string;
+  email: string;
+  phoneNumber: string;
+  roleName: string;
+}
+
+/** User or officer returned by GET /api/Authentication/GetAllOfficersList. */
+export interface ReportHistoryUser {
+  id: number;
+  userName: string;
+  fullName: string;
+  email: string;
+  designation: string;
+  picture: string;
+  phoneNumber: string;
+  roleId: string;
+}

@@ -23,8 +23,8 @@ import { FaRegFileAlt } from "react-icons/fa";
 import { Nunito_Sans } from "next/font/google";
 import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
-import useDistrict from "../hooks/useDistrict";
-import useProjects from "../hooks/useProjects";
+import { useDistrict } from "@/features/districts";
+import { useProjects } from "@/features/projects";
 import { VehicleTrackingRecording } from "./types";
 
 const nunitoSans = Nunito_Sans({

@@ -1,8 +1,8 @@
 import { OptionType } from "@/shared/components/types";
 import { useAuthentication } from "@/features/users";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";
-import useTourPlans from "@/app/hooks/useTourPlans";
+import { useTourPlans } from "@/features/tour-plans";
 import { useVehicle } from "@/features/vehicles";
 import { useMemo } from "react";
 

@@ -2,8 +2,8 @@
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Loader from "@/shared/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/app/dashboard/types/types";
-import { Officer, ReportHistoryUser } from "@/app/hooks/types";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { Officer, ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";

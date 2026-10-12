@@ -9,11 +9,9 @@ import Spinner from "@/shared/components/Spinner";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import DownloadDropDown from "@/shared/components/UserDropDown/DownloadDropDown";
 import { useAuthentication } from "@/features/users";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";
-import useTempTourPlans from "@/app/hooks/useTempTourPlan";
-import { TempTourPlan } from "@/app/hooks/types";
-import useTourPlans from "@/app/hooks/useTourPlans";
+import { useTempTourPlans, TempTourPlan, useTourPlans } from "@/features/tour-plans";
 import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/shared/api/client";
 import {

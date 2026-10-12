@@ -1,5 +1,5 @@
 import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import { ReportHistoryUser } from "@/app/hooks/types";
+import { ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import { useEffect, useState } from "react";

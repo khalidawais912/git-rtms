@@ -2,7 +2,7 @@
 import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Spinner from "@/shared/components/Spinner";
-import { Officer, ReportHistoryUser } from "@/app/hooks/types";
+import { Officer, ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { triggerEscapeKeyPress } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

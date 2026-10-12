@@ -4,7 +4,7 @@ import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import { setFeedbackCount } from "@/store/feedbackCountSlice";
 import { useAuthentication } from "@/features/users";
-import useProjects from "@/app/hooks/useProjects";
+import { useProjects } from "@/features/projects";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {
   addDayToFormattedDate,

@@ -2,10 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DashboardTypeEnum } from "../dashboard/types/types";
-import useOfficers from "../hooks/useOfficers";
-import { Officer } from "@/app/hooks/types";
-import useReportHistoryUser from "../hooks/useReportHistoryUsers";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
 
 const ReportHistoryPage = () => {

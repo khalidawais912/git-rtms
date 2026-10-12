@@ -1,5 +1,5 @@
 import { OptionType } from "@/shared/components/types";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useDistrict } from "@/features/districts";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";
 import { useMemo } from "react";

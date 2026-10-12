@@ -5,7 +5,7 @@ import more from "../../../public/icons/more.svg";
 import Button from "@/shared/components/Button";
 import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
-import useProjects from "@/app/hooks/useProjects";
+import { useProjects } from "@/features/projects";
 import { useVehicle } from "@/features/vehicles";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";

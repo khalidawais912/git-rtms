@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "@/shared/api/endpoints";
-import { DashboardTypeEnum } from "@/app/dashboard/types/types";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
 import useData from "@/shared/hooks/useData";
 import { useSearchParams } from "next/navigation";
 import { Attribute } from "./types";

@@ -13,7 +13,7 @@ import {
   MAIN_DASHBOARD_API,
   SINGLE_PROJECT_DASHBOARD_API,
 } from "@/shared/api/endpoints";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useDistrict } from "@/features/districts";
 import apiClient from "@/shared/api/client";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";

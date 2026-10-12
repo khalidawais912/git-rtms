@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Button from "@/shared/components/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "../types/types";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
 
 const DashboardTypeFilter = () => {
   const searchParams = useSearchParams();

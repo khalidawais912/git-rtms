@@ -9,10 +9,9 @@ import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
-import useProjects from "@/app/hooks/useProjects";
+import { useProjects } from "@/features/projects";
 import { useVehicle } from "@/features/vehicles";
-import useVisits from "@/app/hooks/useVisits";
-import { Visit } from "@/app/hooks/types";
+import { useVisits, Visit } from "@/features/visits";
 import {
   APPROVED,
   CANCELLED,

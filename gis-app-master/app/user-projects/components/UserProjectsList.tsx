@@ -9,7 +9,7 @@ import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
 import TableWrapper from "@/shared/components/Table/TableWrapper";
 import { useAuthentication } from "@/features/users";
-import { Project } from "@/app/hooks/types";
+import { Project } from "@/features/projects";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import AssignUserForm from "@/app/projects/components/AssignUserForm";

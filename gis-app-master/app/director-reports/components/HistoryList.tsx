@@ -1,5 +1,5 @@
 "use client";
-import { ReportHistoryUser } from "@/app/hooks/types";
+import { ReportHistoryUser } from "@/features/users";
 import { statuses } from "@/app/report-history/statuses";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { SubmittedReport, ReportHistory } from "../types";

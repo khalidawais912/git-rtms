@@ -5,8 +5,7 @@ import Loader from "@/shared/components/Loader/Loader";
 import Pagination from "@/shared/components/Table/Pagination";
 import TableHeader from "@/shared/components/Table/TableHeader";
 import TableHeading from "@/shared/components/Table/TableHeading";
-import useVisitsNew from "@/app/hooks/useVisitsNew";
-import { VisitNew } from "@/app/hooks/types";
+import { useVisitsNew, VisitNew } from "@/features/visits";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
 import { Inter } from "next/font/google";
@@ -20,10 +19,10 @@ import complete from "../../../public/icons/complete.svg";
 import Form from "./Form";
 import { useDriver } from "@/features/drivers";
 import { useVehicle } from "@/features/vehicles";
-import useProjects from "@/app/hooks/useProjects";
+import { useProjects } from "@/features/projects";
 import { useAuthentication } from "@/features/users";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import useDistrict from "@/app/hooks/useDistrict";
+import { useTourPlans } from "@/features/tour-plans";
+import { useDistrict } from "@/features/districts";
 
 const inter = Inter({ subsets: ["latin"] });
 

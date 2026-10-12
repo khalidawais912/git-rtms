@@ -1,5 +1,5 @@
 "use client";
-import { ReportHistoryUser } from "@/app/hooks/types";
+import { ReportHistoryUser } from "@/features/users";
 import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { Accordion } from "react-bootstrap";
