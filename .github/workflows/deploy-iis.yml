@@ -1,19 +1,24 @@
 name: Build and deploy to IIS
 
+# main    -> production IIS site
+# develop -> development (testing) IIS site
 on:
   pull_request:
     branches:
       - main
+      - develop
   push:
     branches:
       - main
+      - develop
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: iis-production
-  cancel-in-progress: false
+  group: iis-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -60,10 +65,13 @@ jobs:
         run: npm run build
 
   deploy:
-    name: Deploy to IIS
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    name: Deploy to IIS (${{ github.ref_name == 'main' && 'production' || 'development' }})
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     needs: build
     runs-on: [self-hosted, windows, iis]
+    # Variables set on the environment override repository variables with the same name,
+    # so production and development can use different IIS paths, app pools and backend URLs.
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     timeout-minutes: 45
     defaults:
       run:
@@ -131,6 +139,27 @@ jobs:
       - name: Build production application
         run: npm run build
 
+      - name: Stop IIS application pool
+        shell: pwsh
+        run: |
+          # Stop the pool so iisnode releases file locks on node_modules and .next before copying.
+          $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
+          $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+          if ($LASTEXITCODE -ne 0 -or -not $state) {
+            throw "IIS application pool '$env:IIS_APP_POOL' was not found."
+          }
+          if ($state -ne "Stopped") {
+            & $appcmd stop apppool "/apppool.name:$env:IIS_APP_POOL"
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to stop IIS application pool '$env:IIS_APP_POOL'."
+            }
+          }
+          for ($i = 0; $i -lt 30; $i++) {
+            $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+            if ($state -eq "Stopped") { break }
+            Start-Sleep -Seconds 2
+          }
+
       - name: Copy application to IIS
         shell: pwsh
         run: |
@@ -138,17 +167,23 @@ jobs:
           $targetPath = [IO.Path]::GetFullPath($env:IIS_DEPLOY_PATH)
           $gitPath = Join-Path $sourcePath ".git"
 
-          & robocopy $sourcePath $targetPath /E /XD $gitPath
+          & robocopy $sourcePath $targetPath /E /R:3 /W:5 /XD $gitPath
           $copyExitCode = $LASTEXITCODE
           if ($copyExitCode -ge 8) {
             throw "Robocopy failed with exit code $copyExitCode."
           }
+          exit 0
 
-      - name: Recycle IIS application pool
+      - name: Start IIS application pool
+        # Runs even if the copy failed so the site does not stay down.
+        if: always()
         shell: pwsh
         run: |
           $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
-          & $appcmd recycle apppool "/apppool.name:$env:IIS_APP_POOL"
-          if ($LASTEXITCODE -ne 0) {
-            throw "Failed to recycle IIS application pool '$env:IIS_APP_POOL'."
+          $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+          if ($state -ne "Started") {
+            & $appcmd start apppool "/apppool.name:$env:IIS_APP_POOL"
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to start IIS application pool '$env:IIS_APP_POOL'."
+            }
           }
