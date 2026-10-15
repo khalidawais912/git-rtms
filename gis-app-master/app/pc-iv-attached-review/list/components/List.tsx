@@ -235,7 +235,7 @@ const List = ({
       return; // Don't run auto-selection logic
     }
 
-    // ✅ Auto-select logic (only when NOT manually selected)
+
     const tabWithRecord = tabs.find(
       (tab) =>
         tab.role === role &&

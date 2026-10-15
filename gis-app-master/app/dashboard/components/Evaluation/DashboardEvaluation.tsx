@@ -910,7 +910,7 @@ const DashboardEvaluation = () => {
                       background="linear-gradient(to right, #155E95 , #2377B6)"
                       icon="/icons/eyeBold.svg"
                       value={data ? data.totalSubmittedPCIvs : 0}
-                      label="Total PC(IV)s"
+                      label="Total PC(IV)s 913"
                       showTides={false}
                       showArrow={true}
                       textWrap={false}
