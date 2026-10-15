@@ -1,14 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import DistributedColumnChart from "./DistributedColumnChart";
 import Reports from "./Reports";
-// import SimplePieChart from "./SimplePieChart";
-// import Menu from "./Menu";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-// import SimpleLineChart from "./SimpleLineChart";
-// import WBSReportUpdated from "./WBSReportUpdated";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import dynamic from "next/dynamic";
 import { IoWifi } from "react-icons/io5";
 import ExecutiveSummary from "./ExecutiveSummary";
@@ -27,6 +22,7 @@ import WorkInProgressScaled from "./Scaled/WorkInProgressScaled";
 import VideoPreview from "./VideoPreview";
 import VideoTypeFilter from "./VideoTypeFilter";
 import WorkInProgress from "./WorkInProgress";
+import { SingleProjectDashboard } from "../../types";
 
 const DistributedColumnChart = dynamic(
   () => import("./DistributedColumnChart"),
@@ -44,171 +40,6 @@ const WBSReportUpdated = dynamic(() => import("./WBSReportUpdated"), {
 const SimpleLineChart = dynamic(() => import("./SimpleLineChart"), {
   ssr: false,
 });
-
-export interface VehicleTrackings {
-  visitId: number;
-  projectName: string;
-  officerName: string;
-  officerPicture: string;
-  vehicalNumber: string;
-  vehicalPicture: string;
-  driverName: string;
-  driverPicture: string;
-  startingDistrict: string;
-  endDistrict: string;
-  startLat: string;
-  endLat: string;
-  startLong: string;
-  endLong: string;
-  visitStatus: string;
-}
-
-export interface StaffTrackings {
-  userId: number;
-  userName: string;
-  designation: string;
-  phoneNumber: string;
-  userPicture: string;
-  projectName: string;
-  districtName: string;
-  planStartDate: string;
-  planEndDate: string;
-  visitStartTime: string;
-  visitEndTime: string;
-  carNumber: string;
-  carPicture: string;
-  driverName: string;
-  status: string;
-  startAddressLat: string;
-  startAddressLong: string;
-  endAddressLat: string;
-  endAddressLong: string;
-  coordinates: [
-    {
-      id: number;
-      visitID: number;
-      userID: number;
-      latitude: string;
-      longitude: string;
-      visit_status: string;
-      createdAt: string;
-    },
-  ];
-}
-
-export interface ReportsData {
-  reportPath: string;
-}
-
-export interface Attributes {
-  attributeId: number;
-  attributeDataType: string;
-  multiselect: number;
-  label: string;
-  validationRegx: string;
-  min: number;
-  max: number;
-  required: number;
-  status: number;
-  hidden: number;
-  createdAt: string;
-  updatedAt: string;
-  placeholder: string;
-  attributeType: string;
-  unit: string;
-  parentId: number;
-  errorMessage: string;
-  verificationContent: string;
-  verificatioContentPath: string;
-  verificationType: string;
-  options: [
-    {
-      id: number;
-      attributeId: number;
-      value: string;
-      sortId: number;
-      isActive: number;
-      createdAt: string;
-      updatedAt: string;
-      label: string;
-    },
-  ];
-  value: string;
-  values: [
-    {
-      id: number;
-      attributeId: number;
-      attributeGrpId: number;
-      projectId: number;
-      visitId: number;
-      value: string;
-      createdAt: string;
-      updatedAt: string;
-      verificatioContentPath: string;
-      weightage: number;
-      remarks: string;
-      latitude: string;
-      longitude: string;
-    },
-  ];
-  evaluationFormula: string;
-  evaluationFormulaWeightage: number;
-  remarks: string;
-  weightage: number;
-  readOnly: number;
-  sortId: number;
-  attributeCode: string;
-  smdpIdentifier: string;
-}
-
-export interface Groups {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  group: Groups[];
-  attributes: Attributes[];
-}
-
-export interface DetailedAnalysis {
-  attributeName: string;
-  visitDate: string;
-  officerName: string;
-  location: string;
-  contractorName: string;
-  reName: string;
-  actualPlannedProject: string;
-  actualFinancialProgress: string;
-  actualPhysicalProgress: string;
-  overallEarnValue: string;
-}
-
-export interface SingleProjectDashboard {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  sectorId: number;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  sectorName: string;
-  groups: Groups[];
-  vehicalTrackings: VehicleTrackings[];
-  staffTrackings: StaffTrackings[];
-  accumulativePC1Cost: number;
-  is_Contractor: number;
-  is_ResidentEngineer: number;
-  is_Tpv: number;
-  reports: {
-    reportPath: string;
-  }[];
-  reportsCount: number;
-  detailAnalysis: DetailedAnalysis[];
-}
-
 interface Props {
   data: SingleProjectDashboard;
 }
@@ -217,9 +48,6 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
   const [projectRating, setProjectRating] = useState<number>(0);
   const [cpi, setCpi] = useState<number>(0);
   const [spi, setSpi] = useState<number>(0);
-
-  // const dispatch = useDispatch();
-  // useAuthorization("project-details-dashboard");
 
   const getCPIAndSPI = () => {
     if (data) {
@@ -275,18 +103,6 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
     }
   }, [data]);
 
-  // const handleButtonClick = (content: string, tutorialLink: string) => {
-  //   dispatch(setContent(content));
-  //   dispatch(setTutorial(tutorialLink));
-  // };
-
-  // useEffect(() => {
-  //   handleButtonClick(
-  //     "projectDetailsDashboard",
-  //     "https://www.youtube.com/watch?v=PDHSsWfMhNM&ab_channel=DirectorateGeneralMonitoringandEvaluation"
-  //   );
-  // }, []);
-
   useEffect(() => {
     console.log("dashboard api", data);
   }, [data]);
@@ -313,26 +129,11 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const wbsData = data.groups.filter((group) =>
-  //       group.name.toLowerCase().includes("work breakdown structure")
-  //     );
-
-  //     const filteredAttributes = data.groups.find((group) =>
-  //       group.name?.toLowerCase().includes("progress analysis")
-  //     )?.attributes[5];
-  //   }
-  // }, [data]);
-
   return (
     <div
       className="row m-0"
       style={
         {
-          // transform: "scale(19.2)",
-          // transformOrigin: "top left",
-          // overflow: "visible",
         }
       }
     >

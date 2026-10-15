@@ -1,10 +1,10 @@
 "use client";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import apiClient from "@/app/services/api-client";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
   addSpaceToCamelCase,
@@ -12,35 +12,17 @@ import {
   formatKeyName,
   getFormattedDate,
   getTimeLeft,
-} from "@/app/utils";
-import { exportDataToExcel } from "@/app/utils/exportToExcel";
+} from "@/shared/utils";
+import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AttendanceList } from "../types";
 
 interface Props {
   params: { attendanceFeature: string };
 }
-export interface AttendanceList {
-  attandanceId: number;
-  userId: number;
-  employeeName: string;
-  employeePicture: string;
-  department: string;
-  employeeDesignation: string;
-  punchInStatus: string;
-  punchInTime: string;
-  punchOutStatus: string;
-  punchOutTime: string;
-  date: string;
-  isCheckOut: boolean;
-}
-
-export interface AttendaceDetail {
-  attendanceList: AttendanceList[];
-}
-
 const AttendanceDetailsPage = ({ params }: Props) => {
   const { attendanceFeature } = params;
   const currentPath = usePathname();
@@ -76,7 +58,6 @@ const AttendanceDetailsPage = ({ params }: Props) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered =
       data &&
       data.filter((item) =>

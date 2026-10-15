@@ -1,16 +1,15 @@
 "use client";
 
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/app/APIs";
-import { OptionType } from "@/app/components/Form/CustomSelect";
-import Loader from "@/app/components/Loader/Loader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import useDistrict from "@/app/hooks/useDistrict";
-import useDriver from "@/app/hooks/useDriver";
-import useTempTourPlans from "@/app/hooks/useTempTourPlan";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import useVehicle from "@/app/hooks/useVehicle";
-import apiClient from "@/app/services/api-client";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import { OptionType } from "@/shared/components/types";
+import Loader from "@/shared/components/Loader/Loader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import { useAuthentication } from "@/features/users";
+import { useDistrict } from "@/features/districts";
+import { useDriver } from "@/features/drivers";
+import { useTempTourPlans, useTourPlans } from "@/features/tour-plans";
+import { useVehicle } from "@/features/vehicles";
+import apiClient from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
@@ -118,8 +117,6 @@ const MonitoringVisitPlanList = ({
       );
       toast.success(response.data?.message || "Saved successfully!");
 
-      // ✅ Refresh after save
-      // setData((prev) => [...prev]); // if useData supports refetch trigger
     } catch (err) {
       const error = err as AxiosError<{ message?: string; errors?: string[] }>;
       const message =
@@ -185,7 +182,6 @@ const MonitoringVisitPlanList = ({
       const response = await apiClient.delete(
         `${TEMP_TOUR_PLAN_API}/${tempId}`,
       );
-      // toast.success("Item deleted successfully!");
       // Remove row from field array
       console.log("delete response", response);
       remove(index);

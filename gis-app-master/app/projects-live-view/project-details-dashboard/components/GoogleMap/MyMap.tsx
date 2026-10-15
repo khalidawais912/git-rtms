@@ -9,17 +9,11 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import ProjectCard from "../Map/ProjectCard";
-import { Groups } from "../ProjectDetailsDashboard";
+import { Groups, Position } from "../../../types";
 
 interface Props {
   data: Groups;
 }
-
-interface Position {
-  lat: number;
-  lng: number;
-}
-
 const MyMap = ({ data }: Props) => {
   const [initialPosition, setInitialPosition] = useState<Position>();
   const [zoom, setZoom] = useState<number>(17);

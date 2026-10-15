@@ -4,15 +4,15 @@ import {
   REVERSE_GEO_CODING_API,
   STAFF_TRACKING_API,
   VISIT_API,
-} from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import { Project } from "@/app/hooks/useProjects";
-import apiClient from "@/app/services/api-client";
-import { devMap, triggerEscapeKeyPress } from "@/app/utils";
+} from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import { useAuthentication } from "@/features/users";
+import { Project } from "@/features/projects";
+import apiClient from "@/shared/api/client";
+import { devMap, triggerEscapeKeyPress } from "@/shared/utils";
 import redCircle from "@/public/icons/redCircle.svg";
 import { motion } from "framer-motion";
 import { Lexend } from "next/font/google";
@@ -26,48 +26,12 @@ import TimelineCard from "./GoogleMap/TimelineCard";
 import TimelineCustomPath from "./GoogleMap/TimelineCustomPath";
 import StaffMember from "./StaffMember";
 import StaffMemberInRecording from "./StaffMemberInRecording";
+import { Coordinates, Position, ProjectVisit, TrackingRequestData } from "../types";
 
 const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-interface VisitByUserId {
-  projectId: number;
-  projectName: string;
-  projectLat: string;
-  projectLong: string;
-  projectDistrict: string;
-  driverName: string;
-  driverImage: string;
-  carNumber: string;
-  carImage: string;
-  visit: {
-    id: number;
-    projectId: number;
-    assignedTo: number;
-    status: string;
-    latitude: string;
-    longitude: string;
-    vehicleID: number;
-    driverID: number;
-    fromDate: string;
-    toDate: string;
-    createdAt: string;
-    updatedAt: string;
-    reportPath: string;
-  };
-}
-
-interface Coordinates {
-  id: number;
-  visitID: number;
-  userID: number;
-  latitude: string;
-  longitude: string;
-  createdAt: string;
-}
-
 export interface StaffTracking {
   userId: string;
   userName: string;
@@ -91,33 +55,6 @@ export interface StaffTracking {
   endAddressLong: string;
   coordinates: Coordinates[];
 }
-
-export interface TrackingRequestData {
-  userId: number;
-  visitId: number;
-  date: string | null;
-}
-
-export interface OptionUser {
-  id: number;
-  name: string;
-}
-
-export interface OptionProject {
-  id: number;
-  name: string;
-}
-
-export interface OptionDate {
-  id: number;
-  name: string;
-}
-
-export interface Position {
-  lat: number;
-  lng: number;
-}
-
 export const getCurrentDate = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -132,20 +69,9 @@ const getFormattedDate = (date: Date) => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
-
-interface ProjectVisit {
-  visitId: number;
-  visitName: string;
-}
-
 const StaffTracking = () => {
   const [mapStatus, setMapStatus] = useState(false);
   const dispatch = useDispatch();
-  // useAuthorization("staff-tracking");
-  // const [userId, setUserId] = useState<number>();
-  // const [visitId, setVisitId] = useState<number>();
-  // const [visits, setVisits] = useState();
-  // const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState<StaffTracking[]>();
   const [recordingTrackingRequestBody, setRecordingTrackingRequestBody] =
@@ -661,14 +587,6 @@ const StaffTracking = () => {
             {devMap && (
               <div>
                 <>
-                  {/* <RecordingStaffTrackingMap
-                        trackingRequestBody={recordingTrackingRequestBody}
-                        fetchRecordingData={fetchRecordingData}
-                        position={position}
-                        setPosition={setPosition}
-                        path={path}
-                        recordingData={recordingData}
-                      /> */}
                   {isCombineRouteSelected ? (
                     <div className="col" style={{ marginTop: "60px" }}>
                       {recordingData && startLocation && endLocation && (
@@ -715,7 +633,6 @@ const StaffTracking = () => {
                 </>
               </div>
             )}
-            {/* <Visits /> */}
           </div>
 
           {recordingData &&
@@ -739,7 +656,6 @@ const StaffTracking = () => {
                       officerDuration={officerDuration}
                     />
                   </div>
-                  {/* <ScheduleVisit /> */}
                 </div>
               </>
             )}
@@ -754,7 +670,6 @@ const StaffTracking = () => {
                 )}
                 {devMap && data && (
                   <div className="position-relative" style={{ zIndex: 0 }}>
-                    {/* {mapStatus ? <MapCarsRecorded /> : <MapCars />} */}
                     <>
                       <LiveStaffTrackingMap
                         data={data}
@@ -765,7 +680,6 @@ const StaffTracking = () => {
                     </>
                   </div>
                 )}
-                {/* <Visits /> */}
               </div>
             </div>
           </div>
@@ -782,7 +696,6 @@ const StaffTracking = () => {
               selectedButton === 2 && (
                 <StaffMemberInRecording recordingData={recordingData} />
               )}
-            {/* <ScheduleVisit /> */}
           </div>
         </div>
       )}

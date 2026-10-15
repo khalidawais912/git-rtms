@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { useRouter } from "next/navigation";
 import { FaChevronLeft } from "react-icons/fa";
 import Cookies from "js-cookie";

@@ -1,11 +1,12 @@
-import Button from "@/app/components/Button";
-import useSectors from "@/app/hooks/useSectors";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import Button from "@/shared/components/Button";
+import { useSectors } from "@/features/sectors";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import more from "../../../public/icons/more.svg";
+import { SmdpSync } from "../types";
 
 interface Props {
   api: string;
@@ -16,11 +17,6 @@ interface Props {
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
   showData: boolean;
 }
-
-interface SmdpSync {
-  schemeId: string;
-}
-
 const SmdpAllProjectsSyncForm = ({
   api,
   method,
@@ -178,7 +174,6 @@ const SmdpAllProjectsSyncForm = ({
                     className="form-select form-select-sm"
                     aria-label="Default select example"
                     name="categoryType"
-                    //   onChange={handleChange}
                   >
                     <option value="">Select</option>
                     <option value="Scheduled">CM INITIATIVE</option>

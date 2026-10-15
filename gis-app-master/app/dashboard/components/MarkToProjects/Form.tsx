@@ -1,12 +1,12 @@
 "use client";
-import { MARK_TO_EVALUATION_API } from "@/app/APIs";
-import CustomInput from "@/app/components/Form/CustomInput";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import GenericToggleControl from "@/app/components/Form/GenericToggleControl";
-import SubmitButton from "@/app/components/Form/SubmitButton";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { updatedMessage } from "@/app/utils";
+import { MARK_TO_EVALUATION_API } from "@/shared/api/endpoints";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import GenericToggleControl from "@/shared/components/Form/GenericToggleControl";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { updatedMessage } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
@@ -56,7 +56,6 @@ const Form = ({ setRefresh, id }: Props) => {
       });
       console.log("Response:", response);
       setRefresh((prev) => !prev);
-      // setData((prevData) => [...prevData, response.data.data]);
       toast.success(updatedMessage);
     } catch (err) {
       console.error("Submission error:", err);
@@ -94,10 +93,6 @@ const Form = ({ setRefresh, id }: Props) => {
                 onCheckedChange={async (e) => {
                   console.log(e, "testing");
                 }}
-                // onCheckedChange={async (val) =>
-                //   await handleMarkToEvaluation(d.id, val)
-                // }
-                // disabled={d.markToEvaluation}
               />
             </div>
           </div>

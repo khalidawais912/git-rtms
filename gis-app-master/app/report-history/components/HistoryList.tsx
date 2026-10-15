@@ -1,10 +1,10 @@
 "use client";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import { getFormattedDate } from "@/app/utils";
+import { ReportHistoryUser } from "@/features/users";
+import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { Accordion } from "react-bootstrap";
 import ReactMarkDown from "react-markdown";
-import { ReportHistory } from "./ReportNoting";
+import { ReportHistory } from "../types";
 
 interface Props {
   descendingOrderData: ReportHistory[];
@@ -23,11 +23,6 @@ const HistoryList = ({ descendingOrderData, users }: Props) => {
               style={{ height: "500px", overflow: "scroll" }}
             >
               <div className="col mb-2 text-end">
-                {/* <ReportHistoryDownload
-                  data={ascendingOrderData}
-                  users={users}
-                  submittedReport={submittedReport}
-                /> */}
               </div>
               {descendingOrderData?.map((d) => (
                 <div

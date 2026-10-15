@@ -1,8 +1,8 @@
 "use client";
-import { STAFF_ATTENDANCE_API } from "@/app/APIs";
-import Loader from "@/app/components/Loader/Loader";
-import TableHeader from "@/app/components/Table/TableHeader";
-import apiClient from "@/app/services/api-client";
+import { STAFF_ATTENDANCE_API } from "@/shared/api/endpoints";
+import Loader from "@/shared/components/Loader/Loader";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
   addSpaceToCamelCase,
@@ -10,37 +10,17 @@ import {
   formatKeyName,
   getFormattedDate,
   getTimeLeft,
-} from "@/app/utils";
+} from "@/shared/utils";
 import { useEffect, useState } from "react";
-import { AttendanceList } from "../page";
+import { AttendanceList, StaffRecord } from "../../types";
 import { sort } from "fast-sort";
-import Pagination from "@/app/components/Table/Pagination";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import { exportDataToExcel } from "@/app/utils/exportToExcel";
+import Pagination from "@/shared/components/Table/Pagination";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 
 interface Props {
   params: { employeeId: string };
 }
-
-interface StaffRecord {
-  userName: string;
-  userDesignation: string;
-  department: string;
-  today: string;
-  todayCheckInStatus: string;
-  todayCheckInTime: string;
-  todayCheckOutStatus: string;
-  todayCheckOutTime: string;
-  totalPresents: number;
-  totalOthers: number;
-  totalLeave: number;
-  totalVisit: number;
-  totalAbsents: number;
-  totalLateComers: number;
-  totalLeftEarly: number;
-  dailyAttandance: AttendanceList[];
-}
-
 const EmployeeProfilePage = ({ params }: Props) => {
   const { employeeId } = params;
   const [data, setData] = useState<StaffRecord>();
@@ -89,7 +69,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data?.dailyAttandance.filter((item) =>
       [
         item.userId.toString(),
@@ -506,7 +485,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
                   <p className="fw-bold p-0 m-0 mt-3">
                     Employee ID: {employeeId}
                   </p>
-                  {/* <p className="p-0 m-0 text-secondary">Date of Join:-</p> */}
                 </div>
 
                 {/* Dotted border and form section */}
@@ -523,7 +501,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
                         className="badge bg-danger ms-3"
                         style={{ fontSize: "14px" }}
                       >
-                        {/* {data?.today} */}
                       </span>
                     </h3>
                     <div className="col">

@@ -1,4 +1,4 @@
-import VisitsNew from "./components/VisitsNew";
+import VisitsNew from "@/features/visits/components/visits-new/VisitsNew";
 
 const VisitsNewPage = () => {
   return (

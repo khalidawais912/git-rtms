@@ -1,14 +1,11 @@
-import Button from "@/app/components/Button";
-import { ChartGradient } from "@/app/components/Charts/BarChart/MySimpleBarChart";
-import MyStackBarChart, {
-  MyStackBarChartStyle,
-  MyStackBarChartType,
-} from "@/app/components/Charts/BarChart/MyStackBarChart";
+import Button from "@/shared/components/Button";
+import { ChartGradient, MyStackBarChartType } from "@/shared/components/types";
+import MyStackBarChart, { MyStackBarChartStyle } from "@/shared/components/Charts/BarChart/MyStackBarChart";
 import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import { OfficerWiseVisits } from "../page";
+import { OfficerWiseVisits } from "../types";
 
 interface Props {
   data: OfficerWiseVisits[];
@@ -20,7 +17,6 @@ export const getBlueGradientColor = (id: string): ChartGradient => {
     id: id,
     from: "#036CCF",
     to: "#004687",
-    // direction: "vertical", // optional
   };
 };
 
@@ -28,25 +24,11 @@ const AssignProjectPartTwoBarChartTile = ({
   chartSize = "small",
   data,
 }: Props) => {
-  // const gradient: ChartGradient = {
-  //   id: "my-gradient-color-2",
-  //   from: "#036CCF",
-  //   to: "#004687",
-  //   // direction: "vertical", // optional
-  // };
 
   const color = "rgba(117, 117, 117, 0.15)";
 
   // We convert total into two stacked parts:
   // gain + remaining = total
-
-  // Backend gives:
-  // total = 100
-  // gain = 50
-
-  // Frontend converts to:
-  // gain = 50
-  // remaining = 50
 
   // Now stacking works correctly.
 
@@ -61,130 +43,6 @@ const AssignProjectPartTwoBarChartTile = ({
       color,
     },
   }));
-
-  // const data: MyStackBarChartType[] = [
-  //   {
-  //     label: "Amina Abrar",
-  //     value1: {
-  //       value: 15, //gain
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 10, // total === remaining
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Aroos",
-  //     value1: {
-  //       value: 10,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 6,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Qamar",
-  //     value1: {
-  //       value: 2,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 4,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "M. Salman",
-  //     value1: {
-  //       value: 5,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 8,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Fatima",
-  //     value1: {
-  //       value: 12,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 1,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "M. Azeem",
-  //     value1: {
-  //       value: 16,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 8,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "M. Sadiq",
-  //     value1: {
-  //       value: 10,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 6,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Qurat-ul-ain",
-  //     value1: {
-  //       value: 5,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 8,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "M. Saqib",
-  //     value1: {
-  //       value: 16,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 8,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Adnan Ashraf",
-  //     value1: {
-  //       value: 2,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 4,
-  //       color,
-  //     },
-  //   },
-  //   {
-  //     label: "Dr. Hamza Tanzeel",
-  //     value1: {
-  //       value: 10,
-  //       gradient,
-  //     },
-  //     value2: {
-  //       value: 6,
-  //       color,
-  //     },
-  //   },
-  // ];
 
   const smallChartStyle: MyStackBarChartStyle = {
     height: 292,
@@ -212,7 +70,6 @@ const AssignProjectPartTwoBarChartTile = ({
     tooltip: {
       cursor: true,
       contentStyle: {
-        // background: "#1E1B39",
         background: "#fff",
         border: "0px",
         borderRadius: "0px",
@@ -222,12 +79,10 @@ const AssignProjectPartTwoBarChartTile = ({
       labelStyle: {
         fontSize: "12px",
         fontWeight: 400,
-        // color: "#fff",
       },
       itemStyle: {
         fontSize: "12px",
         fontWeight: "400",
-        // color: "#fff",
       },
     },
   };

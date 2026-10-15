@@ -1,11 +1,10 @@
 "use client";
-import { PC_IV_WORKFLOW_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Spinner from "@/app/components/Spinner";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { triggerEscapeKeyPress } from "@/app/utils";
+import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
+import { Officer, ReportHistoryUser } from "@/features/users";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { triggerEscapeKeyPress } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -13,7 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { SubmittedReport } from "../list/components/List";
+import { SubmittedReport, ReportHistory } from "../types";
 import {
   APPROVED,
   DDE2_USER_ID,
@@ -25,7 +24,7 @@ import {
 } from "../statuses";
 import HistoryList from "./HistoryList";
 
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import PdfIframe from "./pdf/PdfIframe";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -35,42 +34,16 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
 
-// const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
-//   ssr: false,
-// });
-
-// import { Sapling } from "@saplingai/sapling-js/observer";
-
-// export default function Editor() {
-//   useEffect(() => {
-//     Sapling.init({
-//       key: process.env.NEXT_PUBLIC_SAPLING_PUBLIC_KEY || "", // use public key
-//       endpointHostname: "https://api.sapling.ai",
-//       editPathname: "/api/v1/edits",
-//       statusBadge: true,
-//       mode: "dev",
-//     });
-
-//     const editor = document.getElementById("editor");
-//     if (editor) {
-//       Sapling.observe(editor);
-//     }
-//   }, []);
-
 const schema = z.object({
   id: z.number().optional().default(0),
   pcivId: z.number().optional().default(-1),
   markFrom: z.number().optional().default(-1),
-  // submittedUser: z.number().optional().default(-1),
   markTo: z
     .number({ invalid_type_error: "Please select Director!" })
     .optional(),
   remarks: z.string().min(1, { message: "Please add Remarks!" }).trim(),
   path: z.string().optional().default(""),
-  // lastStatus: z.number().optional().default(-1),
   status: z.number().optional().default(-1),
-  // reportType: z.number().optional().default(1),
-  // sDate: z.string().optional().default(new Date().toISOString()),
 });
 
 type ReportNoting = z.infer<typeof schema>;
@@ -88,18 +61,6 @@ interface Props {
   officers: Officer[];
   onCommentSubmitted?: () => void; //Add callback prop
 }
-
-export interface ReportHistory {
-  id: number;
-  pcIv_id: number;
-  mark_From: number;
-  mark_to: number;
-  remarks: string;
-  pciv_pdf_path: string;
-  status: number;
-  mark_date: string;
-}
-
 const ReportNoting = ({
   data,
   setRefresh,
@@ -154,26 +115,6 @@ const ReportNoting = ({
     ) {
       setReferback(false);
     }
-    // else if (
-    //   role === "deputy director" &&
-    //   descendingOrderReportsHistory &&
-    //   descendingOrderReportsHistory[0].status === REFERBACK
-    // ) {
-    // setReferback(true);
-    // setValue("markTo", data.intiallyUserId);
-    // }
-    // else if (
-    //   role === "director" &&
-    //   descendingOrderReportsHistory &&
-    //   descendingOrderReportsHistory[0].status === REFERBACK
-    // ) {
-    // setReferback(true);
-    // setValue(
-    //   "markTo",
-    //   reportsHistory &&
-    //     reportsHistory[0].submittedFrom
-    // );
-    // }
 
     console.log("markTo", markTo);
   }, [
@@ -183,27 +124,6 @@ const ReportNoting = ({
     role,
     descendingOrderReportsHistory,
   ]);
-
-  // useEffect(() => {
-  //   if (
-  //     role === "director" &&
-  //     descendingOrderReportsHistory &&
-  //     descendingOrderReportsHistory[0].status === SUBMITTED
-  //   ) {
-  //     setValue(
-  //       "markTo",
-  //       descendingOrderReportsHistory &&
-  //         descendingOrderReportsHistory[0].mark_From,
-  //     );
-  //     setValue(
-  //       "markTo",
-  //       descendingOrderReportsHistory &&
-  //         descendingOrderReportsHistory[0].mark_From,
-  //     );
-  //     console.log("status", REFERBACK);
-  //     // setReferback(true);
-  //   }
-  // }, [descendingOrderReportsHistory]);
 
   const onSubmit = async (formData: ReportNoting) => {
     console.log(errors);
@@ -290,17 +210,6 @@ const ReportNoting = ({
   const [isMarked, setMarked] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<boolean>(false);
 
-  // const checkGrammar = useCallback(async (text: string) => {
-  //   const res = await fetch("/api/v1/sapling", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ text }),
-  //   });
-  //   const data = await res.json();
-  //   console.log("Sapling grammar suggestions:", data);
-  //   return data;
-  // }, []);
-
   const mdeOptions = useMemo<SimpleMDEOptions>(
     () => ({
       toolbar: [
@@ -356,14 +265,10 @@ const ReportNoting = ({
             <div className="row d-flex m-0">
               {viewPdf && (
                 <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
-                  {/* <PdfFileViewer /> */}
                   <PdfIframe
                     iframeKey={data.reportPath}
                     reportPath={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
                   />
-                  {/* <EditPdfFileViewer
-                fileUrl={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
-              /> */}
                 </div>
               )}
               <div
@@ -440,62 +345,7 @@ const ReportNoting = ({
                               )}
                             />
                           </div>
-                          {/* <div className="col"> */}
-                          {/* <p>new editor</p>*/}
-                          {/* <RichTextEditor />*/}
-                          {/* <MarkdownEditorWithSpellcheck /> */}
-                          {/* <ClientSideCustomEditor /> */}
-                          {/* <SaplingEditorWithHighlight /> */}
-                          {/* <SaplingEditor /> */}
-                          {/* <GrammarEditor /> */}
-                          {/* <SimpleMdeEditor /> */}
-                          {/* <QuillWithSpellChecker /> */}
-                          {/* </div> */}
                           <div className="row mx-0 mb-3">
-                            {/* {(data.status === SUBMITTED ||
-                              data.status === REFERBACK) &&
-                              selectedTabLabel !== "REFERBACK BY (D)" && (
-                                <div className="col">
-                                  <div className="form-check">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      id="reject"
-                                      checked={isReferback}
-                                      onChange={() => {
-                                        setReferback(!isReferback);
-                                        setMarked(false);
-                                        role === "deputy director"
-                                          ? setValue(
-                                              "markTo",
-                                              descendingOrderReportsHistory[0]
-                                                .status === REFERBACK
-                                                ? data.intiallyUserId
-                                                : data.submittedFrom,
-                                            )
-                                          : setValue(
-                                              "markTo",
-                                              data.submittedFrom,
-                                            );
-                                      }}
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="reject"
-                                    >
-                                      Referback:{" "}
-                                      {role === "deputy director" &&
-                                      descendingOrderReportsHistory[0]
-                                        .status === REFERBACK
-                                        ? data.intiallyUser
-                                        : users.find(
-                                            (user) =>
-                                              user.id === data.submittedFrom,
-                                          )?.fullName}
-                                    </label>
-                                  </div>
-                                </div>
-                              )} */}
 
                             {(data.status === SUBMITTED ||
                               data.status === REFERBACK) &&
@@ -518,11 +368,6 @@ const ReportNoting = ({
                                           ].mark_From,
                                         );
                                       }}
-                                      // disabled={
-                                      //   role === "deputy director" &&
-                                      //   descendingOrderReportsHistory[0]
-                                      //     .status === REFERBACK
-                                      // }
                                     />
                                     <label
                                       className="form-check-label"
@@ -549,12 +394,6 @@ const ReportNoting = ({
                                 REFERBACK &&
                               selectedTabLabel !== "MARK BY (DG)" && (
                                 <>
-                                  {/* <label
-                                    className="form-check-label"
-                                    htmlFor="reject"
-                                  >
-                                    Referback:
-                                  </label> */}
                                   <div className="mb-2">
                                     <select
                                       value={markTo || ""}
@@ -592,12 +431,6 @@ const ReportNoting = ({
                                 REFERBACK &&
                               selectedTabLabel === "REFERBACK BY (DD)" && (
                                 <>
-                                  {/* <label
-                                    className="form-check-label"
-                                    htmlFor="reject"
-                                  >
-                                    Referback:
-                                  </label> */}
                                   <div className="mb-2">
                                     <select
                                       value={markTo || ""}
@@ -628,53 +461,9 @@ const ReportNoting = ({
                                 </>
                               )}
 
-                            {/* {role === "director" &&
-                              descendingOrderReportsHistory[0].status !==
-                                APPROVED &&
-                              descendingOrderReportsHistory[0].status !==
-                                REFERBACK && (
-                                <div className="col">
-                                  <div className="form-check">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      id="mark"
-                                      checked={isMarked}
-                                      onChange={() => {
-                                        const newValue = !isMarked;
-                                        setMarked(newValue);
-                                        setReferback(false);
-                                        console.log(
-                                          "departmentHead designation: ",
-                                          departmentHead.designation,
-                                        );
-
-                                        if (newValue) {
-                                          setValue("markTo", departmentHead.id); //department head-id
-                                        } else {
-                                          setValue("markTo", undefined); //department head-id
-                                        }
-                                      }}
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="mark"
-                                    >
-                                      Mark To: DEPARTMENT HEAD
-                                    </label>
-                                  </div>
-                                </div>
-                              )} */}
-
                             {role === "deputy director" &&
                               selectedTabLabel === "MARK BY (D)" && (
                                 <>
-                                  {/* <label
-                                    className="form-check-label"
-                                    htmlFor="reject"
-                                  >
-                                    Referback:
-                                  </label> */}
                                   <div className="mb-2">
                                     <select
                                       value={markTo || ""}
@@ -721,12 +510,6 @@ const ReportNoting = ({
                                 "SUBMITTED BY (DEPARTMENT)" ||
                               selectedTabLabel === "REFERBACK BY (AD)") && (
                               <>
-                                {/* <label
-                                  className="form-check-label"
-                                  htmlFor="reject"
-                                >
-                                  Approved:
-                                </label> */}
                                 {(role === "deputy director" &&
                                   descendingOrderReportsHistory[0].status ===
                                     REFERBACK) ||
@@ -754,14 +537,6 @@ const ReportNoting = ({
                                           <option value="">
                                             Select Deputy Director
                                           </option>
-                                          {/* {deputyDirectors.map((officer) => (
-                                            <option
-                                              key={officer.id}
-                                              value={officer.id}
-                                            >
-                                              {officer.designation}
-                                            </option>
-                                          ))} */}
 
                                           {deputyDirectors
                                             ?.filter(
@@ -783,14 +558,6 @@ const ReportNoting = ({
                                           <option value="">
                                             Select Director
                                           </option>
-                                          {/* {directors.map((officer) => (
-                                            <option
-                                              key={officer.id}
-                                              value={officer.id}
-                                            >
-                                              {officer.designation}
-                                            </option>
-                                          ))} */}
                                           <option
                                             value={
                                               directors?.find(
@@ -870,46 +637,8 @@ const ReportNoting = ({
                                   </Button>
                                 </div>
                               )}
-                              {/* {(role === "director" ||
-                                role === "department head") && (
-                                <div className="col-auto">
-                                  <Button
-                                    disabled={isSubmitting || !markTo}
-                                    type="submit"
-                                    className="btn rounded-pill fs18px fw-normal px-3"
-                                    style={{
-                                      background: `${
-                                        markTo
-                                          ? "rgba(0, 57, 206,.05)"
-                                          : "rgba(201, 201, 201,.5)"
-                                      }`,
-                                      color: `${
-                                        markTo ? "#0039CE" : "#454545"
-                                      }`,
-                                    }}
-                                  >
-                                    {isMarked ? "For Approval" : "Mark To"}{" "}
-                                    {isSubmitting && <Spinner />}
-                                  </Button>
-                                </div>
-                              )} */}
                             </>
 
-                            {/* {isReferback && (
-                              <div className="col-auto">
-                                <Button
-                                  disabled={isSubmitting || !markTo}
-                                  className="btn rounded-pill fs18px fw-normal px-3"
-                                  type="submit"
-                                  style={{
-                                    background: "rgba(0, 57, 206,.05)",
-                                    color: "#0039CE",
-                                  }}
-                                >
-                                  Referback {isSubmitting && <Spinner />}
-                                </Button>
-                              </div>
-                            )} */}
                           </div>
                         </form>
                       </>

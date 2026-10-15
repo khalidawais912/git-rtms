@@ -1,5 +1,5 @@
-import { DashboardType, DashboardTypeEnum } from "../dashboard/types/types";
-import SuperGroup from "./components/SuperGroup";
+import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import SuperGroup from "@/features/super-group/components/SuperGroup";
 
 interface Props {
   searchParams: Promise<{

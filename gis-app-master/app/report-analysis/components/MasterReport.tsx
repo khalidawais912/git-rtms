@@ -1,16 +1,16 @@
 "use client";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { FiPlus } from "react-icons/fi";
 import Form from "./Form";
 import { Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import useAttributes from "@/app/hooks/useAttributes";
-import { REPORT_API } from "@/app/APIs";
+import { useAttributes } from "@/features/attributes";
+import { REPORT_API } from "@/shared/api/endpoints";
 import { toast } from "react-toastify";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { ReportTab } from "./List";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ReportTab } from "../types";
 import { useRouter } from "next/navigation";
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
 
 const MasterReport = () => {
   const [show, setShow] = useState(false);
@@ -103,24 +103,3 @@ const MasterReport = () => {
 
 export default MasterReport;
 
-{
-  /* <CustomModal
-            isFullscreen={true}
-            HeaderTopPos={0}
-            HeaderRightPos={0}
-            button={
-              <Button className="btn">
-                <div>
-                  <FiPlus size={24} />
-                </div>
-                <p className="fs14px fw-5 mb-1 ">No Master Report</p>
-                <p className="fs12px mb-1 " style={{ color: "#595959" }}>
-                  There is no master report. Click on icon to create your first
-                  master report.
-                </p>
-              </Button>
-            }
-            body={<Form />}
-            modalId={"master-report-form"}
-          /> */
-}

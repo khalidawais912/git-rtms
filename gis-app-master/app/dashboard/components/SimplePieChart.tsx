@@ -1,5 +1,5 @@
 "use client";
-import { formatAmountWithCommas } from "@/app/utils";
+import { formatAmountWithCommas } from "@/shared/utils";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions type
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
