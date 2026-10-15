@@ -139,6 +139,27 @@ jobs:
       - name: Build production application
         run: npm run build
 
+      - name: Write runtime environment file
+        shell: powershell
+        run: |
+          # next.config.js reads these when the app starts under iisnode, not only at build time.
+          # Next.js loads .env.production automatically. These values are public (NEXT_PUBLIC_*).
+          $names = @(
+            "NEXT_PUBLIC_BACKEND_API",
+            "NEXT_PUBLIC_GOOGLE_MAP_API",
+            "NEXT_PUBLIC_GOOGLE_MAP_ID",
+            "NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID",
+            "NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY",
+            "NEXT_PUBLIC_SAPLING_KEY"
+          )
+          $lines = foreach ($name in $names) {
+            $value = [Environment]::GetEnvironmentVariable($name)
+            if (-not [string]::IsNullOrWhiteSpace($value)) { "$name=$value" }
+          }
+          $envFile = Join-Path (Get-Location) ".env.production"
+          # Write without a BOM so Next.js reads the first variable name correctly.
+          [IO.File]::WriteAllLines($envFile, [string[]]$lines, (New-Object Text.UTF8Encoding($false)))
+
       - name: Stop IIS application pool
         shell: powershell
         run: |
