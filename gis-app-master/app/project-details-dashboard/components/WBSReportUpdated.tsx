@@ -1,7 +1,7 @@
 "use client";
 
 import { Asap } from "next/font/google";
-import { Groups } from "./ProjectDetailsDashboard";
+import { Groups } from "../types";
 import WBSAttributesFlow from "./WBSFlow/WBSAttributesFlow";
 import WBSGroupFlow from "./WBSFlow/WBSGroupFlow";
 
@@ -38,21 +38,3 @@ const WBSReportUpdated = ({ majorDeliverables }: Props) => {
 };
 
 export default WBSReportUpdated;
-// {Math.round(
-//   majorDeliverables.group.reduce((sum, g) => {
-//     const groupTotal = g.attributes
-//       .filter(
-//         (attribute) =>
-//           attribute.attributeId !== 68 &&
-//           attribute.attributeId !== 69
-//       )
-//       .reduce((attrSum, attribute) => {
-//         const value = attribute.values[0]?.value; // Raw value
-//         const numericValue = parseFloat(value); // Convert to number
-//         return (
-//           attrSum + (isNaN(numericValue) ? 0 : numericValue)
-//         ); // Add valid numbers
-//       }, 0);
-//     return sum + groupTotal; // Add group total to the sum
-//   }, 0)
-// )}

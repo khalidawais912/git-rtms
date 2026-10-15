@@ -1,31 +1,27 @@
 "use client";
 
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/app/APIs";
-import { setContent } from "@/app/features/content/contentSlice";
-import apiClient from "@/app/services/api-client";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
+import { setContent } from "@/store/contentSlice";
+import apiClient from "@/shared/api/client";
 import { Lexend } from "next/font/google";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-// import DistributedColumnChart from "./DistributedColumnChart";
 import Reports from "./Reports";
-// import SimplePieChart from "./SimplePieChart";
 import StaffTracking from "./StaffTracking";
 import VehicleTracking from "./VehicleTracking";
-// import Menu from "./Menu";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Menu from "@/app/components/Menu";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import { devMap } from "@/app/utils";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Menu from "@/shared/components/Menu";
+import { setTutorial } from "@/store/tutorialSlice";
+import { devMap } from "@/shared/utils";
 import MyMap from "./GoogleMap/MyMap";
 import Header from "./Header";
 import MonitoringRatingIndex from "./MonitoringRatingIndex";
-// import SimpleLineChart from "./SimpleLineChart";
-// import WBSReportUpdated from "./WBSReportUpdated";
 import dynamic from "next/dynamic";
-import useAuthorization from "@/app/hooks/useAuthorization";
+import useAuthorization from "@/shared/hooks/useAuthorization";
 import WBSSummary from "./WBSFlow/WBSSummary";
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
+import { SingleProjectDashboard } from "../types";
 
 const DistributedColumnChart = dynamic(
   () => import("./DistributedColumnChart"),
@@ -43,185 +39,6 @@ const WBSReportUpdated = dynamic(() => import("./WBSReportUpdated"), {
 const SimpleLineChart = dynamic(() => import("./SimpleLineChart"), {
   ssr: false,
 });
-
-export interface VehicleTrackings {
-  visitId: number;
-  projectName: string;
-  officerName: string;
-  officerPicture: string;
-  vehicalNumber: string;
-  vehicalPicture: string;
-  driverName: string;
-  driverPicture: string;
-  startingDistrict: string;
-  endDistrict: string;
-  startLat: string;
-  endLat: string;
-  startLong: string;
-  endLong: string;
-  visitStatus: string;
-}
-
-export interface StaffTrackings {
-  userId: number;
-  userName: string;
-  designation: string;
-  phoneNumber: string;
-  userPicture: string;
-  projectName: string;
-  districtName: string;
-  planStartDate: string;
-  planEndDate: string;
-  visitStartTime: string;
-  visitEndTime: string;
-  carNumber: string;
-  carPicture: string;
-  driverName: string;
-  status: string;
-  startAddressLat: string;
-  startAddressLong: string;
-  endAddressLat: string;
-  endAddressLong: string;
-  coordinates: [
-    {
-      id: number;
-      visitID: number;
-      userID: number;
-      latitude: string;
-      longitude: string;
-      visit_status: string;
-      createdAt: string;
-    },
-  ];
-}
-
-export interface ReportsData {
-  reportPath: string;
-}
-
-export interface Attributes {
-  attributeId: number;
-  attributeDataType: string;
-  multiselect: number;
-  label: string;
-  validationRegx: string;
-  min: number;
-  max: number;
-  required: number;
-  status: number;
-  hidden: number;
-  createdAt: string;
-  updatedAt: string;
-  placeholder: string;
-  attributeType: string;
-  unit: string;
-  parentId: number;
-  errorMessage: string;
-  verificationContent: string;
-  verificatioContentPath: string;
-  verificationType: string;
-  options: [
-    {
-      id: number;
-      attributeId: number;
-      value: string;
-      sortId: number;
-      isActive: number;
-      createdAt: string;
-      updatedAt: string;
-      label: string;
-    },
-  ];
-  value: string;
-  values: [
-    {
-      id: number;
-      attributeId: number;
-      attributeGrpId: number;
-      projectId: number;
-      visitId: number;
-      value: string;
-      createdAt: string;
-      updatedAt: string;
-      verificatioContentPath: string;
-      weightage: number;
-      remarks: string;
-      latitude: string;
-      longitude: string;
-    },
-  ];
-  evaluationFormula: string;
-  evaluationFormulaWeightage: number;
-  remarks: string;
-  weightage: number;
-  readOnly: number;
-  sortId: number;
-  attributeCode: string;
-  smdpIdentifier: string;
-}
-
-export interface Groups {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  group: Groups[];
-  attributes: Attributes[];
-}
-
-export interface DetailedAnalysis {
-  attributeName: string;
-  visitDate: string;
-  officerName: string;
-  location: string;
-  contractorName: string;
-  reName: string;
-  actualPlannedProject: string;
-  actualFinancialProgress: string;
-  actualPhysicalProgress: string;
-  overallEarnValue: string;
-}
-
-export interface SingleProjectDashboard {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  sectorId: number;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  sectorName: string;
-  groups: Groups[];
-  vehicalTrackings: VehicleTrackings[];
-  staffTrackings: StaffTrackings[];
-  accumulativePC1Cost: number;
-  reports: {
-    reportPath: string;
-  }[];
-  reportsCount: number;
-  detailAnalysis: DetailedAnalysis[];
-}
-
-// export interface SingleProjectDashboard {
-//   projectId: number;
-//   projectName: string;
-//   projectLat: string;
-//   projectlong: string;
-//   lastVisitTime: string;
-//   plannedProgress: number;
-//   achievedProgress: number;
-//   financalProgress: number;
-//   allocation: number;
-//   releases: number;
-//   utilization: number;
-//   vehicalTrackings: VehicleTrackings[];
-//   staffTrackings: StaffTrackings[];
-//   reports: ReportsData[];
-// }
-
 const lexend = Lexend({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -403,18 +220,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const wbsData = data.groups.filter((group) =>
-  //       group.name.toLowerCase().includes("work breakdown structure")
-  //     );
-
-  //     const filteredAttributes = data.groups.find((group) =>
-  //       group.name?.toLowerCase().includes("progress analysis")
-  //     )?.attributes[5];
-  //   }
-  // }, [data]);
-
   const [showAllWbs, setShowAllWbs] = useState(false);
   return (
     <>
@@ -478,7 +283,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                           key={attribute.attributeId}
                           outline="1px solid rgba(232, 192, 15, 0.4)"
                           background="rgba(12, 140, 233,.5)"
-                          // icon="/icons/archery.svg"
                           value={parseFloat(attribute.values[0]?.value)}
                           label={
                             attribute.label.toLowerCase() ===
@@ -512,7 +316,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                           key={attribute.attributeId}
                           outline="1px solid rgba(232, 192, 15, 0.4)"
                           background="rgba(240, 175, 25,1)"
-                          // icon="/icons/archery.svg"
                           value={parseFloat(attribute.values[0]?.value)}
                           label={
                             attribute.label.toLowerCase() ===
@@ -839,15 +642,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                     ))}
               </div>
             )}
-            {/* {data.groups && (
-            <WBSReportUpdated
-              majorDeliverables={
-                data.groups.find((group) =>
-                  group.name.toLowerCase().includes("work breakdown structure")
-                )!
-              }
-            />
-          )} */}
             <VehicleTracking data={data.vehicalTrackings} />
             <div
               className="row mb-3"
@@ -867,7 +661,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                 />
               </div>
             </div>
-            {/* <BottomArea /> */}
           </>
         )}
       </div>

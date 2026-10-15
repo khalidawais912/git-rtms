@@ -1,8 +1,7 @@
 import Image from "next/image";
-// import { StaffTracking } from "./MapComponent";
 import tickStar from "../../../../public/icons/tickStar.svg";
 import whiteBuilding from "../../../../public/icons/whiteBuilding.svg";
-import { DistrictProjects } from "./MyMap";
+import { DistrictProjects } from "../../types";
 
 interface Props {
   data: DistrictProjects;
@@ -31,15 +30,6 @@ const ProjectCard = ({ data }: Props) => {
             alt="tickStar"
           />{" "}
           {data.sectorId && data.sectorId}
-          {/* {new Date(data.approvalDate).toLocaleDateString(
-                            "en-GB",
-                            {
-                              weekday: "short",
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            },
-                          )} */}
         </span>
         <span
           className="col p-1 rounded text-white"

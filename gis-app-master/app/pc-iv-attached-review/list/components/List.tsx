@@ -1,12 +1,11 @@
 "use client";
-import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Loader from "@/app/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/app/dashboard/types/types";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Loader from "@/shared/components/Loader/Loader";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { Officer, ReportHistoryUser } from "@/features/users";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
@@ -33,56 +32,19 @@ import {
   REFERBACK,
   SCHEDULED,
   SUBMITTED,
-} from "../../statuses";
+} from "@/shared/constants/statuses";
+import { SubmittedReport, Tab } from "../../types";
 
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-  isFocalPerson: boolean;
-}
-
-export interface SubmittedReportResponse {
-  totalIssuedCount: number;
-  reports: SubmittedReport[];
-}
-
-interface Tab {
-  id: number;
-  label: string;
-  status: number;
-  role: string;
-  reportSubmittedFrom?: number;
-  reportSubmittedTo?: number;
-  count: number;
-  filteredData: SubmittedReport[] | undefined;
-}
-
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
   users: ReportHistoryUser[];
   officers: Officer[];
   deputyDirectors: Officer[];
   directors: Officer[];
-  // departmentHead: Officer;
   refresh: boolean;
   setRefresh: Dispatch<SetStateAction<boolean>>;
   loggedInUsername: string;
@@ -94,7 +56,6 @@ const List = ({
   officers,
   deputyDirectors,
   directors,
-  // departmentHead,
   refresh,
   setRefresh,
   loggedInUsername,
@@ -222,14 +183,6 @@ const List = ({
 
   useEffect(() => {
     const tabs = [
-      // {
-      // id: 0,
-      //   label: "All",
-      //   status: -99,
-      //   reportSubmittedFrom: userId,
-      //   reportSubmittedTo: userId,
-      //   filteredData:data;
-      // },
       {
         id: 1,
         label: "SUBMITTED BY ATTACHED DEPT.",
@@ -247,14 +200,6 @@ const List = ({
         filteredData: undefined,
       },
 
-      // {
-      // id: 14,
-      //   label: "ISSUED",
-      //   status: ISSUED,
-      //   direction: undefined,
-      //   tabKey: `${ISSUED}`,
-      //   count: 0,
-      // },
     ];
 
     if (data) {
@@ -290,7 +235,7 @@ const List = ({
       return; // Don't run auto-selection logic
     }
 
-    // ✅ Auto-select logic (only when NOT manually selected)
+
     const tabWithRecord = tabs.find(
       (tab) =>
         tab.role === role &&
@@ -621,89 +566,9 @@ const List = ({
                       </Button>
                     </div>
                   ))}
-                  {/* {(dashbaordType === undefined ||
-                    role !== "Department Admin") && (
-                    <div className="col-auto">
-                      <Button
-                        className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                          selectedTab === -98 ? "text-dark" : "text-secondary"
-                        }`}
-                        style={{
-                          borderBottom:
-                            selectedTab === -98 ? "3px solid #0c8ce9" : "",
-                        }}
-                        onClick={() => {
-                          hasManuallySelectedTab.current = true; // ✅ ADD THIS
-                          setSelectedTab(-98);
-                          setSelectedLabel("Issued");
-                          setCurrentAutoOpenIndex(-1); // ✅ ADD THIS
-                          setShouldAutoOpen(false); // ✅ ADD THIS
-                          hasOpenedInitialModal.current = false; // ✅ ADD THIS
-                        }}
-                      >
-                        Issued
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {issuedReportCount}
-                        </span>
-                      </Button>
-                    </div>
-                  )} */}
 
-                  {/* <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === tabs.length
-                          ? "text-dark"
-                          : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === tabs.length
-                            ? "3px solid #0c8ce9"
-                            : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(tabs.length);
-                        setSelectedLabel("Issued")
-                        setFilteredData(
-                          data?.filter((d) => d.status === ISSUED)
-                        );
-                      }}
-                    >
-                      Issued
-                      {data?.filter((d) => d.status === ISSUED).length > 0 && (
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {data?.filter((d) => d.status === ISSUED).length}
-                        </span>
-                      )}
-                    </Button>
-                  </div> */}
                 </div>
               </div>
-              {/* <div className="col-lg-4 col-md-6 col-sm-12 text-auto">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                          <div className="input-group">
-                            <input
-                              type="text"
-                              className="form-control border-0 rounded-pill rounded-end"
-                              style={{
-                                background: "rgba(16, 143, 168, .1)",
-                                outline: "none",
-                                border: "1px solid #D0D5DD",
-                              }}
-                              placeholder="Search"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
-                            <button
-                              className="btn rounded-start rounded-pill bg-color-sea-green text-white"
-                              type="submit"
-                            >
-                              <IoSearch className="mb-1" style={{ color: "#fff" }} />
-                            </button>
-                          </div>
-                        </form>
-                      </div> */}
             </div>
           </div>
           {dataToRender && dataToRender?.length > 0 ? (
@@ -899,15 +764,6 @@ const List = ({
               <div>No reports found.</div>
             </div>
           )}
-          {/* {data?.length === 0(
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
-      )} */}
         </div>
       ) : (
         ""

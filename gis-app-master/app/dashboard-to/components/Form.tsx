@@ -1,19 +1,15 @@
-import { GET_USER_PROJECTS_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import useAuthentication, {
-  Authentication,
-} from "@/app/hooks/useAuthentication";
-import useDistrict, { District } from "@/app/hooks/useDistrict";
-import useDriver, { Driver } from "@/app/hooks/useDriver";
-import { Project } from "@/app/hooks/useProjects";
-import useTourPlans, { TourPlan } from "@/app/hooks/useTourPlans";
-import useVehicle, { Vehicle } from "@/app/hooks/useVehicle";
-import useVisits from "@/app/hooks/useVisits";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/app/services/api-client";
+import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import ErrorMessage from "@/shared/components/ErrorMessage";
+import { useAuthentication, Authentication } from "@/features/users";
+import { useDistrict, District } from "@/features/districts";
+import { Project } from "@/features/projects";
+import { TourPlan, useTourPlans } from "@/features/tour-plans";
+import { useDriver, Driver } from "@/features/drivers";
+import { useVehicle, Vehicle } from "@/features/vehicles";
+import { useVisits } from "@/features/visits";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";
@@ -23,7 +19,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import more from "../../../public/icons/more.svg";
 import Select from "react-select";
-import { COMPLETED, SCHEDULED } from "@/app/report-history/statuses";
+import { COMPLETED, SCHEDULED } from "@/shared/constants/statuses";
 
 const schema = z.object({
   id: z.number().optional().default(0),
@@ -238,21 +234,6 @@ const Form = ({
                       >
                         Visit Plan Group
                       </label>
-                      {/* <Controller
-                        name="visitPlanGroup"
-                        control={control}
-                        defaultValue={null}
-                        render={({ field }) => (
-                          <Select
-                            placeholder="Select"
-                            {...field}
-                            options={visitPlans?.map((d: any) => ({
-                              value: d.id,
-                              label: d.name,
-                            }))}
-                          />
-                        )}
-                      /> */}
                       <select
                         {...register("visitPlanGroup", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"

@@ -1,5 +1,5 @@
-import Button from "@/app/components/Button";
-import { Groups } from "./ProjectDetailsDashboard";
+import Button from "@/shared/components/Button";
+import { Groups } from "../types";
 import RenderRichText from "./RenderRichText";
 
 interface Props {

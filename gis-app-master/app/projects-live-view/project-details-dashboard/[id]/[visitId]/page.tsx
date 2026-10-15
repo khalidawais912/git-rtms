@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProjectDetailsDashboard, {
-  SingleProjectDashboard,
-} from "../../components/ProjectDetailsDashboard";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/app/APIs";
-import Loader from "@/app/components/Loader/Loader";
+import ProjectDetailsDashboard from "../../components/ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
+import Loader from "@/shared/components/Loader/Loader";
 
 interface Props {
   params: { id: string; visitId: number }; // Change to string to match the routing expectations

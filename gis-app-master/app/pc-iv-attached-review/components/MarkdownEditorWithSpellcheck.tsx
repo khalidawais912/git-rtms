@@ -8,7 +8,6 @@ const MarkdownEditorWithSpellcheck = () => {
     "# Hello\n\nType here to see *spell checking* in action."
   );
 
-  // EasyMDE (wrapped by react-simplemde-editor) has a built-in, free spell checker
   // No paid API keys needed. English dictionary out of the box.
   const options: EasyMDE.Options = useMemo(
     () => ({

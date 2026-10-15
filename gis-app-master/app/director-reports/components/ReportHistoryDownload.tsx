@@ -1,8 +1,7 @@
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import { exportToPDFNew, getFormattedDate } from "@/app/utils";
-import { SubmittedReport } from "../list/components/List";
-import { ReportHistory } from "./ReportNoting";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { ReportHistoryUser } from "@/features/users";
+import { exportToPDFNew, getFormattedDate } from "@/shared/utils";
+import { SubmittedReport, ReportHistory } from "../types";
 
 interface Props {
   data: ReportHistory[];
@@ -39,7 +38,6 @@ const ReportHistoryDownload = ({ data, users, submittedReport }: Props) => {
           hour12: true,
         })}` +
         ")",
-      //   "Report Link": d.reportPath,
       Comments: d.remarks.replace(/\r\n?/g, "\n").substring(0, 200), // limit length if needed
     }));
   }
@@ -50,7 +48,6 @@ const ReportHistoryDownload = ({ data, users, submittedReport }: Props) => {
     { header: "From", dataKey: "From" },
     { header: "To", dataKey: "To" },
     { header: "Date", dataKey: "Date" },
-    // { header: "Report Link", dataKey: "Report Link" },
     { header: "Comments", dataKey: "Comments" },
   ];
 

@@ -205,19 +205,6 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* <div className="col-lg-1 col-md-1 col p-0">
-        <Button
-          className="btn fw-bold me-2 mb-2"
-          style={{
-            outline: "1px dashed #334155",
-            borderRadius: "10px",
-            background: "rgba(12, 140, 233,0)",
-            height: "125px",
-          }}
-        >
-          Add
-        </Button>
-      </div> */}
     </div>
   );
 };

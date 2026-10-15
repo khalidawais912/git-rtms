@@ -1,13 +1,11 @@
 "use client";
 
-import { GENERATE_REPORT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Spinner from "@/app/components/Spinner";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/app/services/api-client";
+import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Spinner from "@/shared/components/Spinner";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import {
   ChangeEvent,
   FormEvent,
@@ -17,13 +15,8 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import DragableTable from "./DragableTable/DragableTable";
-import ToggleBetweenModals from "@/app/components/ToggleBetweenModals";
-
-export interface SectorItem {
-  id: number;
-  title: string;
-}
-
+import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
+import { SectorItem } from "../../types";
 const PPTSlideGenerator = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
@@ -178,49 +171,6 @@ const PPTSlideGenerator = () => {
       );
     }
   }, [priority, fromDate, toDate]);
-
-  // const getSectors = async () => {
-  //   if (priority.length <= 0) {
-  //     toast.info("Please Select Atleast one Priority!");
-  //     return;
-  //   }
-  //   if (fromDate.length <= 0) {
-  //     toast.info("Please select 'From Date'!");
-  //     return;
-  //   }
-  //   if (toDate.length <= 0) {
-  //     toast.info("Please select 'To Date'!");
-  //     return;
-  //   }
-  //   console.log("sectors async data: ", {
-  //     pirority: priority,
-  //     to: new Date(toDate).toISOString().split("T")[0],
-  //     from: new Date(fromDate).toISOString().split("T")[0],
-  //     sector: [""],
-  //   });
-  //   try {
-  //     const response = await apiClient.post(
-  //       `${GENERATE_REPORT_API}/GetSectorAsync`,
-  //       {
-  //         pirority: priority,
-  //         to: new Date(toDate).toISOString().split("T")[0],
-  //         from: new Date(fromDate).toISOString().split("T")[0],
-  //         sector: [""],
-  //       }
-  //     );
-
-  //     console.log(response);
-  //     setSectorNames(response.data.data);
-  //     toast.success("Sectors Obtained Successfully");
-  //   } catch (err) {
-  //     setSectorNames([]);
-  //     console.error("Submission error:", err);
-  //     toast.error(
-  //       (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-  //         (err as AxiosError<ErrorResponse>).message
-  //     );
-  //   }
-  // };
 
   useEffect(() => {
     if (priority.length > 0 || fromDate.length > 0 || toDate.length > 0)

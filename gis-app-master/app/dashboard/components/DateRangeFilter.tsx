@@ -2,15 +2,8 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { DateRange, RangeKeyDict } from "react-date-range";
 import "react-date-range/dist/styles.css"; // Main style file
-import "react-date-range/dist/theme/default.css"; // Theme CSS
-
-// Define the type of the range state
-interface RangeType {
-  startDate: Date | undefined;
-  endDate: Date | undefined;
-  key: string;
-}
-
+import "react-date-range/dist/theme/default.css";
+import { RangeType } from "../types";
 const DateRangeFilter = () => {
   const [state, setState] = useState<RangeType[]>([
     {

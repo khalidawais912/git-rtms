@@ -1,22 +1,21 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Spinner from "@/app/components/Spinner";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { triggerEscapeKeyPress } from "@/app/utils";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
+import { Officer, ReportHistoryUser } from "@/features/users";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { triggerEscapeKeyPress } from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { SubmittedReport } from "../list/components/List";
-import { APPROVED, REFERBACK, SUBMITTED } from "../statuses";
+import { SubmittedReport, ReportHistory } from "../types";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 import HistoryList from "./HistoryList";
 
-import Loader from "@/app/components/Loader/Loader";
+import Loader from "@/shared/components/Loader/Loader";
 import { BsExclamationTriangleFill } from "react-icons/bs";
 import PdfIframe from "./pdf/PdfIframe";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -25,28 +24,6 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 // EasyMDE styles (required)
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
-
-// const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
-//   ssr: false,
-// });
-
-// import { Sapling } from "@saplingai/sapling-js/observer";
-
-// export default function Editor() {
-//   useEffect(() => {
-//     Sapling.init({
-//       key: process.env.NEXT_PUBLIC_SAPLING_PUBLIC_KEY || "", // use public key
-//       endpointHostname: "https://api.sapling.ai",
-//       editPathname: "/api/v1/edits",
-//       statusBadge: true,
-//       mode: "dev",
-//     });
-
-//     const editor = document.getElementById("editor");
-//     if (editor) {
-//       Sapling.observe(editor);
-//     }
-//   }, []);
 
 const schema = z.object({
   id: z.number().optional().default(0),
@@ -76,22 +53,9 @@ interface Props {
   users: ReportHistoryUser[];
   deputyDirectors: Officer[];
   directors: Officer[];
-  // departmentHead: Officer;
   officers: Officer[];
   onCommentSubmitted?: () => void; //Add callback prop
 }
-
-export interface ReportHistory {
-  id: number;
-  pcIv_id: number;
-  mark_From: number;
-  mark_to: number;
-  remarks: string;
-  mark_date: string;
-  pciv_pdf_path: string;
-  status: number;
-}
-
 const ReportNoting = ({
   data,
   setRefresh,
@@ -101,7 +65,6 @@ const ReportNoting = ({
   users,
   deputyDirectors,
   directors,
-  // departmentHead,
   officers,
   onCommentSubmitted,
 }: Props) => {
@@ -156,11 +119,6 @@ const ReportNoting = ({
       descendingOrderReportsHistory[0].status === REFERBACK
     ) {
       setReferback(true);
-      // setValue(
-      //   "submittedTo",
-      //   reportsHistory &&
-      //     reportsHistory[0].submittedFrom
-      // );
     }
 
     console.log("submittedTo", submittedTo);
@@ -334,17 +292,6 @@ const ReportNoting = ({
   const [isMarked, setMarked] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<boolean>(false);
 
-  // const checkGrammar = useCallback(async (text: string) => {
-  //   const res = await fetch("/api/v1/sapling", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ text }),
-  //   });
-  //   const data = await res.json();
-  //   console.log("Sapling grammar suggestions:", data);
-  //   return data;
-  // }, []);
-
   const mdeOptions = useMemo<SimpleMDEOptions>(
     () => ({
       toolbar: [
@@ -400,14 +347,10 @@ const ReportNoting = ({
             <div className="row d-flex m-0">
               {viewPdf && (
                 <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
-                  {/* <PdfFileViewer /> */}
                   <PdfIframe
                     iframeKey={data.reportPath}
                     reportPath={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
                   />
-                  {/* <EditPdfFileViewer
-                fileUrl={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.reportPath}`}
-              /> */}
                 </div>
               )}
               <div
@@ -477,17 +420,6 @@ const ReportNoting = ({
                               )}
                             />
                           </div>
-                          {/* <div className="col"> */}
-                          {/* <p>new editor</p>*/}
-                          {/* <RichTextEditor />*/}
-                          {/* <MarkdownEditorWithSpellcheck /> */}
-                          {/* <ClientSideCustomEditor /> */}
-                          {/* <SaplingEditorWithHighlight /> */}
-                          {/* <SaplingEditor /> */}
-                          {/* <GrammarEditor /> */}
-                          {/* <SimpleMdeEditor /> */}
-                          {/* <QuillWithSpellChecker /> */}
-                          {/* </div> */}
                           <div className="row mx-0 mb-3">
                             {role !== "director" &&
                               (data.status === SUBMITTED ||
@@ -542,12 +474,6 @@ const ReportNoting = ({
                             {role === "director" &&
                               selectedTabLabel !== "APPROVED BY (DG)" && (
                                 <>
-                                  {/* <label
-                                    className="form-check-label"
-                                    htmlFor="reject"
-                                  >
-                                    Referback:
-                                  </label> */}
                                   <div className="mb-2">
                                     <select
                                       value={submittedTo || ""}
@@ -596,19 +522,7 @@ const ReportNoting = ({
                                         const newValue = !isMarked;
                                         setMarked(newValue);
                                         setReferback(false);
-                                        // console.log(
-                                        //   "departmentHead designation: ",
-                                        //   departmentHead.designation,
-                                        // );
 
-                                        // if (newValue) {
-                                        //   setValue(
-                                        //     "submittedTo",
-                                        //     departmentHead.id,
-                                        //   ); //department head-id
-                                        // } else {
-                                        //   setValue("submittedTo", undefined); //department head-id
-                                        // }
                                       }}
                                     />
                                     <label
@@ -630,12 +544,6 @@ const ReportNoting = ({
                               selectedTabLabel ===
                                 "SUBMITTED BY (DIRECTOR)") && (
                               <>
-                                {/* <label
-                                  className="form-check-label"
-                                  htmlFor="reject"
-                                >
-                                  Approved:
-                                </label> */}
                                 {(role === "deputy director" &&
                                   descendingOrderReportsHistory[0].status ===
                                     SUBMITTED) ||

@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import Image from "next/image";
 import dbGrey from "../../../public/icons/dbGrey.svg";
 

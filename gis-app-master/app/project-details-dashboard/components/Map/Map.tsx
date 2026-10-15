@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import React, { useState } from "react";
 import projectLocation from "../../../../public/images/projectLocation.png";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 const containerStyle = {
   width: "100%",
@@ -26,11 +26,6 @@ function Map({ data }: Props) {
     googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`,
   });
   const [isOpen, setIsOpen] = useState(false); // State to control InfoWindow visibility
-
-  // const center = {
-  //   lat: parseFloat(data.projectLat),
-  //   lng: parseFloat(data.projectlong),
-  // };
 
   const center = {
     lat: 0,
@@ -62,7 +57,6 @@ function Map({ data }: Props) {
                 width: "300px",
               }}
             >
-              {/* <p className="fs-6 fw-normal m-0">{data.projectName}</p> */}
               {/* Add any other details or style as needed */}
             </div>
           </InfoWindow>

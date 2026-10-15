@@ -1,8 +1,8 @@
 import ReactFlow, { Controls } from "reactflow";
 import "reactflow/dist/style.css";
-import { Groups } from "../ProjectDetailsDashboard";
+import { Groups } from "../../types";
 import { FaImage } from "react-icons/fa";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 
 interface Props {
   majorDeliverables: Groups;
@@ -23,7 +23,6 @@ const WBSGroupFlow = ({ majorDeliverables }: Props) => {
           <div
             className="col p-2 d-inline-block shadow text-center"
             style={{
-              // "linear-gradient(to bottom right, #14BAE3 , #13B1E6, #11AADF,#0B98C5)",
               background: "linear-gradient(to bottom right, #1090b0 , #0a4582)",
               borderRadius: "8px",
               border: "0px",
@@ -292,9 +291,7 @@ const WBSGroupFlow = ({ majorDeliverables }: Props) => {
   return (
     <div style={{ height: "160vh" }}>
       <ReactFlow nodes={nodes} edges={edges} fitView>
-        {/* <MiniMap /> */}
         <Controls />
-        {/* <Background color="#aaa" gap={16} /> */}
       </ReactFlow>
     </div>
   );
@@ -325,18 +322,12 @@ const groupNodeStyle = {
 
 const edgeStyle = {
   stroke: "#009688",
-  // display: "none",
 };
 
 const majorDeliverableStyle = {
   textAlign: "center",
   fontSize: "16px",
 };
-
-// const groupNodeStyle = {
-//   textAlign: "center",
-//   fontSize: "14px",
-// };
 
 const attributeNodeStyle = {
   textAlign: "center",

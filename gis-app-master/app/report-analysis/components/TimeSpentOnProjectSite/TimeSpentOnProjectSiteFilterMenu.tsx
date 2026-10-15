@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Spinner from "@/app/components/Spinner";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Spinner from "@/shared/components/Spinner";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
   Dispatch,

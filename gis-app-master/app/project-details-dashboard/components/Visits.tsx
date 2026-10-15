@@ -1,7 +1,7 @@
 import Image from "next/image";
 import redCircle from "../../../public/icons/redCircle.svg";
 import road from "../../../public/icons/road.svg";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../types";
 
 interface Props {
   data: SingleProjectDashboard;

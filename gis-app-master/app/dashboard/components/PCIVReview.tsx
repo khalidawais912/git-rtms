@@ -1,10 +1,10 @@
-import Menu from "@/app/components/Menu";
+import Menu from "@/shared/components/Menu";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import apiClient from "@/app/services/api-client";
-import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/app/APIs";
-import { SubmittedReport } from "@/app/report-history/list/components/List";
+import apiClient from "@/shared/api/client";
+import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import { SubmittedReport } from "@/app/report-history/types";
 
 const PCIVReview = ({
   dashboardType = null,

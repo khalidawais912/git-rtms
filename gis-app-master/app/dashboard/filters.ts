@@ -1,4 +1,4 @@
-import { FilterData } from "./components/DashboardMonitoring";
+import { FilterData } from "./types";
 
 // for LIVE
 export const pastYearCmInitiativeFilters: FilterData[] = [

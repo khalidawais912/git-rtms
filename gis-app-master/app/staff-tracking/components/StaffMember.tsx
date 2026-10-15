@@ -1,17 +1,14 @@
-import { STAFF_TRACKING_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import apiClient from "@/app/services/api-client";
-import { formatDateTime } from "@/app/utils";
+import { STAFF_TRACKING_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import apiClient from "@/shared/api/client";
+import { formatDateTime } from "@/shared/utils";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import userAdd from "../../../public/icons/userAdd.svg";
-import {
-  getCurrentDate,
-  StaffTracking,
-  TrackingRequestData,
-} from "./StaffTracking";
+import { getCurrentDate, StaffTracking } from "./StaffTracking";
+import { TrackingRequestData } from "../types";
 
 interface Props {
   setLiveTrackingRequestBody: Dispatch<SetStateAction<TrackingRequestData>>;

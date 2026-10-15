@@ -1,6 +1,6 @@
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../types";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -36,7 +36,6 @@ const DistributedColumnChart2 = ({ data }: Props) => {
       const allocationValue = parseFloat(allocation || "0");
       const releasesValue = parseFloat(releases || "0");
       const utilizationValue = parseFloat(utilization || "0");
-      // const accumulativePC1CostValue = parseFloat(accumulativePC1Cost || "0");
       console.log(
         "allocationValue:",
         allocationValue,
@@ -199,7 +198,6 @@ const DistributedColumnChart2 = ({ data }: Props) => {
       <div className="row d-flex m-0">
         <div
           className="col pb-2 ms-3 me-3"
-          // style={{ borderBottom: "1px dashed #97ABBD" }}
         >
           <div className="row d-flex">
             <div className="col pt-2">

@@ -1,5 +1,5 @@
-import { COORDINATES_API } from "@/app/APIs";
-import apiClient from "@/app/services/api-client";
+import { COORDINATES_API } from "@/shared/api/endpoints";
+import apiClient from "@/shared/api/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Image from "next/image";
@@ -12,16 +12,7 @@ import {
   TileLayer,
 } from "react-leaflet";
 import search2 from "../../../../public/icons/search2.svg";
-
-export interface StaffTracking {
-  id: number;
-  visitID: number;
-  userID: number;
-  latitude: string;
-  longitude: string;
-  createdAt: string;
-}
-
+import { StaffTracking } from "../../types";
 const getRotationAngle = (direction: string): number => {
   switch (direction.toLocaleLowerCase()) {
     case "north":
@@ -204,7 +195,6 @@ const MapCarsRecordedComponent = () => {
               closeButton={false}
               offset={L.point(0, -16)}
             >
-              {/* {apiData && <CarCard data={d} />} */}
             </Popup>
           </Marker>
         </MapContainer>
