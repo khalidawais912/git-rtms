@@ -97,7 +97,7 @@ jobs:
           cache-dependency-path: gis-app-master/package-lock.json
 
       - name: Validate deployment settings
-        shell: pwsh
+        shell: powershell
         run: |
           foreach ($setting in @("NEXT_PUBLIC_BACKEND_API", "IIS_DEPLOY_PATH", "IIS_APP_POOL")) {
             if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($setting))) {
@@ -140,7 +140,7 @@ jobs:
         run: npm run build
 
       - name: Stop IIS application pool
-        shell: pwsh
+        shell: powershell
         run: |
           # Stop the pool so iisnode releases file locks on node_modules and .next before copying.
           $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
@@ -161,7 +161,7 @@ jobs:
           }
 
       - name: Copy application to IIS
-        shell: pwsh
+        shell: powershell
         run: |
           $sourcePath = (Resolve-Path -LiteralPath (Join-Path $env:GITHUB_WORKSPACE "gis-app-master")).Path
           $targetPath = [IO.Path]::GetFullPath($env:IIS_DEPLOY_PATH)
@@ -177,7 +177,7 @@ jobs:
       - name: Start IIS application pool
         # Runs even if the copy failed so the site does not stay down.
         if: always()
-        shell: pwsh
+        shell: powershell
         run: |
           $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
           $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
