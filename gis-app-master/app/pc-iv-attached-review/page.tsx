@@ -1,8 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
 import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
 import Cookies from "js-cookie";
@@ -10,8 +8,6 @@ import Cookies from "js-cookie";
 const loggedInUsername = Cookies.get("userName");
 
 const PCIVAttachedReviewPage = () => {
-  const searchParams = useSearchParams();
-  const dashboardType = searchParams.get("dashboardType");
   const [refresh, setRefresh] = useState(false);
 
   const { data: users } = useReportHistoryUser();
@@ -22,11 +18,6 @@ const PCIVAttachedReviewPage = () => {
   const [deputyDirectors, setDeputyDirectors] = useState<Officer[]>();
   const [directors, setDirectors] = useState<Officer[]>();
   const [departmentHead, setDepartmentHead] = useState<Officer>();
-
-  const types = Object.values(DashboardTypeEnum);
-  const currentType = types.includes(dashboardType as any)
-    ? (dashboardType as DashboardTypeEnum)
-    : undefined;
 
   useEffect(() => {
     if (!officers) return;
@@ -53,7 +44,6 @@ const PCIVAttachedReviewPage = () => {
         directors &&
         loggedInUsername && (
           <List
-            dashbaordType={currentType}
             users={users}
             officers={officers}
             deputyDirectors={deputyDirectors}

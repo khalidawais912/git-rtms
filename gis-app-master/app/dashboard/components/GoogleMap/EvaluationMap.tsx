@@ -26,7 +26,7 @@ import "@/app/_css/InfoWindow.css";
 import {
   DistrictList,
   EvaluationMainDashboard,
-} from "../Evaluation/DashboardEvaluation";
+} from "../Evaluation/types";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";

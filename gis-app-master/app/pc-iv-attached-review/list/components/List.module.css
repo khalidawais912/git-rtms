@@ -1,0 +1,43 @@
+.container {
+  background: linear-gradient(
+    to bottom right,
+    rgba(239, 239, 239, 0.6),
+    rgba(255, 255, 255, 0.08)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.29);
+  border-radius: 15px;
+}
+
+.searchButton {
+  border: 1px solid rgba(38, 50, 56, 0.6);
+}
+
+.searchInput {
+  border: 1px solid rgba(38, 50, 56, 0.6);
+  color: rgba(38, 50, 56, 1);
+}
+
+.activeTab {
+  border-bottom: 3px solid #0c8ce9;
+}
+
+.reportCard {
+  background: #fafafa;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.projectTitle {
+  color: #263238;
+  padding-right: 90px;
+}
+
+.typeRibbon {
+  rotate: 45deg;
+  top: 40px;
+  right: -40px;
+}
+
+.monitoringBadge {
+  background-color: #3b7c80;
+}

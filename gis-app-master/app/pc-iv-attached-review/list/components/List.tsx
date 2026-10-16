@@ -3,55 +3,31 @@ import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/shared/api/endpoints"
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
-import { Officer, ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
 import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { BsExclamationTriangleFill } from "react-icons/bs";
-import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import {
   APPROVED,
-  COMPLETED,
   ISSUED,
   REFERBACK,
-  SCHEDULED,
   SUBMITTED,
 } from "@/shared/constants/statuses";
-import { SubmittedReport, Tab } from "../../types";
+import { ListProps, SubmittedReport, Tab } from "../../types";
+import styles from "./List.module.css";
 
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
-interface Props {
-  dashbaordType: DashboardTypeEnum | undefined;
-  users: ReportHistoryUser[];
-  officers: Officer[];
-  deputyDirectors: Officer[];
-  directors: Officer[];
-  refresh: boolean;
-  setRefresh: Dispatch<SetStateAction<boolean>>;
-  loggedInUsername: string;
-}
 
 const List = ({
-  dashbaordType,
   users,
   officers,
   deputyDirectors,
@@ -59,9 +35,8 @@ const List = ({
   refresh,
   setRefresh,
   loggedInUsername,
-}: Props) => {
+}: ListProps) => {
   const [data, setData] = useState<SubmittedReport[]>([]);
-  const [issuedReportCount, setIssuedReportCount] = useState<number>(0);
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
 
@@ -72,17 +47,11 @@ const List = ({
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  // 👇 NEW: Track if initial modal has been opened
   const hasOpenedInitialModal = useRef(false);
 
-  // 👇 NEW: Track current modal index and auto-open state
   const [currentAutoOpenIndex, setCurrentAutoOpenIndex] = useState<number>(-1);
   const [shouldAutoOpen, setShouldAutoOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    console.log("selectedTab", selectedTab);
-  }, [selectedTab]);
 
   useEffect(() => {
     const id = Cookies.get("userId");
@@ -95,11 +64,9 @@ const List = ({
     if (role) setRole(role.toLowerCase());
   }, []);
 
-  // State for filtered data
   const [filteredData, setFilteredData] = useState<
     SubmittedReport[] | undefined
   >();
-  // State for filtered data
   const [searchData, setSearchData] = useState<SubmittedReport[] | undefined>();
 
   useEffect(() => {
@@ -113,7 +80,6 @@ const List = ({
           },
         );
         if (response.data.data) {
-          console.log("response.data.data", response.data.data);
 
           const sortedData = response.data.data.reports.sort(
             (a: any, b: any) =>
@@ -121,34 +87,15 @@ const List = ({
               new Date(b.submittedDate).getTime(),
           );
           setData(sortedData);
-          console.log("sortedData data", sortedData);
         }
-        console.log("original data", response.data.data);
         setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
-        console.error("Submission error:", err);
         setLoading(false);
       }
     };
     if (userId) handleSubmit(userId);
   }, [userId, refresh]);
-
-  useEffect(() => {
-    if (issuedReportsData) {
-      if (userRole === "MONITORING") {
-        setIssuedReportCount(
-          issuedReportsData.filter((data) => data.reportType === 1).length,
-        );
-      } else if (userRole === "EVALUATION") {
-        setIssuedReportCount(
-          issuedReportsData.filter((data) => data.reportType === 0).length,
-        );
-      } else {
-        setIssuedReportCount(issuedReportsData.length);
-      }
-    }
-  }, [issuedReportsData]);
 
   useEffect(() => {
     const handleSubmit = async () => {
@@ -164,12 +111,10 @@ const List = ({
           );
 
           setIssuedReportsData(sortedData);
-          console.log("issued response.data.data", response.data.data);
         }
         setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
-        console.error("Submission error:", err);
         setLoading(false);
       }
     };
@@ -199,42 +144,33 @@ const List = ({
         count: 0,
         filteredData: undefined,
       },
-
     ];
 
     if (data) {
-      const updatedTabs: Tab[] = tabs.map((tab) => {
-        let count = 0;
-        let filteredData: SubmittedReport[] = [];
-
-        return { ...tab, count, filteredData };
-      });
-      if (updatedTabs) setTabs(updatedTabs);
+      const updatedTabs: Tab[] = tabs.map((tab) => ({
+        ...tab,
+        filteredData: [],
+      }));
+      setTabs(updatedTabs);
     }
   }, [data]);
 
   useEffect(() => {
     if (!tabs) return;
 
-    // ✅ If user manually selected a tab, respect that choice
     if (hasManuallySelectedTab.current) {
-      // Update filteredData based on selected tab
       if (selectedTab === 0) {
-        // "All" tab
         setFilteredData(data);
       } else if (selectedTab === -98) {
-        // "Issued" tab - don't change anything
         return;
       } else {
-        // Other tabs
         const selected = tabs.find((t) => t.id === selectedTab);
         if (selected) {
           setFilteredData(selected.filteredData);
         }
       }
-      return; // Don't run auto-selection logic
+      return;
     }
-
 
     const tabWithRecord = tabs.find(
       (tab) =>
@@ -260,16 +196,12 @@ const List = ({
     }
   }, [tabs, role, selectedTab, data]);
 
-  console.log("tabs", tabs);
-
-  // 👇 NEW: Get comment-eligible reports (where user needs to comment)
   const getCommentEligibleReports = () => {
     if (!filteredData || selectedTabLabel === "All") return [];
 
     return filteredData.filter((d) => d.submittedTo === userId);
   };
 
-  // 👇 NEW: Auto-open first modal on initial load
   useEffect(() => {
     if (
       !hasOpenedInitialModal.current &&
@@ -281,7 +213,6 @@ const List = ({
       const commentEligibleReports = getCommentEligibleReports();
 
       if (commentEligibleReports.length > 0) {
-        // Wait for DOM to be ready
         setTimeout(() => {
           const firstModalButton = document.querySelector(
             `[data-bs-target="#comment${commentEligibleReports[0].id}"]`,
@@ -297,7 +228,6 @@ const List = ({
     }
   }, [filteredData, selectedTabLabel, userId]);
 
-  // 👇 NEW: Handle auto-opening next modal after submission
   useEffect(() => {
     if (!shouldAutoOpen || currentAutoOpenIndex < 0) return;
 
@@ -334,12 +264,10 @@ const List = ({
     userId,
   ]);
 
-  // 👇 NEW: Callback function to trigger next modal
   const handleCommentSubmitted = () => {
     setShouldAutoOpen(true);
   };
 
-  // 🔍 Search handler
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     const filtered = filteredData?.filter((item) =>
@@ -360,11 +288,6 @@ const List = ({
     setSearchData(filtered);
   };
 
-  useEffect(() => {
-    console.log("searchData", searchData);
-  }, [searchData]);
-
-  // 🔍 Search handler
   const handleSearchIssuedReports = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     const filtered = issuedReportsData?.filter((item) =>
@@ -423,15 +346,8 @@ const List = ({
           <div>{error}, Please Try Again!</div>
         </div>
       ) : userId && role ? (
-        // ✅ render your data block here
         <div
-          className={`container-fluid p-3 mt-3 mb-4 ${raleway.className}`}
-          style={{
-            background:
-              "linear-gradient(to bottom right, rgba(239, 239, 239, 0.6) , rgba(255, 255, 255, 0.08))",
-            border: "1px solid rgba(255, 255, 255, 0.29)",
-            borderRadius: "15px",
-          }}
+          className={`container-fluid p-3 mt-3 mb-4 ${raleway.className} ${styles.container}`}
         >
           <div className="row d-flex justify-content-between">
             <div className="col-auto my-auto">
@@ -460,11 +376,8 @@ const List = ({
                   <form onSubmit={(e) => e.preventDefault()}>
                     <div className="input-group">
                       <button
-                        className="btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0"
+                        className={`btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0 ${styles.searchButton}`}
                         type="submit"
-                        style={{
-                          border: "1px solid rgba(38, 50, 56,.6)",
-                        }}
                       >
                         <Image
                           src={search3}
@@ -475,11 +388,7 @@ const List = ({
                       </button>
                       <input
                         type="text"
-                        className="form-control border-start-0 rounded-pill rounded-start shadow-none fs14px bg-transparent py-2"
-                        style={{
-                          border: "1px solid rgba(38, 50, 56,.6)",
-                          color: "rgba(38, 50, 56,1)",
-                        }}
+                        className={`form-control border-start-0 rounded-pill rounded-start shadow-none fs14px bg-transparent py-2 ${styles.searchInput}`}
                         placeholder="Search"
                         value={searchTerm}
                         onChange={
@@ -501,12 +410,10 @@ const List = ({
                   <div className="col-auto">
                     <Button
                       className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === 0 ? "text-dark" : "text-secondary"
+                        selectedTab === 0
+                          ? `text-dark ${styles.activeTab}`
+                          : "text-secondary"
                       }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === 0 ? "3px solid #0c8ce9" : "",
-                      }}
                       onClick={() => {
                         setSelectedTab(0);
                         hasManuallySelectedTab.current = true;
@@ -539,22 +446,17 @@ const List = ({
                       <Button
                         className={`btn shadow-none rounded-0 fw-bold position-relative ${
                           selectedTab === tab.id
-                            ? "text-dark"
+                            ? `text-dark ${styles.activeTab}`
                             : "text-secondary"
                         }`}
-                        style={{
-                          borderBottom:
-                            selectedTab === tab.id ? "3px solid #0c8ce9" : "",
-                        }}
                         onClick={() => {
-                          hasManuallySelectedTab.current = true; // 👈 add this
+                          hasManuallySelectedTab.current = true;
                           setSelectedTab(tab.id);
                           setSelectedLabel(tab.label);
                           setFilteredData(tab.filteredData);
                           setCurrentAutoOpenIndex(-1);
                           setShouldAutoOpen(false);
                           hasOpenedInitialModal.current = false;
-                          console.log("tab filteredData", tab.filteredData);
                         }}
                       >
                         {tab.label}
@@ -566,7 +468,6 @@ const List = ({
                       </Button>
                     </div>
                   ))}
-
                 </div>
               </div>
             </div>
@@ -578,15 +479,9 @@ const List = ({
                 className="col mb-2 position-relative overflow-hidden"
               >
                 <div
-                  className="col p-3"
-                  style={{
-                    background: "#FAFAFA",
-                    borderRadius: "12px",
-                    border: "1px solid rgba(0, 0, 0,.1)",
-                  }}
+                  className={`col p-3 ${styles.reportCard}`}
                 >
                   <div className="row m-0">
-                    {/* LEFT STATUS BOX */}
                     <div
                       className={`col-auto rounded-3 p-3 ${
                         d.status === ISSUED
@@ -608,26 +503,21 @@ const List = ({
                     </div>
 
                     <div className="col">
-                      {/* HEADER */}
                       <div className="row d-flex justify-content-between align-items-center mb-2">
                         <div className="col">
                           <p
-                            className="fs18px fw-bold m-0"
-                            style={{ color: "#263238", paddingRight: 90 }}
+                            className={`fs18px fw-bold m-0 ${styles.projectTitle}`}
                           >
                             <span>Project: </span> {d.projectName}
                           </p>
                         </div>
 
-                        {/* BADGE */}
                         <div
-                          className="col-auto position-absolute p-0"
-                          style={{ rotate: "45deg", top: 40, right: -40 }}
+                          className={`col-auto position-absolute p-0 ${styles.typeRibbon}`}
                         >
                           {d.reportType === 1 ? (
                             <span
-                              className="badge px-5 fw-bold py-2 fs-6"
-                              style={{ backgroundColor: "#3B7C80" }}
+                              className={`badge px-5 fw-bold py-2 fs-6 ${styles.monitoringBadge}`}
                             >
                               MONITORING
                             </span>
@@ -639,9 +529,7 @@ const List = ({
                         </div>
                       </div>
 
-                      {/* BODY */}
                       <div className="row d-flex justify-content-between">
-                        {/* Officer */}
                         <div className="col">
                           <p className="mb-2 fs18px fw-bold">Officer Name</p>
                           <p className="mb-0">
@@ -651,7 +539,6 @@ const List = ({
                           </p>
                         </div>
 
-                        {/* Submitted */}
                         <div className="col">
                           <p className="mb-2 fs18px fw-bold">Submitted Date</p>
                           <p className="mb-0">
@@ -682,7 +569,6 @@ const List = ({
                           </p>
                         </div>
 
-                        {/* ✅ Issued Date ONLY for Issued Tab */}
                         {isIssuedTab && (
                           <div className="col">
                             <p className="mb-2 fs18px fw-bold">Issued Date</p>
@@ -702,7 +588,6 @@ const List = ({
                           </div>
                         )}
 
-                        {/* ACTION BUTTON */}
                         <div className="col d-flex justify-content-end align-items-end pe-5">
                           {selectedTabLabel === "All" ? (
                             <CustomModal
