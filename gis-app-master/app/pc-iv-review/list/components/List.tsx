@@ -20,7 +20,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
@@ -34,6 +33,7 @@ import {
   SUBMITTED,
 } from "@/shared/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -553,13 +553,7 @@ const List = ({
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role ? (
         // ✅ render your data block here
         <div
@@ -941,13 +935,7 @@ const List = ({
               </div>
             ))
           ) : (
-            <div
-              className="alert alert-warning d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>No reports found.</div>
-            </div>
+            <AlertMessage variant="warning" />
           )}
         </div>
       ) : (

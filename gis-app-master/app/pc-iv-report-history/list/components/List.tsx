@@ -11,7 +11,6 @@ import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import {
@@ -22,6 +21,7 @@ import {
   SUBMITTED,
 } from "../../statuses";
 import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -378,13 +378,7 @@ const List = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role && data && data.length > 0 ? (
         // ✅ render your data block here
         <div
@@ -759,13 +753,7 @@ const List = () => {
           ))}
         </div>
       ) : (
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
+        <AlertMessage variant="warning" />
       )}
     </>
   );

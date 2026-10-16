@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
@@ -20,7 +19,8 @@ import {
   SUBMITTED,
 } from "@/shared/constants/statuses";
 import { ListProps, SubmittedReport, Tab } from "../../types";
-import styles from "./List.module.css";
+import styles from "@/shared/styles/ReportList.module.css";
+import AlertMessage from "@/shared/components/AlertMessage";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -338,13 +338,7 @@ const List = ({
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role ? (
         <div
           className={`container-fluid p-3 mt-3 mb-4 ${raleway.className} ${styles.container}`}
@@ -641,13 +635,7 @@ const List = ({
               </div>
             ))
           ) : (
-            <div
-              className="alert alert-warning d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>No reports found.</div>
-            </div>
+            <AlertMessage variant="warning" />
           )}
         </div>
       ) : (
