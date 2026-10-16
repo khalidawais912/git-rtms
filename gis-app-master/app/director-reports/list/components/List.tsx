@@ -4,7 +4,6 @@ import Button from "@/shared/components/Button";
 import Loader from "@/shared/components/Loader/Loader";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -14,6 +13,7 @@ import ProjectTile from "./ProjectTile";
 import { ListProps, SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/shared/components/AlertMessage";
 import styles from "@/shared/styles/ReportList.module.css";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -25,24 +25,12 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
 
-  const [userId, setUserId] = useState<number>();
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      const convertedId = parseInt(id);
-      setUserId(convertedId);
-    }
-    if (role) setRole(role.toLowerCase());
-  }, []);
 
   const [filteredData, setFilteredData] = useState<
     SubmittedReport[] | undefined

@@ -5,7 +5,6 @@ import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
 import { Raleway } from "next/font/google";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
@@ -21,6 +20,7 @@ import {
 import { ListProps, SubmittedReport, Tab } from "../../types";
 import styles from "@/shared/styles/ReportList.module.css";
 import AlertMessage from "@/shared/components/AlertMessage";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -40,8 +40,7 @@ const List = ({
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
 
-  const [userId, setUserId] = useState<number>();
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
@@ -52,17 +51,6 @@ const List = ({
   const [currentAutoOpenIndex, setCurrentAutoOpenIndex] = useState<number>(-1);
   const [shouldAutoOpen, setShouldAutoOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      const convertedId = parseInt(id);
-      setUserId(convertedId);
-    }
-    if (role) setRole(role.toLowerCase());
-  }, []);
 
   const [filteredData, setFilteredData] = useState<
     SubmittedReport[] | undefined
