@@ -21,7 +21,7 @@ import {
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate, getName } from "@/shared/utils";
 import { sort } from "fast-sort";
-import { Inter } from "next/font/google";
+import { inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -31,8 +31,6 @@ import cancel from "@/public/icons/cancel.svg";
 import clock from "@/public/icons/clock.svg";
 import complete from "@/public/icons/complete.svg";
 import Form from "./Form";
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface ListProps {
   refresh: boolean;

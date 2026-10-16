@@ -15,7 +15,7 @@ import apiClient from "@/shared/api/client";
 import { devMap, triggerEscapeKeyPress } from "@/shared/utils";
 import redCircle from "@/public/icons/redCircle.svg";
 import { motion } from "framer-motion";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -28,10 +28,6 @@ import StaffMember from "./StaffMember";
 import StaffMemberInRecording from "./StaffMemberInRecording";
 import { Coordinates, Position, ProjectVisit, TrackingRequestData } from "../types";
 
-const lexend = Lexend({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 export interface StaffTracking {
   userId: string;
   userName: string;

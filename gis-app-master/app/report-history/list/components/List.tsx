@@ -7,7 +7,7 @@ import { DashboardTypeEnum } from "@/shared/types/dashboard";
 import { Officer, ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -28,10 +28,6 @@ import { SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/shared/components/AlertMessage";
 import useUserInfo from "@/shared/hooks/useUserInfo";
 
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
   users: ReportHistoryUser[];

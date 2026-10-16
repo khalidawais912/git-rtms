@@ -20,17 +20,13 @@ import { LiaCarSideSolid } from "react-icons/lia";
 import { TbMap2, TbUserSquareRounded } from "react-icons/tb";
 import { SlCalender } from "react-icons/sl";
 import { FaRegFileAlt } from "react-icons/fa";
-import { Nunito_Sans } from "next/font/google";
+import { nunitoSans } from "@/shared/styles/fonts";
 import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
 import { useDistrict } from "@/features/districts";
 import { useProjects } from "@/features/projects";
 import { VehicleTrackingRecording } from "../types";
 
-const nunitoSans = Nunito_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 const NewVehicleTracking = () => {
   const { data: vehicles } = useVehicle();
   const { data: drivers } = useDriver();

@@ -1,6 +1,6 @@
 "use client";
 import Cookies from "js-cookie";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -15,11 +15,6 @@ import DashboardTypeFilter from "./DashboardTypeFilter";
 import DepartmentCategoryFilter from "./DepartmentCategoryFilter";
 import { RootState } from "@/store";
 import styles from "./Navbar.module.css";
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const Navbar = () => {
   const [currentType, setCurrentType] = useState<string | null>();

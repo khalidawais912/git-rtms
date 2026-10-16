@@ -1,14 +1,9 @@
 "use client";
 
-import { Asap } from "next/font/google";
+import { asap } from "@/shared/styles/fonts";
 import { Groups } from "../../types";
 import WBSAttributesFlow from "./WBSFlow/WBSAttributesFlow";
 import WBSGroupFlow from "./WBSFlow/WBSGroupFlow";
-
-const asap = Asap({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 interface Props {
   majorDeliverables: Groups;

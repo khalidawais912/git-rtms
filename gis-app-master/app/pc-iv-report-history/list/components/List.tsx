@@ -7,7 +7,7 @@ import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } f
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import search3 from "@/public/icons/search3.svg";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReportNoting from "../../components/ReportNoting";
@@ -23,9 +23,6 @@ import { SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/shared/components/AlertMessage";
 import useUserInfo from "@/shared/hooks/useUserInfo";
 
-const raleway = Raleway({
-  subsets: ["latin"],
-});
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);

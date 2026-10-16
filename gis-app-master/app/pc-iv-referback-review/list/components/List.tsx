@@ -5,7 +5,7 @@ import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import Loader from "@/shared/components/Loader/Loader";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import DownloadWrapper from "../../components/DownloadWrapper";
@@ -21,11 +21,6 @@ import { ListProps, SubmittedReport, Tab } from "../../types";
 import styles from "@/shared/styles/ReportList.module.css";
 import AlertMessage from "@/shared/components/AlertMessage";
 import useUserInfo from "@/shared/hooks/useUserInfo";
-
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const List = ({
   users,

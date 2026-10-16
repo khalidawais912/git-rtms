@@ -4,7 +4,7 @@ import Button from "@/shared/components/Button";
 import Loader from "@/shared/components/Loader/Loader";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import DownloadWrapper from "../../components/DownloadWrapper";
@@ -14,11 +14,6 @@ import { ListProps, SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/shared/components/AlertMessage";
 import styles from "@/shared/styles/ReportList.module.css";
 import useUserInfo from "@/shared/hooks/useUserInfo";
-
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const List = ({ dashbaordType, users, refresh }: ListProps) => {
   const [data, setData] = useState<SubmittedReport[]>([]);

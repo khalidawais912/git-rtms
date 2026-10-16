@@ -10,7 +10,7 @@ import apiClient, { AxiosError } from "@/shared/api/client";
 import { devMap } from "@/shared/utils";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -23,12 +23,6 @@ import styles from "./DashboardEvaluation.module.css";
 import { FilterData } from "../../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const DashboardEvaluation = () => {
   const [data, setData] = useState<EvaluationMainDashboard>();
@@ -50,8 +44,8 @@ const DashboardEvaluation = () => {
 
   useEffect(() => {
     handleButtonClick(
-      "dashboard",
       "https://www.youtube.com/watch?v=1wgAwCufsko&ab_channel=DirectorateGeneralMonitoringandEvaluation",
+      "dashboard",
     );
   }, []);
 
