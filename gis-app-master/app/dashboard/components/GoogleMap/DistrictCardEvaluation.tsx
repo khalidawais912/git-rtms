@@ -3,7 +3,7 @@ import dropped from "@/public/icons/evaluation/dropped.svg";
 import unApproved from "@/public/icons/evaluation/unApproved.svg";
 import Image from "next/image";
 import { ProgressBar } from "react-bootstrap";
-import { DistrictList } from "../Evaluation/DashboardEvaluation";
+import { DistrictList } from "../Evaluation/types";
 
 interface Props {
   data: DistrictList;

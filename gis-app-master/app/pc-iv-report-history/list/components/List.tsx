@@ -7,11 +7,9 @@ import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } f
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import {
@@ -22,17 +20,15 @@ import {
   SUBMITTED,
 } from "../../statuses";
 import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
-const raleway = Raleway({
-  subsets: ["latin"],
-});
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);
   const [issuedReportCount, setIssuedReportCount] = useState<number>(0);
 
-  const [userId, setUserId] = useState<number | null>(null);
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
@@ -48,19 +44,6 @@ const List = () => {
   useEffect(() => {
     console.log("selectedTab", selectedTab);
   }, [selectedTab]);
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      setUserId(Number(id));
-    }
-
-    if (role) {
-      setRole(role.toLowerCase());
-    }
-  }, []);
 
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
@@ -129,12 +112,12 @@ const List = () => {
   const [tabs, setTabs] = useState<Tab[]>();
 
   useEffect(() => {
-    if (!data || userId === null) return;
+    if (!data || userId === undefined) return;
 
     const tabs = [
       {
         id: 1,
-        label: "SUBMITTED BY (DEPARTMENT)",
+        label: "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)",
         status: SCHEDULED,
         role: "department head",
         reportSubmittedTo: userId,
@@ -378,13 +361,7 @@ const List = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role && data && data.length > 0 ? (
         // ✅ render your data block here
         <div
@@ -759,13 +736,7 @@ const List = () => {
           ))}
         </div>
       ) : (
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
+        <AlertMessage variant="warning" />
       )}
     </>
   );

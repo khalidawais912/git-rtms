@@ -12,16 +12,12 @@ import {
   getFormattedDate,
 } from "@/shared/utils";
 import Cookies from "js-cookie";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoSearch } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { FeedbackItem } from "../types";
-
-const lexend = Lexend({
-  subsets: ["latin"],
-});
 
 const Feedback = () => {
   const [selectedButton, setSelectedButton] = useState(2);

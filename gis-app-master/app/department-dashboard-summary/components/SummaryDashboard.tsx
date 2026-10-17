@@ -10,7 +10,7 @@ import { useDepartments } from "@/features/departments";
 import { useUsers } from "@/features/users";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Manrope } from "next/font/google";
+import { manrope } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { Fragment } from "react";
 import { FaFile } from "react-icons/fa";
@@ -18,11 +18,6 @@ import { FiSearch } from "react-icons/fi";
 import { PiCircleFill, PiLineVerticalThin } from "react-icons/pi";
 import { ActionMeta, SingleValue } from "react-select";
 import SummaryDetail from "./SummaryDetail";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const SummaryDashboard = () => {
   const { data: users } = useUsers();

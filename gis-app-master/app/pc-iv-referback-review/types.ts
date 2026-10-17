@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction } from "react";
+import { Officer, ReportHistoryUser } from "@/features/users";
+
 export interface ReportHistory {
   id: number;
   pcIv_id: number;
@@ -52,4 +55,14 @@ export interface Tab {
   reportSubmittedTo?: number;
   count: number;
   filteredData: SubmittedReport[] | undefined;
+}
+
+export interface ListProps {
+  users: ReportHistoryUser[];
+  officers: Officer[];
+  deputyDirectors: Officer[];
+  directors: Officer[];
+  refresh: boolean;
+  setRefresh: Dispatch<SetStateAction<boolean>>;
+  loggedInUsername: string;
 }

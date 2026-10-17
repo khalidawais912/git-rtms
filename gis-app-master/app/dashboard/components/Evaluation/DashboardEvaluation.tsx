@@ -1,78 +1,30 @@
 "use client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import { EVALUATION_MAIN_DASHBOARD_API, EVALUATION_MAIN_DASHBOARD } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
 import Loader from "@/shared/components/Loader/Loader";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
-import apiClient from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import { devMap } from "@/shared/utils";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import EvaluationMap from "../GoogleMap/EvaluationMap";
 import PCIVReportReview from "./PCIVReportReview";
-import ProjectsTable, { ProjectsList } from "./ProjectsTable/ProjectsTable";
+import ProjectsTable from "./ProjectsTable/ProjectsTable";
+import { EvaluationMainDashboard, ProjectsList } from "./types";
+import styles from "./DashboardEvaluation.module.css";
 import { FilterData } from "../../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
-const lexend = Lexend({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-export interface DistrictList {
-  id: number;
-  districtName: string;
-  divisionName: string;
-  latitude: string;
-  longitude: string;
-  submittedPCIVs: number;
-  visitedPCIVs: number;
-  notVisitedPCIvs: number;
-  successful: number;
-  partiallySuccessful: number;
-  notSuccessful: number;
-}
-
-export interface EvaluationMainDashboard {
-  totalSubmittedPCIvs: number;
-  snEs: number;
-  nonSNEs: number;
-  pCivInProgress: number;
-  assignedToEvaluator: number;
-  refferBackPcIV: number;
-  noOfVisitsMultipleSitesOrUmbrella: number;
-  noOfVisitsMultipleSitesOrUmbrellaTotalSNEs: number;
-  noOfVisitsMultipleSitesOrUmbrellaTotalNonSNEs: number;
-  noOfVisitsSingle: number;
-  noOfVisitsSingleTotalSNEs: number;
-  noOfVisitsSingleTotalNonSNEs: number;
-  successful: number;
-  partiallySuccessful: number;
-  notSuccessful: number;
-  reportsInProgress: number;
-  utilization80OrAbove: number;
-  projectsList: [
-    {
-      id: number;
-      gSno: string;
-      projectName: string;
-      districtName: string;
-      latitude: string;
-      longitude: string;
-    },
-  ];
-  districtList: DistrictList[];
-}
 const DashboardEvaluation = () => {
-  console.log("DashboardEvaluation");
   const [data, setData] = useState<EvaluationMainDashboard>();
   const [role, setRole] = useState<string>("");
   const [departmentId, setDepartmentId] = useState<number>();
@@ -92,8 +44,8 @@ const DashboardEvaluation = () => {
 
   useEffect(() => {
     handleButtonClick(
-      "dashboard",
       "https://www.youtube.com/watch?v=1wgAwCufsko&ab_channel=DirectorateGeneralMonitoringandEvaluation",
+      "dashboard",
     );
   }, []);
 
@@ -127,7 +79,6 @@ const DashboardEvaluation = () => {
     },
   ];
 
-  // Combine active filter with other filters
   useEffect(() => {
     setCombinedFilters(
       activeFilter === "cmInitiative"
@@ -144,13 +95,12 @@ const DashboardEvaluation = () => {
     setLoading(true);
     try {
       const response = await apiClient.post(
-        EVALUATION_MAIN_DASHBOARD_API + "/dashboard",
+        EVALUATION_MAIN_DASHBOARD + "/dashboard",
       );
       setData(response.data.data);
-      console.log("evaluation data:", response.data.data);
       setLoading(false);
     } catch (err) {
-      console.error("Submission error:", err);
+      toast.error((err as AxiosError).message);
       setLoading(false);
     }
   };
@@ -163,20 +113,16 @@ const DashboardEvaluation = () => {
 
   const getProjectsList = async (status: string) => {
     setProjectsData([]);
-    console.log("status", status);
-    console.log("get projects with combinedFilters", combinedFilters);
-
     try {
       const response = await apiClient.get(
         `${EVALUATION_MAIN_DASHBOARD_API}/GetProjectsListByStatus?filter=${status}`,
       );
       setProjectsData(response.data.data);
     } catch (err) {
-      console.error("Submission error:", err);
+      toast.error((err as AxiosError).message);
     }
   };
 
-  // Filter and map keys
   const filteredCMADPKeys =
     projectsData &&
     projectsData.length > 0 &&
@@ -218,7 +164,6 @@ const DashboardEvaluation = () => {
       )
       .map((key) => key as keyof ProjectsList);
 
-  // Filter and map keys
   const filteredSubmittedPcIvKeys =
     projectsData &&
     projectsData.length > 0 &&
@@ -262,7 +207,6 @@ const DashboardEvaluation = () => {
       )
       .map((key) => key as keyof ProjectsList);
 
-  // Filter and map keys
   const otherFilteredKeys =
     projectsData &&
     projectsData.length > 0 &&
@@ -305,7 +249,7 @@ const DashboardEvaluation = () => {
   return (
     <DashboardWrapper>
       {(departmentId === 0 || departmentId === 1) && (
-        <div style={{ padding: "11px 5px" }}>
+        <div className={styles.wrapper}>
           <div className={`row ${lexend.className} m-0`}>
             <div className="col p-0">
               <CustomModal
@@ -320,13 +264,7 @@ const DashboardEvaluation = () => {
                     onClick={() => getProjectsList("all")}
                   >
                     <div
-                      className="position-absolute"
-                      style={{
-                        padding: "1px",
-                        borderRadius: "10px",
-                        width: "98%",
-                        height: "92%",
-                      }}
+                      className={`position-absolute ${styles.buttonOverlay}`}
                     ></div>
                     <Menu
                       background="linear-gradient(to right, #155E95 , #2377B6)"
@@ -507,24 +445,13 @@ const DashboardEvaluation = () => {
                 className="shadow-none w-100 position-relative text-decoration-none"
               >
                 <div
-                  className="text-white shadow-sm text-center fs14px fw-5"
-                  style={{
-                    background: "rgba(12, 140, 233, 0.2)",
-                    outline: "1px solid rgba(12, 140, 233, 0.4)",
-                    borderRadius: "7px",
-                    height: "90%",
-                    marginTop: "1px",
-                  }}
+                  className={`text-white shadow-sm text-center fs14px fw-5 ${styles.chartsCard}`}
                 >
                   <div className="position-relative h-100">
-                    <div style={{ position: "absolute", right: 0 }}>
+                    <div className={styles.chartsArrow}>
                       <img
                         src="/icons/linkArrow.svg"
-                        className="img-fluid"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                        }}
+                        className={`img-fluid ${styles.chartsArrowIcon}`}
                         alt="linkArrow"
                       />
                     </div>
@@ -546,12 +473,7 @@ const DashboardEvaluation = () => {
           <div className={`row ${lexend.className} m-0`}>
             <div className="col-12 col-sm-6 col-md-6 col-lg-4 p-0">
               <div
-                className="col px-1 py-0 me-1 text-center mb-2"
-                style={{
-                  background: "rgba(12, 140, 233,.2)",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(12, 140, 233,.4)",
-                }}
+                className={`col px-1 py-0 me-1 text-center mb-2 ${styles.evaluatedGroup}`}
               >
                 <p className="mb-0 text-white fs14px">Projects Evaluated</p>
                 <div className="row m-0 d-flex flex-nowrap">
@@ -567,13 +489,7 @@ const DashboardEvaluation = () => {
                         onClick={() => getProjectsList("umbrella")}
                       >
                         <div
-                          className="position-absolute"
-                          style={{
-                            padding: "1px",
-                            borderRadius: "10px",
-                            width: "98%",
-                            height: "92%",
-                          }}
+                          className={`position-absolute ${styles.buttonOverlay}`}
                         ></div>
                         <Menu
                           background={`linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))`}
@@ -630,13 +546,7 @@ const DashboardEvaluation = () => {
                         onClick={() => getProjectsList("single")}
                       >
                         <div
-                          className="position-absolute"
-                          style={{
-                            padding: "1px",
-                            borderRadius: "10px",
-                            width: "98%",
-                            height: "92%",
-                          }}
+                          className={`position-absolute ${styles.buttonOverlay}`}
                         ></div>
                         <Menu
                           background={`linear-gradient( rgba(35, 119, 182, 0), rgba(35, 119, 182, 1))`}
@@ -883,7 +793,7 @@ const DashboardEvaluation = () => {
         </div>
       )}
       {role.toLowerCase() === "administrative secretary" && (
-        <div style={{ padding: "11px 5px" }}>
+        <div className={styles.wrapper}>
           <div className={`row ${lexend.className} m-0`}>
             <div className="col p-0">
               <CustomModal
@@ -898,19 +808,13 @@ const DashboardEvaluation = () => {
                     onClick={() => getProjectsList("all")}
                   >
                     <div
-                      className="position-absolute"
-                      style={{
-                        padding: "1px",
-                        borderRadius: "10px",
-                        width: "98%",
-                        height: "92%",
-                      }}
+                      className={`position-absolute ${styles.buttonOverlay}`}
                     ></div>
                     <Menu
                       background="linear-gradient(to right, #155E95 , #2377B6)"
                       icon="/icons/eyeBold.svg"
                       value={data ? data.totalSubmittedPCIvs : 0}
-                      label="Total PC(IV)s 913"
+                      label="Total PC(IV)s"
                       showTides={false}
                       showArrow={true}
                       textWrap={false}
@@ -957,7 +861,7 @@ const DashboardEvaluation = () => {
                       outline="1px solid rgba(12, 140, 233, 0.4)"
                       icon="/icons/inProcess.svg"
                       value={data ? data.pCivInProgress : 0}
-                      label="Submitted To DGM&E"
+                      label="Submitted To DGM&E 864"
                       showTides={false}
                       showArrow={true}
                       textWrap={false}

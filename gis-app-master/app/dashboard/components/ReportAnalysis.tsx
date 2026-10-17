@@ -8,7 +8,7 @@ import { StaffTracking } from "@/app/staff-tracking/components/StaffTracking";
 import { TrackingRequestData } from "@/app/staff-tracking/types";
 import { formatDateTime } from "@/shared/utils";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import { DM_Sans } from "next/font/google";
+import { dmSans } from "@/shared/styles/fonts";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import MasterReport from "./MasterReport";
@@ -18,7 +18,6 @@ import { data, tabs } from "./reportAnalysisData";
 import TimeSpentOnProjectSiteFilterMenu from "./TimeSpentOnProjectSiteFilterMenu";
 import { StaffTrackingData, StartEndLatLng } from "../types";
 
-const dmSans = DM_Sans({ subsets: ["latin"], preload: false });
 const ReportAnalysis = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
   const [projectsData, setProjectsData] = useState<ProjectsList[]>();

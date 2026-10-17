@@ -1,11 +1,6 @@
-import { Asap } from "next/font/google";
+import { asap } from "@/shared/styles/fonts";
 import { useEffect } from "react";
 import { Groups } from "../../types";
-
-const asap = Asap({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 interface Props {
   majorDeliverables: Groups;

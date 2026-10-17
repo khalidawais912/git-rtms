@@ -13,22 +13,20 @@ import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropD
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import {
-  addDayToFormattedDate,
   displayStatusText,
   exportToPDF,
   formatAmountWithCommas,
-  getFormattedDate,
   getTimeLeft,
 } from "@/shared/utils";
 import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 import { format } from "date-fns";
 import { sort } from "fast-sort";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import { DateRange, RangeKeyDict } from "react-date-range";
-import "react-date-range/dist/styles.css"; // Main style file
-import "react-date-range/dist/theme/default.css"; // Theme CSS
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { FiSearch } from "react-icons/fi";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { LuSearch, LuUserRound } from "react-icons/lu";
@@ -41,48 +39,8 @@ import { FilterParams, RangeType } from "../../../types";
 import useProjectsTableUtils from "../../ProjectsTable/useProjectsTableUtils";
 import AsyncAction from "@/shared/components/Form/AsyncAction";
 import Spinner from "@/shared/components/Spinner";
-
-export interface ProjectsList {
-  id: number;
-  pcIvmainId: number;
-  name: string;
-  gsNo: string;
-  sectorId: number;
-  sectorName: string;
-  visitStartDate: string;
-  visitEndDate: string;
-  cost: number;
-  userName: string;
-  designation: string;
-  visitId: number;
-  approvalDate: string;
-  sponsoringAgencyName: string;
-  sponsring_agency_id: number;
-  executingAgencyName: string;
-  executing_agency_id: number;
-  city: string;
-  division_Id: number;
-  divisionName: string;
-  districtId: number;
-  districtName: string;
-  isSNE: true;
-  isPCIVSubmitted: true;
-  pcivSubmittedDate: string;
-  status: string;
-  visitCount: number;
-  maxMRIValue: number;
-  avgMRIValue: number;
-  hasVisited: true;
-}
-
-interface Props {
-  projectsData: ProjectsList[];
-  setProjectsData: Dispatch<SetStateAction<ProjectsList[] | undefined>>;
-  label: string;
-  keys: (keyof ProjectsList)[];
-  role: string;
-  allowLink?: boolean;
-}
+import { ProjectsList, ProjectsTableProps } from "../types";
+import tableStyles from "./ProjectsTable.module.css";
 
 const ProjectsTable = ({
   projectsData,
@@ -91,8 +49,7 @@ const ProjectsTable = ({
   keys,
   allowLink = true,
   role = "",
-}: Props) => {
-  console.log("projectsData", projectsData);
+}: ProjectsTableProps) => {
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
   const { rowCountOptions, districtOptions, sectorOptions, userOptions } =
     useProjectsTableUtils();
@@ -102,10 +59,8 @@ const ProjectsTable = ({
 
     setDropdownFilterValue((prev) => {
       if (selectedOption?.value === "") {
-        // Remove "District Name" from the filter
         return prev.filter((item) => !item.startsWith("District Name:"));
       } else {
-        // Add/Update "District Name" in the filter
         const updated = prev.filter(
           (item) => !item.startsWith("District Name:"),
         );
@@ -124,7 +79,6 @@ const ProjectsTable = ({
         : "",
       reportStatus: reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleSectorChange = (selectedOption: SingleValue<OptionType>) => {
@@ -132,10 +86,8 @@ const ProjectsTable = ({
 
     setDropdownFilterValue((prev) => {
       if (selectedOption?.value === "") {
-        // Remove "Sector Name" from the filter
         return prev.filter((item) => !item.startsWith("Sector Name:"));
       } else {
-        // Add/Update "Sector Name" in the filter
         const updated = prev.filter((item) => !item.startsWith("Sector Name:"));
         return [...updated, `Sector Name: ${selectedOption?.value}`];
       }
@@ -152,7 +104,6 @@ const ProjectsTable = ({
         : "",
       reportStatus: reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleUserChange = (selectedOption: SingleValue<OptionType>) => {
@@ -160,10 +111,8 @@ const ProjectsTable = ({
 
     setDropdownFilterValue((prev) => {
       if (selectedOption?.value === "") {
-        // Remove "User Name" from the filter
         return prev.filter((item) => !item.startsWith("User Name:"));
       } else {
-        // Add/Update "User Name" in the filter
         const updated = prev.filter((item) => !item.startsWith("User Name:"));
         return [...updated, `User Name: ${selectedOption?.value}`];
       }
@@ -180,7 +129,6 @@ const ProjectsTable = ({
         : "",
       reportStatus: reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleReportStatusChange = (
@@ -190,10 +138,8 @@ const ProjectsTable = ({
     setReportStatus(value);
     setDropdownFilterValue((prev) => {
       if (value === -1) {
-        // Remove "Report Status" from the filter
         return prev.filter((item) => !item.startsWith("Report Status:"));
       } else {
-        // Add/Update "Report Status" in the filter
         const updated = prev.filter(
           (item) => !item.startsWith("Report Status:"),
         );
@@ -212,7 +158,6 @@ const ProjectsTable = ({
         : "",
       reportStatus: value,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const [modifiedData, setModifiedData] = useState<ProjectsList[]>([]);
@@ -221,12 +166,10 @@ const ProjectsTable = ({
   const [dropdownFilterValue, setDropdownFilterValue] = useState<string[]>([]);
   const [paginatedData, setPaginatedData] = useState<ProjectsList[]>([]);
 
-  // Sync projectsData → modifiedData initially
   useEffect(() => {
     setModifiedData([...projectsData]);
   }, [projectsData]);
 
-  // Apply search every time searchTerm or modifiedData changes
   useEffect(() => {
     if (searchTerm) {
       const filtered = modifiedData.filter((item) =>
@@ -244,16 +187,14 @@ const ProjectsTable = ({
       );
       setFilteredData(filtered);
     } else {
-      setFilteredData(modifiedData); // no search → show filtered dropdown results
+      setFilteredData(modifiedData);
     }
   }, [searchTerm, modifiedData]);
 
-  // Handle search input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // for sorting
   const [sortConfig, setSortConfig] = useState<{
     key: keyof ProjectsList;
     direction: "asc" | "desc";
@@ -276,20 +217,17 @@ const ProjectsTable = ({
     }
   };
 
-  // for selecting rows per page
-  const [rows, setRows] = useState(10); // default rows per page
+  const [rows, setRows] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Derived values
   const dataToPaginate = filteredData.length ? filteredData : modifiedData;
   const totalPages = Math.ceil(dataToPaginate.length / rows);
   const indexOfLastRow = currentPage * rows;
   const indexOfFirstRow = indexOfLastRow - rows;
 
-  // Handlers
   const handleRowsPerPage = (count: number) => {
     setRows(count);
-    setCurrentPage(1); // reset to first page
+    setCurrentPage(1);
   };
 
   const handleFirstPage = () => setCurrentPage(1);
@@ -302,7 +240,7 @@ const ProjectsTable = ({
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPageNumbers = 5; // Maximum visible page numbers
+    const maxPageNumbers = 5;
     const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
     const endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
 
@@ -310,13 +248,8 @@ const ProjectsTable = ({
       pageNumbers.push(
         <div className="col p-0" key="ellipsis-start">
           <Button
-            className="btn btn-sm bg-color-evaluation-theme-blue rounded-circle text-white border-0 d-flex justify-content-center align-items-center"
+            className={`btn btn-sm bg-color-evaluation-theme-blue rounded-circle text-white border-0 d-flex justify-content-center align-items-center ${tableStyles.pageButton}`}
             disabled
-            style={{
-              width: "27px",
-              height: "27px",
-              padding: 0, // remove extra padding from btn-sm
-            }}
           >
             <HiOutlineDotsHorizontal />
           </Button>
@@ -332,13 +265,8 @@ const ProjectsTable = ({
               i === currentPage
                 ? " fw-bold mb-2 color-dark-gray"
                 : "fw-6 color-evaluation-theme-blue"
-            }`}
+            } ${tableStyles.pageButton}`}
             onClick={() => handlePageChange(i)}
-            style={{
-              width: "27px",
-              height: "27px",
-              padding: 0, // remove extra padding from btn-sm
-            }}
           >
             {i}
           </Button>
@@ -350,13 +278,8 @@ const ProjectsTable = ({
       pageNumbers.push(
         <div className="col p-0" key="ellipsis-end">
           <Button
-            className="btn btn-sm bg-color-evaluation-theme-blue rounded-circle text-white border-0 d-flex justify-content-center align-items-center"
+            className={`btn btn-sm bg-color-evaluation-theme-blue rounded-circle text-white border-0 d-flex justify-content-center align-items-center ${tableStyles.pageButton}`}
             disabled
-            style={{
-              width: "27px",
-              height: "27px",
-              padding: 0, // remove extra padding from btn-sm
-            }}
           >
             <HiOutlineDotsHorizontal />
           </Button>
@@ -367,7 +290,6 @@ const ProjectsTable = ({
     return pageNumbers;
   };
 
-  // Slice data whenever inputs change
   useEffect(() => {
     const paginated = dataToPaginate.slice(indexOfFirstRow, indexOfLastRow);
     setPaginatedData(paginated);
@@ -397,10 +319,8 @@ const ProjectsTable = ({
     utilization: "EXPENDITURE + UTILIZATION (M)",
     utilPercent: "UTIL. PERCENT",
     reportStatus: "REPORT STATUS",
-    // Add other mappings as needed
   };
 
-  // Helper function to rename columns dynamically
   const formatKeyName = (key: string): string => {
     return renameMap[key] || key.replace(/([A-Z])/g, " $1").toUpperCase();
   };
@@ -412,8 +332,8 @@ const ProjectsTable = ({
     const diffInMilliseconds = submittedTime.getTime() - deadlineTime.getTime();
 
     const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-    const diffInMonths = Math.floor(diffInDays / 30); // Approximate months
-    const diffInYears = Math.floor(diffInDays / 365); // Approximate years
+    const diffInMonths = Math.floor(diffInDays / 30);
+    const diffInYears = Math.floor(diffInDays / 365);
     const result =
       submittedTime <= deadlineTime
         ? "Submitted on time"
@@ -428,14 +348,14 @@ const ProjectsTable = ({
 
   const keysForPDF = ["srNo", ...keys];
   const columns = keysForPDF.map((key) => ({
-    header: formatKeyName(key), // Format key for header
-    dataKey: key, // Use the key for data mapping
+    header: formatKeyName(key),
+    dataKey: key,
   }));
 
   const tableRows = (
     searchTerm || dropdownFilterValue.length > 0 ? filteredData : projectsData
   ).map((data: any, index) => {
-    const row: Record<string, any> = { srNo: index + 1 }; // Initialize row with srNo
+    const row: Record<string, any> = { srNo: index + 1 };
 
     keysForPDF.forEach((key) => {
       switch (key) {
@@ -508,16 +428,15 @@ const ProjectsTable = ({
             : "NA";
           break;
         default:
-          row[key] = data[key]; // Handle any additional keys dynamically
+          row[key] = data[key];
       }
     });
 
     return row;
   });
 
-  // Export to Excel function
   const exportToExcel = () => {
-    const headers = ["srNo", ...keys]; // Rename headers dynamically
+    const headers = ["srNo", ...keys];
     const displayHeaders = headers.map(formatKeyName);
     const data = (
       searchTerm || dropdownFilterValue.length > 0 ? filteredData : projectsData
@@ -528,7 +447,7 @@ const ProjectsTable = ({
         const key =
           Object.entries(renameMap).find(
             ([, value]) => value === header,
-          )?.[0] || header; // Find original key from renamed header
+          )?.[0] || header;
 
         switch (key) {
           case "srNo":
@@ -644,7 +563,7 @@ const ProjectsTable = ({
             break;
 
           default:
-            row[formatKeyName(header)] = item[formatKeyName(key)] || ""; // Handle any additional keys dynamically
+            row[formatKeyName(header)] = item[formatKeyName(key)] || "";
         }
       });
 
@@ -668,7 +587,6 @@ const ProjectsTable = ({
   const [userName, setUserName] = useState<string>("");
   const [reportStatus, setReportStatus] = useState<number>(-1);
 
-  // Handle dropdown filters → update modifiedData
   const applyFilters = ({
     districtName = "",
     sectorName = "",
@@ -677,7 +595,7 @@ const ProjectsTable = ({
     endDate = "",
     reportStatus = -1,
   }: FilterParams) => {
-    let filtered = [...projectsData]; // IMPORTANT: start from original every time
+    let filtered = [...projectsData];
 
     if (districtName) {
       filtered = filtered.filter(
@@ -703,7 +621,6 @@ const ProjectsTable = ({
         );
       });
     }
-    // Filter by report submitted
     if (
       reportStatus &&
       reportStatus !== null &&
@@ -715,13 +632,13 @@ const ProjectsTable = ({
       );
     }
 
-    setModifiedData(filtered); // update dropdown-filtered data
+    setModifiedData(filtered);
   };
 
   const [dateRangeState, setDateRangeState] = useState<RangeType[]>([
     {
-      startDate: undefined, // Initially no start date selected
-      endDate: undefined, // Initially no end date selected
+      startDate: undefined,
+      endDate: undefined,
       key: "selection",
     },
   ]);
@@ -729,14 +646,12 @@ const ProjectsTable = ({
   const handleSelect = (ranges: RangeKeyDict) => {
     const { selection } = ranges;
 
-    // Ensure startDate and endDate are properly handled
     const updatedSelection = {
-      startDate: selection.startDate || new Date(), // Provide a default date if undefined
-      endDate: selection.endDate || new Date(), // Provide a default date if undefined
+      startDate: selection.startDate || new Date(),
+      endDate: selection.endDate || new Date(),
       key: selection.key || "selection",
     };
 
-    // Update filters and UI state
     applyFilters({
       districtName,
       sectorName,
@@ -765,7 +680,6 @@ const ProjectsTable = ({
       return updated;
     });
 
-    // Update state for the date range picker
     setDateRangeState([updatedSelection]);
   };
 
@@ -790,7 +704,6 @@ const ProjectsTable = ({
     projectId: number,
     reportTypeRequest: number,
   ) => {
-    console.log(visitId, projectId, reportTypeRequest);
     try {
       const response = await apiClient.post(
         `${GENERATE_REPORT_API}/GetReportPath`,
@@ -801,12 +714,9 @@ const ProjectsTable = ({
         },
       );
 
-      console.log("response", response);
-
-      const fileUrl = process.env.NEXT_PUBLIC_BACKEND_API + response.data.data; // API should return full URL or relative path
+      const fileUrl = process.env.NEXT_PUBLIC_BACKEND_API + response.data.data;
 
       if (fileUrl) {
-        // Trigger download
         const link = document.createElement("a");
         link.href = fileUrl;
         link.download;
@@ -816,26 +726,19 @@ const ProjectsTable = ({
         link.remove();
       }
     } catch (err) {
-      console.error(err);
       toast.error((err as AxiosError).message);
     }
   };
 
   const pcIVReportPdfDownload = async (pcIvId: number) => {
-    console.log(
-      `${GENERATE_REPORT_API}/GenerateReportPCIVForWeb?pcIVid=${pcIvId}`,
-    );
     try {
       const response = await apiClient.post(
         `${GENERATE_REPORT_API}/GenerateReportPCIVForWeb?pcIVid=${pcIvId}`,
       );
 
-      console.log("response", response);
-
-      const fileUrl = process.env.NEXT_PUBLIC_BACKEND_API + response.data.data; // API should return full URL or relative path
+      const fileUrl = process.env.NEXT_PUBLIC_BACKEND_API + response.data.data;
 
       if (fileUrl) {
-        // Trigger download
         const link = document.createElement("a");
         link.href = fileUrl;
         link.download;
@@ -845,7 +748,6 @@ const ProjectsTable = ({
         link.remove();
       }
     } catch (err) {
-      console.error(err);
       toast.error((err as AxiosError).message);
     }
   };
@@ -858,28 +760,15 @@ const ProjectsTable = ({
   return (
     <div className={`d-flex`}>
       <div
-        className={`${styles.layout} w-100 bg-white`}
-        style={{
-          borderRadius: "14px",
-          marginTop: "0px",
-          border: "1px solid #CBD5E1",
-        }}
+        className={`${styles.layout} w-100 bg-white ${tableStyles.container}`}
       >
         <div
           className={`h-100 overflow-auto ${styles.sidenav} ${
             isExpanded ? styles.expanded : ""
-          }`}
-          style={{
-            borderRight: "1px solid #CBD5E1",
-            zIndex: 3,
-            borderTopLeftRadius: "14px",
-            borderBottomLeftRadius: "14px",
-            padding: "23px 15px",
-            background: "#f8fafc",
-          }}
+          } ${tableStyles.sidenavPanel}`}
         >
           <div className="flex-grow-1">
-            <ul className="list-group p-0" style={{ marginBottom: "32px" }}>
+            <ul className={`list-group p-0 ${tableStyles.sectionSpacing}`}>
               <li
                 className={`${
                   isExpanded ? styles.headingExpanded : styles.headingCollapsed
@@ -888,15 +777,11 @@ const ProjectsTable = ({
                 <div className="row d-flex justify-content-between align-items-center">
                   <div className="col">
                     <div className="row d-flex align-items-center">
-                      <div className="col-auto" style={{ padding: "0px 10px" }}>
+                      <div className={`col-auto ${tableStyles.logoCol}`}>
                         <Image
                           src="/icons/logoNew1.svg"
                           alt="logoNew"
-                          style={{
-                            filter: "drop-shadow(0px 0px .75px green)",
-                            width: "48px",
-                            height: "43px",
-                          }}
+                          className={tableStyles.logo}
                           width={48}
                           height={43}
                           priority
@@ -945,25 +830,18 @@ const ProjectsTable = ({
             </ul>
 
             <div className={`col ${!isExpanded && "d-none"}`}>
-              <div className="col" style={{ marginBottom: "32px" }}>
+              <div className={`col ${tableStyles.sectionSpacing}`}>
                 <form onSubmit={(e) => e.preventDefault()}>
                   <div className="input-group">
                     <button
-                      className="btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0"
+                      className={`btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0 ${tableStyles.searchButton}`}
                       type="submit"
-                      style={{
-                        border: "1.08px solid #CBD5E1",
-                        padding: "8px 0px 12px 12px",
-                      }}
                     >
-                      <LuSearch size={17} style={{ color: "#475569" }} />
+                      <LuSearch size={17} className={tableStyles.mutedText} />
                     </button>
                     <CustomInput
                       type="text"
-                      className="form-control fw-bold border-start-0 rounded-pill rounded-start shadow-none fs15px bg-transparent py-2 placeholder-bold"
-                      style={{
-                        border: "1px solid #CBD5E1",
-                      }}
+                      className={`form-control fw-bold border-start-0 rounded-pill rounded-start shadow-none fs15px bg-transparent py-2 placeholder-bold ${tableStyles.searchInput}`}
                       placeholder="Search..."
                       value={searchTerm}
                       onChange={handleChange}
@@ -996,13 +874,11 @@ const ProjectsTable = ({
                   >
                     District Name
                   </CustomLabel>
-
                 </div>
               )}
               {keys.includes("visitStartDate") && (
                 <div
-                  className="col mb-3 text-start"
-                  style={{ pointerEvents: `${searchTerm ? "none" : "auto"}` }}
+                  className={`col mb-3 text-start ${searchTerm ? tableStyles.disabled : ""}`}
                 >
                   <CustomLabel
                     inputNode={
@@ -1020,7 +896,7 @@ const ProjectsTable = ({
                                 ranges={dateRangeState}
                                 onChange={handleSelect}
                                 moveRangeOnFirstSelection={false}
-                                maxDate={new Date()} // Restrict future dates
+                                maxDate={new Date()}
                                 dateDisplayFormat="dd/MM/yyyy"
                               />
                               <p>
@@ -1064,14 +940,7 @@ const ProjectsTable = ({
                                     reportStatus: reportStatus,
                                   });
                                 }}
-                                style={{
-                                  padding: "10px 15px",
-                                  background: "#ff5c5c",
-                                  color: "#fff",
-                                  border: "none",
-                                  borderRadius: "5px",
-                                  cursor: "pointer",
-                                }}
+                                className={tableStyles.clearDatesButton}
                               >
                                 Clear Dates
                               </button>
@@ -1108,7 +977,6 @@ const ProjectsTable = ({
                   >
                     Sector Name
                   </CustomLabel>
-
                 </div>
               )}
               {keys.includes("userName") && (
@@ -1135,28 +1003,21 @@ const ProjectsTable = ({
                   >
                     User Name
                   </CustomLabel>
-
                 </div>
               )}
             </div>
             <div className={`col p-0 ${isExpanded && "d-none"}`}>
               <ul
-                className="list-group p-0"
-                style={{ marginBottom: "18.57px" }}
+                className={`list-group p-0 ${tableStyles.collapsedSearchList}`}
               >
                 <li
-                  className="list-group-item border-0 bg-transparent cursor-pointer p-0"
-                  style={{ marginBottom: "14.86px" }}
+                  className={`list-group-item border-0 bg-transparent cursor-pointer p-0 ${tableStyles.collapsedSearchItem}`}
                   onClick={toggleSidenav}
                 >
                   <div
-                    className="d-flex justify-content-center align-items-center rounded-circle bg-white"
-                    style={{
-                      width: "44.57px",
-                      height: "44.57px",
-                    }}
+                    className={`d-flex justify-content-center align-items-center rounded-circle bg-white ${tableStyles.iconBox}`}
                   >
-                    <FiSearch size={22} style={{ color: "#475569" }} />
+                    <FiSearch size={22} className={tableStyles.mutedText} />
                   </div>
                 </li>
               </ul>
@@ -1164,16 +1025,11 @@ const ProjectsTable = ({
               <ul className="list-group p-0">
                 {keys.includes("districtName") && (
                   <li
-                    className="list-group-item border-0 bg-transparent cursor-pointer p-0"
-                    style={{ marginBottom: "23.21px" }}
+                    className={`list-group-item border-0 bg-transparent cursor-pointer p-0 ${tableStyles.filterIconItem}`}
                     onClick={toggleSidenav}
                   >
                     <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{
-                        width: "44.57px",
-                        height: "44.57px",
-                      }}
+                      className={`d-flex justify-content-center align-items-center ${tableStyles.iconBox}`}
                     >
                       <Image
                         className="img-fluid"
@@ -1187,16 +1043,11 @@ const ProjectsTable = ({
                 )}
                 {keys.includes("visitStartDate") && (
                   <li
-                    className="list-group-item border-0 bg-transparent cursor-pointer p-0"
-                    style={{ marginBottom: "23.21px" }}
+                    className={`list-group-item border-0 bg-transparent cursor-pointer p-0 ${tableStyles.filterIconItem}`}
                     onClick={toggleSidenav}
                   >
                     <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{
-                        width: "44.57px",
-                        height: "44.57px",
-                      }}
+                      className={`d-flex justify-content-center align-items-center ${tableStyles.iconBox}`}
                     >
                       <Image
                         className="img-fluid"
@@ -1210,22 +1061,16 @@ const ProjectsTable = ({
                 )}
                 {keys.includes("sectorName") && (
                   <li
-                    className="list-group-item border-0 bg-transparent cursor-pointer p-0"
-                    style={{ marginBottom: "23.21px" }}
+                    className={`list-group-item border-0 bg-transparent cursor-pointer p-0 ${tableStyles.filterIconItem}`}
                     onClick={toggleSidenav}
                   >
                     <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{
-                        width: "44.57px",
-                        height: "44.57px",
-                      }}
+                      className={`d-flex justify-content-center align-items-center ${tableStyles.iconBox}`}
                     >
                       <Image
-                        className="img-fluid"
+                        className={`img-fluid ${tableStyles.icon}`}
                         src="/icons/setup-01.svg"
                         alt="setup-01"
-                        style={{ width: "22px", height: "22px" }}
                         width={22}
                         height={22}
                       />
@@ -1234,18 +1079,16 @@ const ProjectsTable = ({
                 )}
                 {keys.includes("userName") && (
                   <li
-                    className="list-group-item border-0 bg-transparent cursor-pointer p-0"
-                    style={{ marginBottom: "23.21px" }}
+                    className={`list-group-item border-0 bg-transparent cursor-pointer p-0 ${tableStyles.filterIconItem}`}
                     onClick={toggleSidenav}
                   >
                     <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{
-                        width: "44.57px",
-                        height: "44.57px",
-                      }}
+                      className={`d-flex justify-content-center align-items-center ${tableStyles.iconBox}`}
                     >
-                      <LuUserRound size={22} style={{ color: "#475569" }} />
+                      <LuUserRound
+                        size={22}
+                        className={tableStyles.mutedText}
+                      />
                     </div>
                   </li>
                 )}
@@ -1254,10 +1097,10 @@ const ProjectsTable = ({
           </div>
 
           {isExpanded && (
-            <div style={{ marginTop: "auto", paddingTop: "10px" }}>
+            <div className={tableStyles.sidenavFooter}>
               <hr className="mb-4 mt-0" />
               <p className="fw-bold">{role}</p>
-              <p className="fw-5 fs14px" style={{ color: "#475569" }}>
+              <p className={`fw-5 fs14px ${tableStyles.mutedText}`}>
                 ---
               </p>
             </div>
@@ -1270,26 +1113,24 @@ const ProjectsTable = ({
         >
 
           <div
-            className="row d-flex align-items-center"
-            style={{ padding: "17.33px 26px" }}
+            className={`row d-flex align-items-center ${tableStyles.tableHeader}`}
           >
             <div className="col p-0">
               <div className="row align-items-center">
                 <div className="col-auto mb-1 mb-lg-0">
-                  <h4 className="m-0" style={{ fontWeight: 800 }}>
+                  <h4 className={`m-0 ${tableStyles.title}`}>
                     {label}
                   </h4>
                 </div>
                 <div className="col-auto mb-2 mb-lg-0">
                   <span
-                    className="badge rounded-pill fs13px fw-6"
-                    style={{ color: "#1C6BA6", border: "1.08px solid #1C6BA6" }}
+                    className={`badge rounded-pill fs13px fw-6 ${tableStyles.countBadge}`}
                   >
                     <div className="row align-items-center">
                       <div className="col-auto pe-0">
                         <PiCircleFill
                           size={8}
-                          style={{ color: "#1C6BA6", marginBottom: "2px" }}
+                          className={tableStyles.countBadgeDot}
                         />
                       </div>
                       <div className="col ps-1">
@@ -1306,21 +1147,14 @@ const ProjectsTable = ({
                 <form onSubmit={(e) => e.preventDefault()}>
                   <div className="input-group">
                     <button
-                      className="btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0"
+                      className={`btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0 ${tableStyles.searchButton}`}
                       type="submit"
-                      style={{
-                        border: "1.08px solid #CBD5E1",
-                        padding: "8px 0px 12px 12px",
-                      }}
                     >
-                      <LuSearch size={17} style={{ color: "#475569" }} />
+                      <LuSearch size={17} className={tableStyles.mutedText} />
                     </button>
                     <CustomInput
                       type="text"
-                      className="form-control fw-bold border-start-0 rounded-pill rounded-start shadow-none fs15px bg-transparent py-2 placeholder-bold"
-                      style={{
-                        border: "1px solid #CBD5E1",
-                      }}
+                      className={`form-control fw-bold border-start-0 rounded-pill rounded-start shadow-none fs15px bg-transparent py-2 placeholder-bold ${tableStyles.searchInput}`}
                       placeholder="Search"
                       value={searchTerm}
                       onChange={handleChange}
@@ -1341,20 +1175,14 @@ const ProjectsTable = ({
             </div>
           </div>
           <div
-            className="table-responsive mb-2"
-            style={{
-              margin: "0px -17px",
-              height: "calc(100vh - 135px)",
-              overflow: "auto",
-            }}
+            className={`table-responsive mb-2 ${tableStyles.tableWrapper}`}
           >
             <table className="table table-hover mb-0">
               <thead>
                 {keys.includes("cost") ? (
                   <>
                     <tr
-                      className="position-sticky top-0 bg-white"
-                      style={{ zIndex: 3 }}
+                      className={`position-sticky top-0 bg-white ${tableStyles.stickyTotalRow}`}
                     >
                       <TableHeading
                         className="bg-color-sea-blue"
@@ -1376,11 +1204,7 @@ const ProjectsTable = ({
                       <TableHeading colSpan={7} name="" />
                     </tr>
                     <tr
-                      className="position-sticky bg-white"
-                      style={{
-                        top: "52px", // adjust height based on your first row
-                        zIndex: 2,
-                      }}
+                      className={`position-sticky bg-white ${tableStyles.stickyHeadingRow}`}
                     >
                       {keys.map((k, i) => (
                         <TableHeading
@@ -1442,11 +1266,9 @@ const ProjectsTable = ({
                   <tr key={i}>
                     {keys.map((key) => {
                       if (key === "id") {
-                        // Handle visitStartDate and visitEndDate together
                         return <RowHeader key="id">{d.id}</RowHeader>;
                       }
                       if (key === "visitStartDate") {
-                        // Handle visitStartDate and visitEndDate together
                         return (
                           <TableData key="visitDates">
                             {d.visitStartDate && d.visitEndDate ? (
@@ -1488,7 +1310,6 @@ const ProjectsTable = ({
                         );
                       }
 
-                      // For other keys
                       return (
                         <TableData key={key}>
                           {key === "name" ? (
@@ -1501,7 +1322,7 @@ const ProjectsTable = ({
                                   }
                                   loadingContent={
                                     <div className="d-flex gap-2 align-items-center text-secondary">
-                                      <div style={{ flexShrink: 0 }}>
+                                      <div className={tableStyles.noShrink}>
                                         <Spinner />
                                       </div>
 
@@ -1529,8 +1350,7 @@ const ProjectsTable = ({
                                 >
                                   {d[key]}
                                 </div>
-                              ) : // ) : label === "PC(IV) Submitted by Department" ? (
-                              label === "No. of Visits (Umbrella)" ? (
+                              ) : label === "No. of Visits (Umbrella)" ? (
                                 <div
                                   className="text-start color-sea-blue cursor-pointer"
                                   onClick={(e) => {
@@ -1611,16 +1431,11 @@ const ProjectsTable = ({
                 </div>
                 <div className="col-auto">
                   <span
-                    className="badge rounded-pill fs13px fw-6 color-evaluation-theme-blue"
-                    style={{
-                      border: "1.08px solid #1C6BA6",
-                      paddingBottom: "2px",
-                    }}
+                    className={`badge rounded-pill fs13px fw-6 color-evaluation-theme-blue ${tableStyles.rowsBadge}`}
                   >
                     <div className="row align-items-center">
                       <div
-                        className="col-auto pe-0"
-                        style={{ paddingBottom: "4px" }}
+                        className={`col-auto pe-0 ${tableStyles.rowsBadgeDot}`}
                       >
                         <PiCircleFill
                           size={8}
@@ -1637,20 +1452,15 @@ const ProjectsTable = ({
             </div>
             <div className="col-auto">
               <div className="row align-items-center">
-                <div className="col ps-0" style={{ paddingRight: "10px" }}>
+                <div className={`col ps-0 ${tableStyles.pageButtonCol}`}>
                   <Button
                     className={`btn btn-sm rounded-circle text-white border-0 d-flex justify-content-center align-items-center m-1 ${
                       currentPage === 1
                         ? "bg-color-light-gray "
                         : "bg-color-evaluation-theme-blue"
-                    }`}
+                    } ${tableStyles.pageButton}`}
                     onClick={handleFirstPage}
                     disabled={currentPage === 1}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      padding: 0, // remove extra padding from btn-sm
-                    }}
                   >
                     <Image
                       src="/icons/evaluation/doubleArrowLeft.svg"
@@ -1660,20 +1470,15 @@ const ProjectsTable = ({
                     />
                   </Button>
                 </div>
-                <div className="col ps-0" style={{ paddingRight: "10px" }}>
+                <div className={`col ps-0 ${tableStyles.pageButtonCol}`}>
                   <Button
                     className={`btn btn-sm rounded-circle text-white border-0 d-flex justify-content-center align-items-center m-1 ${
                       currentPage === 1
                         ? "bg-color-light-gray "
                         : "bg-color-evaluation-theme-blue"
-                    }`}
+                    } ${tableStyles.pageButton}`}
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      padding: 0, // remove extra padding from btn-sm
-                    }}
                   >
                     <Image
                       src="/icons/evaluation/singleArrowLeft.svg"
@@ -1684,51 +1489,41 @@ const ProjectsTable = ({
                   </Button>
                 </div>
                 {renderPageNumbers()}
-                <div className="col ps-0" style={{ paddingRight: "10px" }}>
+                <div className={`col ps-0 ${tableStyles.pageButtonCol}`}>
                   <Button
                     className={`btn btn-sm rounded-circle text-white border-0 d-flex justify-content-center align-items-center m-1 ${
                       currentPage === totalPages
                         ? "bg-color-light-gray "
                         : "bg-color-evaluation-theme-blue"
-                    }`}
+                    } ${tableStyles.pageButton}`}
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      padding: 0, // remove extra padding from btn-sm
-                    }}
                   >
                     <Image
                       src="/icons/evaluation/singleArrowLeft.svg"
                       alt="singleArrowLeft"
                       width={13}
                       height={13}
-                      style={{ rotate: "180deg" }}
+                      className={tableStyles.rotate180}
                     />
                   </Button>
                 </div>
-                <div className="col ps-0" style={{ paddingRight: "10px" }}>
+                <div className={`col ps-0 ${tableStyles.pageButtonCol}`}>
                   <Button
                     className={`btn btn-sm rounded-circle text-white border-0 d-flex justify-content-center align-items-center m-1 ${
                       currentPage === totalPages
                         ? "bg-color-light-gray "
                         : "bg-color-evaluation-theme-blue"
-                    }`}
+                    } ${tableStyles.pageButton}`}
                     onClick={handleLastPage}
                     disabled={currentPage === totalPages}
-                    style={{
-                      width: "27px",
-                      height: "27px",
-                      padding: 0, // remove extra padding from btn-sm
-                    }}
                   >
                     <Image
                       src="/icons/evaluation/doubleArrowLeft.svg"
                       alt="doubleArrowLeft"
                       width={13}
                       height={13}
-                      style={{ rotate: "180deg" }}
+                      className={tableStyles.rotate180}
                     />
                   </Button>
                 </div>

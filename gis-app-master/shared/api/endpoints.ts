@@ -33,6 +33,7 @@ export const VT_RECORDING_API = `https://webtrack.itecknologi.com/fleet/api/Dire
 export const COORDINATES_API = `/api/Coordinates`;
 export const DISTRICT_API = `/api/District`;
 export const MAIN_DASHBOARD_API = `/api/MainDashboard`;
+export const EVALUATION_MAIN_DASHBOARD = `/api/pciv/secretary`;
 export const EVALUATION_MAIN_DASHBOARD_API = `/api/MainEvaluationDashboard`;
 export const SINGLE_PROJECT_DASHBOARD_API = `/api/SingleProjectDashboard`;
 export const STAFF_TRACKING_API = `/api/StaffTracking`;

@@ -5,10 +5,10 @@ import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import ReactMarkDown from "react-markdown";
 import { SubmittedReport, ReportHistory } from "../types";
 import ReportHistoryDownload from "./ReportHistoryDownload";
+import AlertMessage from "@/shared/components/AlertMessage";
 
 interface Props {
   data: SubmittedReport;
@@ -55,13 +55,7 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : reportsHistory ? (
         <div className="col bg-white p-2">
           <div className="d-flex justify-content-between align-items-center mb-3 gx-1">
@@ -150,13 +144,7 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
           ))}
         </div>
       ) : (
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
+        <AlertMessage variant="warning" />
       )}
     </>
   );

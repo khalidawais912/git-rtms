@@ -11,7 +11,7 @@ import { useSuperGroups } from "@/features/super-group";
 import { useVisits, Visit } from "@/features/visits";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
-import { DM_Sans, Inter } from "next/font/google";
+import { dmSans, inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -34,14 +34,6 @@ import { useDriver } from "@/features/drivers";
 import { useVehicle } from "@/features/vehicles";
 import { useTourPlans } from "@/features/tour-plans";
 import { useDistrict } from "@/features/districts";
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  preload: false,
-});
-
-const inter = Inter({ subsets: ["latin"] });
 
 const VisitsList = () => {
   const [refresh, setRefresh] = useState(false);

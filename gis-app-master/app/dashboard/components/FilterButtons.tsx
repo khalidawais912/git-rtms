@@ -1,5 +1,5 @@
 import Button from "@/shared/components/Button";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FilterData, Filter } from "../types";
 import FilterModal from "./FilterModal";
@@ -13,10 +13,6 @@ import {
 import { AutoTextSize } from "auto-text-size";
 import Spinner from "@/shared/components/Spinner";
 
-const lexend = Lexend({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 interface Props {
   handleSubmit: (filterData: FilterData[]) => Promise<void>;
   otherFilters: FilterData[];

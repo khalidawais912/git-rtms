@@ -22,7 +22,7 @@ import staffTracking2 from "@/public/icons/staffTracking2.svg";
 import utilizationCircle from "@/public/icons/utilizationCircle.svg";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
-import { Lexend, Montserrat } from "next/font/google";
+import { lexend, montserrat } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -41,18 +41,6 @@ import useProjectsTableUtils from "./ProjectsTable/useProjectsTableUtils";
 import { FilterData } from "../types";
 
 const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 export interface DistrictList {
   id: number;

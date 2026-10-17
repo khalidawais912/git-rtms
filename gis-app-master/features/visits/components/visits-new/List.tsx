@@ -8,7 +8,7 @@ import TableHeading from "@/shared/components/Table/TableHeading";
 import { useVisitsNew, VisitNew } from "@/features/visits";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { sort } from "fast-sort";
-import { Inter } from "next/font/google";
+import { inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -23,8 +23,6 @@ import { useProjects } from "@/features/projects";
 import { useAuthentication } from "@/features/users";
 import { useTourPlans } from "@/features/tour-plans";
 import { useDistrict } from "@/features/districts";
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface ListProps {
   refresh: boolean;

@@ -10,7 +10,7 @@ import apiClient, { AxiosError } from "@/shared/api/client";
 import { getFormattedDate } from "@/shared/utils";
 import { sort } from "fast-sort";
 import { motion } from "framer-motion";
-import { DM_Sans, Inter } from "next/font/google";
+import { dmSans, inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -21,14 +21,6 @@ import cancel from "../../../public/icons/cancel.svg";
 import clock from "../../../public/icons/clock.svg";
 import complete from "../../../public/icons/complete.svg";
 import Form from "./Form";
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  preload: false,
-});
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface ListProps {
   refresh: boolean;

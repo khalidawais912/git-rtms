@@ -44,12 +44,7 @@ const ReportHistoryPage = () => {
         <List
           dashbaordType={currentType}
           users={users}
-          officers={officers}
-          deputyDirectors={deputyDirectors}
-          directors={directors}
-          departmentHead={departmentHead}
           refresh={refresh}
-          setRefresh={setRefresh}
         />
       )}
     </div>

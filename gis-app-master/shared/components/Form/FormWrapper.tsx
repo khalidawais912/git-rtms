@@ -1,10 +1,5 @@
-import { Manrope } from "next/font/google";
+import { manrope } from "@/shared/styles/fonts";
 import { ReactNode } from "react";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const FormWrapper = ({
   heading,

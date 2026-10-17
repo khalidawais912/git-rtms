@@ -7,8 +7,7 @@ import { DashboardTypeEnum } from "@/shared/types/dashboard";
 import { Officer, ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -20,18 +19,15 @@ import {
   useRef,
   useState,
 } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
   users: ReportHistoryUser[];
@@ -60,8 +56,7 @@ const List = ({
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
 
-  const [userId, setUserId] = useState<number>();
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
@@ -78,17 +73,6 @@ const List = ({
   useEffect(() => {
     console.log("selectedTab", selectedTab);
   }, [selectedTab]);
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      const convertedId = parseInt(id);
-      setUserId(convertedId);
-    }
-    if (role) setRole(role.toLowerCase());
-  }, []);
 
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
@@ -525,13 +509,7 @@ const List = ({
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role ? (
         // ✅ render your data block here
         <div
@@ -912,13 +890,7 @@ const List = ({
               </div>
             ))
           ) : (
-            <div
-              className="alert alert-warning d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>No reports found.</div>
-            </div>
+            <AlertMessage variant="warning" />
           )}
         </div>
       ) : (

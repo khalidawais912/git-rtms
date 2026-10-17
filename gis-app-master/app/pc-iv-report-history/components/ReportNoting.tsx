@@ -25,7 +25,6 @@ import {
 import HistoryList from "./HistoryList";
 
 import Loader from "@/shared/components/Loader/Loader";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import PdfIframe from "./pdf/PdfIframe";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -33,6 +32,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 // EasyMDE styles (required)
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
+import AlertMessage from "@/shared/components/AlertMessage";
 
 const schema = z.object({
   id: z.number().optional().default(0),
@@ -254,13 +254,7 @@ const ReportNoting = ({
           {isLoading ? (
             <Loader />
           ) : error ? (
-            <div
-              className="alert alert-danger d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>{error}, Please Try Again!</div>
-            </div>
+            <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
           ) : descendingOrderReportsHistory && ascendingOrderReportsHistory ? (
             <div className="row d-flex m-0">
               {viewPdf && (
@@ -313,7 +307,7 @@ const ReportNoting = ({
                       selectedTabLabel === "SUBMITTED BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (DG)" ||
                       selectedTabLabel === "REFERBACK BY (AD)" ||
-                      selectedTabLabel === "SUBMITTED BY (DEPARTMENT)" ||
+                      selectedTabLabel === "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)" ||
                       selectedTabLabel === "REFERBACK BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (D)") &&
                     (descendingOrderReportsHistory[0].status === SCHEDULED ||
@@ -507,7 +501,7 @@ const ReportNoting = ({
                             (selectedTabLabel === "MARK BY (DG)" ||
                               selectedTabLabel === "SUBMITTED BY (AD)" ||
                               selectedTabLabel ===
-                                "SUBMITTED BY (DEPARTMENT)" ||
+                                "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)" ||
                               selectedTabLabel === "REFERBACK BY (AD)") && (
                               <>
                                 {(role === "deputy director" &&
@@ -650,13 +644,7 @@ const ReportNoting = ({
               </div>
             </div>
           ) : (
-            <div
-              className="alert alert-warning d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>No reports found.</div>
-            </div>
+            <AlertMessage variant="warning" />
           )}
         </div>
       </div>

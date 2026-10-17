@@ -1,3 +1,6 @@
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { ReportHistoryUser } from "@/features/users";
+
 export interface ReportHistory {
   id: number;
   visitId: number;
@@ -54,4 +57,10 @@ export interface Tab {
   reportSubmittedTo?: number;
   count: number;
   filteredData: SubmittedReport[] | undefined;
+}
+
+export interface ListProps {
+  dashbaordType: DashboardTypeEnum | undefined;
+  users: ReportHistoryUser[];
+  refresh: boolean;
 }

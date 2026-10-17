@@ -3,7 +3,7 @@
 import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
 import { setContent } from "@/store/contentSlice";
 import apiClient from "@/shared/api/client";
-import { Lexend } from "next/font/google";
+import { lexend } from "@/shared/styles/fonts";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Reports from "./Reports";
@@ -38,10 +38,6 @@ const WBSReportUpdated = dynamic(() => import("./WBSReportUpdated"), {
 
 const SimpleLineChart = dynamic(() => import("./SimpleLineChart"), {
   ssr: false,
-});
-const lexend = Lexend({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 interface Props {

@@ -15,7 +15,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
-import ProjectsTable, { ProjectsList } from "./ProjectsTable/ProjectsTable";
+import ProjectsTable from "./ProjectsTable/ProjectsTable";
+import { ProjectsList } from "./types";
 
 interface VisitsPlan {
   nameOfVisit: string;
