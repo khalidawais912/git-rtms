@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "@/app/dashboard/types/types";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
 import { FaCircle } from "react-icons/fa";
 
 const VideoTypeFilter = () => {
@@ -99,7 +99,6 @@ const VideoTypeFilter = () => {
         }}
         onClick={() => {
           setSelectedButton(2);
-          // handleStatusChange(TypeEnum.EVALUATION);
         }}
       >
         Drone

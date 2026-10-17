@@ -118,8 +118,6 @@ const MonitoringReportConverted = () => {
 
         <Image src={Picture1Base64} style={styles.image} />
 
-        {/* <Image src={Picture2} style={{ width: "20%", alignSelf: "center" }} /> */}
-
         <View style={styles.section}>
           <Text style={[styles.textCenter, { color: "#0070C0" }]}>
             Directorate General (Monitoring & Evaluation) Planning and

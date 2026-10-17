@@ -1,14 +1,14 @@
 "use client";
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
-import AnimatedCounter from "@/app/components/AnimatedCounter";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import DashboardWrapper from "@/app/components/DashboardWrapper";
-import Loader from "@/app/components/Loader/Loader";
-import { setContent } from "@/app/features/content/contentSlice";
-import { setTutorial } from "@/app/features/tutorial/tutorialSlice";
-import apiClient from "@/app/services/api-client";
-import { devMap, formatAmountWithCommas } from "@/app/utils";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import AnimatedCounter from "@/shared/components/AnimatedCounter";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
+import Loader from "@/shared/components/Loader/Loader";
+import { setContent } from "@/store/contentSlice";
+import { setTutorial } from "@/store/tutorialSlice";
+import apiClient from "@/shared/api/client";
+import { devMap, formatAmountWithCommas } from "@/shared/utils";
 import carOutline from "@/public/icons/carOutline.svg";
 import controllingReleaseCircle from "@/public/icons/controllingReleaseCircle.svg";
 import divideCircle from "@/public/icons/divideCircle.svg";
@@ -22,7 +22,7 @@ import staffTracking2 from "@/public/icons/staffTracking2.svg";
 import utilizationCircle from "@/public/icons/utilizationCircle.svg";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
-import { Lexend, Montserrat } from "next/font/google";
+import { lexend, montserrat } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -48,20 +48,9 @@ import PCIVReview from "./PCIVReview";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkSquare01Icon } from "@hugeicons/core-free-icons";
 import MarkToProjects from "./MarkToProjects/MarkToProjects";
+import { FilterData } from "../types";
 
-const Menu = dynamic(() => import("@/app/components/Menu"), { ssr: false });
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  preload: false,
-  weight: ["400", "500", "600", "700", "800"],
-});
+const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
 
 export interface DistrictList {
   id: number;
@@ -111,19 +100,12 @@ export interface MainDashboard {
     cancelled: number;
   };
 }
-
-export interface FilterData {
-  filterIdentifier: string;
-  filterValues: string;
-}
-
 const DashboardMonitoring = () => {
   const [data, setData] = useState<MainDashboard>();
   const [role, setRole] = useState<string>("");
   const [departmentId, setDepartmentId] = useState<number>();
   const [pageLoaded, setPageLoaded] = useState<boolean>(false);
   const dispatch = useDispatch();
-  // useAuthorization("dashboard");
 
   useEffect(() => {
     setPageLoaded(true);
@@ -175,13 +157,6 @@ const DashboardMonitoring = () => {
     try {
       const response = await apiClient.post(MAIN_DASHBOARD_API, filterData);
       setData(response.data.data);
-      // setProjectsData(response.data.data.projectslist.reverse());
-      // const districtFilter = filterData.find(
-      //   (filter) => filter.filterIdentifier === "District"
-      // );
-      // if (districtFilter) {
-      //   setActiveProjects(response.data.data.projectslist);
-      // }
       console.log("response:", response.data.data);
       console.log("FilterData:", filterData);
       setLoading(false);
@@ -388,16 +363,6 @@ const DashboardMonitoring = () => {
     getProjectsList("TotalProject");
   }, []);
 
-  // useEffect(() => {
-  //   if (projectsData) {
-  //     const filteredProjects = projectsData?.filter((project) => {
-  //       const utilizationPercentage =
-  //         ((project.expUpToJune + project.utilization) / project.cost) * 100;
-  //       return utilizationPercentage >= 20 && utilizationPercentage <= 80;
-  //     });
-  //     setUtilizationData(filteredProjects);
-  //   }
-  // }, [projectsData]);
   useEffect(() => {
     if (projectsData) {
       const updatedProjects = projectsData.map((project) => ({
@@ -988,7 +953,6 @@ const DashboardMonitoring = () => {
                         background="rgba(12, 140, 233, 0.2)"
                         outline="1px solid rgba(12, 140, 233, 0.4)"
                         icon="/icons/fluent-list-detail-filled.svg"
-                        // value={data ? data.inProcessProjects : 0}
                         value={0}
                         label="Department Summary"
                         showTides={false}
@@ -1047,54 +1011,6 @@ const DashboardMonitoring = () => {
                   />
                 </div>
                 {departmentId !== 1 && departmentId !== 0 && (
-                  // <div className="col p-0">
-                  //   <CustomModal
-                  //     HeaderRightPos={0}
-                  //     HeaderTopPos={17}
-                  //     buttonColumn="col p-0"
-                  //     isFullscreen={true}
-                  //     size="xl"
-                  //     modalId={"pc-iv"}
-                  //     button={
-                  //       <Button
-                  //         className="btn p-0 pe-1 shadow-none w-100"
-                  //         onClick={() => getProjectsList("InProcess")}
-                  //       >
-                  //         <Menu
-                  //           background="rgba(12, 140, 233, 0.2)"
-                  //           outline="1px solid rgba(12, 140, 233, 0.4)"
-                  //           icon="/icons/file.svg"
-                  //           value={0}
-                  //           label="PC-IV"
-                  //           showTides={false}
-                  //           showArrow={true}
-                  //           textWrap={false}
-                  //         />
-                  //       </Button>
-                  //     }
-                  //     body={
-                  //       <>
-                  //         <div className="container-fluid border-0 p-0">
-                  //           {projectsData && filteredKeys ? (
-                  //             <ProjectsTable
-                  //               rowCountOptions={rowCountOptions}
-                  //               districtOptions={districtOptions}
-                  //               sectorOptions={sectorOptions}
-                  //               userOptions={userOptions}
-                  //               keys={filteredKeys}
-                  //               label="Reports In Progress"
-                  //               projectsData={projectsData}
-                  //               setProjectsData={setProjectsData}
-                  //               role={role}
-                  //             />
-                  //           ) : (
-                  //             <Loader />
-                  //           )}
-                  //         </div>
-                  //       </>
-                  //     }
-                  //   />
-                  // </div>
                   <div className="col p-0">
                     <PCIVReview />
                   </div>
@@ -1256,98 +1172,6 @@ const DashboardMonitoring = () => {
                   borderRadius: "10px",
                 }}
               >
-                {/* <div className="row d-flex m-0">
-                {hoveredButton === -1 || hoveredButton === 0 ? (
-                  <div
-                    className="col p-0"
-                    onMouseEnter={() => setHoveredButton(0)}
-                    onMouseLeave={() => setHoveredButton(-1)}
-                    style={{
-                      width: `${
-                        hoveredButton === -1 || hoveredButton === 0
-                          ? "100%"
-                          : "0%"
-                      }`,
-                      opacity:
-                        hoveredButton === -1 || hoveredButton === 0 ? 1 : 0,
-                      transition: "width 1s opacity 1s",
-                    }}
-                  >
-                    <Link
-                      href="/vehicle-tracking"
-                      className="row d-flex m-0 justify-content-center btn w-100 fw-normal fs14px"
-                      style={{
-                        borderRadius: "8px",
-                        background: "#C6D9F1",
-                      }}
-                    >
-                      <div className="col-auto p-0 pe-1 my-auto">
-                        <Image
-                          src={carOutline}
-                          alt="carOutline"
-                          width={24}
-                          height={24}
-                        />
-                      </div>
-                      <div className="col-auto p-0">
-                        Vehicle
-                        <br />
-                        Tracking
-                      </div>
-                    </Link>
-                  </div>
-                ) : (
-                  ""
-                )}
-                {hoveredButton === -1 || hoveredButton === 1 ? (
-                  <div
-                    className="col p-0"
-                    onMouseEnter={() => setHoveredButton(1)}
-                    onMouseLeave={() => setHoveredButton(-1)}
-                  >
-                    <Link
-                      href="/staff-tracking"
-                      className="row d-flex m-0 justify-content-center btn w-100 fw-normal fs14px"
-                      style={{
-                        borderRadius: "8px",
-                        background: "#E3F1C6",
-                      }}
-                    >
-                      <div className="col-auto pe-1 my-auto">
-                        <Image
-                          src={staffTracking2}
-                          alt="staffTracking2"
-                          width={24}
-                          height={24}
-                        />
-                      </div>
-                      <div className="col-auto p-0">
-                        Staff
-                        <br />
-                        Tacking
-                      </div>
-                    </Link>
-                  </div>
-                ) : (
-                  ""
-                )}
-                {hoveredButton === -1 || hoveredButton === 2 ? (
-                  <div
-                    className="col p-0"
-                    style={{ zIndex: 2 }}
-                    onMouseEnter={() => setHoveredButton(2)}
-                    onMouseLeave={() => setHoveredButton(-1)}
-                  >
-                    <VisitsPlan
-                      getProjectsList={getProjectsList}
-                      projectsData={projectsData ? projectsData : []}
-                      setProjectsData={setProjectsData}
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div> */}
 
                 <div className={`row d-flex m-0 ${styles.hoverWrapper}`}>
                   <div className={`p-0 ${styles.hoverWrapper}`}>
@@ -1407,238 +1231,8 @@ const DashboardMonitoring = () => {
                       />
                     </div>
                   </div>
-                  {/* <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 0) && (
-                      <motion.div
-                        className="p-0"
-                        onMouseEnter={() => setHoveredButton(0)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 0 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                        style={{ overflow: "hidden" }}
-                      >
-                        <Link
-                          href="/vehicle-tracking"
-                          className="row d-flex flex-nowrap m-0 justify-content-center btn w-100 fw-normal fs14px"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#C6D9F1",
-                          }}
-                        >
-                          <div className="col-auto p-0 pe-1 my-auto">
-                            <Image
-                              src={carOutline}
-                              alt="carOutline"
-                              width={24}
-                              height={24}
-                            />
-                          </div>
-                          <div className="col-auto p-0">
-                            Vehicle
-                            <br />
-                            Tracking
-                          </div>
-                        </Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 1) && (
-                      <motion.div
-                        className="p-0"
-                        onMouseEnter={() => setHoveredButton(1)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 1 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                        style={{ overflow: "hidden" }}
-                      >
-                        <Link
-                          href="/staff-tracking"
-                          className="row d-flex flex-nowrap m-0 justify-content-center btn w-100 fw-normal fs14px"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#E3F1C6",
-                          }}
-                        >
-                          <div className="col-auto p-0 pe-1 my-auto">
-                            <Image
-                              src={staffTracking2}
-                              alt="staffTracking2"
-                              width={24}
-                              height={24}
-                            />
-                          </div>
-                          <div className="col-auto p-0">
-                            Staff
-                            <br />
-                            Tracking
-                          </div>
-                        </Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 2) && (
-                      <motion.div
-                        className="p-0"
-                        style={{ zIndex: 2 }}
-                        onMouseEnter={() => setHoveredButton(2)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 2 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <VisitsPlan
-                          getProjectsList={getProjectsList}
-                          projectsData={projectsData ? projectsData : []}
-                          setProjectsData={setProjectsData}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence> */}
                 </div>
 
-                {/* <div className="row d-flex m-0">
-                  <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 0) && (
-                      <motion.div
-                        className="p-0"
-                        onMouseEnter={() => setHoveredButton(0)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 0 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                        style={{ overflow: "hidden" }}
-                      >
-                        <Link
-                          href="/vehicle-tracking"
-                          className="row d-flex flex-nowrap m-0 justify-content-center btn w-100 fw-normal fs14px"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#C6D9F1",
-                          }}
-                        >
-                          <div className="col-auto p-0 pe-1 my-auto">
-                            <Image
-                              src={carOutline}
-                              alt="carOutline"
-                              width={24}
-                              height={24}
-                            />
-                          </div>
-                          <div className="col-auto p-0">
-                            Vehicle
-                            <br />
-                            Tracking
-                          </div>
-                        </Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 1) && (
-                      <motion.div
-                        className="p-0"
-                        onMouseEnter={() => setHoveredButton(1)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 1 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                        style={{ overflow: "hidden" }}
-                      >
-                        <Link
-                          href="/staff-tracking"
-                          className="row d-flex flex-nowrap m-0 justify-content-center btn w-100 fw-normal fs14px"
-                          style={{
-                            borderRadius: "8px",
-                            background: "#E3F1C6",
-                          }}
-                        >
-                          <div className="col-auto p-0 pe-1 my-auto">
-                            <Image
-                              src={staffTracking2}
-                              alt="staffTracking2"
-                              width={24}
-                              height={24}
-                            />
-                          </div>
-                          <div className="col-auto p-0">
-                            Staff
-                            <br />
-                            Tracking
-                          </div>
-                        </Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  <AnimatePresence>
-                    {(hoveredButton === -1 || hoveredButton === 2) && (
-                      <motion.div
-                        className="p-0"
-                        style={{ zIndex: 2 }}
-                        onMouseEnter={() => setHoveredButton(2)}
-                        onMouseLeave={() => setHoveredButton(-1)}
-                        initial={{ flex: 1, opacity: 0 }}
-                        animate={{
-                          flex: hoveredButton === 2 ? 3 : 1,
-                          opacity: 1,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <VisitsPlan
-                          getProjectsList={getProjectsList}
-                          projectsData={projectsData ? projectsData : []}
-                          setProjectsData={setProjectsData}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div> */}
               </div>
             )}
             <div
@@ -1686,7 +1280,6 @@ const DashboardMonitoring = () => {
                                   <AnimatedCounter
                                     from={0}
                                     to={data.utilization20t080}
-                                    // to={utilizationData?.length}
                                   />
                                 ) : (
                                   0

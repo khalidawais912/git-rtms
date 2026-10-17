@@ -1,7 +1,7 @@
 import ReactFlow, { Controls } from "reactflow";
 import "reactflow/dist/style.css";
-import { Groups } from "../ProjectDetailsDashboard";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
+import { Groups } from "../../types";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import { FaImage } from "react-icons/fa";
 
 interface Props {
@@ -23,7 +23,6 @@ const WBSAttributesFlow = ({ majorDeliverables }: Props) => {
           <div
             className="col p-2 d-inline-block shadow"
             style={{
-              // "linear-gradient(to bottom right, #14BAE3 , #13B1E6, #11AADF,#0B98C5)",
               background: "linear-gradient(to bottom right, #1090b0 , #0a4582)",
               borderRadius: "8px",
               border: "0px",
@@ -112,9 +111,6 @@ const WBSAttributesFlow = ({ majorDeliverables }: Props) => {
                             }
                             body={
                               <div className="col text-center bg-white p-3 rounded-3">
-                                {/* <p className="mb-0 fs-4 fw-bold text-start">
-                                    {g.name}
-                                  </p> */}
                                 <img
                                   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${attribute?.values[0]?.verificatioContentPath}`}
                                   className="img-fluid rounded-3 w-100"
@@ -159,9 +155,7 @@ const WBSAttributesFlow = ({ majorDeliverables }: Props) => {
   return (
     <div style={{ height: "100vh" }}>
       <ReactFlow nodes={nodes} edges={edges} fitView>
-        {/* <MiniMap /> */}
         <Controls />
-        {/* <Background color="#aaa" gap={16} /> */}
       </ReactFlow>
     </div>
   );
@@ -197,15 +191,5 @@ const majorDeliverableStyle = {
   textAlign: "center",
   fontSize: "16px",
 };
-
-// const attributeNodeStyle = {
-//   textAlign: "center",
-//   fontSize: "14px",
-// };
-
-// const attributeNodeStyle = {
-//   textAlign: "center",
-//   fontSize: "12px",
-// };
 
 export default WBSAttributesFlow;

@@ -1,7 +1,7 @@
 "use client";
-import Button from "@/app/components/Button";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import { Option } from "@/app/utils";
+import Button from "@/shared/components/Button";
+import { useTourPlans } from "@/features/tour-plans";
+import { Option } from "@/shared/utils/types";
 import Image from "next/image";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
@@ -29,8 +29,6 @@ const customStyles: StylesConfig<Option, false> = {
   }),
   option: (base, state) => ({
     ...base,
-    // backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-    // color: "#333",
     fontSize: "14px",
   }),
 };

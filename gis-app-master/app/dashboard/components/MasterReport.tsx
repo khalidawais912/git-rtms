@@ -1,13 +1,11 @@
 "use client";
 
-import { GENERATE_REPORT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Spinner from "@/app/components/Spinner";
-import apiClient, {
-  AxiosError,
-  ErrorResponse,
-} from "@/app/services/api-client";
+import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Spinner from "@/shared/components/Spinner";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { ErrorResponse } from "@/shared/api/types";
 import {
   ChangeEvent,
   FormEvent,
@@ -16,14 +14,9 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import ToggleBetweenModals from "@/app/components/ToggleBetweenModals";
+import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
 import DragableTable from "./PPTSlideGenerator/DragableTable/DragableTable";
-
-export interface SectorItem {
-  id: number;
-  title: string;
-}
-
+import { SectorItem } from "../types";
 const MasterReport = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
@@ -216,49 +209,6 @@ const MasterReport = () => {
     setSelectAllMRStatus(mrStatus.length === masterReportStatues.length);
   }, [mrStatus]);
 
-  // const getSectors = async () => {
-  //   if (priority.length <= 0) {
-  //     toast.info("Please Select Atleast one Priority!");
-  //     return;
-  //   }
-  //   if (fromDate.length <= 0) {
-  //     toast.info("Please select 'From Date'!");
-  //     return;
-  //   }
-  //   if (toDate.length <= 0) {
-  //     toast.info("Please select 'To Date'!");
-  //     return;
-  //   }
-  //   console.log("sectors async data: ", {
-  //     pirority: priority,
-  //     to: new Date(toDate).toISOString().split("T")[0],
-  //     from: new Date(fromDate).toISOString().split("T")[0],
-  //     sector: [""],
-  //   });
-  //   try {
-  //     const response = await apiClient.post(
-  //       `${GENERATE_REPORT_API}/GetSectorAsync`,
-  //       {
-  //         pirority: priority,
-  //         to: new Date(toDate).toISOString().split("T")[0],
-  //         from: new Date(fromDate).toISOString().split("T")[0],
-  //         sector: [""],
-  //       }
-  //     );
-
-  //     console.log(response);
-  //     setSectorNames(response.data.data);
-  //     toast.success("Sectors Obtained Successfully");
-  //   } catch (err) {
-  //     setSectorNames([]);
-  //     console.error("Submission error:", err);
-  //     toast.error(
-  //       (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-  //         (err as AxiosError<ErrorResponse>).message
-  //     );
-  //   }
-  // };
-
   useEffect(() => {
     if (mrStatus.length > 0 || fromDate.length > 0 || toDate.length > 0)
       getSectors();
@@ -366,39 +316,6 @@ const MasterReport = () => {
                       </div>
                     </div>
                   ))}
-                  {/* <div className="col p-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value="1"
-                        onChange={handleMRStatusChange}
-                        checked={mrStatus.includes(1)}
-                        id="mediumCheck"
-                      />
-                      <label className="form-check-label" htmlFor="mediumCheck">
-                        Medium
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col p-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value="2"
-                        onChange={handleMRStatusChange}
-                        checked={priority.includes(2)}
-                        id="criticalCheck"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="criticalCheck"
-                      >
-                        Critical
-                      </label>
-                    </div>
-                  </div> */}
                 </div>
                 <div className="col-auto d-flex justify-content-end">
                   <div className="form-check">

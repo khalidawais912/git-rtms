@@ -1,15 +1,15 @@
 "use client";
 
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
-import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import { FilterData } from "@/app/dashboard/types";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
   adpFilters,
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "@/app/dashboard/filters";
-import apiClient from "@/app/services/api-client";
-import { formatAmountWithCommas, getInitials } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { formatAmountWithCommas, getInitials } from "@/shared/utils";
 import {
   DashboardSquare01Icon,
   LeftToRightListBulletIcon,
@@ -54,9 +54,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -76,9 +73,6 @@ const ProjectsLiveView = () => {
                 const numB = Number(b.gsNo) || 0;
                 return numA - numB;
               });
-
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
 
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
@@ -100,9 +94,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -123,9 +114,6 @@ const ProjectsLiveView = () => {
               const numB = parseInt(String(b.gsNo).trim(), 10) || 0;
               return numA - numB;
             });
-
-          // setProjectsData(sortedData ?? []);
-          // console.log("sortedData data", sortedData);
 
           const specificPoject = response.data.data.find(
             (project: ProjectsList) => Number(project.gSno) === 309,
@@ -342,39 +330,6 @@ const ProjectsLiveView = () => {
           className="d-flex justify-content-between align-items-center flex-wrap"
           style={{ gap: 10 }}
         >
-          {/* <div className="col-auto">
-            <form>
-              <div className="input-group">
-                <button
-                  className="btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0"
-                  type="submit"
-                  style={{
-                    border: "0.55px solid rgba(255, 255, 255, 0.06)",
-                    padding: "0px 0px 3.75px 9.57px",
-                  }}
-                >
-                  <HugeiconsIcon
-                    icon={Search01Icon}
-                    size={10.94}
-                    color="#62748E"
-                  />
-                </button>
-                <CustomInput
-                  type="text"
-                  className="form-control fw-bold border-start-0 rounded-pill rounded-start shadow-none bg-transparent placeholder-scaled-down"
-                  style={{
-                    border: "0.55px solid rgba(255, 255, 255, 0.06)",
-                    fontSize: 9.57,
-                    padding: "8.75px 9.57px",
-                  }}
-                  placeholder="Search"
-                  // value={searchTerm}
-                  // onChange={handleChange}
-                  id="search"
-                />
-              </div>
-            </form>
-          </div> */}
           <div
             className="d-flex align-items-center justify-content-between flex-wrap"
             style={{
@@ -389,7 +344,6 @@ const ProjectsLiveView = () => {
               className="d-flex align-items-center"
               style={{
                 gap: 5.47,
-                // borderRadius: 9.38,
               }}
             >
               <HugeiconsIcon
@@ -442,7 +396,6 @@ const ProjectsLiveView = () => {
             <div
               className="d-flex align-items-center"
               style={{
-                // background: "rgba(28, 107, 166, 0.15)",
                 gap: 4.1,
                 padding: "4.1px 7.71px",
                 borderRadius: 5.47,
@@ -468,7 +421,6 @@ const ProjectsLiveView = () => {
         <div className="row m-0 g-3">
           {dummyProjects?.map((project, i) => (
             <Link
-              // href={`/projects-live-view/project-details-dashboard/${project.id}/${project.visitId}`}
               href={`/projects-live-view/project-details-dashboard/${301}/${1372}`}
               target="_blank"
               className="col col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2 text-decoration-none"
@@ -550,7 +502,6 @@ const ProjectsLiveView = () => {
                             display: "block",
                           }}
                         >
-                          {/* {displayStatusText(project.reportStatus)} */}
                           {project.reportStatus}
                         </span>
                       </div>
@@ -787,334 +738,6 @@ const ProjectsLiveView = () => {
               </div>
             </Link>
           ))}
-          {/* {[0, 1, 2, 3, 4, 5, 6, 7].map((d) => (
-            <Fragment key={d}>
-              {projectsData?.map((project, i) => (
-                <Link
-                  href={`/projects-live-view/project-details-dashboard/${project.id}/${project.visitId}`}
-                  target="_blank"
-                  className="col-auto p-0 text-decoration-none"
-                  key={i}
-                >
-                  <div
-                    className="col"
-                    style={{
-                      borderRadius: 7.81,
-                      border: "0.78px solid #AB0000",
-                      padding: 2.6,
-                    }}
-                  >
-                    <div
-                      style={{
-                        borderRadius: 7,
-                        border: "0.78px solid #AB0000",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <div className="position-relative">
-                        <div>
-                          <video
-                            className="w-100 overflow-hidden"
-                            style={{
-                              objectFit: "cover",
-                              borderTopLeftRadius: "7px",
-                              height: "117.1875px",
-                            }}
-                            loop
-                            autoPlay
-                            muted
-                            playsInline
-                          >
-                            <source
-                              src="/video/bgVideoNew.mp4"
-                              type="video/mp4"
-                            />
-                            Your browser does not support the video tag.
-                          </video>
-                        </div>
-                        <div
-                          className="position-absolute fw-normal d-flex align-items-center"
-                          style={{
-                            top: "4.74px",
-                            right: "7.01px",
-                            padding: "1.58px 3.96px",
-                            background: "rgba(0, 0, 0, 0.5)",
-                            borderRadius: 3.96,
-                            border: "0.32px solid rgba(255, 255, 255, 0.1)",
-                            gap: 2.38,
-                          }}
-                        >
-                          <MdOutlineRemoveRedEye size={5.55} color="#00D3F2" />
-                          <span
-                            className="text-white"
-                            style={{ fontSize: 4.75 }}
-                          >
-                            Visits: 22
-                          </span>
-                        </div>
-
-                        <div
-                          className="position-absolute"
-                          style={{
-                            top: "4.74px",
-                            left: "7.01px",
-                          }}
-                        >
-                          <div
-                            className="fw-bold"
-                            style={{
-                              padding: "1.58px 3.54px",
-                              background: "#141518",
-                              borderRadius: "3.96px",
-                              lineHeight: 1,
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: "4.75px",
-                                color: "#DFE012",
-                                lineHeight: 1,
-                                display: "block",
-                              }}
-                            >
-                              {displayStatusText(project.reportStatus)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          background: "#1D1F25",
-                          padding: "7.29px 5.95px",
-                        }}
-                      >
-                        <div
-                          className="d-flex align-content-center justify-content-between"
-                          style={{ marginBottom: 6.77 }}
-                        >
-                          <span
-                            className="fw-bold"
-                            style={{ fontSize: 4.9, color: "#9CA3AF" }}
-                          >
-                            GS NO: {project.gSno}
-                          </span>
-                          <span
-                            className="fw-bold"
-                            style={{ fontSize: 4.9, color: "#9CA3AF" }}
-                          >
-                            {project.projectName.substring(0, 33)}...
-                          </span>
-                        </div>
-                        <div
-                          style={{
-                            borderBottom: "0.35px solid #2A2A2A",
-                            marginBottom: 6.77,
-                          }}
-                        />
-                        <div>
-                          <p
-                            className="fw-5"
-                            style={{
-                              fontSize: 5.21,
-                              color: "#9CA3AF",
-                              marginBottom: "1.75px",
-                            }}
-                          >
-                            Project Name
-                          </p>
-
-                          <p
-                            className="fw-8 text-white"
-                            style={{
-                              fontSize: 5.73,
-                              marginBottom: 8.33,
-                            }}
-                          >
-                            {project.projectName}
-                          </p>
-
-                          <div
-                            className="d-flex justify-content-between"
-                            style={{ gap: 17.77, marginBottom: 6.77 }}
-                          >
-                            <div>
-                              <p
-                                className="fw-5"
-                                style={{
-                                  marginBottom: 1.75,
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                PC-I Cost
-                              </p>
-                              <p
-                                className="fw-6 text-white m-0"
-                                style={{
-                                  fontSize: 5.73,
-                                }}
-                              >
-                                74,9420.140 M
-                              </p>
-                            </div>
-                            <div>
-                              <p
-                                className="fw-5"
-                                style={{
-                                  marginBottom: 1.75,
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Planned Start Date
-                              </p>
-                              <p
-                                className="fw-6 text-white m-0"
-                                style={{
-                                  fontSize: 5.73,
-                                }}
-                              >
-                                01-Jul-2024
-                              </p>
-                            </div>
-                            <div>
-                              <p
-                                className="fw-5"
-                                style={{
-                                  marginBottom: 1.75,
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Planned End Date
-                              </p>
-                              <p
-                                className="fw-6 text-white m-0"
-                                style={{
-                                  fontSize: 5.73,
-                                }}
-                              >
-                                28-Feb-2027
-                              </p>
-                            </div>
-                            <div>
-                              <p
-                                className="fw-5"
-                                style={{
-                                  marginBottom: 1.75,
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Location
-                              </p>
-                              <p
-                                className="fw-6 text-white m-0"
-                                style={{
-                                  fontSize: 5.73,
-                                }}
-                              >
-                                Opposite to Val...
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div
-                          style={{
-                            borderBottom: "0.35px solid #2A2A2A",
-                            marginBottom: 6.77,
-                          }}
-                        />
-
-                        <div
-                          className="d-flex justify-content-between"
-                          style={{ gap: 9.1 }}
-                        >
-                          <div
-                            className="d-flex align-items-center"
-                            style={{ gap: 3.5 }}
-                          >
-                            <div
-                              className="color-evaluation-theme-blue rounded-circle fw-6 d-flex align-items-center justify-content-center"
-                              style={{
-                                background: "rgba(0, 143, 251, 0.1)",
-                                border: "0.52px solid #1C6BA6",
-                                fontSize: 5.21,
-                                width: 13.2,
-                                height: 13.2,
-                              }}
-                            >
-                              MS
-                            </div>
-                            <div>
-                              <p
-                                className="fw-5"
-                                style={{
-                                  marginBottom: "0",
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Reporting Officer
-                              </p>
-                              <p
-                                className="fw-6 text-white"
-                                style={{ marginBottom: "0", fontSize: 5.73 }}
-                              >
-                                M. Salman
-                              </p>
-                            </div>
-                          </div>
-                          <div
-                            className="d-flex justify-content-end"
-                            style={{ gap: 9.1 }}
-                          >
-                            <div>
-                              <p
-                                className="fw-5 text-end"
-                                style={{
-                                  marginBottom: "0",
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Report Issue Date
-                              </p>
-                              <p
-                                className="fw-6 text-white text-end"
-                                style={{ marginBottom: "0", fontSize: 5.73 }}
-                              >
-                                Sun-08-Mar-2026
-                              </p>
-                            </div>
-                            <div>
-                              <p
-                                className="fw-5 text-end"
-                                style={{
-                                  marginBottom: "0",
-                                  fontSize: 5.21,
-                                  color: "#9CA3AF",
-                                }}
-                              >
-                                Visit Completed Date
-                              </p>
-                              <p
-                                className="fw-6 text-white text-end"
-                                style={{ marginBottom: "0", fontSize: 5.73 }}
-                              >
-                                Fri-06-Mar-2026
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </Fragment>
-          ))} */}
         </div>
       </div>
     </div>

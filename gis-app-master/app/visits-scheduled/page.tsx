@@ -1,4 +1,4 @@
-import VisitsScheduled from "./components/VisitsScheduled";
+import VisitsScheduled from "@/features/visits/components/visits-scheduled/VisitsScheduled";
 
 const VisitsScheduledPage = () => {
   return (

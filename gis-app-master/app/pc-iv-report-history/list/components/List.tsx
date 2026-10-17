@@ -1,18 +1,15 @@
 "use client";
-import { PC_IV_WORKFLOW_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Loader from "@/app/components/Loader/Loader";
-import useOfficers, { Officer } from "@/app/hooks/useOfficers";
-import useReportHistoryUser from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Loader from "@/shared/components/Loader/Loader";
+import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import {
@@ -22,54 +19,16 @@ import {
   SCHEDULED,
   SUBMITTED,
 } from "../../statuses";
-
-const raleway = Raleway({
-  subsets: ["latin"],
-});
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-  isFocalPerson: boolean;
-}
-
-export interface SubmittedReportResponse {
-  totalIssuedCount: number;
-  reports: SubmittedReport[];
-}
-
-interface Tab {
-  id: number;
-  label: string;
-  status: number;
-  role: string;
-  reportSubmittedFrom?: number;
-  reportSubmittedTo?: number;
-  count: number;
-  filteredData: SubmittedReport[] | undefined;
-}
+import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);
   const [issuedReportCount, setIssuedReportCount] = useState<number>(0);
 
-  const [userId, setUserId] = useState<number | null>(null);
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
@@ -85,19 +44,6 @@ const List = () => {
   useEffect(() => {
     console.log("selectedTab", selectedTab);
   }, [selectedTab]);
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      setUserId(Number(id));
-    }
-
-    if (role) {
-      setRole(role.toLowerCase());
-    }
-  }, []);
 
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
@@ -166,56 +112,12 @@ const List = () => {
   const [tabs, setTabs] = useState<Tab[]>();
 
   useEffect(() => {
-    if (!data || userId === null) return;
+    if (!data || userId === undefined) return;
 
     const tabs = [
-      // {
-      // id: 0,
-      //   label: "All",
-      //   status: -99,
-      //   reportSubmittedFrom: userId,
-      //   reportSubmittedTo: userId,
-      //   filteredData:data;
-      // },
-      // {
-      //   id: 1,
-      //   label: "SUBMITTED BY (AD)",
-      //   status: SUBMITTED,
-      //   role: "deputy director",
-      //   reportSubmittedTo: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 2,
-      //   label: "SUBMITTED BY (DD)",
-      //   status: SUBMITTED,
-      //   role: "director",
-      //   reportSubmittedTo: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 3,
-      //   label: "SUBMITTED TO (DIRECTOR)",
-      //   status: SUBMITTED,
-      //   role: "deputy director",
-      //   reportSubmittedFrom: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 4,
-      //   label: "SUBMITTED TO (DG)",
-      //   status: SUBMITTED,
-      //   role: "director",
-      //   reportSubmittedFrom: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
       {
         id: 1,
-        label: "SUBMITTED BY (DEPARTMENT)",
+        label: "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)",
         status: SCHEDULED,
         role: "department head",
         reportSubmittedTo: userId,
@@ -322,68 +224,6 @@ const List = () => {
         filteredData: undefined,
       },
 
-      // {
-      //   id: 8,
-      //   label: "APPROVED BY (DG)",
-      //   status: APPROVED,
-      //   role: "deputy director",
-      //   reportSubmittedTo: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 9,
-      //   label: "REFERBACK BY (DIRECTOR)",
-      //   status: REFERBACK,
-      //   role: "deputy director",
-      //   reportSubmittedTo: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 10,
-      //   label: "REFERBACK TO (AD)",
-      //   status: REFERBACK,
-      //   role: "deputy director",
-      //   reportSubmittedFrom: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 11,
-      //   label: "REFERBACK BY (DG)",
-      //   status: REFERBACK,
-      //   role: "director",
-      //   reportSubmittedTo: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 12,
-      //   label: "REFERBACK TO (DD)",
-      //   status: REFERBACK,
-      //   role: "director",
-      //   reportSubmittedFrom: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      //   id: 13,
-      //   label: "REFERBACK TO (DIRECTOR)",
-      //   status: REFERBACK,
-      //   role: "department head",
-      //   reportSubmittedFrom: userId,
-      //   count: 0,
-      //   filteredData: undefined,
-      // },
-      // {
-      // id: 14,
-      //   label: "ISSUED",
-      //   status: ISSUED,
-      //   direction: undefined,
-      //   tabKey: `${ISSUED}`,
-      //   count: 0,
-      // },
     ];
 
     if (data) {
@@ -521,13 +361,7 @@ const List = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role && data && data.length > 0 ? (
         // ✅ render your data block here
         <div
@@ -571,8 +405,6 @@ const List = () => {
                           color: "rgba(38, 50, 56,1)",
                         }}
                         placeholder="Search"
-                        // value={searchTerm}
-                        // onChange={handleChange}
                       />
                     </div>
                   </form>
@@ -654,84 +486,8 @@ const List = () => {
                         </Button>
                       </div>
                     ))}
-                  {/* <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === -98 ? "text-dark" : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === -98 ? "3px solid #0c8ce9" : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(-98);
-                        setSelectedLabel("Issued");
-                        setFilteredData(
-                          data?.filter((d) => d.status === ISSUED)
-                        );
-                      }}
-                    >
-                      Issued
-                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {issuedReportCount}
-                      </span>
-                    </Button>
-                  </div> */}
-                  {/* <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === tabs.length
-                          ? "text-dark"
-                          : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === tabs.length
-                            ? "3px solid #0c8ce9"
-                            : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(tabs.length);
-                        setSelectedLabel("Issued")
-                        setFilteredData(
-                          data?.filter((d) => d.status === ISSUED)
-                        );
-                      }}
-                    >
-                      Issued
-                      {data?.filter((d) => d.status === ISSUED).length > 0 && (
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {data?.filter((d) => d.status === ISSUED).length}
-                        </span>
-                      )}
-                    </Button>
-                  </div> */}
                 </div>
               </div>
-              {/* <div className="col-lg-4 col-md-6 col-sm-12 text-auto">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                          <div className="input-group">
-                            <input
-                              type="text"
-                              className="form-control border-0 rounded-pill rounded-end"
-                              style={{
-                                background: "rgba(16, 143, 168, .1)",
-                                outline: "none",
-                                border: "1px solid #D0D5DD",
-                              }}
-                              placeholder="Search"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
-                            <button
-                              className="btn rounded-start rounded-pill bg-color-sea-green text-white"
-                              type="submit"
-                            >
-                              <IoSearch className="mb-1" style={{ color: "#fff" }} />
-                            </button>
-                          </div>
-                        </form>
-                      </div> */}
             </div>
           </div>
           {filteredData?.map((d, i) => (
@@ -980,13 +736,7 @@ const List = () => {
           ))}
         </div>
       ) : (
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
+        <AlertMessage variant="warning" />
       )}
     </>
   );

@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import TableRow from "./TableRow";
 import { Dispatch, SetStateAction } from "react";
-import { SectorItem } from "../PPTSlideGenerator";
+import { SectorItem } from "../../../types";
 
 interface Props {
   sectors: SectorItem[];
@@ -59,7 +59,6 @@ const DragableTable = ({ sectors, setSectors }: Props) => {
             <tr>
               <th scope="col">Sr</th>
               <th scope="col">Sectors</th>
-              {/* <th scope="col">Drag</th> */}
             </tr>
           </thead>
           <tbody>

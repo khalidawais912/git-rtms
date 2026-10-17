@@ -1,18 +1,13 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { DashboardTypeEnum } from "../dashboard/types/types";
-import useOfficers, { Officer } from "../hooks/useOfficers";
-import useReportHistoryUser from "../hooks/useReportHistoryUsers";
+import { useEffect, useMemo, useState } from "react";
+import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
 import Cookies from "js-cookie";
 
 const loggedInUsername = Cookies.get("userName");
 
 const PCIVAttachedReviewPage = () => {
-  const searchParams = useSearchParams();
-  const dashboardType = searchParams.get("dashboardType");
   const [refresh, setRefresh] = useState(false);
 
   const { data: users } = useReportHistoryUser();
@@ -20,45 +15,35 @@ const PCIVAttachedReviewPage = () => {
   console.log("users", users);
   console.log("officers", officers);
 
-  const [deputyDirectors, setDeputyDirectors] = useState<Officer[]>();
-  const [directors, setDirectors] = useState<Officer[]>();
-  const [departmentHead, setDepartmentHead] = useState<Officer>();
-
-  const types = Object.values(DashboardTypeEnum);
-  const currentType = types.includes(dashboardType as any)
-    ? (dashboardType as DashboardTypeEnum)
-    : undefined;
-
-  useEffect(() => {
-    if (!officers) return;
-
-    setDeputyDirectors(
-      officers.filter((o) => o.roleName === "Deputy Director"),
-    );
-
-    setDirectors(officers.filter((o) => o.roleName === "Director"));
-
-    setDepartmentHead(
-      officers.find(
-        (o) =>
-          o.roleName === "Department Head" || o.roleName === "Department Admin",
-      ),
+  // DGM&E = "Administrative Department" (pehle "Department Head" role tha)
+  const departmentHead = useMemo<Officer | undefined>(() => {
+    const normalize = (v?: string) => (v ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+    return (
+      officers?.find((o) => normalize(o.roleName) === "Administrative Secretary") ??
+      officers?.find((o) => normalize(o.roleName) === "department head") ??
+      officers?.find((o) => /\bdg\s*m\s*&\s*e\b|director general/i.test(o.designation ?? ""))
     );
   }, [officers]);
+
+  useEffect(() => {
+    if (officers && !departmentHead) {
+      console.warn(
+        "DGM&E (Administrative Department) officer not found. roleNames:",
+        officers.map((o) => `${o.id}: ${o.roleName} / ${o.designation}`),
+      );
+    }
+  }, [officers, departmentHead]);
+
+  console.log("departmentHead", departmentHead);
 
   return (
     <div className="p-3 pt-0">
       {users &&
         officers &&
-        deputyDirectors &&
-        directors &&
         loggedInUsername && (
           <List
-            dashbaordType={currentType}
             users={users}
-            officers={officers}
-            deputyDirectors={deputyDirectors}
-            directors={directors}
+            departmentHead={departmentHead}
             refresh={refresh}
             setRefresh={setRefresh}
             loggedInUsername={loggedInUsername}

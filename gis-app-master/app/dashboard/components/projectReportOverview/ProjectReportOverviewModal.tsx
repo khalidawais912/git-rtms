@@ -1,12 +1,9 @@
-import { PROJECT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import ProgressBar from "@/app/components/ProgressBar";
-import {
-  Attributes,
-  Groups,
-} from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
-import apiClient from "@/app/services/api-client";
+import { PROJECT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import ProgressBar from "@/shared/components/ProgressBar";
+import { Attributes, Groups } from "@/app/project-details-dashboard/types";
+import apiClient from "@/shared/api/client";
 import book from "@/public/icons/book.svg";
 import dotsL from "@/public/icons/dotsL.svg";
 import anchorPoint from "@/public/icons/anchor-point.svg";
@@ -33,38 +30,15 @@ import ObservationsAndRecommendations from "./components/ObservationsAndRecommen
 import ProgressAnalysis from "./components/ProgressAnalysis";
 import ProjectProfile from "./components/ProjectProfile";
 import Badge from "../ProjectsTable/components/Badge";
-import Loader from "@/app/components/Loader/Loader";
-import { triggerEscapeKeyPress } from "@/app/utils";
+import Loader from "@/shared/components/Loader/Loader";
+import { triggerEscapeKeyPress } from "@/shared/utils";
+import { Project } from "../../types";
 
 interface Props {
   value: number;
   id: number;
   visitId: number;
 }
-
-export interface Project {
-  id: number;
-  superGroupID: number;
-  smdpProjectID: number;
-  name: string;
-  sectorId: number;
-  address: string;
-  city: string;
-  locationCoordinates: string;
-  status: string;
-  sectorName: string;
-  groups: Groups[];
-  attributes: Attributes[];
-  evaluationFormula: string;
-  evaluationFormulaWeightage: number;
-  remarks: string;
-  weightage: number;
-  readOnly: number;
-  sortId: number;
-  attributeCode: string;
-  smdpIdentifier: string;
-}
-
 const icons = [
   {
     icon: mainPage,
@@ -155,7 +129,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
             0,
           ) || 0;
 
-    // setTotalValue(totalValue);
     const gainedValue =
       attributes.length > 0
         ? attributes.filter(
@@ -171,7 +144,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
             return gained + (groupGained || 0);
           }, 0) || 0;
 
-    // setGainedValue(gainedValue);
     console.log(
       "gained percentage:",
       gainedValue && totalValue ? (gainedValue / totalValue) * 100 : 0,
@@ -202,9 +174,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
           >
             <div className="row d-flex m-0 align-items-center">
               <ProgressBar value={Math.round(value)} />
-              {/* <div className="col-auto p-0 color-dark-blue fw-bold fs13px">
-                {Math.round(value)}%
-              </div> */}
               <div className="col-auto p-0">
                 <Badge>{Math.round(value)}%</Badge>
               </div>
@@ -324,9 +293,6 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
                                     </div>
                                   </div>
                                 </div>
-                                {/* <div className="col-lg-1 col-md-2 col-2 ps-0">
-                      {Math.round(value)}%
-                    </div> */}
                               </Accordion.Header>
                               <Accordion.Body>
                                 {group.name.toLowerCase().includes("main") ? (

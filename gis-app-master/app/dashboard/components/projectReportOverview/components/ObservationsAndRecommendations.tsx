@@ -1,4 +1,4 @@
-import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { Groups } from "@/app/project-details-dashboard/types";
 import RenderRichText from "@/app/project-details-dashboard/components/RenderRichText";
 
 interface Props {
@@ -8,11 +8,6 @@ const ObservationsAndRecommendations = ({ group }: Props) => {
   return (
     <div
       className="col p-0"
-      // style={{
-      //   height: "541px",
-      //   overflow: "hidden",
-      //   overflowY: "scroll",
-      // }}
     >
       <div className="row d-flex flex-column mb-3">
         {group.attributes.length > 0 &&

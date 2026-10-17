@@ -1,10 +1,12 @@
 "use client";
-import { DEPARTMENT_ROLES_SORTING_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import useRoles from "@/app/hooks/useRoles";
-import apiClient from "@/app/services/api-client";
-import { getTimeAgo, hexToRgba, Option } from "@/app/utils";
+import { DEPARTMENT_ROLES_SORTING_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import { useRoles } from "@/features/roles";
+import apiClient from "@/shared/api/client";
+import { getTimeAgo, hexToRgba } from "@/shared/utils";
+import { Option } from "@/shared/utils/types";
 import { Edge, MarkerType, Node } from "@xyflow/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -255,8 +257,6 @@ const HierarchyBuilder = () => {
     }
 
     setNodeId((id) => id + 1);
-    // setRoleId(-1);
-    // setDescription("");
   };
 
   const handleDeleteNode = (idToDelete: string) => {
@@ -509,8 +509,6 @@ const HierarchyBuilder = () => {
     }),
     option: (base, state) => ({
       ...base,
-      // backgroundColor: state.isFocused ? "#f0f0f0" : "white",
-      // color: "#333",
       fontSize: "14px",
     }),
   };
@@ -525,9 +523,6 @@ const HierarchyBuilder = () => {
           border: "1px solid #E2E4E5",
         }}
       >
-        {/* <Button className="btn btn-danger" onClick={logNodesInDisplayOrder}>
-          Log UI Order
-        </Button> */}
 
         <div className="col-12 col-sm-12 col-md-4 col-lg-3">
           <p className="m-0 fs20px fw-5">Department History</p>
@@ -682,13 +677,6 @@ const HierarchyBuilder = () => {
                 }}
               />
             )}
-            {/* <input
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              type="text"
-              className="form-control form-control-sm"
-              placeholder="Admin"
-            /> */}
           </div>
 
           <div className="col mb-3">

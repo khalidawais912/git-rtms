@@ -1,16 +1,14 @@
-import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import Spinner from "@/app/components/Spinner";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import apiClient from "@/app/services/api-client";
-import {
-  StaffTracking,
-  TrackingRequestData,
-} from "@/app/staff-tracking/components/StaffTracking";
-import { formatDateTime } from "@/app/utils";
+import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import Spinner from "@/shared/components/Spinner";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { useAuthentication } from "@/features/users";
+import apiClient from "@/shared/api/client";
+import { StaffTracking } from "@/app/staff-tracking/components/StaffTracking";
+import { TrackingRequestData } from "@/app/staff-tracking/types";
+import { formatDateTime } from "@/shared/utils";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
-import { DM_Sans } from "next/font/google";
+import { dmSans } from "@/shared/styles/fonts";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import MasterReport from "./MasterReport";
@@ -18,29 +16,7 @@ import PPTSlideGenerator from "./PPTSlideGenerator/PPTSlideGenerator";
 import { ProjectsList } from "./ProjectsTable/ProjectsTable";
 import { data, tabs } from "./reportAnalysisData";
 import TimeSpentOnProjectSiteFilterMenu from "./TimeSpentOnProjectSiteFilterMenu";
-
-const dmSans = DM_Sans({ subsets: ["latin"], preload: false });
-
-interface StartEndLatLng {
-  visit: {
-    visitID: number;
-    visitStartTime: string;
-    startLatLng: {
-      latitude: string;
-      longitude: string;
-      createdAt: string;
-    };
-    endLatLng: {
-      latitude: string;
-      longitude: string;
-      createdAt: string;
-    };
-  };
-}
-
-interface StaffTrackingData {
-  data: StaffTracking[];
-}
+import { StaffTrackingData, StartEndLatLng } from "../types";
 
 const ReportAnalysis = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
@@ -150,7 +126,6 @@ const ReportAnalysis = () => {
           };
 
           const alignedResults = results.map((item) => item ?? placeholder); // Replace null/undefined with a valid placeholder
-          // setRecordingData((prev) => [...alignedResults]);
           setRecordingData([...alignedResults]);
         })
         .catch((err) => console.error("Error fetching recording data:", err));
@@ -165,9 +140,7 @@ const ReportAnalysis = () => {
         STAFF_TRACKING_API,
         recordingTrackingRequestBody,
       );
-      // console.log("recording data response:", response.data.data[0]);
       return response.data.data[0];
-      // setRecordingData((prev) => [...prev, response.data.data[0]]);
     } catch (err) {
       console.log(err);
       return null;
@@ -479,7 +452,6 @@ const ReportAnalysis = () => {
             </div>
           ) : (
             <div className="col mb-3 text-end">
-              {/* <DownloadDropDown onClickExcel={()=>downloadReportAnalysisToExcel(data[selectedIndex],"ReportAnalysis.xlsx")} /> */}
             </div>
           )}
           <div
@@ -490,55 +462,6 @@ const ReportAnalysis = () => {
             }}
           >
             {selectedIndex === 0 ? (
-              // <table className="table table-hover fs17px">
-              //   <thead
-              //     style={{
-              //       background: "#4F81BD",
-              //       borderTopRightRadius: "10px",
-              //     }}
-              //   >
-              //     <tr className="text-center">
-              //       <td
-              //         className="text-secondary border-bottom-0 text-light"
-              //         style={{
-              //           borderTopLeftRadius: "10px",
-              //         }}
-              //       >
-              //         S.no
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Row Labels
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         No
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Yes
-              //       </td>
-              //       <td className="text-secondary border-bottom-0 text-light">
-              //         Grand Total
-              //       </td>
-              //     </tr>
-              //   </thead>
-              //   <tbody>
-              //     {data.reportsGenerated?.map((d, i) => (
-              //       <tr key={i}>
-              //         <td>{i + 1}</td>
-              //         <td className="text-start">{d.rowLabels}</td>
-              //         <td>{d.no}</td>
-              //         <td>{d.yes}</td>
-              //         <td>{d.grandTotal}</td>
-              //       </tr>
-              //     ))}
-              // <tr className="bg-light fw-normal">
-              //         <td></td>
-              //         <td className="text-start">Grand Total</td>
-              //         <td>39</td>
-              //         <td>62</td>
-              //         <td>101</td>
-              //       </tr>
-              //   </tbody>
-              // </table>
               <></>
             ) : selectedIndex === 1 ? (
               <table className="table table-hover fs17px">

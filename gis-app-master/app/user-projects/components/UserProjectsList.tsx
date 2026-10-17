@@ -1,20 +1,21 @@
 "use client";
-import { GET_USER_PROJECTS_API } from "@/app/APIs";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import Pagination from "@/app/components/Table/Pagination";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import TableWrapper from "@/app/components/Table/TableWrapper";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import { Project } from "@/app/hooks/useProjects";
-import useSectors from "@/app/hooks/useSectors";
-import useSuperGroups from "@/app/hooks/useSuperGroups";
-import AssignUserForm from "@/app/projects/components/AssignUserForm";
-import StatusBadge from "@/app/projects/components/StatusBadge";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getName } from "@/app/utils";
+import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import Pagination from "@/shared/components/Table/Pagination";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import TableWrapper from "@/shared/components/Table/TableWrapper";
+import { useAuthentication } from "@/features/users";
+import { Project } from "@/features/projects";
+import { useSectors } from "@/features/sectors";
+import { useSuperGroups } from "@/features/super-group";
+import AssignUserForm from "@/features/projects/components/AssignUserForm";
+import StatusBadge from "@/features/projects/components/StatusBadge";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getName } from "@/shared/utils";
 import { sort } from "fast-sort";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -27,17 +28,6 @@ interface ListProps {
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  superGroupLabel: string;
-}
-
-export interface UserOption {
-  id: number;
-  userName: string;
-}
-
 const UserProjectsList = ({ refresh }: ListProps) => {
   const { data: sectorsData } = useSectors({ refresh });
   const { data: superGroups } = useSuperGroups({ refresh });
@@ -56,7 +46,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.gsNo, item.name, item.status]
         .filter((field) => field) // Remove undefined fields
@@ -144,26 +133,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
         handleChange={handleChange}
         form={
           <>
-            {/* <div className="col text-end mb-2">
-                <SmdpSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
-            {/* <div className="col text-end mb-2">
-                <SmdpAllProjectsSyncForm
-                  api={SMDP_SYNC_API}
-                  method="POST"
-                  setRefresh={setRefresh}
-                  refresh={refresh}
-                  showData={showData}
-                  setShowData={setShowData}
-                />
-              </div> */}
             <div className="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
               <form>
                 <div className="col text-start">
@@ -191,23 +160,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                       }}
                     />
                   )}
-                  {/* <select
-                      className="color-light-dark pt-1 pb-2"
-                      aria-label="Select User"
-                      name="user"
-                      style={{
-                        outline: "none",
-                        background: "rgba(16, 143, 168, .1)",
-                      }}
-                      onChange={(e) => handleSubmit(Number(e.target.value))}
-                    >
-                      <option value="">Select User</option>
-                      {users.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.userName}
-                        </option>
-                      ))}
-                    </select> */}
                 </div>
               </form>
             </div>
@@ -271,9 +223,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                     />
                     <TableHeading name="ASSIGN USER" className="text-nowrap" />
                     <TableHeading name="SUPER GROUP" className="text-nowrap" />
-                    {/* <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th> */}
-                    {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
-                    {/* <th style={{ whiteSpace: "nowrap" }}>SUPER GROUP</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -284,80 +233,14 @@ const UserProjectsList = ({ refresh }: ListProps) => {
                       <TableData>{d.name}</TableData>
                       <TableData>{getName(d.sectorId, sectorsData)}</TableData>
                       <TableData className="text-nowrap">
-                        {/* {d.status === "scheduled" || d.status === "Scheduled" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status === "not confirmed" ||
-                    d.status === "Not Confirmed" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : d.status === "cancel" || d.status === "Cancel" ? (
-                    <Image
-                      src={cancel}
-                      style={{ marginBottom: "3px" }}
-                      alt="cancel"
-                    />
-                  ) : d.status === "completed" || d.status === "Completed" ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status.startsWith("approved") ||
-                    d.status.startsWith("Approved") ? (
-                    <Image
-                      src={complete}
-                      style={{ marginBottom: "3px" }}
-                      alt="complete"
-                    />
-                  ) : d.status === "active" || d.status === "Active" ? (
-                    <Image
-                      src={calender}
-                      style={{ marginBottom: "3px" }}
-                      alt="calender"
-                    />
-                  ) : d.status === "draft" || d.status === "Draft" ? (
-                    <Image
-                      src={clock}
-                      style={{ marginBottom: "3px" }}
-                      alt="clock"
-                    />
-                  ) : (
-                    ""
-                  )}
-                  &nbsp;{d.status} */}
                         <StatusBadge status={d.status} />
                       </TableData>
                       <TableData className="text-center">
                         <AssignUserForm id={d.id} options={users} />
                       </TableData>
-                      {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </TableData> */}
                       <TableData className="text-center">
                         <GroupingForm id={d.id} options={superGroups} />
                       </TableData>
-                      {/* <TableData>
-                  <DeleteModal handleDelete={handleDelete} id={d.id} />
-                </TableData> */}
-                      {/* <TableData>
-                  <DownloadPDFBtn />
-                </TableData> */}
-                      {/* <TableData>
-                  <ProjectForm
-                    api={PROJECT_API}
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </TableData> */}
                     </tr>
                   ))}
                 </tbody>

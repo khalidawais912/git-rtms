@@ -1,4 +1,4 @@
-import { REVERSE_GEO_CODING_API } from "@/app/APIs";
+import { REVERSE_GEO_CODING_API } from "@/shared/api/endpoints";
 import {
   AdvancedMarker,
   APIProvider,
@@ -7,7 +7,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Fragment, useEffect, useState } from "react";
 import StaffCard from "../Map/StaffCard";
-import { Position, StaffTracking, TrackingRequestData } from "../StaffTracking";
+import { StaffTracking } from "../StaffTracking";
+import { Position, TrackingRequestData } from "../../types";
 
 interface Props {
   data: StaffTracking[];

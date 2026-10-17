@@ -129,38 +129,9 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
         borderRadius: "10px",
       }}
     >
-      {/* <h2>{selected.summary}</h2> */}
-      {/* <Button
-        className="btn btn-sm btn-info my-2"
-        onClick={() => setShowFullAddress(!showFullAddress)}
-      >
-        {showFullAddress ? "Show Short Address" : "Show Full Address"}
-      </Button>
-      {showFullAddress ? (
-        <p>
-          {leg.start_address} To {leg.end_address}
-        </p>
-      ) : (
-        <p>
-          {leg.start_address.split(",")[0]} To {leg.end_address.split(",")[0]}
-        </p>
-      )} */}
       <p className="m-0 f-6">Distance: {leg.distance?.text}</p>
       <p className="m-0 f-6">Duration: {leg.duration?.text}</p>
 
-      {/* <h2>Other Routes</h2>
-      <ul>
-        {routes.map((route, index) => (
-          <li key={route.summary} className="mb-2">
-            <button
-              className="btn btn-sm btn-primary"
-              onClick={() => setRouteIndex(index)}
-            >
-              {route.summary}
-            </button>
-          </li>
-        ))}
-      </ul> */}
     </div>
   );
 }
