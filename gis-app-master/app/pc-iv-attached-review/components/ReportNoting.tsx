@@ -1,5 +1,5 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import Spinner from "@/shared/components/Spinner";
 import { Officer, ReportHistoryUser } from "@/features/users";
@@ -239,44 +239,33 @@ const ReportNoting = ({
     }
   };
 
+  const pcivId = data?.pcivId;
+
   useEffect(() => {
-    const getReportHistory = async (
-      visitId: number,
-      projectId: number,
-      reportType: number,
-    ) => {
+    if (!pcivId) return;
+
+    const getReportHistory = async (pcivId: number) => {
       setLoading(true);
+      setError("");
       try {
-        const response = await apiClient.get(
-          `${REPORTS_HISTORY_API}/GetReportHistory?visitId=${visitId}&ProjectId=${projectId}&reportType=${reportType}`,
-        );
-        console.log("response", response);
-        if (response.data !== null) {
-          const sorted = [...response.data.data].sort((a, b) =>
-            (b.sDate || "").localeCompare(a.sDate || ""),
-          );
+        const response = await apiClient.get(`${PC_IV_WORKFLOW_API}/history`, {
+          params: { pcivId },
+        });
+        const history: ReportHistory[] = response?.data?.data ?? [];
+        const byDate = (a: ReportHistory, b: ReportHistory) =>
+          new Date(a.mark_date).getTime() - new Date(b.mark_date).getTime();
 
-          setDescendingOrderReportsHistory(sorted);
-          console.log("sorted", sorted);
-
-          const sortedAsc = [...response.data.data].sort((a, b) =>
-            (a.sDate || "").localeCompare(b.sDate || ""),
-          );
-          setAscendingOrderReportsHistory(sortedAsc);
-        }
-
-        setLoading(false);
+        setAscendingOrderReportsHistory([...history].sort(byDate));
+        setDescendingOrderReportsHistory([...history].sort((a, b) => byDate(b, a)));
       } catch (err) {
         setError((err as AxiosError).message);
         console.error("Submission error:", err);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
-    if (data) getReportHistory(data.visitId, data.projectId, data.reportType);
-  }, [data]);
+    getReportHistory(pcivId);
+  }, [pcivId]);
 
   useEffect(() => {
     if (descendingOrderReportsHistory) {
@@ -337,7 +326,9 @@ const ReportNoting = ({
             <Loader />
           ) : error ? (
             <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
-          ) : descendingOrderReportsHistory && ascendingOrderReportsHistory ? (
+          ) : descendingOrderReportsHistory &&
+            descendingOrderReportsHistory.length > 0 &&
+            ascendingOrderReportsHistory ? (
             <div className="row d-flex m-0">
               {viewPdf && (
                 <div className="col-lg-6 col-md-12 col-sm-12 mb-3">

@@ -116,6 +116,7 @@ const List = ({
         label: "SUBMITTED BY ATTACHED DEPT.",
         status: SUBMITTED,
         role: "administrative secretary",
+        reportSubmittedTo: userId,
         count: 0,
         filteredData: undefined,
       },
@@ -124,19 +125,26 @@ const List = ({
         label: "SUBMITTED TO (DGM&E)",
         status: SUBMITTED,
         role: "administrative secretary",
+        reportSubmittedFrom: userId,
         count: 0,
         filteredData: undefined,
       },
     ];
 
     if (data) {
-      const updatedTabs: Tab[] = tabs.map((tab) => ({
-        ...tab,
-        filteredData: [],
-      }));
+      const updatedTabs: Tab[] = tabs.map((tab) => {
+        const filteredData = data.filter(
+          (d) =>
+            d.status === tab.status &&
+            (tab.reportSubmittedTo
+              ? d.submittedTo === tab.reportSubmittedTo
+              : d.submittedFrom === tab.reportSubmittedFrom),
+        );
+        return { ...tab, count: filteredData.length, filteredData };
+      });
       setTabs(updatedTabs);
     }
-  }, [data]);
+  }, [data, userId]);
 
   useEffect(() => {
     if (!tabs) return;
@@ -198,7 +206,7 @@ const List = ({
       if (commentEligibleReports.length > 0) {
         setTimeout(() => {
           const firstModalButton = document.querySelector(
-            `[data-bs-target="#comment${commentEligibleReports[0].id}"]`,
+            `[data-bs-target="#comment${commentEligibleReports[0].pcivId}"]`,
           ) as HTMLButtonElement;
 
           if (firstModalButton) {
@@ -226,7 +234,7 @@ const List = ({
       const nextReport = commentEligible[nextIndex];
       setTimeout(() => {
         const btn = document.querySelector(
-          `[data-bs-target="#comment${nextReport.id}"]`,
+          `[data-bs-target="#comment${nextReport.pcivId}"]`,
         ) as HTMLButtonElement;
         if (btn) {
           btn.click();
@@ -255,7 +263,7 @@ const List = ({
     const value = e.target.value.toLowerCase();
     const filtered = filteredData?.filter((item) =>
       [
-        item.id,
+        item.pcivId,
         item.gsNo,
         item.intiallyDesignation,
         item.intiallyUser,
@@ -569,7 +577,7 @@ const List = ({
                           {selectedTabLabel === "All" ? (
                             <CustomModal
                               isFullscreen
-                              modalId={`view-history${d.id}`}
+                              modalId={`view-history${d.pcivId}`}
                               buttonColumn="col-auto"
                               button={
                                 <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">
@@ -581,7 +589,7 @@ const List = ({
                           ) : (
                             <CustomModal
                               isFullscreen
-                              modalId={`comment${d.id}`}
+                              modalId={`comment${d.pcivId}`}
                               buttonColumn="col-auto"
                               button={
                                 <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">

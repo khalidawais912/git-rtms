@@ -39,6 +39,7 @@ export interface SubmittedReport {
   intiallyUser: string;
   intiallyDesignation: string;
   isFocalPerson: boolean;
+  pcivId: number;
 }
 
 export interface SubmittedReportResponse {

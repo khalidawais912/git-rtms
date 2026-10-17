@@ -21,39 +21,41 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
 
   const [reportsHistory, setReportsHistory] = useState<ReportHistory[]>();
 
+  const pcivId = data?.pcivId;
+
   useEffect(() => {
+    if (!pcivId) return;
+
     const getReportHistory = async (pcivId: number) => {
       setLoading(true);
+      setError("");
       try {
         const response = await apiClient.get(`${PC_IV_WORKFLOW_API}/history`, {
           params: { pcivId },
         });
+        const history: ReportHistory[] = response?.data?.data ?? [];
         setReportsHistory(
-          response.data.data.sort(
-            (a: ReportHistory, b: ReportHistory) =>
+          [...history].sort(
+            (a, b) =>
               new Date(b.mark_date).getTime() - new Date(a.mark_date).getTime(),
           ),
         );
-        setReportsHistory(response.data.data);
-        setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
         console.error("Submission error:", err);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
     };
-    console.log("pcivId:", data.projectId);
-    if (data) getReportHistory(data.projectId);
-  }, [data]);
+    getReportHistory(pcivId);
+  }, [pcivId]);
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : error ? (
         <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
-      ) : reportsHistory ? (
+      ) : reportsHistory && reportsHistory.length > 0 ? (
         <div
           className="col p-2 bg-white"
           style={{

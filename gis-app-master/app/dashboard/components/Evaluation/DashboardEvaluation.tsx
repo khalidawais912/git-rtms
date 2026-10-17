@@ -1,5 +1,5 @@
 "use client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import { EVALUATION_MAIN_DASHBOARD_API, EVALUATION_MAIN_DASHBOARD } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
@@ -95,7 +95,7 @@ const DashboardEvaluation = () => {
     setLoading(true);
     try {
       const response = await apiClient.post(
-        EVALUATION_MAIN_DASHBOARD_API + "/dashboard",
+        EVALUATION_MAIN_DASHBOARD + "/dashboard",
       );
       setData(response.data.data);
       setLoading(false);
@@ -861,7 +861,7 @@ const DashboardEvaluation = () => {
                       outline="1px solid rgba(12, 140, 233, 0.4)"
                       icon="/icons/inProcess.svg"
                       value={data ? data.pCivInProgress : 0}
-                      label="Submitted To DGM&E"
+                      label="Submitted To DGM&E 864"
                       showTides={false}
                       showArrow={true}
                       textWrap={false}
