@@ -106,8 +106,7 @@ const ReportNoting = ({
   const attachedDeptUser = users.find((u) => u.id === data.submittedFrom);
 
   const onSubmit = async (formData: ReportNotingForm, action: SubmitAction) => {
-    // const markTo =
-    //   action === "forward" ? departmentHead?.id : data.submittedFrom;
+    // const markTo = action === "forward" ? departmentHead?.id : data.submittedFrom;
 
     // if (!markTo) {
     //   toast.error("DGM&E officer not found.");
