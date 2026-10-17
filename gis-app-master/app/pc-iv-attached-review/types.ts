@@ -60,9 +60,7 @@ export interface Tab {
 
 export interface ListProps {
   users: ReportHistoryUser[];
-  officers: Officer[];
-  deputyDirectors: Officer[];
-  directors: Officer[];
+  departmentHead?: Officer;
   refresh: boolean;
   setRefresh: Dispatch<SetStateAction<boolean>>;
   loggedInUsername: string;

@@ -24,13 +24,14 @@ import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const List = ({
   users,
-  officers,
-  deputyDirectors,
-  directors,
+  departmentHead,
   refresh,
   setRefresh,
   loggedInUsername,
 }: ListProps) => {
+
+  console.log(departmentHead , "departmentHead line number 33");
+  
   const [data, setData] = useState<SubmittedReport[]>([]);
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
@@ -606,13 +607,9 @@ const List = ({
                                 <ReportNoting
                                   data={d}
                                   setRefresh={setRefresh}
-                                  role={role}
                                   userId={userId}
-                                  selectedTabLabel={selectedTabLabel}
                                   users={users}
-                                  deputyDirectors={deputyDirectors}
-                                  directors={directors}
-                                  officers={officers}
+                                  departmentHead={departmentHead}
                                   onCommentSubmitted={handleCommentSubmitted}
                                 />
                               }

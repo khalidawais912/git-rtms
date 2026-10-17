@@ -117,7 +117,7 @@ const List = () => {
     const tabs = [
       {
         id: 1,
-        label: "SUBMITTED BY (DEPARTMENT)",
+        label: "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)",
         status: SCHEDULED,
         role: "department head",
         reportSubmittedTo: userId,

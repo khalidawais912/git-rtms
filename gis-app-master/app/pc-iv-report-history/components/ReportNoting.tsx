@@ -307,7 +307,7 @@ const ReportNoting = ({
                       selectedTabLabel === "SUBMITTED BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (DG)" ||
                       selectedTabLabel === "REFERBACK BY (AD)" ||
-                      selectedTabLabel === "SUBMITTED BY (DEPARTMENT)" ||
+                      selectedTabLabel === "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)" ||
                       selectedTabLabel === "REFERBACK BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (D)") &&
                     (descendingOrderReportsHistory[0].status === SCHEDULED ||
@@ -501,7 +501,7 @@ const ReportNoting = ({
                             (selectedTabLabel === "MARK BY (DG)" ||
                               selectedTabLabel === "SUBMITTED BY (AD)" ||
                               selectedTabLabel ===
-                                "SUBMITTED BY (DEPARTMENT)" ||
+                                "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)" ||
                               selectedTabLabel === "REFERBACK BY (AD)") && (
                               <>
                                 {(role === "deputy director" &&
