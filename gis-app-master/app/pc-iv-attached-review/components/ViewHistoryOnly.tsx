@@ -20,7 +20,8 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
   const [error, setError] = useState("");
 
   const [reportsHistory, setReportsHistory] = useState<ReportHistory[]>();
-
+  console.log(data?.pcivId , "23" , "data is  here ? . " , data );
+  
   const pcivId = data?.pcivId;
 
   useEffect(() => {

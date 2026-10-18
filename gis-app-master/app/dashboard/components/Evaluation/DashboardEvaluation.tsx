@@ -861,7 +861,7 @@ const DashboardEvaluation = () => {
                       outline="1px solid rgba(12, 140, 233, 0.4)"
                       icon="/icons/inProcess.svg"
                       value={data ? data.pCivInProgress : 0}
-                      label="Submitted To DGM&E 864"
+                      label="Submitted To DGM&E"
                       showTides={false}
                       showArrow={true}
                       textWrap={false}
