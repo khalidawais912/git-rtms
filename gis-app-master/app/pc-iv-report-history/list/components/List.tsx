@@ -259,17 +259,17 @@ const List = () => {
         (tab) =>
           tab.role === role &&
           tab.count > 0 &&
+          // Only tabs where the report is waiting for this user's action
           // Department Head Tabs
           (tab.id === 1 ||
             tab.id === 2 ||
+            tab.id === 12 ||
             // Director Tabs
+            tab.id === 4 ||
             tab.id === 8 ||
-            tab.id === 9 ||
-            tab.id === 5 ||
             // Deputy Director Tabs
             tab.id === 6 ||
-            tab.id === 7 ||
-            tab.id === 11),
+            tab.id === 10),
       );
       if (tabWithRecord) {
         setSelectedTab(tabWithRecord.id);

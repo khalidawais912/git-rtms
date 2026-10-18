@@ -74,7 +74,6 @@ const ReportNoting = ({
   officers,
   onCommentSubmitted,
 }: Props) => {
-  console.log("data", data);
   const {
     control,
     setValue,
@@ -87,7 +86,6 @@ const ReportNoting = ({
       remarks: "", // 👈 make sure it starts as empty string, not undefined
     },
   });
-  console.log(errors);
 
   const [descendingOrderReportsHistory, setDescendingOrderReportsHistory] =
     useState<ReportHistory[]>();
@@ -99,16 +97,43 @@ const ReportNoting = ({
   const [submitAction, setSubmitAction] = useState<string | null>(null);
 
   const markTo = watch("markTo");
-  console.log("markTo", markTo, "isSubmitting" , isSubmitting);
+
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = e.target.value ? parseInt(e.target.value) : undefined;
 
     setValue("markTo", selectedId);
   };
 
-  // Department Head marks a received report to a Director, or refers it back to the sender
-  const isDirectorMarkTab =
-    role === "department head" && selectedTabLabel === "MARK TO (DIRECTOR)";
+  // Step-by-step workflow: each role marks the report one level down,
+  // or refers it back one level up (to whoever forwarded it to them).
+  const workflowTabs: Record<string, string[]> = {
+    "department head": ["MARK TO (DIRECTOR)", "REFERBACK BY (D)"],
+    director: ["MARK BY (DG)", "REFERBACK BY (DD)"],
+    "deputy director": ["MARK BY (D)", "REFERBACK BY (AD)"],
+  };
+  const isWorkflowTab =
+    workflowTabs[role]?.includes(selectedTabLabel) ?? false;
+
+  const nextLevelLabel =
+    role === "department head"
+      ? "Director"
+      : role === "director"
+        ? "Deputy Director"
+        : "Assistant Director";
+
+  const nextLevelOfficers: Officer[] =
+    role === "department head"
+      ? directors
+      : role === "director"
+        ? deputyDirectors.filter(
+            (dd) => dd.id === DDE_USER_ID || dd.id === DDE2_USER_ID,
+          )
+        : role === "deputy director"
+          ? officers.filter(
+              (officer) =>
+                officer.roleName === "Users" && officer.departmentId === 1,
+            )
+          : [];
 
   useEffect(() => {
     if (
@@ -118,8 +143,6 @@ const ReportNoting = ({
     ) {
       setReferback(false);
     }
-
-    console.log("markTo", markTo);
   }, [
     data.submittedFrom,
     setValue,
@@ -129,7 +152,6 @@ const ReportNoting = ({
   ]);
 
   const onSubmit = async (formData: ReportNoting) => {
-    console.log(errors);
     if (role) {
       const modifiedFormData: ReportNoting = {
         ...formData,
@@ -137,17 +159,10 @@ const ReportNoting = ({
         markFrom: userId,
         path: data.reportPath,
       };
-      console.log("markTo", markTo);
-
-      console.log("modified Form Data:", modifiedFormData);
 
       try {
         setSubmitting(true);
-        const response = await apiClient.post(
-          `${PC_IV_WORKFLOW_API}/mark`,
-          modifiedFormData,
-        );
-        console.log("Response:", response);
+        await apiClient.post(`${PC_IV_WORKFLOW_API}/mark`, modifiedFormData);
         toast.success("Report Marked Successfully");
         triggerEscapeKeyPress();
         setRefresh((prev) => !prev);
@@ -157,13 +172,17 @@ const ReportNoting = ({
           onCommentSubmitted();
         }
       } catch (err) {
-        setSubmitting(false);
-        console.log("err", err);
         console.error((err as AxiosError).message);
         toast.error("An unexpected error occured.");
+      } finally {
+        setSubmitting(false);
+        setSubmitAction(null);
       }
     }
   };
+
+  // Validation failed (e.g. empty remarks): bring both buttons back
+  const onInvalid = () => setSubmitAction(null);
 
   useEffect(() => {
     const getReportHistory = async (pcivId: number) => {
@@ -172,14 +191,12 @@ const ReportNoting = ({
         const response = await apiClient.get(
           `${PC_IV_WORKFLOW_API}/history?pcivId=${pcivId}`,
         );
-        console.log("pc iv workflow history", response);
         const sorted = [...response.data.data].sort(
           (a: ReportHistory, b: ReportHistory) =>
             new Date(b.mark_date).getTime() - new Date(a.mark_date).getTime(),
         );
 
         setDescendingOrderReportsHistory(sorted);
-        console.log("sorted", sorted);
 
         const sortedAsc = [...response.data.data].sort(
           (a: ReportHistory, b: ReportHistory) =>
@@ -199,15 +216,17 @@ const ReportNoting = ({
     if (data?.pcivId) getReportHistory(data.pcivId);
   }, [data]);
 
-  useEffect(() => {
-    if (descendingOrderReportsHistory) {
-      console.log("reportsHistory", descendingOrderReportsHistory);
-      console.log(
-        "test 1",
-        descendingOrderReportsHistory[0].status === SUBMITTED,
-      );
-    }
-  }, [descendingOrderReportsHistory]);
+  // One level up: the user who first forwarded this report to the current user
+  const previousLevelUserId = useMemo(
+    () =>
+      descendingOrderReportsHistory
+        ?.filter((h) => h.mark_to === userId && h.status === SUBMITTED)
+        .sort(
+          (a, b) =>
+            new Date(a.mark_date).getTime() - new Date(b.mark_date).getTime(),
+        )[0]?.mark_From,
+    [descendingOrderReportsHistory, userId],
+  );
 
   const [isReferback, setReferback] = useState<boolean>(false);
   const [isMarked, setMarked] = useState<boolean>(false);
@@ -327,7 +346,7 @@ const ReportNoting = ({
                             </span>
                           )}
                         </p>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
                           <div className="mb-2">
                             <Controller
                               name="remarks"
@@ -344,198 +363,42 @@ const ReportNoting = ({
                             />
                           </div>
                           <div className="row mx-0 mb-3">
-
-                            {(data.status === SUBMITTED ||
-                              data.status === REFERBACK) &&
-                              selectedTabLabel === "REFERBACK BY (D)" && (
-                                <div className="col">
-                                  <div className="form-check">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      id="reject"
-                                      checked={isReferback}
-                                      onChange={() => {
-                                        setReferback(!isReferback);
-                                        setMarked(false);
-                                        setValue(
-                                          "markTo",
-                                          descendingOrderReportsHistory[
-                                            descendingOrderReportsHistory.length -
-                                              1
-                                          ].mark_From,
-                                        );
-                                      }}
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="reject"
-                                    >
-                                      Department User:{" "}
-                                      {
-                                        users.find(
-                                          (user) =>
-                                            user.id ===
-                                            descendingOrderReportsHistory[
-                                              descendingOrderReportsHistory.length -
-                                                1
-                                            ].mark_From,
-                                        )?.fullName
-                                      }
-                                    </label>
-                                  </div>
-                                </div>
-                              )}
-
-                            {role === "director" &&
-                              descendingOrderReportsHistory[0].status !==
-                                REFERBACK &&
-                              selectedTabLabel !== "MARK BY (DG)" && (
-                                <>
-                                  <div className="mb-2">
-                                    <select
-                                      value={markTo || ""}
-                                      onChange={(e) => {
-                                        handleSelectChange(e);
-                                        setReferback(true);
-                                        setMarked(false);
-                                      }}
-                                      className="form-select fs-6"
-                                      aria-label="Select Deputy Director"
-                                    >
-                                      <option value="">
-                                        Select Deputy Director
-                                      </option>
-                                      {deputyDirectors.map((officer) => (
-                                        <option
-                                          key={officer.id}
-                                          value={officer.id}
-                                        >
-                                          {officer.designation}
-                                        </option>
-                                      ))}
-                                    </select>
-                                    {errors.markTo && (
-                                      <p className="text-danger mt-1 fs14px">
-                                        {errors.markTo.message}
-                                      </p>
-                                    )}
-                                  </div>
-                                </>
-                              )}
-
-                            {role === "director" &&
-                              descendingOrderReportsHistory[0].status ===
-                                REFERBACK &&
-                              selectedTabLabel === "REFERBACK BY (DD)" && (
-                                <>
-                                  <div className="mb-2">
-                                    <select
-                                      value={markTo || ""}
-                                      onChange={(e) => {
-                                        handleSelectChange(e);
-                                        setMarked(false);
-                                        setReferback(false);
-                                      }}
-                                      className="form-select fs-6"
-                                      aria-label="Select Deputy Director"
-                                    >
-                                      <option value="">
-                                        Select Department Head
-                                      </option>
-                                      <option
-                                        key={departmentHead.id}
-                                        value={departmentHead.id}
-                                      >
-                                        {departmentHead.designation}
-                                      </option>
-                                    </select>
-                                    {errors.markTo && (
-                                      <p className="text-danger mt-1 fs14px">
-                                        {errors.markTo.message}
-                                      </p>
-                                    )}
-                                  </div>
-                                </>
-                              )}
-
-                            {role === "deputy director" &&
-                              selectedTabLabel === "MARK BY (D)" && (
-                                <>
-                                  <div className="mb-2">
-                                    <select
-                                      value={markTo || ""}
-                                      onChange={(e) => {
-                                        handleSelectChange(e);
-                                        setMarked(false);
-                                      }}
-                                      className="form-select fs-6"
-                                      aria-label="Select Assistant Director"
-                                    >
-                                      <option value="">
-                                        Select Assistant Director
-                                      </option>
-                                      {officers
-                                        .filter(
-                                          (officer) =>
-                                            officer.roleName === "Users" &&
-                                            officer.departmentId === 1,
-                                        )
-                                        .map((officer) => (
-                                          <option
-                                            key={officer.id}
-                                            value={officer.id}
-                                          >
-                                            {officer.fullName}
-                                          </option>
-                                        ))}
-                                    </select>
-                                    {errors.markTo && (
-                                      <p className="text-danger mt-1 fs14px">
-                                        {errors.markTo.message}
-                                      </p>
-                                    )}
-                                  </div>
-                                </>
-                              )}
-
-                            {isDirectorMarkTab && (
+                            {isWorkflowTab && (
                               <>
-                                <div className="col-12 mb-2">
-                                  <div className="form-check">
-                                    <input
-                                      type="checkbox"
-                                      className="form-check-input"
-                                      id="referback-sender"
-                                      checked={isReferback}
-                                      onChange={() => {
-                                        const newValue = !isReferback;
-                                        setReferback(newValue);
-                                        setValue(
-                                          "markTo",
-                                          newValue
-                                            ? descendingOrderReportsHistory[0]
-                                                .mark_From
-                                            : undefined,
-                                        );
-                                      }}
-                                    />
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor="referback-sender"
-                                    >
-                                      Referback:{" "}
-                                      {
-                                        users.find(
-                                          (user) =>
-                                            user.id ===
-                                            descendingOrderReportsHistory[0]
-                                              .mark_From,
-                                        )?.fullName
-                                      }
-                                    </label>
+                                {previousLevelUserId !== undefined && (
+                                  <div className="col-12 mb-2">
+                                    <div className="form-check">
+                                      <input
+                                        type="checkbox"
+                                        className="form-check-input"
+                                        id="referback-previous-level"
+                                        checked={isReferback}
+                                        onChange={() => {
+                                          const newValue = !isReferback;
+                                          setReferback(newValue);
+                                          setValue(
+                                            "markTo",
+                                            newValue
+                                              ? previousLevelUserId
+                                              : undefined,
+                                          );
+                                        }}
+                                      />
+                                      <label
+                                        className="form-check-label"
+                                        htmlFor="referback-previous-level"
+                                      >
+                                        Referback:{" "}
+                                        {
+                                          users.find(
+                                            (user) =>
+                                              user.id === previousLevelUserId,
+                                          )?.fullName
+                                        }
+                                      </label>
+                                    </div>
                                   </div>
-                                </div>
+                                )}
 
                                 {!isReferback && (
                                   <div className="col-12 mb-2 px-0">
@@ -543,15 +406,19 @@ const ReportNoting = ({
                                       value={markTo || ""}
                                       onChange={handleSelectChange}
                                       className="form-select fs-6"
-                                      aria-label="Select Director"
+                                      aria-label={`Select ${nextLevelLabel}`}
                                     >
-                                      <option value="">Select Director</option>
-                                      {directors.map((director) => (
+                                      <option value="">
+                                        Select {nextLevelLabel}
+                                      </option>
+                                      {nextLevelOfficers.map((officer) => (
                                         <option
-                                          key={director.id}
-                                          value={director.id}
+                                          key={officer.id}
+                                          value={officer.id}
                                         >
-                                          {director.designation}
+                                          {role === "deputy director"
+                                            ? officer.fullName
+                                            : officer.designation}
                                         </option>
                                       ))}
                                     </select>
@@ -566,7 +433,8 @@ const ReportNoting = ({
                             )}
                           </div>
 
-                          {!isReferback &&
+                          {!isWorkflowTab &&
+                            !isReferback &&
                             !isMarked &&
                             (selectedTabLabel === "MARK BY (DG)" ||
                               selectedTabLabel === "SUBMITTED BY (AD)" ||
@@ -655,9 +523,10 @@ const ReportNoting = ({
                             )}
                           <div className="row d-flex justify-content-end m-0">
                             <>
-                              {(submitAction === null ||
-                                submitAction === "mark") &&
-                                !(isDirectorMarkTab && isReferback) && (
+                              {(isWorkflowTab
+                                ? !isReferback
+                                : submitAction === null ||
+                                  submitAction === "mark") && (
                                 <div className="col-auto">
                                   <Button
                                     disabled={isSubmitting || !markTo}
@@ -681,9 +550,10 @@ const ReportNoting = ({
                                   </Button>
                                 </div>
                               )}
-                              {(submitAction === null ||
-                                submitAction === "referback") &&
-                                !(isDirectorMarkTab && !isReferback) && (
+                              {(isWorkflowTab
+                                ? isReferback
+                                : submitAction === null ||
+                                  submitAction === "referback") && (
                                 <div className="col-auto">
                                   <Button
                                     disabled={isSubmitting || !markTo}
