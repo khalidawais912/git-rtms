@@ -22,15 +22,11 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
   const [reportsHistory, setReportsHistory] = useState<ReportHistory[]>();
 
   useEffect(() => {
-    const getReportHistory = async (
-      visitId: number,
-      projectId: number,
-      reportType: number,
-    ) => {
+    const getReportHistory = async (pcivId: number) => {
       setLoading(true);
       try {
         const response = await apiClient.get(
-          `${PC_IV_WORKFLOW_API}/history?pcivId=${projectId}`,
+          `${PC_IV_WORKFLOW_API}/history?pcivId=${pcivId}`,
         );
         setReportsHistory(
           response.data.data.sort(
@@ -47,8 +43,7 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
-    if (data) getReportHistory(data.visitId, data.projectId, data.reportType);
+    if (data?.pcivId) getReportHistory(data.pcivId);
   }, [data]);
   return (
     <>

@@ -30,8 +30,6 @@ const List = ({
   loggedInUsername,
 }: ListProps) => {
 
-  console.log(departmentHead , "departmentHead line number 33");
-  
   const [data, setData] = useState<SubmittedReport[]>([]);
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();

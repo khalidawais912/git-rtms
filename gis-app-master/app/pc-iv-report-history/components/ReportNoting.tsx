@@ -130,7 +130,7 @@ const ReportNoting = ({
     if (role) {
       const modifiedFormData: ReportNoting = {
         ...formData,
-        pcivId: data.projectId,
+        pcivId: data.pcivId,
         markFrom: userId,
         path: data.reportPath,
       };
@@ -163,13 +163,12 @@ const ReportNoting = ({
   };
 
   useEffect(() => {
-    const getReportHistory = async (projectId: number) => {
+    const getReportHistory = async (pcivId: number) => {
       setLoading(true);
       try {
         const response = await apiClient.get(
-          `${PC_IV_WORKFLOW_API}/history?pcivId=${projectId}`,
+          `${PC_IV_WORKFLOW_API}/history?pcivId=${pcivId}`,
         );
-        console.log(`${PC_IV_WORKFLOW_API}/history?pcivId=${projectId}`);
         console.log("pc iv workflow history", response);
         const sorted = [...response.data.data].sort((a, b) =>
           (b.sDate || "").localeCompare(a.sDate || ""),
@@ -192,8 +191,7 @@ const ReportNoting = ({
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
-    if (data) getReportHistory(data.projectId);
+    if (data?.pcivId) getReportHistory(data.pcivId);
   }, [data]);
 
   useEffect(() => {

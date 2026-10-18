@@ -308,7 +308,7 @@ const List = () => {
         // Wait for DOM to be ready
         setTimeout(() => {
           const firstModalButton = document.querySelector(
-            `[data-bs-target="#comment${commentEligibleReports[0].id}"]`,
+            `[data-bs-target="#comment${commentEligibleReports[0].pcivId}"]`,
           ) as HTMLButtonElement;
 
           if (firstModalButton) {
@@ -334,7 +334,7 @@ const List = () => {
         // Wait a bit for the previous modal to close
         setTimeout(() => {
           const nextModalButton = document.querySelector(
-            `[data-bs-target="#comment${nextReport.id}"]`,
+            `[data-bs-target="#comment${nextReport.pcivId}"]`,
           ) as HTMLButtonElement;
 
           if (nextModalButton) {
@@ -634,7 +634,7 @@ const List = () => {
                         <div className="col d-flex justify-content-end align-items-end pe-5">
                           <CustomModal
                             isFullscreen={true}
-                            modalId={`view-history${d.id}`}
+                            modalId={`view-history${d.pcivId}`}
                             buttonColumn="col-auto"
                             button={
                               <Button
@@ -683,7 +683,7 @@ const List = () => {
                         <div className="col d-flex justify-content-end align-items-end pe-5">
                           <CustomModal
                             isFullscreen={true}
-                            modalId={`comment${d.id}`}
+                            modalId={`comment${d.pcivId}`}
                             buttonColumn="col-auto"
                             button={
                               <Button
