@@ -117,8 +117,8 @@ const ReportNoting = ({
     const payload = {
       id: 0,
       pcivId: data.pcivId,
-      markFrom: data?.submittedTo,
-      markTo: 50,
+      markFrom: data?.submittedTo, //security
+      markTo: 50, //DGME
       remarks: formData.remarks,
       path: data.reportPath,
       status: data?.status

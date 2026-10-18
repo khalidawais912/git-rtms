@@ -26,7 +26,6 @@ import useUserInfo from "@/shared/hooks/useUserInfo";
 const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<SubmittedReport[]>([]);
-  const [issuedReportCount, setIssuedReportCount] = useState<number>(0);
 
   const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -41,14 +40,22 @@ const List = () => {
   const [currentAutoOpenIndex, setCurrentAutoOpenIndex] = useState<number>(-1);
   const [shouldAutoOpen, setShouldAutoOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("selectedTab", selectedTab);
-  }, [selectedTab]);
-
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
     SubmittedReport[] | undefined
   >();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const visibleData = searchTerm.trim()
+    ? filteredData?.filter((d) =>
+        [d.projectName, d.gsNo, d.intiallyUser]
+          .filter(Boolean)
+          .some((value) =>
+            value.toLowerCase().includes(searchTerm.trim().toLowerCase()),
+          ),
+      )
+    : filteredData;
 
   useEffect(() => {
     const handleSubmit = async (userId: number) => {
@@ -58,18 +65,13 @@ const List = () => {
           `${PC_IV_WORKFLOW_API}/submitted-reports?userId=${userId}`,
         );
         if (response.data.data) {
-          setIssuedReportCount(response.data.data.totalIssuedCount);
-          console.log("response.data.data", response.data.data);
-
           const sortedData = response.data.data.reports.sort(
             (a: any, b: any) =>
               new Date(a.submittedDate).getTime() -
               new Date(b.submittedDate).getTime(),
           );
           setData(sortedData);
-          console.log("sortedData data", sortedData);
         }
-        console.log("original data", response.data.data);
         setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
@@ -91,20 +93,16 @@ const List = () => {
       const deputyDirectors = officers.filter(
         (officer) => officer.roleName === "Deputy Director",
       );
-      console.log("deputyDirectors", deputyDirectors);
       if (deputyDirectors) setdeputyDirectors(deputyDirectors);
 
       const directors = officers.filter(
         (officer) => officer.roleName === "Director",
       );
-      console.log(directors);
       if (directors) setDirectors(directors);
 
       const departmentHead = officers.find(
         (officer) => officer.roleName === "Department Head",
       );
-
-      console.log(departmentHead);
       if (departmentHead) setDepartmentHead(departmentHead);
     }
   }, [officers]);
@@ -129,7 +127,7 @@ const List = () => {
         label: "MARK TO (DIRECTOR)",
         status: SUBMITTED,
         role: "department head",
-        reportSubmittedFrom: userId,
+        reportSubmittedTo: userId,
         count: 0,
         filteredData: undefined,
       },
@@ -261,16 +259,17 @@ const List = () => {
         (tab) =>
           tab.role === role &&
           tab.count > 0 &&
-          // DD Tabs
+          // Department Head Tabs
           (tab.id === 1 ||
+            tab.id === 2 ||
+            // Director Tabs
             tab.id === 8 ||
             tab.id === 9 ||
-            // Director Tabs
-            tab.id === 2 ||
+            tab.id === 5 ||
+            // Deputy Director Tabs
+            tab.id === 6 ||
             tab.id === 7 ||
-            tab.id === 11 ||
-            // Department Head Tabs
-            tab.id === 5),
+            tab.id === 11),
       );
       if (tabWithRecord) {
         setSelectedTab(tabWithRecord.id);
@@ -283,8 +282,6 @@ const List = () => {
       }
     }
   }, [tabs, role]);
-
-  console.log("tabs", tabs);
 
   // 👇 NEW: Get comment-eligible reports (where user needs to comment)
   const getCommentEligibleReports = () => {
@@ -405,6 +402,8 @@ const List = () => {
                           color: "rgba(38, 50, 56,1)",
                         }}
                         placeholder="Search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                       />
                     </div>
                   </form>
@@ -452,12 +451,7 @@ const List = () => {
                     </Button>
                   </div>
                   {tabs
-                    ?.filter(
-                      (tab) =>
-                        tab.status === -99 ||
-                        tab.status === 6 ||
-                        tab.role === role,
-                    )
+                    ?.filter((tab) => tab.role === role)
                     .map((tab) => (
                       <div key={tab.id} className="col-auto">
                         <Button
@@ -474,7 +468,6 @@ const List = () => {
                             setSelectedTab(tab.id);
                             setSelectedLabel(tab.label);
                             setFilteredData(tab.filteredData);
-                            console.log("tab filteredData", tab.filteredData);
                           }}
                         >
                           {tab.label}
@@ -490,7 +483,7 @@ const List = () => {
               </div>
             </div>
           </div>
-          {filteredData?.map((d, i) => (
+          {visibleData?.map((d, i) => (
             <div key={i} className="col mb-2 position-relative overflow-hidden">
               <div
                 className="col p-3"
@@ -605,7 +598,7 @@ const List = () => {
                         </p>
                       </div>
 
-                      {selectedTab === tabs?.length && (
+                      {d.status === ISSUED && d.issuanceDate && (
                         <div className="col">
                           <p
                             className="mb-0 mb-2 fs18px fw-bold me-3"

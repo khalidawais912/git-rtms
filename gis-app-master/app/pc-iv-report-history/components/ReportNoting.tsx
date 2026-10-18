@@ -99,13 +99,16 @@ const ReportNoting = ({
   const [submitAction, setSubmitAction] = useState<string | null>(null);
 
   const markTo = watch("markTo");
-
+  console.log("markTo", markTo, "isSubmitting" , isSubmitting);
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(e.target.value);
-    console.log(selectedId);
+    const selectedId = e.target.value ? parseInt(e.target.value) : undefined;
 
     setValue("markTo", selectedId);
   };
+
+  // Department Head marks a received report to a Director, or refers it back to the sender
+  const isDirectorMarkTab =
+    role === "department head" && selectedTabLabel === "MARK TO (DIRECTOR)";
 
   useEffect(() => {
     if (
@@ -170,15 +173,17 @@ const ReportNoting = ({
           `${PC_IV_WORKFLOW_API}/history?pcivId=${pcivId}`,
         );
         console.log("pc iv workflow history", response);
-        const sorted = [...response.data.data].sort((a, b) =>
-          (b.sDate || "").localeCompare(a.sDate || ""),
+        const sorted = [...response.data.data].sort(
+          (a: ReportHistory, b: ReportHistory) =>
+            new Date(b.mark_date).getTime() - new Date(a.mark_date).getTime(),
         );
 
         setDescendingOrderReportsHistory(sorted);
         console.log("sorted", sorted);
 
-        const sortedAsc = [...response.data.data].sort((a, b) =>
-          (a.sDate || "").localeCompare(b.sDate || ""),
+        const sortedAsc = [...response.data.data].sort(
+          (a: ReportHistory, b: ReportHistory) =>
+            new Date(a.mark_date).getTime() - new Date(b.mark_date).getTime(),
         );
         setAscendingOrderReportsHistory(sortedAsc);
 
@@ -305,6 +310,7 @@ const ReportNoting = ({
                       selectedTabLabel === "SUBMITTED BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (DG)" ||
                       selectedTabLabel === "REFERBACK BY (AD)" ||
+                      selectedTabLabel === "MARK TO (DIRECTOR)" ||
                       selectedTabLabel === "SUBMITTED BY (ADMINISTRATIVE DEPARTMENT)" ||
                       selectedTabLabel === "REFERBACK BY (DD)" ||
                       selectedTabLabel === "REFERBACK BY (D)") &&
@@ -492,6 +498,72 @@ const ReportNoting = ({
                                   </div>
                                 </>
                               )}
+
+                            {isDirectorMarkTab && (
+                              <>
+                                <div className="col-12 mb-2">
+                                  <div className="form-check">
+                                    <input
+                                      type="checkbox"
+                                      className="form-check-input"
+                                      id="referback-sender"
+                                      checked={isReferback}
+                                      onChange={() => {
+                                        const newValue = !isReferback;
+                                        setReferback(newValue);
+                                        setValue(
+                                          "markTo",
+                                          newValue
+                                            ? descendingOrderReportsHistory[0]
+                                                .mark_From
+                                            : undefined,
+                                        );
+                                      }}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="referback-sender"
+                                    >
+                                      Referback:{" "}
+                                      {
+                                        users.find(
+                                          (user) =>
+                                            user.id ===
+                                            descendingOrderReportsHistory[0]
+                                              .mark_From,
+                                        )?.fullName
+                                      }
+                                    </label>
+                                  </div>
+                                </div>
+
+                                {!isReferback && (
+                                  <div className="col-12 mb-2 px-0">
+                                    <select
+                                      value={markTo || ""}
+                                      onChange={handleSelectChange}
+                                      className="form-select fs-6"
+                                      aria-label="Select Director"
+                                    >
+                                      <option value="">Select Director</option>
+                                      {directors.map((director) => (
+                                        <option
+                                          key={director.id}
+                                          value={director.id}
+                                        >
+                                          {director.designation}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    {errors.markTo && (
+                                      <p className="text-danger mt-1 fs14px">
+                                        {errors.markTo.message}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                              </>
+                            )}
                           </div>
 
                           {!isReferback &&
@@ -584,7 +656,8 @@ const ReportNoting = ({
                           <div className="row d-flex justify-content-end m-0">
                             <>
                               {(submitAction === null ||
-                                submitAction === "mark") && (
+                                submitAction === "mark") &&
+                                !(isDirectorMarkTab && isReferback) && (
                                 <div className="col-auto">
                                   <Button
                                     disabled={isSubmitting || !markTo}
@@ -609,7 +682,8 @@ const ReportNoting = ({
                                 </div>
                               )}
                               {(submitAction === null ||
-                                submitAction === "referback") && (
+                                submitAction === "referback") &&
+                                !(isDirectorMarkTab && !isReferback) && (
                                 <div className="col-auto">
                                   <Button
                                     disabled={isSubmitting || !markTo}
