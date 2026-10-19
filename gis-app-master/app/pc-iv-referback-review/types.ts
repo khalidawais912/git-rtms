@@ -24,6 +24,7 @@ export interface SuggestionPopup {
 export interface SubmittedReport {
   id: number;
   visitId: number;
+  pcivId: number;
   projectId: number;
   submittedFrom: number;
   submittedTo: number;
