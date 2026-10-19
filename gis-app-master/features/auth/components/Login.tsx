@@ -17,7 +17,33 @@ import Spinner from "@/shared/components/Spinner";
 import { AxiosError } from "@/shared/api/client";
 import { ErrorResponse } from "@/shared/api/types";
 import { LoginFormData, loginSchema } from "../schema";
-import { LoginResponse } from "../types";
+import { LoginData, LoginResponse } from "../types";
+import styles from "./Login.module.css";
+
+const SUCCESS_MESSAGE = "Logged In Successfully!";
+const ERROR_MESSAGE = "Username or Password is not Correct!";
+
+/** Saves the login session in cookies, all expiring with the token. */
+const saveSession = (data: LoginData) => {
+  const options = { expires: new Date(data.expiration) };
+  const cookies: Record<string, string | undefined> = {
+    token: data.token,
+    userName: data.userData.userName,
+    userId: data.userData.id.toString(),
+    email: data.userData.email,
+    departmentId: data.userProfile.department_Id.toString(),
+    deptUserFirstName: data.userProfile.firstName,
+    deptUserLastName: data.userProfile.lastName,
+    role: data.role[0],
+    rights: data.rights.length
+      ? JSON.stringify(data.rights.map(({ rightName }) => rightName))
+      : undefined,
+  };
+
+  Object.entries(cookies).forEach(([key, value]) => {
+    if (value !== undefined) Cookies.set(key, value, options);
+  });
+};
 
 const Login = () => {
   const {
@@ -25,274 +51,155 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
-  const [buttonType, setButtonType] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [isCookiesSaved, setCookiesSaved] = useState(false);
   const [activePrivacyLink, setActivePrivacyLink] = useState(false);
   const [isClient, setClient] = useState(false);
-
-  const createdMessage = "Logged In Successfully!";
-  const errorMessage = "Username or Password is not Correct!";
-
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   useEffect(() => {
     setClient(true);
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
+    setSubmitting(true);
     try {
-      setSubmitting(true);
-      const response = await axios.post<LoginResponse>(
+      const { data } = await axios.post<LoginResponse>(
         process.env.NEXT_PUBLIC_BACKEND_API + LOGIN_API,
         formData,
       );
 
-      if (response.data.responseCode === 200) {
-        if (!isCookiesSaved) {
-          setCookiesSaved(true);
-          Cookies.set("token", response.data.data.token, {
-            expires: new Date(response.data.data.expiration),
-          });
-          Cookies.set("userName", response.data.data.userData.userName, {
-            expires: new Date(response.data.data.expiration),
-          });
-          Cookies.set("userId", response.data.data.userData.id.toString(), {
-            expires: new Date(response.data.data.expiration),
-          });
-          Cookies.set("email", response.data.data.userData.email, {
-            expires: new Date(response.data.data.expiration),
-          });
-          Cookies.set(
-            "departmentId",
-            response.data.data.userProfile.department_Id.toString(),
-            {
-              expires: new Date(response.data.data.expiration),
-            },
-          );
-          Cookies.set(
-            "deptUserFirstName",
-            response.data.data.userProfile.firstName,
-            {
-              expires: new Date(response.data.data.expiration),
-            },
-          );
-          Cookies.set(
-            "deptUserLastName",
-            response.data.data.userProfile.lastName,
-            {
-              expires: new Date(response.data.data.expiration),
-            },
-          );
-          if (response.data.data.role.length > 0) {
-            Cookies.set("role", response.data.data.role[0], {
-              expires: new Date(response.data.data.expiration),
-            });
-          }
-          if (response.data.data.rights.length > 0) {
-            Cookies.set(
-              "rights",
-              JSON.stringify(
-                response.data.data.rights.map((rights) => rights.rightName),
-              ),
-              {
-                expires: new Date(response.data.data.expiration),
-              },
-            );
-          }
-        }
-
-        window.location.href = "/";
-        notifyCreate(createdMessage);
-      } else {
-        notifyError(response.data.responseMessage);
+      if (data.responseCode !== 200) {
+        toast.error(data.responseMessage);
+        setSubmitting(false);
+        return;
       }
+
+      saveSession(data.data);
+      toast.success(SUCCESS_MESSAGE);
+      // Keep the button disabled while the page redirects, so it can't be submitted twice.
+      window.location.href = "/";
     } catch (err) {
-      setSubmitting(false);
-      console.log(err);
-      notifyError(
+      console.error(err);
+      toast.error(
         (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-          errorMessage,
+          ERROR_MESSAGE,
       );
-    } finally {
-      setSubmitting(false); // Always run after try/catch
+      setSubmitting(false);
     }
   };
 
+  if (!isClient) return null;
+
   return (
     <>
-      {isClient && (
-        <>
-          <video
-            autoPlay
-            loop
-            muted
-            style={{
-              position: "fixed",
-              right: "0",
-              bottom: "0",
-              minWidth: "100%",
-              minHeight: "100%",
-              zIndex: "1",
-            }}
-          >
-            <source src={bgVideoNew} type="video/mp4" />
-            Your browser does not support HTML5 video.
-          </video>
+      <video autoPlay loop muted className={styles.video}>
+        <source src={bgVideoNew} type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+      <div className={styles.overlay}></div>
+      <div className={`container ${styles.wrapper}`}>
+        <div className="row d-flex justify-content-center">
           <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              backgroundColor: "rgba(0,0,0,0.6)",
-              zIndex: 1,
-            }}
-          ></div>
-          <div
-            className="container"
-            style={{
-              position: "relative",
-              zIndex: "2",
-            }}
+            className={`col-xl-5 col-lg-7 col-md-8 col-sm-12 bg-blur-3 ${styles.card}`}
           >
-            <div className="row d-flex justify-content-center">
-              <div
-                className="col-xl-5 col-lg-7 col-md-8 col-sm-12 bg-blur-3"
-                style={{
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  position: "fixed",
-                  padding: "60px 50px",
-                  borderRadius: "25px",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%,-50%)",
-                }}
-              >
-                <div className="row m-0">
-                  <div
-                    className="col text-center"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    <Image
-                      src="/icons/logoNew1.svg"
-                      className="img-fluid"
-                      style={{ filter: "drop-shadow(0px 0px .75px green)" }}
-                      alt="logo"
-                      width={110}
-                      height={980}
-                    />
-                  </div>
-                </div>
-                <h3
-                  className="text-white fw-6 text-center"
-                  style={{ marginBottom: "20px" }}
-                >
-                  Directorate General Monitoring & Evaluation
-                </h3>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div
-                    className="row d-flex justify-content-center"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    <div className="col">
-                      <div className="input-group mb-1">
-                        <input
-                          {...register("username")}
-                          type="text"
-                          className="form-control border-0 m-0 fs-6 login-input"
-                          placeholder="Enter User ID"
-                          style={{
-                            background: "rgba(255, 255, 255, 0.7)",
-                          }}
-                          id="username"
-                          autoComplete="username"
-                        />
-                      </div>
-                      {errors.username && (
-                        <ErrorMessage>{errors.username.message}</ErrorMessage>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    className="row d-flex justify-content-center"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    <div className="col">
-                      <div className="input-group mb-1 position-relative">
-                        <input
-                          {...register("password")}
-                          type={buttonType === true ? "password" : "text"}
-                          className="form-control border-0 m-0 fs-6 login-input"
-                          style={{
-                            background: "rgba(255, 255, 255, 0.7)",
-                          }}
-                          placeholder="Enter your Password"
-                          id="password"
-                          autoComplete="current-password"
-                        />
-                        <Button
-                          className="btn position-absolute rounded-pill"
-                          style={{ top: 15, zIndex: 3, right: 5 }}
-                          type="button"
-                          onClick={() => setButtonType(!buttonType)}
-                        >
-                          {buttonType ? (
-                            <TbEyeClosed size={20} />
-                          ) : (
-                            <FaRegEye size={20} />
-                          )}
-                        </Button>
-                      </div>
-                      {errors.password && (
-                        <ErrorMessage>{errors.password.message}</ErrorMessage>
-                      )}
-                    </div>
-                  </div>
-                  <div className="row d-flex flex-colum justify-content-center mb-3">
-                    <div className="col">
-                      <Button
-                        type="submit"
-                        style={{
-                          borderRadius: "6px",
-                          background: `${
-                            isSubmitting
-                              ? "linear-gradient(to right, #8cbbde , #6e8799)"
-                              : "linear-gradient(to right, #0C8CE9 , #13629B)"
-                          }`,
-                          letterSpacing: 1,
-                          padding: "20px 26px",
-                        }}
-                        className="btn shadow text-white w-100 fw-bold rounded-pill "
-                        disabled={isSubmitting}
-                      >
-                        LOGIN {isSubmitting && <Spinner color="text-light" />}
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <Link
-                      href="/privacy-policy"
-                      target="_blank"
-                      className={`w-100 fw-5 fs14px ${
-                        activePrivacyLink
-                          ? "text-white"
-                          : "text-decoration-none color-sea-blue "
-                      }`}
-                      onMouseEnter={() => setActivePrivacyLink(true)}
-                      onMouseLeave={() => setActivePrivacyLink(false)}
-                    >
-                      Privacy Policy
-                    </Link>
-                  </div>
-                </form>
+            <div className="row m-0">
+              <div className={`col text-center ${styles.section}`}>
+                <Image
+                  src="/icons/logoNew1.svg"
+                  className={`img-fluid ${styles.logo}`}
+                  alt="logo"
+                  width={110}
+                  height={980}
+                  priority
+                />
               </div>
             </div>
+            <h3 className={`text-white fw-6 text-center ${styles.section}`}>
+              Directorate General Monitoring & Evaluation
+            </h3>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div
+                className={`row d-flex justify-content-center ${styles.section}`}
+              >
+                <div className="col">
+                  <div className="input-group mb-1">
+                    <input
+                      {...register("username")}
+                      type="text"
+                      className={`form-control border-0 m-0 fs-6 login-input ${styles.input}`}
+                      placeholder="Enter User ID"
+                      id="username"
+                      autoComplete="username"
+                    />
+                  </div>
+                  {errors.username && (
+                    <ErrorMessage>{errors.username.message}</ErrorMessage>
+                  )}
+                </div>
+              </div>
+              <div
+                className={`row d-flex justify-content-center ${styles.section}`}
+              >
+                <div className="col">
+                  <div className="input-group mb-1 position-relative">
+                    <input
+                      {...register("password")}
+                      type={showPassword ? "text" : "password"}
+                      className={`form-control border-0 m-0 fs-6 login-input ${styles.input}`}
+                      placeholder="Enter your Password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                    <Button
+                      className={`btn position-absolute rounded-pill ${styles.eyeButton}`}
+                      type="button"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? (
+                        <FaRegEye size={20} />
+                      ) : (
+                        <TbEyeClosed size={20} />
+                      )}
+                    </Button>
+                  </div>
+                  {errors.password && (
+                    <ErrorMessage>{errors.password.message}</ErrorMessage>
+                  )}
+                </div>
+              </div>
+              <div className="row d-flex justify-content-center mb-3">
+                <div className="col">
+                  <Button
+                    type="submit"
+                    className={`btn shadow text-white w-100 fw-bold rounded-pill ${styles.submitButton}`}
+                    disabled={isSubmitting}
+                  >
+                    LOGIN {isSubmitting && <Spinner color="text-light" />}
+                  </Button>
+                </div>
+              </div>
+              <div className="text-center">
+                <Link
+                  href="/privacy-policy"
+                  target="_blank"
+                  className={`w-100 fw-5 fs14px ${
+                    activePrivacyLink
+                      ? "text-white"
+                      : "text-decoration-none color-sea-blue"
+                  }`}
+                  onMouseEnter={() => setActivePrivacyLink(true)}
+                  onMouseLeave={() => setActivePrivacyLink(false)}
+                >
+                  Privacy Policy
+                </Link>
+              </div>
+            </form>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </>
   );
 };
