@@ -31,7 +31,8 @@ const schema = z.object({
 
 type ReportNotingForm = z.infer<typeof schema>;
 
-type SubmitAction = "forward" | "referback";
+// DGM&E: the next level up from the Secretary
+const DGME_USER_ID = 50;
 
 interface Props {
   data: SubmittedReport;
@@ -61,7 +62,8 @@ const ReportNoting = ({
 
   const [descendingOrderReportsHistory, setDescendingOrderReportsHistory] =
     useState<ReportHistory[]>();
-  const [submitAction, setSubmitAction] = useState<SubmitAction | null>(null);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [isReferback, setReferback] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [viewPdf, setViewPdf] = useState<boolean>(false);
@@ -103,34 +105,41 @@ const ReportNoting = ({
     data.status === SUBMITTED &&
     (!latest || (latest.mark_to === userId && latest.status === SUBMITTED));
 
-  const attachedDeptUser = users.find((u) => u.id === data.submittedFrom);
+  // One level down: the attached department user who first submitted it to this Secretary
+  const previousLevelUserId = useMemo(
+    () =>
+      descendingOrderReportsHistory
+        ?.filter((h) => h.mark_to === userId && h.status === SUBMITTED)
+        .sort(
+          (a, b) =>
+            new Date(a.mark_date).getTime() - new Date(b.mark_date).getTime(),
+        )[0]?.mark_From ?? data.submittedFrom,
+    [descendingOrderReportsHistory, userId, data.submittedFrom],
+  );
 
-  const onSubmit = async (formData: ReportNotingForm, action: SubmitAction) => {
-    // const markTo = action === "forward" ? departmentHead?.id : data.submittedFrom;
+  const attachedDeptUser = users.find((u) => u.id === previousLevelUserId);
+  const dgmeUser = users.find((u) => u.id === DGME_USER_ID);
 
-    // if (!markTo) {
-    //ave
-    //   toast.error("DGM&E officer not found.");
-    //   return;
-    // }
+  const markTo = isReferback ? previousLevelUserId : DGME_USER_ID;
 
+  const onSubmit = async (formData: ReportNotingForm) => {
     const payload = {
       id: 0,
       pcivId: data.pcivId,
-      markFrom: data?.submittedTo, //security
-      markTo: 50, //DGME
+      markFrom: userId,
+      markTo,
       remarks: formData.remarks,
       path: data.reportPath,
-      status: data?.status
+      status: isReferback ? REFERBACK : SUBMITTED,
     };
 
     try {
-      setSubmitAction(action);
+      setSubmitting(true);
       await apiClient.post(`${PC_IV_WORKFLOW_API}/mark`, payload);
       toast.success(
-        action === "forward"
-          ? "Report Submitted to DGM&E Successfully"
-          : "Report Referred Back Successfully",
+        isReferback
+          ? "Report Referred Back Successfully"
+          : "Report Submitted to DGM&E Successfully",
       );
       triggerEscapeKeyPress();
       setRefresh((prev) => !prev);
@@ -139,7 +148,7 @@ const ReportNoting = ({
       console.error((err as AxiosError).message);
       toast.error("An unexpected error occured.");
     } finally {
-      setSubmitAction(null);
+      setSubmitting(false);
     }
   };
 
@@ -159,8 +168,6 @@ const ReportNoting = ({
     }),
     [],
   );
-
-  const isSubmitting = submitAction !== null;
 
   return (
     <div className="container-fluid p-3">
@@ -234,7 +241,7 @@ const ReportNoting = ({
                   </p>
                   <hr style={{ opacity: ".1" }} />
                   {canAct ? (
-                    <form onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                       <p className="mb-1 fw-normal fs18px">
                         Description Level{" "}
                         {errors.remarks && (
@@ -258,35 +265,44 @@ const ReportNoting = ({
                           )}
                         />
                       </div>
-                      <div className="row d-flex justify-content-end m-0 gap-2">
-                        <div className="col-auto">
-                          <Button
-                            type="button"
-                            disabled
-                            onClick={handleSubmit((f) => onSubmit(f, "referback"))}
-                            className="btn rounded-pill fs18px fw-normal px-3"
-                            style={{
-                              background: "rgba(201, 201, 201,.5)",
-                              color: "#454545",
-                            }}
-                          >
-                            Referback to {attachedDeptUser?.fullName ?? "Attached Dept."}{" "}
-                            {submitAction === "referback" && <Spinner />}
-                          </Button>
+                      <div className="row mx-0 mb-3">
+                        <div className="col-12 mb-2">
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="referback-previous-level"
+                              checked={isReferback}
+                              onChange={() => setReferback(!isReferback)}
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="referback-previous-level"
+                            >
+                              Referback:{" "}
+                              {attachedDeptUser?.fullName ?? "Attached Dept."}
+                            </label>
+                          </div>
                         </div>
+                        {!isReferback && (
+                          <p className="mb-0">
+                            Mark To: {dgmeUser?.fullName ?? "DGM&E"}
+                          </p>
+                        )}
+                      </div>
+                      <div className="row d-flex justify-content-end m-0">
                         <div className="col-auto">
                           <Button
-                            type="button"
-                            disabled={isSubmitting}
-                            onClick={handleSubmit((f) => onSubmit(f, "forward"))}
+                            type="submit"
+                            disabled={isSubmitting || !markTo}
                             className="btn rounded-pill fs18px fw-normal px-3"
                             style={{
                               background: "rgba(0, 57, 206,.05)",
                               color: "#0039CE",
                             }}
                           >
-                            Submit to DGM&E{" "}
-                            {submitAction === "forward" && <Spinner />}
+                            {isReferback ? "Referback" : "Submit to DGM&E"}{" "}
+                            {isSubmitting && <Spinner />}
                           </Button>
                         </div>
                       </div>

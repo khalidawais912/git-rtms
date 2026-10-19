@@ -34,7 +34,6 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
               new Date(b.mark_date).getTime() - new Date(a.mark_date).getTime(),
           ),
         );
-        setReportsHistory(response.data.data);
         setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
@@ -44,8 +43,7 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
         setLoading(false);
       }
     };
-    console.log("pcivId:", data.projectId);
-    if (data) getReportHistory(data.projectId);
+    if (data?.pcivId) getReportHistory(data.pcivId);
   }, [data]);
   return (
     <>

@@ -9,7 +9,9 @@ import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import DownloadWrapper from "../../components/DownloadWrapper";
-import ReportNoting from "../../components/ReportNoting";
+import ReportNoting, {
+  REFERBACK_BY_DGME_TAB,
+} from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
 import {
   APPROVED,
@@ -110,33 +112,42 @@ const List = ({
   const [tabs, setTabs] = useState<Tab[]>();
 
   useEffect(() => {
-    const tabs = [
+    if (!data || userId === undefined) return;
+
+    const tabs: Tab[] = [
       {
         id: 1,
-        label: "REFERBACK BY (DGM&E)",
-        status: SUBMITTED,
+        label: REFERBACK_BY_DGME_TAB,
+        status: REFERBACK,
         role: "administrative secretary",
+        reportSubmittedTo: userId,
         count: 0,
         filteredData: undefined,
       },
       {
         id: 2,
         label: "REFERBACK TO ATTACHED DEPT.",
-        status: SUBMITTED,
+        status: REFERBACK,
         role: "administrative secretary",
+        reportSubmittedFrom: userId,
         count: 0,
         filteredData: undefined,
       },
     ];
 
-    if (data) {
-      const updatedTabs: Tab[] = tabs.map((tab) => ({
-        ...tab,
-        filteredData: [],
-      }));
-      setTabs(updatedTabs);
-    }
-  }, [data]);
+    const updatedTabs: Tab[] = tabs.map((tab) => {
+      const filteredData = data.filter(
+        (d) =>
+          d.status === tab.status &&
+          d.isFocalPerson === true &&
+          (tab.reportSubmittedTo !== undefined
+            ? d.submittedTo === tab.reportSubmittedTo
+            : d.submittedFrom === tab.reportSubmittedFrom),
+      );
+      return { ...tab, count: filteredData.length, filteredData };
+    });
+    setTabs(updatedTabs);
+  }, [data, userId]);
 
   useEffect(() => {
     if (!tabs) return;
@@ -155,17 +166,9 @@ const List = ({
       return;
     }
 
+    // Only the tab where a report waits for the Secretary's action
     const tabWithRecord = tabs.find(
-      (tab) =>
-        tab.role === role &&
-        tab.count > 0 &&
-        (tab.id === 1 ||
-          tab.id === 8 ||
-          tab.id === 9 ||
-          tab.id === 2 ||
-          tab.id === 7 ||
-          tab.id === 11 ||
-          tab.id === 5),
+      (tab) => tab.role === role && tab.count > 0 && tab.id === 1,
     );
 
     if (tabWithRecord) {
@@ -198,7 +201,7 @@ const List = ({
       if (commentEligibleReports.length > 0) {
         setTimeout(() => {
           const firstModalButton = document.querySelector(
-            `[data-bs-target="#comment${commentEligibleReports[0].id}"]`,
+            `[data-bs-target="#comment${commentEligibleReports[0].pcivId}"]`,
           ) as HTMLButtonElement;
 
           if (firstModalButton) {
@@ -226,7 +229,7 @@ const List = ({
       const nextReport = commentEligible[nextIndex];
       setTimeout(() => {
         const btn = document.querySelector(
-          `[data-bs-target="#comment${nextReport.id}"]`,
+          `[data-bs-target="#comment${nextReport.pcivId}"]`,
         ) as HTMLButtonElement;
         if (btn) {
           btn.click();
@@ -569,7 +572,7 @@ const List = ({
                           {selectedTabLabel === "All" ? (
                             <CustomModal
                               isFullscreen
-                              modalId={`view-history${d.id}`}
+                              modalId={`view-history${d.pcivId}`}
                               buttonColumn="col-auto"
                               button={
                                 <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">
@@ -581,7 +584,7 @@ const List = ({
                           ) : (
                             <CustomModal
                               isFullscreen
-                              modalId={`comment${d.id}`}
+                              modalId={`comment${d.pcivId}`}
                               buttonColumn="col-auto"
                               button={
                                 <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">
@@ -598,13 +601,9 @@ const List = ({
                                 <ReportNoting
                                   data={d}
                                   setRefresh={setRefresh}
-                                  role={role}
                                   userId={userId}
                                   selectedTabLabel={selectedTabLabel}
                                   users={users}
-                                  deputyDirectors={deputyDirectors}
-                                  directors={directors}
-                                  officers={officers}
                                   onCommentSubmitted={handleCommentSubmitted}
                                 />
                               }
