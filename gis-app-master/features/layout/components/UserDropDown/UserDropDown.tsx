@@ -5,7 +5,7 @@ import apiClient from "@/shared/api/client";
 import downArrowBold from "@/public/icons/downArrowBold.svg";
 import feedback from "@/public/icons/feedback.svg";
 import signOut from "@/public/icons/signOut.svg";
-import Cookies from "js-cookie";
+import { clearSession, getSession } from "@/shared/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,12 +28,12 @@ const UserDropDown = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const email = Cookies.get("email") || "";
-    const userName = Cookies.get("userName") || "";
-    const userId = Cookies.get("userId") || "";
-    const role = Cookies.get("role") || "";
-    const firstName = Cookies.get("deptUserFirstName");
-    const lastName = Cookies.get("deptUserLastName");
+    const email = getSession("email") || "";
+    const userName = getSession("userName") || "";
+    const userId = getSession("userId") || "";
+    const role = getSession("role") || "";
+    const firstName = getSession("deptUserFirstName");
+    const lastName = getSession("deptUserLastName");
 
     if (firstName) setFirstName(firstName);
     if (lastName) setLastName(lastName);
@@ -44,15 +44,7 @@ const UserDropDown = () => {
   }, [router]);
 
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("email");
-    Cookies.remove("userName");
-    Cookies.remove("userId");
-    Cookies.remove("role");
-    Cookies.remove("rights");
-    Cookies.remove("departmentId");
-    Cookies.remove("deptUserFirstName");
-    Cookies.remove("deptUserLastName");
+    clearSession();
     setShow(false);
     window.location.href = "/login";
   };

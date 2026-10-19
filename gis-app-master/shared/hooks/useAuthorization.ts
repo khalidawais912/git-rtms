@@ -1,6 +1,6 @@
 "use client";
 
-import Cookies from "js-cookie";
+import { getSession, getRights } from "@/shared/utils/session";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ const useAuthorization = (requiredRight: string) => {
     // ✅ Prevent running on the server
     if (typeof window === "undefined") return;
 
-    const token = Cookies.get("token");
+    const token = getSession("token");
     handleButtonClick(requiredRight);
 
     if (!token) {
@@ -26,7 +26,7 @@ const useAuthorization = (requiredRight: string) => {
       return;
     }
 
-    const rights = JSON.parse(Cookies.get("rights") || "[]");
+    const rights = getRights();
     if (!rights.includes(requiredRight)) {
       router.push(rights.length > 0 ? `/${rights[0]}` : "/not-authorized");
     }

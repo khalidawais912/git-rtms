@@ -2,19 +2,11 @@
 import Button from "@/shared/components/Button";
 import { useRouter } from "next/navigation";
 import { FaChevronLeft } from "react-icons/fa";
-import Cookies from "js-cookie";
+import { clearSession } from "@/shared/utils/session";
 
 const BackButton = () => {
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("email");
-    Cookies.remove("userName");
-    Cookies.remove("userId");
-    Cookies.remove("role");
-    Cookies.remove("rights");
-    Cookies.remove("departmentId");
-    Cookies.remove("deptUserFirstName");
-    Cookies.remove("deptUserLastName");
+    clearSession();
     window.location.href = "/login";
   };
 

@@ -8,7 +8,7 @@ import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { devMap } from "@/shared/utils";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import dynamic from "next/dynamic";
 import { lexend } from "@/shared/styles/fonts";
 import Link from "next/link";
@@ -31,8 +31,8 @@ const DashboardEvaluation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const userRole = Cookies.get("role");
-    const departmentId = Cookies.get("departmentId");
+    const userRole = getSession("role");
+    const departmentId = getSession("departmentId");
     if (userRole) setRole(userRole);
     if (departmentId) setDepartmentId(parseInt(departmentId));
   }, []);

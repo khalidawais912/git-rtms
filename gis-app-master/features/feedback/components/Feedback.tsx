@@ -11,7 +11,7 @@ import {
   getDaysAgo,
   getFormattedDate,
 } from "@/shared/utils";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import { lexend } from "@/shared/styles/fonts";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -28,7 +28,7 @@ const Feedback = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const id = Cookies.get("userId");
+    const id = getSession("userId");
     if (id) setUserId(parseInt(id));
   }, []);
 

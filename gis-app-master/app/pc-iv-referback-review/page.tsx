@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 
-const loggedInUsername = Cookies.get("userName");
+const loggedInUsername = getSession("userName");
 
 const PCIVReferbackReviewPage = () => {
   const [refresh, setRefresh] = useState(false);

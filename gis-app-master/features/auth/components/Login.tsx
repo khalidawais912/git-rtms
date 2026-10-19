@@ -1,8 +1,6 @@
 "use client";
 import bgVideoNew from "@/public/video/bgVideoNew.mp4";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,39 +8,48 @@ import { useForm } from "react-hook-form";
 import { FaRegEye } from "react-icons/fa";
 import { TbEyeClosed } from "react-icons/tb";
 import { toast } from "react-toastify";
-import { LOGIN_API } from "@/shared/api/endpoints";
 import Button from "@/shared/components/Button";
 import ErrorMessage from "@/shared/components/ErrorMessage";
 import Spinner from "@/shared/components/Spinner";
 import { AxiosError } from "@/shared/api/client";
 import { ErrorResponse } from "@/shared/api/types";
+import { saveSession } from "@/shared/utils/session";
 import { LoginFormData, loginSchema } from "../schema";
-import { LoginData, LoginResponse } from "../types";
+import { login } from "../api";
+import { LoginData } from "../types";
 import styles from "./Login.module.css";
 
 const SUCCESS_MESSAGE = "Logged In Successfully!";
 const ERROR_MESSAGE = "Username or Password is not Correct!";
 
-/** Saves the login session in cookies, all expiring with the token. */
-const saveSession = (data: LoginData) => {
-  const options = { expires: new Date(data.expiration) };
-  const cookies: Record<string, string | undefined> = {
-    token: data.token,
-    userName: data.userData.userName,
-    userId: data.userData.id.toString(),
-    email: data.userData.email,
-    departmentId: data.userProfile.department_Id.toString(),
-    deptUserFirstName: data.userProfile.firstName,
-    deptUserLastName: data.userProfile.lastName,
-    role: data.role[0],
-    rights: data.rights.length
-      ? JSON.stringify(data.rights.map(({ rightName }) => rightName))
-      : undefined,
-  };
+/** Saves the login response as session cookies, all expiring with the token. */
+const saveLoginSession = (data: LoginData) =>
+  saveSession(
+    {
+      token: data.token,
+      userName: data.userData.userName,
+      userId: data.userData.id.toString(),
+      email: data.userData.email,
+      departmentId: data.userProfile.department_Id.toString(),
+      deptUserFirstName: data.userProfile.firstName,
+      deptUserLastName: data.userProfile.lastName,
+      role: data.role[0],
+      rights: data.rights.length
+        ? JSON.stringify(data.rights.map(({ rightName }) => rightName))
+        : undefined,
+    },
+    new Date(data.expiration),
+  );
 
-  Object.entries(cookies).forEach(([key, value]) => {
-    if (value !== undefined) Cookies.set(key, value, options);
-  });
+/** Backend's message for HTTP errors or a refused login, else the default message. */
+const getErrorMessage = (err: unknown) => {
+  if (err instanceof AxiosError) {
+    return (
+      (err.response?.data as ErrorResponse | undefined)?.responseMessage ||
+      ERROR_MESSAGE
+    );
+  }
+  return (err instanceof Error && err.message) || ERROR_MESSAGE;
 };
 
 const Login = () => {
@@ -63,27 +70,12 @@ const Login = () => {
   const onSubmit = async (formData: LoginFormData) => {
     setSubmitting(true);
     try {
-      const { data } = await axios.post<LoginResponse>(
-        process.env.NEXT_PUBLIC_BACKEND_API + LOGIN_API,
-        formData,
-      );
-
-      if (data.responseCode !== 200) {
-        toast.error(data.responseMessage);
-        setSubmitting(false);
-        return;
-      }
-
-      saveSession(data.data);
+      saveLoginSession(await login(formData));
       toast.success(SUCCESS_MESSAGE);
-      // Keep the button disabled while the page redirects, so it can't be submitted twice.
       window.location.href = "/";
     } catch (err) {
       console.error(err);
-      toast.error(
-        (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
-          ERROR_MESSAGE,
-      );
+      toast.error(getErrorMessage(err));
       setSubmitting(false);
     }
   };
