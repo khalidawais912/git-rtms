@@ -5,7 +5,7 @@ import Button from "@/shared/components/Button";
 import Loader from "@/shared/components/Loader/Loader";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getPcivHistory, PcivApiError, pcivFileUrl } from "../api";
-import { PcivReportTrail } from "../types";
+import { PcivPanelLabels, PcivReportTrail } from "../types";
 import PcivActionPanel from "./PcivActionPanel";
 import PcivHistory from "./PcivHistory";
 
@@ -22,10 +22,18 @@ interface Props {
   /** Reload the list after a workflow button. */
   onDone: () => void;
   onClose?: () => void;
+  labels?: PcivPanelLabels;
 }
 
 /** Body of the PC-IV modal: PDF, history, and this user's workflow buttons. */
-const PcivReportModal = ({ report, userId, users, onDone, onClose }: Props) => {
+const PcivReportModal = ({
+  report,
+  userId,
+  users,
+  onDone,
+  onClose,
+  labels,
+}: Props) => {
   const [history, setHistory] = useState<PcivReportTrail[]>();
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -130,6 +138,7 @@ const PcivReportModal = ({ report, userId, users, onDone, onClose }: Props) => {
                       loadHistory();
                     }}
                     onClose={onClose}
+                    labels={labels}
                   />
                 </div>
               </div>

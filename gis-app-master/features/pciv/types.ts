@@ -88,6 +88,8 @@ export interface PcivInboxReport {
   intiallyUser: string;
   intiallyDesignation: string;
   isFocalPerson: boolean;
+  /** `action` of the newest history row; filled only by lists that ask for it. */
+  lastAction?: number | null;
 }
 
 export interface PcivSubmittedReportsResult {
@@ -100,11 +102,21 @@ export interface PcivInboxRow {
   status: number;
   submittedFrom: number | null;
   submittedTo: number | null;
+  /** Newest history `action` (1 submit, 2 refer back, 4 forward…), when loaded. */
+  lastAction?: number | null;
+}
+
+/** Page-specific wording for the workflow panel; anything left out uses the defaults. */
+export interface PcivPanelLabels {
+  buttons?: Partial<Record<PcivButton, string>>;
+  /** Text before the single forward person, e.g. "Mark To". */
+  forwardTo?: string;
 }
 
 export interface PcivInboxTab<T> {
   id: number;
   label: string;
+  pending?: boolean;
   count: number;
   filteredData: T[];
 }

@@ -10,13 +10,17 @@ import { raleway } from "@/shared/styles/fonts";
 import styles from "@/shared/styles/ReportList.module.css";
 import Image from "next/image";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { getPcivInbox, PcivApiError } from "../api";
-import { PCIV_STATUS_CLASS, PCIV_STATUS_NAME } from "../constants";
-import { PcivInboxReport } from "../types";
+import { getPcivHistory, getPcivInbox, PcivApiError } from "../api";
+import {
+  PCIV_FINAL_STATUSES,
+  PCIV_STATUS_CLASS,
+  PCIV_STATUS_NAME,
+} from "../constants";
+import { PcivInboxReport, PcivPanelLabels } from "../types";
 import {
   buildPcivInboxTabs,
   isPendingWithUser,
-  PCIV_PENDING_TAB_ID,
+  PcivTabDefinition,
 } from "../utils";
 import PcivReportModal from "./PcivReportModal";
 
@@ -27,6 +31,17 @@ interface Props {
   title?: string;
   /** Optional export button for the rows on screen (e.g. the page's DownloadWrapper). */
   renderDownload?: (rows: PcivInboxReport[], fileName: string) => ReactNode;
+  /** Page-specific tabs; defaults to Pending / Sent / Completed / Cancelled. */
+  tabDefinitions?: PcivTabDefinition[];
+  /** Wording of the workflow buttons inside the modal. */
+  panelLabels?: PcivPanelLabels;
+  /** Text of the row's open button; defaults to "Take Action" / "View History". */
+  rowButtonLabel?: (row: PcivInboxReport, pending: boolean, tabLabel: string) => string;
+  /**
+   * Load each open PC-IV's history so tabs can tell a refer back from a submit or
+   * forward (the inbox has the same status for both). One request per open PC-IV.
+   */
+  withLastAction?: boolean;
 }
 
 const formatDate = (date: string) =>
@@ -49,7 +64,15 @@ const formatTime = (date: string) =>
  * "Pending with me", "Sent by me", "Completed" and "Cancelled". Opening a row shows
  * its history and the workflow buttons the server gives this user.
  */
-const PcivInboxList = ({ users, title = "List of Reports", renderDownload }: Props) => {
+const PcivInboxList = ({
+  users,
+  title = "List of Reports",
+  renderDownload,
+  tabDefinitions,
+  panelLabels,
+  rowButtonLabel,
+  withLastAction = false,
+}: Props) => {
   const { userId } = useUserInfo();
   const [refresh, setRefresh] = useState(false);
   const [data, setData] = useState<PcivInboxReport[]>();
@@ -69,8 +92,18 @@ const PcivInboxList = ({ users, title = "List of Reports", renderDownload }: Pro
       setError("");
       try {
         const inbox = await getPcivInbox(userId);
+        let reports = inbox.reports;
+        if (withLastAction) {
+          reports = await Promise.all(
+            reports.map(async (report) => {
+              if (PCIV_FINAL_STATUSES.includes(report.status)) return report;
+              const history = await getPcivHistory(report.pcivId);
+              return { ...report, lastAction: history[0]?.action ?? null };
+            }),
+          );
+        }
         setData(
-          [...inbox.reports].sort(
+          [...reports].sort(
             (a, b) =>
               new Date(a.submittedDate).getTime() -
               new Date(b.submittedDate).getTime(),
@@ -83,18 +116,19 @@ const PcivInboxList = ({ users, title = "List of Reports", renderDownload }: Pro
       }
     };
     load();
-  }, [userId, refresh]);
+  }, [userId, refresh, withLastAction]);
 
   const tabs = useMemo(
-    () => (data && userId ? buildPcivInboxTabs(data, userId) : []),
-    [data, userId],
+    () =>
+      data && userId ? buildPcivInboxTabs(data, userId, tabDefinitions) : [],
+    [data, userId, tabDefinitions],
   );
 
-  // Pending tab first when it has rows, otherwise All
+  // First "waiting for me" tab that has rows, otherwise All
   useEffect(() => {
     if (selectedTab !== undefined || tabs.length === 0) return;
-    const pending = tabs.find((t) => t.id === PCIV_PENDING_TAB_ID);
-    setSelectedTab(pending && pending.count > 0 ? PCIV_PENDING_TAB_ID : ALL_TAB_ID);
+    const pending = tabs.find((t) => t.pending && t.count > 0);
+    setSelectedTab(pending ? pending.id : ALL_TAB_ID);
   }, [tabs, selectedTab]);
 
   const selected = tabs.find((t) => t.id === selectedTab);
@@ -276,7 +310,11 @@ const PcivInboxList = ({ users, title = "List of Reports", renderDownload }: Pro
                                 color: "#0039CE",
                               }}
                             >
-                              {pending ? "Take Action" : "View History"}
+                              {rowButtonLabel
+                                ? rowButtonLabel(d, pending, selectedLabel)
+                                : pending
+                                  ? "Take Action"
+                                  : "View History"}
                             </Button>
                           }
                           body={(close) => (
@@ -286,6 +324,7 @@ const PcivInboxList = ({ users, title = "List of Reports", renderDownload }: Pro
                               users={users}
                               onDone={onDone}
                               onClose={close}
+                              labels={panelLabels}
                             />
                           )}
                         />
