@@ -25,6 +25,7 @@ import {
 import {
   PcivButton,
   PcivButtonsResponse,
+  PcivPanelLabels,
   PcivPerson,
   PcivReportTrail,
 } from "../types";
@@ -43,6 +44,7 @@ interface Props {
   onDone: () => void;
   /** Closes the surrounding modal after a button succeeded. */
   onClose?: () => void;
+  labels?: PcivPanelLabels;
 }
 
 const buttonStyle = (enabled: boolean) => ({
@@ -64,7 +66,11 @@ const PcivActionPanel = ({
   history,
   onDone,
   onClose,
+  labels,
 }: Props) => {
+  const buttonLabel = (button: PcivButton) =>
+    labels?.buttons?.[button] ?? PCIV_BUTTON_LABEL[button];
+
   const [view, setView] = useState<PcivButtonsResponse>();
   const [targets, setTargets] = useState<PcivPerson[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -135,7 +141,7 @@ const PcivActionPanel = ({
     if (button === "forward" && !toUserId) return;
     if (
       PCIV_CONFIRM.has(button) &&
-      !window.confirm(`${PCIV_BUTTON_LABEL[button]}? This cannot be undone.`)
+      !window.confirm(`${buttonLabel(button)}? This cannot be undone.`)
     ) {
       return;
     }
@@ -147,7 +153,7 @@ const PcivActionPanel = ({
         remarks: remarks.trim(),
         toUserId,
       });
-      toast.success(`${PCIV_BUTTON_LABEL[button]}: now ${result.statusName}`);
+      toast.success(`${buttonLabel(button)}: now ${result.statusName}`);
       if (onClose) onClose();
       else triggerEscapeKeyPress();
       onDone();
@@ -240,7 +246,7 @@ const PcivActionPanel = ({
                 <p className="text-danger mb-0">There is no one to forward to.</p>
               ) : targets.length === 1 ? (
                 <p className="mb-0">
-                  Forward To: {targets[0].name} ({targets[0].designation})
+                  {`${labels?.forwardTo ?? "Forward To"}: ${targets[0].name} (${targets[0].designation})`}
                 </p>
               ) : (
                 <select
@@ -275,7 +281,7 @@ const PcivActionPanel = ({
                   className="btn rounded-pill fs18px fw-normal px-3"
                   style={buttonStyle(enabled)}
                 >
-                  {PCIV_BUTTON_LABEL[button]} {busy === button && <Spinner />}
+                  {buttonLabel(button)} {busy === button && <Spinner />}
                 </Button>
               </div>
             );
