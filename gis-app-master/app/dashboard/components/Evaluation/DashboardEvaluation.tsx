@@ -93,9 +93,13 @@ const DashboardEvaluation = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+    // The PC-IV secretary dashboard answers only Administrative Secretaries;
+    // everyone opening the Evaluation dashboard uses the evaluation API.
+    const isSecretary =
+      getSession("role")?.toLowerCase() === "administrative secretary";
     try {
       const response = await apiClient.post(
-        EVALUATION_MAIN_DASHBOARD + "/dashboard",
+        `${isSecretary ? EVALUATION_MAIN_DASHBOARD : EVALUATION_MAIN_DASHBOARD_API}/dashboard`,
       );
       setData(response.data.data);
       setLoading(false);
