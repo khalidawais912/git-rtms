@@ -1,9 +1,9 @@
-import { getFormattedDate } from "@/app/utils";
+import { getFormattedDate } from "@/shared/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import blueClock from "../../../public/icons/blueClock.svg";
-import { StaffTrackings } from "./ProjectDetailsDashboard";
+import { StaffTrackings } from "../types";
 
 interface Props {
   data: StaffTrackings[];

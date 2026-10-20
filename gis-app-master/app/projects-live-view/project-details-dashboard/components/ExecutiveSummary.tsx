@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { PiGridFourBold } from "react-icons/pi";
 import { BsCircleFill } from "react-icons/bs";
-import { Groups, SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { Groups, SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;

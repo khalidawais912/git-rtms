@@ -1,12 +1,12 @@
 "use client";
-import { REPORT_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useAttributes from "@/app/hooks/useAttributes";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { deleteMessage } from "@/app/utils";
+import { REPORT_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { useAttributes } from "@/features/attributes";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { deleteMessage } from "@/shared/utils";
 import trashImage from "@/public/images/trash.png";
 import Image from "next/image";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -24,20 +24,11 @@ import Form from "./Form";
 import IssuedVsPendingReports from "./IssuedVsPendingReports";
 import PPTSlideGenerator from "./PPTSlideGenerator/PPTSlideGenerator";
 import TimeSpendOnProjectSiteData from "./TimeSpentOnProjectSite/TimeSpendOnProjectSiteData";
-import ActionButton from "@/app/components/Table/ActionButton";
-import TableHeading from "@/app/components/Table/TableHeading";
-import TableData from "@/app/components/Table/TableData";
-import CustomInput from "@/app/components/Form/CustomInput";
-
-export interface ReportTab {
-  reportId: number;
-  reportName: string;
-}
-
-interface ReportRun {
-  [key: string]: string | number | undefined;
-}
-
+import ActionButton from "@/shared/components/Table/ActionButton";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import TableData from "@/shared/components/Table/TableData";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import { ReportRun, ReportTab } from "../types";
 const List = () => {
   const [expandArea, setExpandArea] = useState(false);
   const [isActiveTab, setActiveTab] = useState(-1);
@@ -98,21 +89,7 @@ const List = () => {
   // State for filtered data
   const [filteredTabs, setFilteredTabs] = useState<ReportTab[]>([]);
 
-  // Handle search logic
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   // const lowercasedFilter = searchTerm.toLowerCase();
-  //   const filtered = data.filter((item) =>
-  //     Object.values(item)
-  //       .filter((value) => value !== undefined && value !== null)
-  //       .some((value) =>
-  //         value!.toString().toLowerCase().includes(e.target.value.toLowerCase())
-  //       )
-  //   );
-  //   setFilteredData(filtered);
-  // };
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const lowercasedFilter = searchTerm.toLowerCase();
 
     const filtered = [...(tabs || [])].reverse().filter((item) =>
       [item.reportName]
@@ -128,42 +105,6 @@ const List = () => {
     setSearchTerm(e.target.value);
     handleSearch(e);
   };
-
-  // Export to Excel function
-  // const exportToExcel = (reportData: ReportRun) => {
-  //   if (!reportData || reportData.length === 0) return;
-
-  //   const headers = Object.keys(reportData[0] as ReportRun);
-
-  //   const data = plan.detailOfEachVisit.map((visit, index) => ({
-  //     "Sr No.": index + 1,
-  //     "Officer Name": visit.officerName,
-  //     Designation: visit.designation,
-  //     "From Date": visit.fromDate,
-  //     "To Date": visit.toDate,
-  //     "Total Visits": visit.totalVisits,
-  //     Submitted: visit.submitted,
-  //     "Complete Visits": visit.completeVisits,
-  //     "Pending Visits": visit.pendingVisits,
-  //     "On Time Submitted": visit.onTimeSubmitted,
-  //     "Late Submitted": visit.lateSubmitted,
-  //     "Issued Report": visit.issuedReport,
-  //   }));
-
-  //   exportDataToExcel(
-  //     data,
-  //     headers,
-  //     `${plan.nameOfVisit} ${new Date().toLocaleDateString(
-  //   "en-GB",
-  //   {
-  //     weekday: "short",
-  //     day: "2-digit",
-  //     month: "short",
-  //     year: "numeric",
-  //   },
-  // )}.xlsx`
-  //   );
-  // };
 
   const exportToExcel = (data: ReportRun[], label: string | undefined) => {
     // Prepare data for export
@@ -299,13 +240,6 @@ const List = () => {
                 method="POST"
                 onClick={handleShow}
               />
-              {/* <Button
-                className="btn bg-color-sea-blue text-white"
-                style={{ borderRadius: "8px" }}
-                onClick={handleShow}
-              >
-                Create New Form <IoArrowForwardCircleOutline size={24} />
-              </Button> */}
             </div>
           </div>
 
@@ -324,21 +258,6 @@ const List = () => {
               />
             </Modal.Body>
           </Modal>
-          {/* <CustomModal
-            HeaderTopPos={0}
-            HeaderRightPos={0}
-            modalId="master-report-form-list"
-            isFullscreen={true}
-            button={
-              <Button
-                className="btn bg-color-sea-blue text-white"
-                style={{ borderRadius: "8px" }}
-              >
-                Create New Form <IoArrowForwardCircleOutline size={24} />
-              </Button>
-            }
-            body={<div className="container-fluid "><Form /></div>}
-          /> */}
         </div>
       </div>
       <div className="row d-flex justify-content-between align-items-center mb-2">
@@ -470,11 +389,6 @@ const List = () => {
                 />
               </Button>
             </div>
-            {/* {data && (
-              <div className="col-auto">
-                <DownloadDropDown onClickExcel={() => exportToExcel(data)} />
-              </div>
-            )} */}
           </div>
         </div>
       </div>

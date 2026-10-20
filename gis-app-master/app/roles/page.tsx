@@ -1,4 +1,4 @@
-import Roles from "./components/Roles";
+import Roles from "@/features/roles/components/Roles";
 
 const RolesPage = () => {
   return (

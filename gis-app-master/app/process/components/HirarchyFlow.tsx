@@ -40,12 +40,6 @@ function HirarchyFlow({ nodes, setNodes, onNodeClick }: Props) {
     []
   );
 
-  //   for analog edges
-  //   const onConnect: OnConnect = useCallback(
-  //     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
-  //     []
-  //   );
-
   //   for step edges
   const onConnect: OnConnect = useCallback(
     (connection: Connection) =>

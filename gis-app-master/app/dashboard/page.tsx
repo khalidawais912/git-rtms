@@ -1,6 +1,6 @@
 import DashboardEvaluation from "./components/Evaluation/DashboardEvaluation";
 import DashboardMonitoring from "./components/DashboardMonitoring";
-import { DashboardType, DashboardTypeEnum } from "./types/types";
+import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
 import { cookies } from "next/headers";
 
 interface Props {

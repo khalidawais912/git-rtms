@@ -3,7 +3,7 @@ import dropped from "@/public/icons/evaluation/dropped.svg";
 import unApproved from "@/public/icons/evaluation/unApproved.svg";
 import Image from "next/image";
 import { ProgressBar } from "react-bootstrap";
-import { DistrictList } from "../Evaluation/DashboardEvaluation";
+import { DistrictList } from "../Evaluation/types";
 
 interface Props {
   data: DistrictList;
@@ -171,82 +171,3 @@ const DistrictCardEvaluation = ({ data }: Props) => {
 
 export default DistrictCardEvaluation;
 
-{
-  /* <div className="col">
-          {(() => {
-            const total =
-              data.successful + data.partiallySuccessful + data.notSuccessful ||
-              1; // fallback to avoid divide-by-zero
-
-            return (
-              <>
-                <ProgressBar className="bg-transparent">
-                  <ProgressBar
-                    variant="success"
-                    now={Math.max(data.successful, 1)}
-                    max={total}
-                    key={1}
-                    label="Successful"
-                    className="bg-transparent text-dark fw-5"
-                  />
-                  <ProgressBar
-                    variant="warning"
-                    now={Math.max(data.partiallySuccessful, 1)}
-                    max={total}
-                    key={2}
-                    label="Partial Success"
-                    className="bg-transparent text-dark fw-5"
-                  />
-                  <ProgressBar
-                    variant="danger"
-                    now={Math.max(data.notSuccessful, 1)}
-                    max={total}
-                    key={3}
-                    label="Not Successful"
-                    className="bg-transparent text-dark fw-5"
-                  />
-                </ProgressBar>
-
-                <ProgressBar className="rounded-pill">
-                  <ProgressBar
-                    variant="success"
-                    now={Math.max(data.successful, 1)}
-                    max={total}
-                    key={4}
-                    className="rounded-pill fw-5"
-                    label={`${data.successful}`}
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to top, #6EBD18 , #7ED321)",
-                    }}
-                  />
-                  <ProgressBar
-                    variant="warning"
-                    now={Math.max(data.partiallySuccessful, 1)}
-                    max={total}
-                    key={5}
-                    className="rounded-pill fw-5"
-                    label={`${data.partiallySuccessful}`}
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to top, #F0B30F , #FDCA40)",
-                    }}
-                  />
-                  <ProgressBar
-                    variant="danger"
-                    now={Math.max(data.notSuccessful, 1)}
-                    max={total}
-                    key={6}
-                    className="rounded-pill fw-5"
-                    label={`${data.notSuccessful}`}
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to top, #BE1707 , #D62C2C)",
-                    }}
-                  />
-                </ProgressBar>
-              </>
-            );
-          })()}
-        </div> */
-}

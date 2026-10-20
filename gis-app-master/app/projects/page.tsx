@@ -1,7 +1,5 @@
-// import DownloadPDFTest from "./components/DownloadPDFTest";
-
-import { DashboardType, DashboardTypeEnum } from "../dashboard/types/types";
-import Projects from "./components/Projects";
+import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import Projects from "@/features/projects/components/Projects";
 
 interface Props {
   searchParams: Promise<{
@@ -20,7 +18,6 @@ const ProjectPage = async ({ searchParams }: Props) => {
   return (
     <>
       <Projects dashboardType={currentType} />
-      {/* <DownloadPDFTest /> */}
     </>
   );
 };

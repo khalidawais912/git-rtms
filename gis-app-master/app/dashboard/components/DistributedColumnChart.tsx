@@ -1,4 +1,4 @@
-import { formatAmountWithCommas } from "@/app/utils";
+import { formatAmountWithCommas } from "@/shared/utils";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";

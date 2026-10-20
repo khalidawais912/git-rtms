@@ -1,17 +1,16 @@
 "use client";
-import { SMDP_SYNC_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import DeleteModal from "@/app/components/DeleteModal";
-// import DownloadPDFBtn from "@/app/components/DownloadPDFBtn";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAttributeGroups from "@/app/hooks/useAttributeGroups";
-import useProjects, { Project } from "@/app/hooks/useProjects";
-import useSectors, { Sector } from "@/app/hooks/useSectors";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getFormattedDate } from "@/app/utils";
+import { SMDP_SYNC_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import DeleteModal from "@/shared/components/DeleteModal";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import { useAttributeGroups } from "@/features/attribute-groups";
+import { useProjects, Project } from "@/features/projects";
+import { useSectors, Sector } from "@/features/sectors";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getFormattedDate } from "@/shared/utils";
 import { sort } from "fast-sort";
 import { motion } from "framer-motion";
-import { DM_Sans, Inter } from "next/font/google";
+import { dmSans, inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -23,26 +22,12 @@ import clock from "../../../public/icons/clock.svg";
 import complete from "../../../public/icons/complete.svg";
 import Form from "./Form";
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  preload: false,
-});
-
-const inter = Inter({ subsets: ["latin"] });
-
 interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  name: string;
-}
-
 const ProjectsList = ({
   refresh,
   setRefresh,
@@ -320,7 +305,6 @@ const ProjectsList = ({
                         name="status"
                         handleSort={() => handleSort("status")}
                       />
-                      {/* <th style={{ whiteSpace: "nowrap" }}>ATTRIBUTE GROUPS</th> */}
                       <th colSpan={3}>
                         <div className="text-center"></div>
                       </th>
@@ -360,22 +344,10 @@ const ProjectsList = ({
                           )}
                           &nbsp;{d.status}
                         </td>
-                        {/* <td className="text-center">
-                          <GroupingForm id={d.id} options={attributeGroups} />
-                        </td> */}
                         <td>
                           <DeleteModal handleDelete={handleDelete} id={d.id} />
                         </td>
-                        <td>{/* <DownloadPDFBtn /> */}</td>
-                        {/* <td>
-                          <Form
-                            api={PROJECT_API}
-                            method="PUT"
-                            id={d.id}
-                            setRefresh={setRefresh}
-                            refresh={refresh}
-                          />
-                        </td> */}
+                        <td></td>
                       </tr>
                     ))}
                   </tbody>

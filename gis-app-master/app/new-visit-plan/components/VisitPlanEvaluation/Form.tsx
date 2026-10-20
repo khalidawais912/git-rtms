@@ -1,17 +1,18 @@
-import { TEMP_TOUR_PLAN_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomToggleSwitch from "@/app/components/CustomToggleSwitch";
-import DeleteModal from "@/app/components/DeleteModal";
-import CustomCalendar from "@/app/components/Form/CustomCalender";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import TableData from "@/app/components/Table/TableData";
-import { TempTourPlan } from "@/app/hooks/useTempTourPlan";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import { TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
+import DeleteModal from "@/shared/components/DeleteModal";
+import CustomCalendar from "@/shared/components/Form/CustomCalender";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import TableData from "@/shared/components/Table/TableData";
+import { TempTourPlan } from "@/features/tour-plans";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import {
   isoToLocalDateString,
   isValidDate,
   toLocalDateString,
-} from "@/app/utils";
+} from "@/shared/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -19,17 +20,7 @@ import { FaPaste } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";
 import { toast } from "react-toastify";
 import { z } from "zod";
-
-export interface TempCopyForm {
-  district_Id: number;
-  type: number;
-  userId: number;
-  dateFrom: string;
-  dateTo: string;
-  driverId: number;
-  vehicalId: number;
-}
-
+import { TempCopyForm } from "../../types";
 const schema = z.object({
   id: z.number().optional().default(0),
   department_id: z.number().optional().default(0),
@@ -99,25 +90,6 @@ const Form = ({
   const [isDriverVerified, setDriverVerified] = useState(false);
   const [isVehicleVerified, setVehicleVerified] = useState(false);
 
-  // const subscription = watch((value) => {
-  //   setFormsData((prev) => {
-  //     const updated = [...prev];
-  //     updated[index] = {
-  //       id: value.id ?? 0,
-  //       department_id: value.department_id ?? 0,
-  //       projectId: value.projectId ?? 0,
-  //       type: value.type ?? "",
-  //       userId: value.userId ?? 0,
-  //       section: value.section ?? 0,
-  //       dateFrom: value.dateFrom ?? "",
-  //       dateTo: value.dateTo ?? "",
-  //       driverId: value.driverId ?? 0,
-  //       vehicalId: value.vehicalId ?? 0,
-  //     };
-  //     return updated;
-  //   });
-  // });
-
   useEffect(() => {
     const subscription = watch((value) => {
       setFormsData((prev) => {
@@ -184,11 +156,6 @@ const Form = ({
 
       notifyCreate("Form is verified ✅");
     } else {
-      // Object.values(errors)?.forEach((error) => {
-      //   if (error.message) {
-      //     toast.error(error.message.toString());
-      //   }
-      // });
       notifyError("Form contains errors ❌");
     }
   };
@@ -261,18 +228,6 @@ const Form = ({
       }
     }
   };
-
-  // const dateFrom = watch("dateFrom");
-  // const dateTo = watch("dateTo");
-  // const driverId = watch("driverId");
-  // const vehicalId = watch("vehicalId");
-
-  // useEffect(() => {
-  //   if (dateFrom && dateTo && driverId && vehicalId) {
-  //     checkDriver(driverId, dateFrom, dateTo);
-  //     checkVehicle(vehicalId, dateFrom, dateTo);
-  //   }
-  // }, [dateFrom, dateTo]);
 
   const copyFormData = () => {
     if (copiedFormData) {
@@ -376,16 +331,6 @@ const Form = ({
               />
             )}
           />
-          {/* <select
-            {...register("districtId", { valueAsNumber: true })}
-            className="form-select form-select-sm color-light-dark"
-            id="districtId"
-          >
-            <option value="">Select</option>
-            {districts.map((district) => (
-              <option value={district.id}>{district.districtName}</option>
-            ))}
-          </select> */}
           {errors.district_Id && (
             <p className="text-danger mt-1 fs14px">
               {errors.district_Id.message}
@@ -444,16 +389,6 @@ const Form = ({
               />
             )}
           />
-          {/* <select
-            {...register("type", { valueAsNumber: true })}
-            className="form-select form-select-sm color-light-dark"
-            id="type"
-          >
-            <option value="">Select</option>
-            <option value="0">Monitoring</option>
-            <option value="1">Evaluation</option>
-            <option value="2">MonitoringAndCMInitiative</option>
-          </select> */}
           {errors.type && (
             <p className="text-danger mt-1 fs14px">{errors.type.message}</p>
           )}
@@ -497,18 +432,6 @@ const Form = ({
               />
             )}
           />
-          {/* <select
-            {...register("userId", { valueAsNumber: true })}
-            className="form-select form-select-sm color-light-dark"
-            id="userId"
-          >
-            <option value="">Select</option>
-            {users?.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.fullName}
-              </option>
-            ))}
-          </select> */}
           {errors.userId && (
             <p className="text-danger mt-1 fs14px">{errors.userId.message}</p>
           )}
@@ -542,13 +465,6 @@ const Form = ({
             )}
           />
 
-          {/* <input
-            {...register("dateFrom")}
-            id="dateFrom"
-            type="date"
-            className="form-control form-control-sm color-light-dark"
-            placeholder="Enter dateFrom"
-          /> */}
           {errors.dateFrom && (
             <p className="text-danger mt-1 fs14px">{errors.dateFrom.message}</p>
           )}
@@ -576,13 +492,6 @@ const Form = ({
               />
             )}
           />
-          {/* <input
-            {...register("dateTo")}
-            id="dateTo"
-            type="date"
-            className="form-control form-control-sm color-light-dark"
-            placeholder="Enter dateTo"
-          /> */}
           {errors.dateTo && (
             <p className="text-danger mt-1 fs14px">{errors.dateTo.message}</p>
           )}
@@ -592,7 +501,6 @@ const Form = ({
         className={`${index === copiedRowIndex && "bg-color-light-gray"}`}
         style={{ minWidth: "220px" }}
       >
-        {/* className="form-control form-control-sm border-0 bg-transparent shadow-none pt-0" */}
         <div
           className={`col ${index === copiedRowIndex && "bg-color-light-gray"}`}
         >
@@ -634,25 +542,6 @@ const Form = ({
               />
             )}
           />
-          {/* <select
-            {...register("driverId", {
-              valueAsNumber: true,
-              onChange: (e) => {
-                const driverId = Number(e.target.value);
-                const { dateFrom, dateTo } = getValues();
-                checkDriver(driverId, dateFrom, dateTo);
-              },
-            })}
-            className="form-select form-select-sm color-light-dark"
-            id="driverId"
-          >
-            <option value="">Select</option>
-            {drivers?.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.driverName}
-              </option>
-            ))}
-          </select> */}
           {errors.driverId && (
             <p className="text-danger mt-1 fs14px">{errors.driverId.message}</p>
           )}
@@ -703,25 +592,6 @@ const Form = ({
               />
             )}
           />
-          {/* <select
-            {...register("vehicalId", {
-              valueAsNumber: true,
-              onChange: (e) => {
-                const vehicleId = e.target.value;
-                const { dateFrom, dateTo } = getValues();
-                checkVehicle(Number(vehicleId), dateFrom, dateTo);
-              },
-            })}
-            className="form-select form-select-sm color-light-dark"
-            id="vehicalId"
-          >
-            <option value="">Select</option>
-            {vehicles?.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.vehicleNumber}
-              </option>
-            ))}
-          </select> */}
           {errors.driverId && (
             <p className="text-danger mt-1 fs14px">{errors.driverId.message}</p>
           )}
@@ -755,17 +625,6 @@ const Form = ({
           )}
         />
 
-        {/* <Controller
-          name="isFocalPerson"
-          control={control}
-          render={({ field }) => (
-            <CustomToggleSwitch
-              id="isFocalPerson"
-              checked={!!field.value}
-              onChange={field.onChange}
-            />
-          )}
-        /> */}
       </TableData>
 
       <TableData>
@@ -778,7 +637,6 @@ const Form = ({
         </Button>
       </TableData>
       <TableData>
-        {/* <button onClick={() => handleDelete(planData.tempId)}>Delete</button> */}
         <DeleteModal
           handleDelete={() => handleDelete(planData.tempId)}
           id={index}

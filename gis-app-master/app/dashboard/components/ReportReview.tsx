@@ -1,10 +1,10 @@
-import Menu from "@/app/components/Menu";
+import Menu from "@/shared/components/Menu";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import apiClient from "@/app/services/api-client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import { SubmittedReport } from "@/app/report-history/list/components/List";
+import apiClient from "@/shared/api/client";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import { SubmittedReport } from "@/app/report-history/types";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const ReportReview = ({
   dashboardType = null,
@@ -12,22 +12,7 @@ const ReportReview = ({
   dashboardType?: string | null | undefined;
 }) => {
   const [data, setData] = useState<SubmittedReport[]>();
-  const [role, setRole] = useState<string>();
-  const [userId, setUserId] = useState<number>();
-
-  useEffect(() => {
-    const userId = Cookies.get("userId");
-    const role = Cookies.get("role");
-    if (role) setRole(role);
-    if (userId) setUserId(parseInt(userId));
-  }, []);
-
-  useEffect(() => {
-    if (role) {
-      console.log("role:", role);
-      console.log("role check", role.toLowerCase().includes("director"));
-    }
-  }, [role]);
+  const { userId, role } = useUserInfo();
 
   useEffect(() => {
     const handleSubmit = async (userId: number) => {

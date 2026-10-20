@@ -6,7 +6,7 @@ import levelUp from "../../../public/icons/levelUp.svg";
 import meter from "../../../public/icons/meter.svg";
 import tideOne from "../../../public/images/tideOne.png";
 import tideTwo from "../../../public/images/tideTwo.png";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -33,31 +33,6 @@ const Menu = ({ data }: Props) => {
             position: "relative",
           }}
         >
-          {/* <motion.div
-            initial={{ x: -50, y: 130 }} // Start from Y position (dynamic)
-            animate={{ x: 0, y: 80 }} // Move to Y = 0 (top)
-            transition={{ duration: 2, ease: "easeInOut" }} // Control duration and easing
-            style={{ position: "absolute", zIndex: -1, left: -50, right: 0 }}
-          >
-            <Image
-              src={tideOne}
-              alt="tideOne"
-              style={{ width: "150%", height: "130px" }}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ x: 50, y: 130 }} // Start from Y position (dynamic)
-            animate={{ x: 0, y: 105 }} // Move to Y = 0 (top)
-            transition={{ duration: 2, ease: "easeInOut" }} // Control duration and easing
-            style={{ position: "absolute", zIndex: -2, left: -30, right: 0 }}
-          >
-            <Image
-              src={tideTwo}
-              alt="tideTwo"
-              style={{ width: "150%", height: "100px" }}
-            />
-          </motion.div> */}
           <div className="row d-flex m-0 ps-3 pt-2">
             <div className="col-lg-4 col-md-6 col mt-4 text-lg-end text-md-center text-center">
               <Image
@@ -78,13 +53,10 @@ const Menu = ({ data }: Props) => {
                     className="text-white fw-bold m-0 pt-2"
                     style={{ fontSize: "3rem" }}
                   >
-                    {/* {data?.totalProjects} */}
                     59
                   </p>
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 fs11px text-danger mt-2">
-                  {/* <Image src={waveDown} alt="waveDown" width={50} height={20} />
-                  &nbsp;&nbsp;<span className="fs11px">-5.23%</span> */}
                 </div>
               </div>
             </div>
@@ -160,8 +132,6 @@ const Menu = ({ data }: Props) => {
                   </p>
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 fs11px text-danger mt-2">
-                  {/* <Image src={waveDown} alt="waveDown" width={50} height={20} />
-                  &nbsp;&nbsp;<span className="fs11px">-5.23%</span> */}
                 </div>
               </div>
             </div>
@@ -237,8 +207,6 @@ const Menu = ({ data }: Props) => {
                   </p>
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 fs11px text-danger mt-2">
-                  {/* <Image src={waveDown} alt="waveDown" width={50} height={20} />
-                  &nbsp;&nbsp;<span className="fs11px">-5.23%</span> */}
                 </div>
               </div>
             </div>
@@ -314,8 +282,6 @@ const Menu = ({ data }: Props) => {
                   </p>
                 </div>
                 <div className="col-lg-12 col-md-12 col-sm-12 fs11px text-white mt-2">
-                  {/* <Image src={waveUp} alt="waveUp" width={50} height={20} />
-                  &nbsp;&nbsp;<span className="fs11px">-5.23%</span> */}
                 </div>
               </div>
             </div>

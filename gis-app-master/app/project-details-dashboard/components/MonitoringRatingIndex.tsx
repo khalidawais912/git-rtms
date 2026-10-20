@@ -1,4 +1,4 @@
-import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { Groups } from "../types";
 import { useEffect, useState } from "react";
 
 interface Props {

@@ -1,9 +1,9 @@
 "use client";
 
-import { formatHHLStringDate } from "@/app/utils";
+import { formatHHLStringDate } from "@/shared/utils";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../types";
 
 interface Props {
   data: SingleProjectDashboard;

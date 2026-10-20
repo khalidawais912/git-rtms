@@ -1,4 +1,4 @@
-import Visits from "./components/Visits";
+import Visits from "@/features/visits/components/visits/Visits";
 
 const VisitsPage = () => {
   return (

@@ -1,24 +1,24 @@
 "use client";
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomLabel from "@/app/components/Form/CustomLabel";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import Loader from "@/app/components/Loader/Loader";
-import Spinner from "@/app/components/Spinner";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import useDistrict from "@/app/hooks/useDistrict";
-import useDriver from "@/app/hooks/useDriver";
-import useTempTourPlans, { TempTourPlan } from "@/app/hooks/useTempTourPlan";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import useVehicle from "@/app/hooks/useVehicle";
-import apiClient from "@/app/services/api-client";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomLabel from "@/shared/components/Form/CustomLabel";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import Loader from "@/shared/components/Loader/Loader";
+import Spinner from "@/shared/components/Spinner";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { useAuthentication } from "@/features/users";
+import { useDistrict } from "@/features/districts";
+import { useDriver } from "@/features/drivers";
+import { useTempTourPlans, TempTourPlan, useTourPlans } from "@/features/tour-plans";
+import { useVehicle } from "@/features/vehicles";
+import apiClient from "@/shared/api/client";
 import {
   addDayToFormattedDate,
   deleteMessage,
   getFormattedDate,
-} from "@/app/utils";
+} from "@/shared/utils";
 import { AxiosError } from "axios";
 import { sort } from "fast-sort";
 import { useState } from "react";
@@ -26,35 +26,8 @@ import { IoMdInformationCircle } from "react-icons/io";
 import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
-import Form, { COUTempTourPlan, TempCopyForm, typeStatues } from "./Form";
-
-interface CreateVisit {
-  id: number;
-  projectId: number;
-  department_Id: number;
-  assignedTo: number;
-  status: number;
-  latitude: string | null;
-  longitude: string | null;
-  vehicleID: number;
-  districtID: number;
-  eriValue: number | null;
-  driverID: number;
-  fromDate: string;
-  toDate: string;
-  createdAt: string;
-  updatedAt: string;
-  complete_at: string | null;
-  submitted_at: string | null;
-  issued_at: string | null;
-  tracking_status: boolean;
-  isFocalPerson: boolean;
-  visitPlanGroup: number;
-  cancel_reason: string | null;
-  submitted_from: number | null;
-  submitted_to: number | null;
-}
-
+import Form, { COUTempTourPlan, typeStatues } from "./Form";
+import { TempCopyForm, CreateVisit } from "../../types";
 const EvaluationVisitPlanList = ({
   dashboardType,
 }: {
@@ -78,11 +51,6 @@ const EvaluationVisitPlanList = ({
   // State for search input
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const [tempJsonDataCreateVisit, setTempJsonDataCreateVisit] =
-  //   useState<CreateVisit[]>();
-  // const [tempJsonDataTourPlan, setTempJsonDataTourPlan] =
-  //   useState<COUTempTourPlan[]>();
-
   // State for filtered data
   const [filteredData, setFilteredData] = useState<TempTourPlan[]>([]);
 
@@ -94,7 +62,6 @@ const EvaluationVisitPlanList = ({
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [
         item.gsNo.toString(),
@@ -159,7 +126,6 @@ const EvaluationVisitPlanList = ({
     console.log("formsData", formsData);
     const filteredFormsData = formsData.filter((form) => form !== undefined);
     console.log("filteredFormsData", filteredFormsData);
-    // setTempJsonDataTourPlan(filteredFormsData);
     try {
       const response = await apiClient.post(
         `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-or-update`,
@@ -217,7 +183,6 @@ const EvaluationVisitPlanList = ({
     }));
 
     console.log("crete-visit:", modifiedFormData);
-    // setTempJsonDataCreateVisit(modifiedFormData);
     try {
       setSubmitting(true);
       const response = await apiClient.post(
@@ -316,39 +281,10 @@ const EvaluationVisitPlanList = ({
   return (
     <div className="py-2">
       {isLoading && <Loader />}
-      {/* <TableHeader
-        heading="M&E Visit Plan for the month of May-2025"
-        searchTerm={searchTerm}
-        filteredData={filteredData}
-        data={data}
-        handleChange={handleChange}
-        form={
-          <div className="col-auto">
-            <Form
-              api={DEPARTMENT_API + "/CreateDepartmentWithRights"}
-              method="POST"
-              setRefresh={setRefresh}
-              refresh={refresh}
-            />
-          </div>
-        }
-      /> */}
       <div className="row m-0">
         <div className="col"></div>
         <div className="col">
           <h4 className="fw-bold mb-3 text-center">Evalution Visit Plan</h4>
-          {/* <p className="fw-bold">temp tour plan</p>
-          <pre>
-            {tempJsonDataTourPlan
-              ? JSON.stringify(tempJsonDataTourPlan, null, 2)
-              : ""}
-          </pre>
-          <p className="fw-bold">create visit plan</p>
-          <pre>
-            {tempJsonDataCreateVisit
-              ? JSON.stringify(tempJsonDataCreateVisit, null, 2)
-              : ""}
-          </pre> */}
         </div>
         <div className="col text-end">
           {formsData.filter((form) => form !== undefined).length > 0 && (
@@ -387,15 +323,6 @@ const EvaluationVisitPlanList = ({
           </div>
         )}
       </div>
-      {/* <div className="col-4">
-        <select
-          className="form-select form-select-sm color-light-dark"
-          id="visitPlans"
-        >
-          <option value="">Select</option>
-        </select>
-        
-      </div> */}
 
       <div className="table-responsive mb-2" style={{ margin: "0 -12px" }}>
         <div

@@ -24,9 +24,6 @@ const TableRow = ({
     <tr ref={setNodeRef} {...attributes} {...listeners} style={style} key={id}>
       <th scope="row">{index + 1}</th>
       <td>{title}</td>
-      {/* <td>
-        <RxHamburgerMenu />
-      </td> */}
     </tr>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { REVERSE_GEO_CODING_API } from "@/app/APIs";
+import { REVERSE_GEO_CODING_API } from "@/shared/api/endpoints";
 import {
   AdvancedMarker,
   APIProvider,
@@ -10,7 +10,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import StaffCard from "../Map/StaffCard";
-import { Position, StaffTracking } from "../StaffTracking";
+import { StaffTracking } from "../StaffTracking";
+import { Position } from "../../types";
 
 interface Props {
   recordingData: StaffTracking[];
@@ -241,7 +242,6 @@ const RecordingStaffTrackingMap: any = ({
                 </AdvancedMarker>
               </Fragment>
             ))}
-            {/* <MapWithMarkers /> */}
           </Map>
         )}
       </div>

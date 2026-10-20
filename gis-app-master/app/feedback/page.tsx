@@ -1,4 +1,4 @@
-import Feedback from "./components/Feedback";
+import Feedback from "@/features/feedback/components/Feedback";
 
 const FeedbackPage = () => {
   return (
