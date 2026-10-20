@@ -20,7 +20,7 @@ import settingCircleArrow from "@/public/icons/settingCircleArrow.svg";
 import spendingReleaseCircle from "@/public/icons/spendingReleaseCircle.svg";
 import staffTracking2 from "@/public/icons/staffTracking2.svg";
 import utilizationCircle from "@/public/icons/utilizationCircle.svg";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import dynamic from "next/dynamic";
 import { lexend, montserrat } from "@/shared/styles/fonts";
 import Image from "next/image";
@@ -112,9 +112,9 @@ const DashboardMonitoring = () => {
   }, []);
 
   useEffect(() => {
-    const userRole = Cookies.get("role");
-    const departmentId = Cookies.get("departmentId");
-    const userId = Cookies.get("userId");
+    const userRole = getSession("role");
+    const departmentId = getSession("departmentId");
+    const userId = getSession("userId");
     if (userRole) setRole(userRole);
     if (departmentId) setDepartmentId(parseInt(departmentId));
   }, []);

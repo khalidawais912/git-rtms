@@ -20,7 +20,7 @@ import settingCircleArrow from "@/public/icons/settingCircleArrow.svg";
 import spendingReleaseCircle from "@/public/icons/spendingReleaseCircle.svg";
 import staffTracking2 from "@/public/icons/staffTracking2.svg";
 import utilizationCircle from "@/public/icons/utilizationCircle.svg";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import dynamic from "next/dynamic";
 import { lexend, montserrat } from "@/shared/styles/fonts";
 import Image from "next/image";
@@ -112,7 +112,7 @@ const Dashboard = ({ dashboardType }: Props) => {
   }, []);
 
   useEffect(() => {
-    const userRole = Cookies.get("role");
+    const userRole = getSession("role");
     if (userRole) setRole(userRole);
   }, []);
 

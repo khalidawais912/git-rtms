@@ -8,7 +8,7 @@ import ActionButton from "@/shared/components/Table/ActionButton";
 import { Authentication } from "@/features/users";
 import apiClient, { AxiosError } from "@/shared/api/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Controller, useForm } from "react-hook-form";
@@ -71,7 +71,7 @@ const Form = ({
   };
 
   const handleShow = async () => {
-    const userName = Cookies.get("userName");
+    const userName = getSession("userName");
     if (userName) {
       setUserName(userName);
       const userId = users.find((user) => user.userName === userName)?.id;

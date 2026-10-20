@@ -6,8 +6,13 @@ import { exportDataToPDF } from "@/shared/utils";
 import { exportDataToExcelDynamicColumn } from "@/shared/utils/exportToExcel";
 import { SubmittedReport } from "../types";
 
+type ExportRow = Pick<
+  SubmittedReport,
+  "gsNo" | "reportType" | "intiallyUser" | "intiallyDesignation" | "submittedDate" | "projectName"
+> & { issuanceDate?: string | null };
+
 interface Props {
-  data: SubmittedReport[];
+  data: ExportRow[];
   fileName: string;
 }
 

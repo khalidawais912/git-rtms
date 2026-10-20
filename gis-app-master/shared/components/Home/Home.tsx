@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
+import { getSession, getRights } from "@/shared/utils/session";
 import Loader from "@/shared/components/Loader/Loader";
 
 const Home = () => {
@@ -12,9 +12,9 @@ const Home = () => {
 
   useEffect(() => {
     const checkAndRedirect = async () => {
-      const token = Cookies.get("token");
-      const role = Cookies.get("role");
-      const rights = JSON.parse(Cookies.get("rights") || "[]");
+      const token = getSession("token");
+      const role = getSession("role");
+      const rights = getRights();
       let hasDashboard = false;
 
       if (!token) {

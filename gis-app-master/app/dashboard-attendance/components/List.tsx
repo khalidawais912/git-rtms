@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import { useRouter } from "next/navigation";
 import { FaDownload, FaSearch } from "react-icons/fa";
 
@@ -33,7 +33,7 @@ const PresentAttendance = () => {
 
   // Function to call the DailyAttendance API
   const fetchAttendance = async (date: any) => {
-    const token = Cookies.get("token"); // Get token from cookies for authentication
+    const token = getSession("token"); // Get token from cookies for authentication
 
     if (!token) {
       alert("Please log in to access the page");

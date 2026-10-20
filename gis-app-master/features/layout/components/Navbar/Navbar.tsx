@@ -1,5 +1,5 @@
 "use client";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import { lexend } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,8 +36,8 @@ const Navbar = () => {
   );
 
   useEffect(() => {
-    const userRole = Cookies.get("role");
-    const departmentId = Cookies.get("departmentId");
+    const userRole = getSession("role");
+    const departmentId = getSession("departmentId");
     if (userRole) setRole(userRole);
     if (departmentId) setDepartmentId(parseInt(departmentId));
   }, []);

@@ -5,7 +5,7 @@ import userProjects from "@/public/icons/userProjects.svg";
 import vehicleTrackingIcon from "@/public/icons/vehicleTracking.svg";
 import visitSchedule from "@/public/icons/visitSchedule.svg";
 import { motion } from "framer-motion";
-import Cookies from "js-cookie";
+import { getRights } from "@/shared/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -40,7 +40,7 @@ const GISMenu = ({
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [rights, setRights] = useState([]);
+  const [rights, setRights] = useState<string[]>([]);
 
   const router = useRouter();
 
@@ -48,7 +48,7 @@ const GISMenu = ({
   const currentParams = searchParams.toString();
 
   useEffect(() => {
-    const rights = JSON.parse(Cookies.get("rights") || "[]");
+    const rights = getRights();
     setRights(rights);
   }, [router]);
 

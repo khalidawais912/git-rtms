@@ -10,7 +10,7 @@ import apiClient from "@/shared/api/client";
 import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import { exportDataToExcel } from "@/shared/utils/exportToExcel";
 import visitPlan from "@/public/icons/visitPlan.svg";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -59,7 +59,7 @@ const VisitsPlan = ({
     useProjectsTableUtils();
 
   useEffect(() => {
-    const userRole = Cookies.get("role");
+    const userRole = getSession("role");
     if (userRole) setRole(userRole);
   }, []);
 
