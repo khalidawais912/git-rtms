@@ -1,11 +1,6 @@
 import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import React, { useEffect, useState } from "react";
-
-interface Position {
-  lat: number;
-  lng: number;
-}
-
+import { Position } from "../../../types";
 const ProjectLocationMap = ({ height = "130px" }: { height?: string }) => {
   const [initialPosition, setInitialPosition] = useState<Position>();
   const [zoom, setZoom] = useState<number>(17);

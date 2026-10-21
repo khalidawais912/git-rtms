@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;

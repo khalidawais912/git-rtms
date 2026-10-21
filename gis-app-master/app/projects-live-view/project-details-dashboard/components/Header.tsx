@@ -2,8 +2,8 @@ import {
   addDayToFormattedDate,
   formatAmountWithCommas,
   getFormattedDate,
-} from "@/app/utils";
-import { SingleProjectDashboard } from "./ProjectDetailsDashboard";
+} from "@/shared/utils";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;

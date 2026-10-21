@@ -1,13 +1,14 @@
-import { LOGIN_API } from "@/app/APIs";
+import { LOGIN_API } from "@/shared/api/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 import { serialize } from "cookie";
 import axios from "axios";
+import { LoginRouteResponse, LoginResponse } from "@/features/auth";
 
 export async function POST(req: NextRequest) {
   try {
     const { username, password } = await req.json();
 
-    const backendRes = await axios.post(
+    const backendRes = await axios.post<LoginResponse>(
       `${process.env.NEXT_PUBLIC_BACKEND_API}${LOGIN_API}`,
       {
         username,
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
       backendRes.data.data;
 
     // 2. Prepare cookies to be set in the browser
-    const response = NextResponse.json(
+    const response = NextResponse.json<LoginRouteResponse>(
       {
         message: "Login successfull",
         user: userData,

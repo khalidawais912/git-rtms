@@ -1,5 +1,5 @@
-import Menu from "@/app/components/Menu";
-import { Groups } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import Menu from "@/shared/components/Menu";
+import { Groups } from "@/app/project-details-dashboard/types";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -20,49 +20,7 @@ const MonitoringRatingIndex = ({ group }: Props) => {
   return (
     <div
       className="position-relative col p-0"
-      // style={{ height: "500px", overflow: "hidden", overflowY: "scroll" }}
     >
-      {/* <div
-        className="col p-0 bg-white pb-2"
-        style={{ position: "sticky", top: "0" }}
-      >
-        <p className="fw-bold fs18px">Monitoring Rating Index</p>
-        <div className="row d-flex m-0 bg-color-sea-blue rounded-pill">
-          <div
-            className="col-6 rounded-pill d-flex justify-content-center align-items-center text-white"
-            style={{ background: "#0468C8" }}
-          >
-            Criteria
-          </div>
-          <div className="col-3 d-flex justify-content-center align-items-center text-white">
-            Maximum Points
-          </div>
-          <div className="col-3 d-flex justify-content-center align-items-center text-white">
-            Points Obtained
-          </div>
-        </div>
-      </div>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p>
-      <p>asd</p> */}
       {mri && (
         <Menu
           value={mri}

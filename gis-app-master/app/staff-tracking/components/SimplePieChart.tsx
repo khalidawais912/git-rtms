@@ -1,5 +1,5 @@
 // components/SimplePie.tsx
-import Button from "@/app/components/Button";
+import Button from "@/shared/components/Button";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions type
 import dynamic from "next/dynamic";
 import Image from "next/image";

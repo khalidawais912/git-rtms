@@ -121,27 +121,6 @@ const DistrictCard = ({ data }: Props) => {
           />
         </ProgressBar>
       </div>
-      {/* <div
-        className="row d-flex m-1 mb-0 fw-normal fs-6"
-        style={{ letterSpacing: 1 }}
-      >
-        <div className="col fw-bold">Division</div>
-        <div className="col text-end color-sea-blue fs-6 fw-bold">Division</div>
-      </div>
-      <div
-        className="row d-flex m-1 fw-normal fs-6"
-        style={{ letterSpacing: 1 }}
-      >
-        <div className="col" style={{ whiteSpace: "nowrap" }}>
-          {data?.districtName}
-        </div>
-        <div
-          className="col text-end color-sea-blue fs-6"
-          style={{ whiteSpace: "nowrap" }}
-        >
-          {data?.divisionName}
-        </div>
-      </div> */}
     </div>
   );
 };

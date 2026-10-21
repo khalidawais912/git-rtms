@@ -1,49 +1,16 @@
 import Image from "next/image";
-// import profilePic3 from "../../../public/images/profilePic3.png";
-import Button from "@/app/components/Button";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import Button from "@/shared/components/Button";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import locationBlueMini from "@/public/icons/locationBlueMini.svg";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Link from "next/link";
-import { StaffTrackings } from "./ProjectDetailsDashboard";
+import { StaffTrackings } from "../../types";
 
 interface Props {
   data: StaffTrackings[];
 }
 
 const StaffTracking = ({ data }: Props) => {
-  // const items = ["a", "a", "a", "a", "a", "a"];
-  // const items2 = ["a", "a", "a", "a", "a", "a"];
-
-  // const refContainer1 = useRef<HTMLDivElement>(null);
-  // const refContent1 = useRef<HTMLDivElement>(null);
-  // const [constraints1, setConstraints1] = useState({});
-
-  // useEffect(() => {
-  //   // Wait until both container and content are rendered
-  //   if (refContainer1.current && refContent1.current) {
-  //     // Calculate the width difference between container and content
-  //     const containerHeight = refContainer1.current.offsetHeight;
-  //     const contentHeight = refContent1.current.scrollHeight;
-  //     // Set drag constraints dynamically based on the difference
-  //     setConstraints1({ bottom: 0, top: -(contentHeight - containerHeight) });
-  //   }
-  // }, []); // Recalculate if the items change
-
-  // const refContainer2 = useRef<HTMLDivElement>(null);
-  // const refContent2 = useRef<HTMLDivElement>(null);
-  // const [constraints2, setConstraints2] = useState({});
-
-  // useEffect(() => {
-  //   // Wait until both container and content are rendered
-  //   if (refContainer2.current && refContent2.current) {
-  //     // Calculate the width difference between container and content
-  //     const containerHeight = refContainer2.current.offsetHeight;
-  //     const contentHeight = refContent2.current.scrollHeight;
-  //     // Set drag constraints dynamically based on the difference
-  //     setConstraints2({ bottom: 0, top: -(contentHeight - containerHeight) });
-  //   }
-  // }, []); // Recalculate if the items change
 
   return (
     <div

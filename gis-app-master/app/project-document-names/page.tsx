@@ -1,4 +1,4 @@
-import ProjectDocumentNames from "./components/ProjectDocumentNames";
+import ProjectDocumentNames from "@/features/project-document-names/components/ProjectDocumentNames";
 
 const ProjectDocumentNamesPage = () => {
   return (

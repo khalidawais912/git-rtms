@@ -1,15 +1,16 @@
 "use client";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useDepartments from "@/app/hooks/useDepartments";
-import useUsers from "@/app/hooks/useUsers";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import { useDepartments } from "@/features/departments";
+import { useUsers } from "@/features/users";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Manrope } from "next/font/google";
+import { manrope } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { Fragment } from "react";
 import { FaFile } from "react-icons/fa";
@@ -17,11 +18,6 @@ import { FiSearch } from "react-icons/fi";
 import { PiCircleFill, PiLineVerticalThin } from "react-icons/pi";
 import { ActionMeta, SingleValue } from "react-select";
 import SummaryDetail from "./SummaryDetail";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
 
 const SummaryDashboard = () => {
   const { data: users } = useUsers();
@@ -42,13 +38,6 @@ const SummaryDashboard = () => {
   });
 
   const tabs = [
-    // {
-    //   tabName: "All",
-    //   count: 4,
-    //   icon: <FaFile size={30} className="color-sea-blue" />,
-    //   selectLabel: "Name",
-    //   selectOptions: [{ option: "" }],
-    // },
     {
       tabName: "COMMISSIONER",
       count: 1,
@@ -109,13 +98,6 @@ const SummaryDashboard = () => {
       selectLabel: "Department",
       selectOptions: departmentOptions,
     },
-    // {
-    //   tabName: "DGME",
-    //   count: 0,
-    //   icon: <RiBuildingFill size={30} className="color-sea-blue" />,
-    //   selectLabel: "",
-    //   selectOptions: [{ option: "" }],
-    // },
   ];
 
   const handleSelectChange = (
@@ -168,11 +150,6 @@ const SummaryDashboard = () => {
                 <span style={{ marginRight: "5px", display: "inline-block" }}>
                   0
                 </span>
-                {/* &nbsp;&nbsp;
-                <span className="fs12px fw-5" style={{ color: "#A3AED0" }}>
-                  Total Visits
-                </span> */}
-                {/* <HugeiconsIcon icon={ArrowUpRight03Icon} /> */}
               </p>
             </div>
           </div>
@@ -220,13 +197,6 @@ const SummaryDashboard = () => {
                         >
                           {tab.count}
                         </span>
-                        {/* &nbsp;&nbsp;
-                        <span
-                          className="fs12px fw-5"
-                          style={{ color: "#A3AED0" }}
-                        >
-                          Total Visits
-                        </span> */}
                         <HugeiconsIcon icon={ArrowUpRight03Icon} size={21} />
                       </p>
                     </div>
@@ -268,17 +238,6 @@ const SummaryDashboard = () => {
                         id="districtName"
                         onChangeSingle={handleSelectChange}
                       />
-                      {/* <select
-                      className="form-select form-select-sm color-light-dark shadow-none"
-                      style={{ background: "rgba(255, 255, 255, 0.8)" }}
-                      aria-label="Default select example"
-                      name="commissioner"
-                      id="commissioner"
-                    >
-                      <option value="Ali Jibran">
-                        {tab.selectOptions[0].option}
-                      </option>
-                    </select> */}
                     </div>
                     <div style={{ padding: "0px 30px" }}>
                       <Button
@@ -299,7 +258,6 @@ const SummaryDashboard = () => {
             </div>
 
             {/* Divider: show only if NOT last item */}
-            {/* {i !== tabs.length - 1 && ( */}
             <div className="col-auto p-0 m-0">
               <PiLineVerticalThin
                 size={100}
@@ -309,7 +267,6 @@ const SummaryDashboard = () => {
                 color="#EFF0F2"
               />
             </div>
-            {/* )} */}
           </Fragment>
         ))}
         <div className="col ps-0 mt-0">
@@ -348,10 +305,6 @@ const SummaryDashboard = () => {
                 <span style={{ marginRight: "5px", display: "inline-block" }}>
                   0
                 </span>
-                {/* &nbsp;&nbsp;
-                <span className="fs12px fw-5" style={{ color: "#A3AED0" }}>
-                  Total Visits
-                </span> */}
                 <HugeiconsIcon icon={ArrowUpRight03Icon} size={21} />
               </p>
             </div>
@@ -416,15 +369,6 @@ const SummaryDashboard = () => {
                   </div>
                 </form>
               </div>
-              {/* <div className="col-auto p-0">
-                  <Button
-                    className="btn fw-bold bg-color-sea-blue text-white rounded-pill"
-                    style={{ padding: "10px 17px" }}
-                  >
-                    <CgOptions size={21} />
-                    District
-                  </Button>
-                </div> */}
             </div>
           </div>
         </div>

@@ -1,15 +1,13 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Loader from "@/app/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/app/dashboard/types/types";
-import { Officer } from "@/app/hooks/useOfficers";
-import { ReportHistoryUser } from "@/app/hooks/useReportHistoryUsers";
-import apiClient, { AxiosError } from "@/app/services/api-client";
+import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Loader from "@/shared/components/Loader/Loader";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { Officer, ReportHistoryUser } from "@/features/users";
+import apiClient, { AxiosError } from "@/shared/api/client";
 import search3 from "@/public/icons/search3.svg";
-import Cookies from "js-cookie";
-import { Raleway } from "next/font/google";
+import { raleway } from "@/shared/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -21,53 +19,14 @@ import {
   useRef,
   useState,
 } from "react";
-import { BsExclamationTriangleFill } from "react-icons/bs";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
-import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "../../statuses";
-
-const raleway = Raleway({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-export interface SubmittedReport {
-  id: number;
-  visitId: number;
-  projectId: number;
-  submittedFrom: number;
-  submittedTo: number;
-  remarks: string;
-  projectName: string;
-  gsNo: string;
-  reportPath: string;
-  status: number;
-  submittedDate: string;
-  issuanceDate: string;
-  reportType: number;
-  intiallyUserId: number;
-  intiallyUser: string;
-  intiallyDesignation: string;
-  isFocalPerson: boolean;
-}
-
-export interface SubmittedReportResponse {
-  totalIssuedCount: number;
-  reports: SubmittedReport[];
-}
-
-interface Tab {
-  id: number;
-  label: string;
-  status: number;
-  role: string;
-  reportSubmittedFrom?: number;
-  reportSubmittedTo?: number;
-  count: number;
-  filteredData: SubmittedReport[] | undefined;
-}
+import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
+import { SubmittedReport, Tab } from "../../types";
+import AlertMessage from "@/shared/components/AlertMessage";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
@@ -97,8 +56,7 @@ const List = ({
   const [issuedReportsData, setIssuedReportsData] =
     useState<SubmittedReport[]>();
 
-  const [userId, setUserId] = useState<number>();
-  const [role, setRole] = useState<string>();
+  const { userId, role } = useUserInfo();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
@@ -115,17 +73,6 @@ const List = ({
   useEffect(() => {
     console.log("selectedTab", selectedTab);
   }, [selectedTab]);
-
-  useEffect(() => {
-    const id = Cookies.get("userId");
-    const role = Cookies.get("role");
-
-    if (id) {
-      const convertedId = parseInt(id);
-      setUserId(convertedId);
-    }
-    if (role) setRole(role.toLowerCase());
-  }, []);
 
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
@@ -212,14 +159,6 @@ const List = ({
 
   useEffect(() => {
     const tabs = [
-      // {
-      // id: 0,
-      //   label: "All",
-      //   status: -99,
-      //   reportSubmittedFrom: userId,
-      //   reportSubmittedTo: userId,
-      //   filteredData:data;
-      // },
       {
         id: 1,
         label: "SUBMITTED BY (AD)",
@@ -337,14 +276,6 @@ const List = ({
         count: 0,
         filteredData: undefined,
       },
-      // {
-      // id: 14,
-      //   label: "ISSUED",
-      //   status: ISSUED,
-      //   direction: undefined,
-      //   tabKey: `${ISSUED}`,
-      //   count: 0,
-      // },
     ];
 
     if (data) {
@@ -578,13 +509,7 @@ const List = ({
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <div
-          className="alert alert-danger d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>{error}, Please Try Again!</div>
-        </div>
+        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
       ) : userId && role ? (
         // ✅ render your data block here
         <div
@@ -775,61 +700,8 @@ const List = ({
                     </Link>
                   </div>
 
-                  {/* <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === tabs.length
-                          ? "text-dark"
-                          : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === tabs.length
-                            ? "3px solid #0c8ce9"
-                            : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(tabs.length);
-                        setSelectedLabel("Issued")
-                        setFilteredData(
-                          data?.filter((d) => d.status === ISSUED)
-                        );
-                      }}
-                    >
-                      Issued
-                      {data?.filter((d) => d.status === ISSUED).length > 0 && (
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {data?.filter((d) => d.status === ISSUED).length}
-                        </span>
-                      )}
-                    </Button>
-                  </div> */}
                 </div>
               </div>
-              {/* <div className="col-lg-4 col-md-6 col-sm-12 text-auto">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                          <div className="input-group">
-                            <input
-                              type="text"
-                              className="form-control border-0 rounded-pill rounded-end"
-                              style={{
-                                background: "rgba(16, 143, 168, .1)",
-                                outline: "none",
-                                border: "1px solid #D0D5DD",
-                              }}
-                              placeholder="Search"
-                              value={searchTerm}
-                              onChange={handleChange}
-                            />
-                            <button
-                              className="btn rounded-start rounded-pill bg-color-sea-green text-white"
-                              type="submit"
-                            >
-                              <IoSearch className="mb-1" style={{ color: "#fff" }} />
-                            </button>
-                          </div>
-                        </form>
-                      </div> */}
             </div>
           </div>
           {dataToRender && dataToRender?.length > 0 ? (
@@ -1018,23 +890,8 @@ const List = ({
               </div>
             ))
           ) : (
-            <div
-              className="alert alert-warning d-flex align-items-center"
-              role="alert"
-            >
-              <BsExclamationTriangleFill size={24} className="me-2" />
-              <div>No reports found.</div>
-            </div>
+            <AlertMessage variant="warning" />
           )}
-          {/* {data?.length === 0(
-        <div
-          className="alert alert-warning d-flex align-items-center"
-          role="alert"
-        >
-          <BsExclamationTriangleFill size={24} className="me-2" />
-          <div>No reports found.</div>
-        </div>
-      )} */}
         </div>
       ) : (
         ""

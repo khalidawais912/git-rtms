@@ -38,6 +38,7 @@ import {
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SuggestionPopup } from "../types";
 
 // Enhanced dictionary with common words
 const DICTIONARY = new Set([
@@ -354,16 +355,6 @@ const SpellCheckExtension = Extension.create({
     ];
   },
 });
-
-interface SuggestionPopup {
-  word: string;
-  suggestions: string[];
-  x: number;
-  y: number;
-  from: number;
-  to: number;
-}
-
 const RichTextEditor: React.FC = () => {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkDialog, setShowLinkDialog] = useState(false);
@@ -383,7 +374,6 @@ const RichTextEditor: React.FC = () => {
             levels: [1, 2, 3],
           },
         }),
-        // Underline,
         TextAlign.configure({
           types: ["heading", "paragraph"],
         }),
@@ -396,15 +386,6 @@ const RichTextEditor: React.FC = () => {
             class: "text-blue-600 underline hover:text-blue-800",
           },
         }),
-        // Image.configure({
-        //   inline: true,
-        //   HTMLAttributes: {
-        //     class: "max-w-full h-auto rounded-lg",
-        //   },
-        // }),
-        // Table.configure({
-        //   resizable: true,
-        // }),
         TableRow,
         TableCell,
         TableHeader,
@@ -617,7 +598,6 @@ const RichTextEditor: React.FC = () => {
 
   const addImage = () => {
     if (imageUrl) {
-      // editor?.chain().focus().setImage({ src: imageUrl }).run();
       setImageUrl("");
       setShowImageDialog(false);
     }

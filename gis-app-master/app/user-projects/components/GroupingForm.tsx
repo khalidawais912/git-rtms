@@ -1,16 +1,17 @@
-import { PROJECT_API, SUPER_GROUP_API } from "@/app/APIs";
-import Button from "@/app/components/Button";
-import CustomSelect, { OptionType } from "@/app/components/Form/CustomSelect";
-import FormWrapper from "@/app/components/Form/FormWrapper";
-import apiClient from "@/app/services/api-client";
+import { PROJECT_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
+import Button from "@/shared/components/Button";
+import CustomSelect from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import FormWrapper from "@/shared/components/Form/FormWrapper";
+import apiClient from "@/shared/api/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import superGroupBlack from "../../../public/icons/superGroupBlack.svg";
-import { Option } from "./UserProjectsList";
-import SubmitButton from "@/app/components/Form/SubmitButton";
+import { Option } from "../types";
+import SubmitButton from "@/shared/components/Form/SubmitButton";
 interface Props {
   id: number;
   options: Option[];
@@ -35,7 +36,6 @@ const GroupingForm = ({ id, options }: Props) => {
         };
         setSelectedOptions([selectedOptions]);
       }
-      // setSelectedOptions(data.superGroupID); // Set the selected groups as objects
     } catch (error) {
       console.error("Error fetching selected groups:", error);
     }
@@ -91,8 +91,6 @@ const GroupingForm = ({ id, options }: Props) => {
         );
         console.log(response);
       }
-      // notifyCreate(updated);
-      // console.log(response);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);

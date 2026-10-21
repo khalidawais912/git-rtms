@@ -1,4 +1,4 @@
-import Sectors from "./components/Sectors";
+import Sectors from "@/features/sectors/components/Sectors";
 
 const SectorsPage = () => {
   return (

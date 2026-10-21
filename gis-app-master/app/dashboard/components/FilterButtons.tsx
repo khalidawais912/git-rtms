@@ -1,29 +1,17 @@
-import Button from "@/app/components/Button";
-import { Lexend } from "next/font/google";
+import Button from "@/shared/components/Button";
+import { lexend } from "@/shared/styles/fonts";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FilterData } from "./Dashboard";
+import { FilterData, Filter } from "../types";
 import FilterModal from "./FilterModal";
-import { FILTER_SETTING_API } from "@/app/APIs";
-import apiClient from "@/app/services/api-client";
+import { FILTER_SETTING_API } from "@/shared/api/endpoints";
+import apiClient from "@/shared/api/client";
 import {
   adpFilters,
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "../filters";
 import { AutoTextSize } from "auto-text-size";
-import Spinner from "@/app/components/Spinner";
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-export interface Filter {
-  label: string;
-  filterIdentifier: string;
-  dataType: string;
-  filterValues: [string];
-}
+import Spinner from "@/shared/components/Spinner";
 
 interface Props {
   handleSubmit: (filterData: FilterData[]) => Promise<void>;
