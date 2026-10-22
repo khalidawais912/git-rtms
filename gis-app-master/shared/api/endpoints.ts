@@ -53,4 +53,5 @@ export const REPORT_API = `/api/Reports`;
 export const DEPARTMENT_ROLES_SORTING_API = `/api/DepartmentRolesSorting`;
 export const PC_IV_WORKFLOW_API = `/api/pciv/workflow`;
 export const PROJECT_DOCUMENT_NAMES_API = `/api/ProjectDocumentsName`;
+export const DOCUMENT_CATEGORY_API = `/api/document-category`;
 export const MARK_TO_EVALUATION_API = `/api/MarktoEvaluation`;
