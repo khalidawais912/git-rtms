@@ -16,6 +16,7 @@ import cross from "@/public/icons/cross-2.svg";
 import dashboard from "@/public/icons/dashboard.svg";
 import db from "@/public/icons/db.svg";
 import departments from "@/public/icons/departments.svg";
+import documentCategories from "@/public/icons/documentCategories.svg";
 import downArrow from "@/public/icons/down-arrow.svg";
 import driver from "@/public/icons/driver.svg";
 import group from "@/public/icons/group.svg";
@@ -217,6 +218,13 @@ const GISMenu = ({
         link: "/project-document-names",
         icon: process,
         backgroundColor: "linear-gradient(to bottom right, #a8118f , #11a89b)",
+      },
+      {
+        name: "Document Categories",
+        nameId: "document-categories",
+        link: "/document-categories",
+        icon: documentCategories,
+        backgroundColor: "linear-gradient(to bottom right, #2f4f9f , #4f7fd8)",
       },
     ];
 

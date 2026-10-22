@@ -576,6 +576,7 @@ export const allPagesPath = [
   "/pc-iv-report-history/:path",
   "/director-reports",
   "/project-document-names",
+  "/document-categories",
   "/pc-iv-review/:path",
   "/pc-iv-attached-review/:path",
   "/pc-iv-referback-review/:path",

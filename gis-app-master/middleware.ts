@@ -92,6 +92,7 @@ export const config = {
     "/projects-live-view/:path*",
     "/pc-iv-report-history",
     "/project-document-names/:path*",
+    "/document-categories/:path*",
     "/pc-iv-review/:path*",
     "/pc-iv-attached-review/:path*",
     "/pc-iv-referback-review/:path*",
