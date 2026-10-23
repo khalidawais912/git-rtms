@@ -1,7 +1,7 @@
-import { OptionType } from "@/app/components/Form/CustomSelect";
-import useDistrict from "@/app/hooks/useDistrict";
-import useSectors from "@/app/hooks/useSectors";
-import useUsers from "@/app/hooks/useUsers";
+import { OptionType } from "@/shared/components/types";
+import { useDistrict } from "@/features/districts";
+import { useSectors } from "@/features/sectors";
+import { useUsers } from "@/features/users";
 import { useMemo } from "react";
 
 const useProjectsTableUtils = () => {

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-// import locationImage from "../../../public/images/locationImage.png";
 import { useEffect, useRef, useState } from "react";
 import uploadBlack from "../../../public/icons/uploadBlack.svg";
 

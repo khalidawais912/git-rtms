@@ -1,0 +1,10 @@
+import { SECTOR_API } from "@/shared/api/endpoints";
+import useData from "@/shared/hooks/useData";
+import { Sector } from "./types";
+
+interface Props {
+  refresh?: boolean;
+}
+
+export const useSectors = ({ refresh = false }: Props = {}) =>
+  useData<Sector>({ refresh, endpoint: SECTOR_API });

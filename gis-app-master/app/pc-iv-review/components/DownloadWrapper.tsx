@@ -1,13 +1,18 @@
 "use client";
 
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
-import { exportDataToPDF } from "@/app/utils";
-import { exportDataToExcelDynamicColumn } from "@/app/utils/exportToExcel";
-import { SubmittedReport } from "../list/components/List";
+import { exportDataToPDF } from "@/shared/utils";
+import { exportDataToExcelDynamicColumn } from "@/shared/utils/exportToExcel";
+import { SubmittedReport } from "../types";
+
+type ExportRow = Pick<
+  SubmittedReport,
+  "gsNo" | "reportType" | "intiallyUser" | "intiallyDesignation" | "submittedDate" | "projectName"
+> & { issuanceDate?: string | null };
 
 interface Props {
-  data: SubmittedReport[];
+  data: ExportRow[];
   fileName: string;
 }
 
@@ -31,7 +36,6 @@ export const getIssuedColumns = () => [
 const DownloadWrapper = ({ data, fileName }: Props) => {
   const columns = getColumns(fileName);
   const columnsWithIssued = getIssuedColumns();
-  // const headers = ["Sr No.", ...columns.map((c) => c.label)];
 
   const buildRows = () => {
     const rows = data.map((d, index) => ({
@@ -47,18 +51,6 @@ const DownloadWrapper = ({ data, fileName }: Props) => {
       }),
       projectName: d.projectName,
     }));
-
-    // Add totals
-    // const totals = calculateTotals(data);
-
-    // rows.push({
-    //   "Sr No.": "TOTAL",
-    //   "Name of District": "",
-    //   "Complaints Filed": totals.totalFiled,
-    //   Disposal: totals.totalDisposal,
-    //   "Percentage of Disposal (%)": totals.totalPercentage,
-    //   "Pending Complaints": totals.totalPending,
-    // });
 
     return rows;
   };

@@ -1,4 +1,4 @@
-import Rights from "./components/Rights";
+import Rights from "@/features/rights/components/Rights";
 
 const RightsPage = () => {
   return (

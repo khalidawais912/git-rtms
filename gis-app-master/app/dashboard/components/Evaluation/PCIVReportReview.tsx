@@ -1,25 +1,17 @@
-import Menu from "@/app/components/Menu";
+import Menu from "@/shared/components/Menu";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import apiClient from "@/app/services/api-client";
-import { PC_IV_WORKFLOW_API } from "@/app/APIs";
-import { SubmittedReport } from "@/app/report-history/list/components/List";
+import apiClient from "@/shared/api/client";
+import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
+import { SubmittedReport } from "@/app/report-history/types";
 import { useSearchParams } from "next/navigation";
+import useUserInfo from "@/shared/hooks/useUserInfo";
 
 const PCIVReportReview = () => {
   const [data, setData] = useState<SubmittedReport[]>();
-  const [role, setRole] = useState<string>();
-  const [userId, setUserId] = useState<number>();
+  const { userId, role } = useUserInfo();
   const searchParams = useSearchParams();
   const dashboardType = searchParams.get("dashboardType");
-
-  useEffect(() => {
-    const userId = Cookies.get("userId");
-    const role = Cookies.get("role");
-    if (role) setRole(role);
-    if (userId) setUserId(parseInt(userId));
-  }, []);
 
   useEffect(() => {
     if (role) {

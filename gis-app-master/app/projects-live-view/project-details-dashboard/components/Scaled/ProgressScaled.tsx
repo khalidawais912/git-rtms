@@ -1,6 +1,6 @@
 import { FaCircle } from "react-icons/fa";
 import Card from "../Card";
-import { SingleProjectDashboard } from "../ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
 import { useEffect, useState } from "react";
 
 interface Props {

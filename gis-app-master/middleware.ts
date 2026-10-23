@@ -1,90 +1,55 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  // Extract the path from the request URL
-  const url = new URL(request.url);
-  const pathname = url.pathname; // Full path of the request
-  const requiredRight = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+const LOGIN_PATH = "/login";
+const NOT_AUTHORIZED_PATH = "/not-authorized";
+const isDev = process.env.NODE_ENV === "development";
 
-  // Get cookies from the request
-  const rightsCookie = request.cookies.get("rights");
-  const tokenCookie = request.cookies.get("token");
+const redirectTo = (path: string, request: NextRequest) =>
+  NextResponse.redirect(new URL(path, request.url));
 
-  // Redirect to login if token is missing
-  if (!tokenCookie) {
-    console.log("Token missing. Redirecting to /login.");
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  let rights: string[] = [];
+/**
+ * Reads the "rights" cookie (a JSON array of right names).
+ * Returns null if it is not a valid array, so the user is sent back to login.
+ * Empty names are dropped: with startsWith matching, "" would allow every page.
+ */
+const parseRights = (value: string | undefined): string[] | null => {
+  if (!value) return [];
   try {
-    // Parse the "rights" cookie if it exists
-    rights = rightsCookie ? JSON.parse(rightsCookie.value || "[]") : [];
-  } catch (error) {
-    console.error("Failed to parse rights cookie:", error);
-    return NextResponse.redirect(new URL("/login", request.url));
+    const parsed: unknown = JSON.parse(value);
+    if (!Array.isArray(parsed)) return null;
+    return parsed.filter(
+      (right): right is string => typeof right === "string" && right !== "",
+    );
+  } catch {
+    return null;
+  }
+};
+
+// Page protection only: the cookies can be edited in the browser,
+// so the backend must still check the token and rights on every API call.
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  if (!request.cookies.has("token")) return redirectTo(LOGIN_PATH, request);
+
+  const rights = parseRights(request.cookies.get("rights")?.value);
+  if (!rights) return redirectTo(LOGIN_PATH, request);
+
+  // A right also allows every page whose path starts with it ("projects" → "/projects-live-view").
+  const requiredRight = pathname.slice(1);
+  if (rights.some((right) => requiredRight.startsWith(right))) {
+    return NextResponse.next();
   }
 
-  // If the user does not have the required right, redirect
-  // let hasDashboard = false;
+  const fallbackPath = rights.length ? `/${rights[0]}` : NOT_AUTHORIZED_PATH;
+  // Never redirect a page to itself.
+  if (pathname === fallbackPath) return NextResponse.next();
 
-  // if (rights.length > 0) {
-  //   for (let i = 0; i < rights.length; i++) {
-  //     const redirectPath = `/${rights[i]}`;
-
-  //     // Check if already on the redirect path to avoid a loop
-  //     if (pathname === redirectPath) {
-  //       hasDashboard = true;
-  //       break; // Exit to prevent redundant redirection
-  //     }
-  //     if (rights[i].toLowerCase() === "dashboard") {
-  //       hasDashboard = true;
-  //       return NextResponse.redirect(new URL(redirectPath, request.url));
-  //     } else if (
-  //       rights[i].toLowerCase().startsWith("dashboard") &&
-  //       rights[i].toLowerCase() !== "project-details-dashboard"
-  //     ) {
-  //       hasDashboard = true;
-  //       return NextResponse.redirect(new URL(redirectPath, request.url));
-  //     }
-  //   }
-
-  //   if (!hasDashboard && pathname !== `/${rights[0]}`) {
-  //     return NextResponse.redirect(new URL(`/${rights[0]}`, request.url));
-  //   }
-  // } else {
-  //   // Redirect to not-authorized page if no rights exist
-  //   if (pathname !== "/not-authorized") {
-  //     return NextResponse.redirect(new URL("/not-authorized", request.url));
-  //   }
-  // }
-
-  console.log("User rights:", rights);
-  console.log("Required right:", requiredRight);
-  console.log("Current pathname:", pathname);
-
-  const hasRequiredRight = rights.some((right) =>
-    requiredRight.startsWith(right),
-  );
-
-  if (!hasRequiredRight) {
-    const redirectPath =
-      rights.length > 0 ? `/${rights[0]}` : "/not-authorized";
-
-    // Avoid infinite redirection
-    if (pathname === redirectPath) {
-      console.warn("Redirection loop detected. Allowing request.");
-      return NextResponse.next();
-    }
-
-    console.log(`User lacks required right. Redirecting to ${redirectPath}`);
-    return NextResponse.redirect(new URL(redirectPath, request.url));
+  if (isDev) {
+    console.warn(`[middleware] no right for ${pathname}, sent to ${fallbackPath}`);
   }
-
-  // Log success and allow access
-  console.log(`Access granted for ${pathname}`);
-  return NextResponse.next();
+  return redirectTo(fallbackPath, request);
 }
 
 export const config = {
@@ -127,6 +92,7 @@ export const config = {
     "/projects-live-view/:path*",
     "/pc-iv-report-history",
     "/project-document-names/:path*",
+    "/document-categories/:path*",
     "/pc-iv-review/:path*",
     "/pc-iv-attached-review/:path*",
     "/pc-iv-referback-review/:path*",

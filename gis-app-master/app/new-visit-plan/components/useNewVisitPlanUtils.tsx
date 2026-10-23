@@ -1,9 +1,9 @@
-import { OptionType } from "@/app/components/Form/CustomSelect";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import useDistrict from "@/app/hooks/useDistrict";
-import useDriver from "@/app/hooks/useDriver";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import useVehicle from "@/app/hooks/useVehicle";
+import { OptionType } from "@/shared/components/types";
+import { useAuthentication } from "@/features/users";
+import { useDistrict } from "@/features/districts";
+import { useDriver } from "@/features/drivers";
+import { useTourPlans } from "@/features/tour-plans";
+import { useVehicle } from "@/features/vehicles";
 import { useMemo } from "react";
 
 const useNewVisitPlanUtils = () => {

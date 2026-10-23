@@ -1,0 +1,141 @@
+.container {
+  border-radius: 14px;
+  margin-top: 0;
+  border: 1px solid #cbd5e1;
+}
+
+.sidenavPanel {
+  border-right: 1px solid #cbd5e1;
+  z-index: 3;
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  padding: 23px 15px;
+  background: #f8fafc;
+}
+
+.sectionSpacing {
+  margin-bottom: 32px;
+}
+
+.logoCol {
+  padding: 0 10px;
+}
+
+.logo {
+  filter: drop-shadow(0 0 0.75px green);
+  width: 48px;
+  height: 43px;
+}
+
+.searchButton {
+  border: 1.08px solid #cbd5e1;
+  padding: 8px 0 12px 12px;
+}
+
+.searchInput {
+  border: 1px solid #cbd5e1;
+}
+
+.mutedText {
+  color: #475569;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.clearDatesButton {
+  padding: 10px 15px;
+  background: #ff5c5c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.collapsedSearchList {
+  margin-bottom: 18.57px;
+}
+
+.collapsedSearchItem {
+  margin-bottom: 14.86px;
+}
+
+.filterIconItem {
+  margin-bottom: 23.21px;
+}
+
+.iconBox {
+  width: 44.57px;
+  height: 44.57px;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+.sidenavFooter {
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.tableHeader {
+  padding: 17.33px 26px;
+}
+
+.title {
+  font-weight: 800;
+}
+
+.countBadge {
+  color: #1c6ba6;
+  border: 1.08px solid #1c6ba6;
+}
+
+.countBadgeDot {
+  color: #1c6ba6;
+  margin-bottom: 2px;
+}
+
+.tableWrapper {
+  margin: 0 -17px;
+  height: calc(100vh - 135px);
+  overflow: auto;
+}
+
+.stickyTotalRow {
+  z-index: 3;
+}
+
+.stickyHeadingRow {
+  top: 52px;
+  z-index: 2;
+}
+
+.noShrink {
+  flex-shrink: 0;
+}
+
+.rowsBadge {
+  border: 1.08px solid #1c6ba6;
+  padding-bottom: 2px;
+}
+
+.rowsBadgeDot {
+  padding-bottom: 4px;
+}
+
+.pageButtonCol {
+  padding-right: 10px;
+}
+
+.pageButton {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+}
+
+.rotate180 {
+  rotate: 180deg;
+}

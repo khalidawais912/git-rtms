@@ -1,0 +1,210 @@
+name: Build and deploy to IIS
+
+# main    -> production IIS site
+# develop -> development (testing) IIS site
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: iis-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: gis-app-master
+    env:
+      NEXT_PUBLIC_BACKEND_API: ${{ vars.NEXT_PUBLIC_BACKEND_API }}
+      NEXT_PUBLIC_GOOGLE_MAP_API: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_API }}
+      NEXT_PUBLIC_GOOGLE_MAP_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_ID }}
+      NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID }}
+      NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY: ${{ vars.NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY }}
+      NEXT_PUBLIC_SAPLING_KEY: ${{ vars.NEXT_PUBLIC_SAPLING_KEY }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: gis-app-master/package-lock.json
+
+      - name: Validate required build settings
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:NEXT_PUBLIC_BACKEND_API)) {
+            throw "Set the NEXT_PUBLIC_BACKEND_API Actions variable to the production backend URL."
+          }
+
+          $backendUri = $null
+          if (-not [Uri]::TryCreate($env:NEXT_PUBLIC_BACKEND_API, [UriKind]::Absolute, [ref]$backendUri)) {
+            throw "NEXT_PUBLIC_BACKEND_API must be an absolute URL."
+          }
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+  deploy:
+    name: Deploy to IIS (${{ github.ref_name == 'main' && 'production' || 'development' }})
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    needs: build
+    runs-on: [self-hosted, windows, iis]
+    # Variables set on the environment override repository variables with the same name,
+    # so production and development can use different IIS paths, app pools and backend URLs.
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: gis-app-master
+    env:
+      NEXT_PUBLIC_BACKEND_API: ${{ vars.NEXT_PUBLIC_BACKEND_API }}
+      NEXT_PUBLIC_GOOGLE_MAP_API: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_API }}
+      NEXT_PUBLIC_GOOGLE_MAP_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_ID }}
+      NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID }}
+      NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY: ${{ vars.NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY }}
+      NEXT_PUBLIC_SAPLING_KEY: ${{ vars.NEXT_PUBLIC_SAPLING_KEY }}
+      IIS_DEPLOY_PATH: ${{ vars.IIS_DEPLOY_PATH }}
+      IIS_APP_POOL: ${{ vars.IIS_APP_POOL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: gis-app-master/package-lock.json
+
+      - name: Validate deployment settings
+        shell: powershell
+        run: |
+          foreach ($setting in @("NEXT_PUBLIC_BACKEND_API", "IIS_DEPLOY_PATH", "IIS_APP_POOL")) {
+            if ([string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($setting))) {
+              throw "Set the $setting Actions variable before deploying."
+            }
+          }
+
+          $backendUri = $null
+          if (-not [Uri]::TryCreate($env:NEXT_PUBLIC_BACKEND_API, [UriKind]::Absolute, [ref]$backendUri)) {
+            throw "NEXT_PUBLIC_BACKEND_API must be an absolute URL."
+          }
+
+          $sourcePath = [IO.Path]::GetFullPath((Join-Path $env:GITHUB_WORKSPACE "gis-app-master"))
+          $targetPath = [IO.Path]::GetFullPath($env:IIS_DEPLOY_PATH)
+          $normalizedSourcePath = $sourcePath.TrimEnd([IO.Path]::DirectorySeparatorChar)
+          $normalizedTargetPath = $targetPath.TrimEnd([IO.Path]::DirectorySeparatorChar)
+          $normalizedTargetRoot = [IO.Path]::GetPathRoot($targetPath).TrimEnd([IO.Path]::DirectorySeparatorChar)
+          if (
+            $normalizedTargetPath -eq $normalizedTargetRoot -or
+            $normalizedTargetPath -eq $normalizedSourcePath -or
+            $normalizedTargetPath.StartsWith($normalizedSourcePath + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or
+            $normalizedSourcePath.StartsWith($normalizedTargetPath + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)
+          ) {
+            throw "IIS_DEPLOY_PATH must be separate from the GitHub runner workspace."
+          }
+
+          if (-not (Test-Path -LiteralPath $targetPath -PathType Container)) {
+            throw "Create IIS_DEPLOY_PATH on the server before deploying."
+          }
+
+          $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
+          if (-not (Test-Path -LiteralPath $appcmd -PathType Leaf)) {
+            throw "IIS appcmd.exe was not found. Confirm IIS is installed on this runner."
+          }
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production application
+        run: npm run build
+
+      - name: Write runtime environment file
+        shell: powershell
+        run: |
+          # next.config.js reads these when the app starts under iisnode, not only at build time.
+          # Next.js loads .env.production automatically. These values are public (NEXT_PUBLIC_*).
+          $names = @(
+            "NEXT_PUBLIC_BACKEND_API",
+            "NEXT_PUBLIC_GOOGLE_MAP_API",
+            "NEXT_PUBLIC_GOOGLE_MAP_ID",
+            "NEXT_PUBLIC_GOOGLE_MAP_Reduce_ID",
+            "NEXT_PUBLIC_CKEDITOR5_LICENSE_KEY",
+            "NEXT_PUBLIC_SAPLING_KEY"
+          )
+          $lines = foreach ($name in $names) {
+            $value = [Environment]::GetEnvironmentVariable($name)
+            if (-not [string]::IsNullOrWhiteSpace($value)) { "$name=$value" }
+          }
+          $envFile = Join-Path (Get-Location) ".env.production"
+          # Write without a BOM so Next.js reads the first variable name correctly.
+          [IO.File]::WriteAllLines($envFile, [string[]]$lines, (New-Object Text.UTF8Encoding($false)))
+
+      - name: Stop IIS application pool
+        shell: powershell
+        run: |
+          # Stop the pool so iisnode releases file locks on node_modules and .next before copying.
+          $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
+          $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+          if ($LASTEXITCODE -ne 0 -or -not $state) {
+            throw "IIS application pool '$env:IIS_APP_POOL' was not found."
+          }
+          if ($state -ne "Stopped") {
+            & $appcmd stop apppool "/apppool.name:$env:IIS_APP_POOL"
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to stop IIS application pool '$env:IIS_APP_POOL'."
+            }
+          }
+          for ($i = 0; $i -lt 30; $i++) {
+            $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+            if ($state -eq "Stopped") { break }
+            Start-Sleep -Seconds 2
+          }
+
+      - name: Copy application to IIS
+        shell: powershell
+        run: |
+          $sourcePath = (Resolve-Path -LiteralPath (Join-Path $env:GITHUB_WORKSPACE "gis-app-master")).Path
+          $targetPath = [IO.Path]::GetFullPath($env:IIS_DEPLOY_PATH)
+          $gitPath = Join-Path $sourcePath ".git"
+
+          & robocopy $sourcePath $targetPath /E /R:3 /W:5 /XD $gitPath
+          $copyExitCode = $LASTEXITCODE
+          if ($copyExitCode -ge 8) {
+            throw "Robocopy failed with exit code $copyExitCode."
+          }
+          exit 0
+
+      - name: Start IIS application pool
+        # Runs even if the copy failed so the site does not stay down.
+        if: always()
+        shell: powershell
+        run: |
+          $appcmd = Join-Path $env:windir "System32\inetsrv\appcmd.exe"
+          $state = (& $appcmd list apppool "/apppool.name:$env:IIS_APP_POOL" /text:state | Out-String).Trim()
+          if ($state -ne "Started") {
+            & $appcmd start apppool "/apppool.name:$env:IIS_APP_POOL"
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to start IIS application pool '$env:IIS_APP_POOL'."
+            }
+          }

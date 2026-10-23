@@ -1,7 +1,7 @@
 "use client";
-import { DASHBOARD_ATTENDANCE_API } from "@/app/APIs";
-import Loader from "@/app/components/Loader/Loader";
-import apiClient from "@/app/services/api-client";
+import { DASHBOARD_ATTENDANCE_API } from "@/shared/api/endpoints";
+import Loader from "@/shared/components/Loader/Loader";
+import apiClient from "@/shared/api/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkCheckFill } from "react-icons/bs";
@@ -15,20 +15,7 @@ import { TbFileArrowRight, TbWorldSearch } from "react-icons/tb";
 import { TfiMoreAlt } from "react-icons/tfi";
 import WaveAnimation from "../WaveAnimation";
 import styles from "./AttendanceHome.module.css";
-
-interface DashboardAttendance {
-  count: {
-    totalEmployee: number;
-    present: number;
-    leave: number;
-    visit: number;
-    late: number;
-    leftEarly: number;
-    absent: number;
-    others: number;
-  };
-}
-
+import { DashboardAttendance } from "../../types";
 const AttendanceHome = () => {
   const [data, setData] = useState<DashboardAttendance>();
 
@@ -45,17 +32,10 @@ const AttendanceHome = () => {
     handleSubmit();
   }, []);
 
-  // const res = await fetch(
-  //   `${process.env.NEXT_PUBLIC_BACKEND_API}${DASHBOARD_ATTENDANCE_API}`
-  // );
-  // const attendanceData: DashboardAttendance = await res.json();
-
   return (
     <div
       className="container-fluid p-2 mb-4"
       style={{
-        // backgroundImage:
-        //   "linear-gradient(to bottom right, rgba(239, 239, 239, 0.6), rgba(255, 255, 255, 0.08))",
         border: "1px solid rgba(255, 255, 255, 0.6)",
         borderRadius: "10px",
         height: "100%",

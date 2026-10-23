@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CustomModal from "../components/CustomModal/CustomModal";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
 import AssignProjectPartTwoBarChartTile from "./components/AssignProjectPartTwoBarChartTile";
 import BarChartTile from "./components/BarChartTile";
 import BarChartTileSNEWiseProjects from "./components/BarChartTileSNEWiseProjects";
@@ -9,121 +9,13 @@ import BarChartTileTotalProjects from "./components/BarChartTileTotalProjects";
 import CompletedProjectsBarChartTile from "./components/CompletedProjectsBarChartTile";
 import DistrictWiseProjectsBarChartTile from "./components/DistrictWiseProjectsBarChartTile";
 import SectorWiseProgressPieChartTile from "./components/SectorWiseProgressPieChartTile";
-import apiClient, { CanceledError } from "../services/api-client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "../APIs";
-
-// export interface SeasonCycle {
-//   totalProduction: number;
-//   punjabProduction: number;
-//   sindhProduction: number;
-//   balochistanProduction: number;
-//   kpkProduction: number;
-//   punjabPercentage: number;
-//   sindhPercentage: number;
-//   balochistanPercentage: number;
-//   kpkPercentage: number;
-//   punjabSession: string;
-//   sindhSession: string;
-//   balochistanSession: string;
-//   kpkSession: string;
-//   countryCycles: {
-//     countryId: number;
-//     countryName: string;
-//     totalSupply: number; //production
-//     percentage: number;
-//     sessionName: string;
-//   }[];
-// }
-
-export interface AssignedProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface EvaluationTotalProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface SNEProject {
-  userName: string;
-  totalAssignedProjects: number;
-}
-
-export interface OfficerWiseVisits {
-  officerName: string;
-  scheduledCount: number;
-  completedCount: number;
-  cancelledCount: number;
-}
-
-export interface DistrictProject {
-  districtName: string;
-  totalProject: number;
-}
-
-interface Stats {
-  summary: {
-    totalProjects: number;
-    totalVisit: number;
-    unassignedProjects: number;
-    scheduleProjects: number;
-    completedProjects: number;
-    submmittedProjects: number;
-    refferBackProjects: number;
-    approvedByDGProjects: number;
-    issuedProjects: number;
-    cancelProjects: number;
-  };
-  assignedProjects: AssignedProject[];
-  evaluationTotalProject: EvaluationTotalProject[];
-  isSNEProjectCount: SNEProject[];
-  officerWiseVisits: OfficerWiseVisits[];
-  districtProjects: DistrictProject[];
-}
-
+import apiClient, { CanceledError } from "@/shared/api/client";
+import { EVALUATION_MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import { Stats } from "./types";
 const ChartsPage = () => {
   const [data, setData] = useState<Stats>();
   const [isLoading, setLoading] = useState(true);
 
-  // const seasonCycleData: SeasonCycle = {
-  //   totalProduction: 43729351,
-  //   punjabProduction: 38694922,
-  //   sindhProduction: 2390730,
-  //   balochistanProduction: 1635337,
-  //   balochistanSession: "testing",
-  //   kpkSession: "testing",
-  //   punjabSession: "testing",
-  //   sindhSession: "testing",
-  //   kpkProduction: 1008362,
-  //   punjabPercentage: 88.48729998302512,
-  //   sindhPercentage: 5.4671060633852075,
-  //   balochistanPercentage: 3.7396781854823318,
-  //   kpkPercentage: 2.305915768107329,
-  //   countryCycles: [
-  //     {
-  //       countryId: 4,
-  //       countryName: "China",
-  //       totalSupply: 52868,
-  //       percentage: 0.12089820404606508,
-  //       sessionName: "",
-  //     },
-  //     {
-  //       countryId: 3,
-  //       countryName: "Afghanistan",
-  //       totalSupply: 559040,
-  //       percentage: 1.2784090941573774,
-  //       sessionName: "",
-  //     },
-  //     {
-  //       countryId: 2,
-  //       countryName: "Iran",
-  //       totalSupply: 188351,
-  //       percentage: 0.430719861358107,
-  //       sessionName: "",
-  //     },
-  //   ],
-  // };
   useEffect(() => {
     const controller = new AbortController();
 
@@ -384,15 +276,6 @@ const ChartsPage = () => {
               />
             </div>
           )}
-          {/* <div className="col-12 col-lg-6">
-            <CustomModal
-              showCloseButton={false}
-              dialogClassName="ev-charts-modal"
-              button={<CompletedProjectsBarChartTile />}
-              body={<CompletedProjectsBarChartTile chartSize="large" />}
-              modalId={"bar chart-3"}
-            />
-          </div> */}
           {data?.isSNEProjectCount && (
             <div className="col-12 col-lg-6">
               <CustomModal
@@ -411,15 +294,6 @@ const ChartsPage = () => {
               />
             </div>
           )}
-          {/* <div className="col-4">
-            <CustomModal
-              showCloseButton={false}
-              dialogClassName="ev-charts-modal"
-              button={<SectorWiseProgressPieChartTile />}
-              body={<SectorWiseProgressPieChartTile chartSize="large" />}
-              modalId={"two-level pie chart"}
-            />
-          </div> */}
           {data?.districtProjects && (
             <div className="col-12">
               <CustomModal

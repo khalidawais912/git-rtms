@@ -1,11 +1,11 @@
 "use client";
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/app/APIs";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import Loader from "@/app/components/Loader/Loader";
-import { SingleProjectDashboard } from "@/app/project-details-dashboard/components/ProjectDetailsDashboard";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Loader from "@/shared/components/Loader/Loader";
+import { SingleProjectDashboard } from "@/app/project-details-dashboard/types";
 import Reports from "@/app/project-details-dashboard/components/Reports";
-import apiClient from "@/app/services/api-client";
-import { addDayToFormattedDate, getFormattedDate } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { IoWifiOutline } from "react-icons/io5";
@@ -85,19 +85,6 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
     handleSubmit(parseInt(id), visitId);
   }, [id]);
 
-  //   const previewDate = (requriedDate: string) => {
-  //     if (requriedDate.length > 0) {
-  //       console.log("requriedDate", requriedDate);
-  //       return new Date(requriedDate).toLocaleDateString("en-GB", {
-  //         weekday: "short",
-  //         year: "numeric",
-  //         month: "short",
-  //         day: "numeric",
-  //       });
-  //     } else {
-  //       return "";
-  //     }
-  //   };
   const previewDate = (requriedDate: string) => {
     if (!requriedDate) return "";
 
@@ -139,20 +126,8 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
               HeaderRightPos={0}
               button={
                 <div className="position-relative h-100">
-                  {/* <video
-                    className="w-100 h-100 overflow-hidden"
-                    style={{ objectFit: "cover", borderRadius: "10px" }}
-                    loop
-                    autoPlay
-                    playsInline
-                    muted
-                  >
-                    <source src="/video/bgVideoNew.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video> */}
                   <iframe
                     src="https://g3.ipcamlive.com/player/player.php?alias=68c96d3f5a152"
-                    // width="800px"
                     height="630px"
                     style={{
                       objectFit: "cover",
@@ -196,7 +171,6 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
                         month: "short",
                         day: "numeric",
                       })}{" "}
-                      {/* 12:19:49 PM */}
                     </p>
                   </div>
                   <div

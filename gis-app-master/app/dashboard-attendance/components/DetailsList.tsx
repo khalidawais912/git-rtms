@@ -1,13 +1,13 @@
 "use client";
 import { FaDownload, FaSearch } from "react-icons/fa";
-import { AttendanceList } from "../[attendanceFeature]/page";
-import TableHeader from "@/app/components/Table/TableHeader";
+import { AttendanceList } from "../types";
+import TableHeader from "@/shared/components/Table/TableHeader";
 import { useEffect, useState } from "react";
 import { sort } from "fast-sort";
-import apiClient from "@/app/services/api-client";
-import Button from "@/app/components/Button";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeading from "@/app/components/Table/TableHeading";
+import apiClient from "@/shared/api/client";
+import Button from "@/shared/components/Button";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeading from "@/shared/components/Table/TableHeading";
 
 interface Props {
   attendanceDetails: AttendanceList[];
@@ -30,7 +30,6 @@ const DetailsList = ({ attendanceDetails, slug }: Props) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered =
       data &&
       data.filter((item) =>
@@ -128,15 +127,6 @@ const DetailsList = ({ attendanceDetails, slug }: Props) => {
             data={data}
             handleChange={handleChange}
             form={
-              //   <div className="col-auto">
-              //     <SectorForm
-              //       api={SECTOR_API}
-              //       method="POST"
-              //       setRefresh={setRefresh}
-              //       refresh={refresh}
-              //       setData={setData}
-              //     />
-              //   </div>
               <></>
             }
           />
@@ -156,19 +146,6 @@ const DetailsList = ({ attendanceDetails, slug }: Props) => {
                   </div>
                 </div>
                 &nbsp;
-                {/* <div>
-                    <Image
-                      style={{ cursor: "pointer" }}
-                      //   onClick={() =>
-                      //     exportToPDF(attendanceData, selectedDate, pageName)
-                      //   }
-                      className="me-2 img1"
-                      src={exportIcon}
-                      alt="Export Icon"
-                      width={40}
-                      height={40}
-                    />
-                  </div> */}
                 <input
                   type="date"
                   value={selectedDate}
@@ -177,30 +154,6 @@ const DetailsList = ({ attendanceDetails, slug }: Props) => {
                   aria-label="Select Date"
                 />
                 &nbsp;
-                {/* <div>
-                  <Button
-                    className="rounded-circle d-flex justify-content-center align-items-center border-0"
-                    // onClick={() => handleSubmit(new Date(selectedDate))}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      background: "linear-gradient( #5746DD , #26AE92)",
-                    }}
-                  >
-                    <FaSearch className="text-white" />
-                  </Button>
-                </div> */}
-                {/* <div>
-                    <Image
-                      style={{ cursor: "pointer" }}
-                      onClick={handleDateSubmit}
-                      className="ms-1 img1"
-                      src={searchIcon}
-                      alt="Search Icon"
-                      width={40}
-                      height={40}
-                    />
-                  </div> */}
               </div>
             </div>
           </section>

@@ -1,26 +1,23 @@
-import { REPORT_API } from "@/app/APIs";
-import Avatar from "@/app/components/Avatar";
-import Button from "@/app/components/Button";
-import CustomModal from "@/app/components/CustomModal/CustomModal";
-import CustomSelect, {
-  defaultNegativeNumberOption,
-  defaultOption,
-  OptionType,
-} from "@/app/components/Form/CustomSelect";
-import Pagination from "@/app/components/Table/Pagination";
-import RowHeader from "@/app/components/Table/RowHeader";
-import TableData from "@/app/components/Table/TableData";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import DownloadDropDown from "@/app/components/UserDropDown/DownloadDropDown";
-import useTourPlans from "@/app/hooks/useTourPlans";
-import apiClient from "@/app/services/api-client";
-import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/app/utils";
+import { REPORT_API } from "@/shared/api/endpoints";
+import Avatar from "@/shared/components/Avatar";
+import Button from "@/shared/components/Button";
+import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
+import { OptionType } from "@/shared/components/types";
+import Pagination from "@/shared/components/Table/Pagination";
+import RowHeader from "@/shared/components/Table/RowHeader";
+import TableData from "@/shared/components/Table/TableData";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { useTourPlans } from "@/features/tour-plans";
+import apiClient from "@/shared/api/client";
+import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/shared/utils";
 import {
   exportDataToExcel,
   exportDataToExcelNew,
   exportToExcelNewOne,
-} from "@/app/utils/exportToExcel";
+} from "@/shared/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -28,25 +25,12 @@ import { PiCircleFill } from "react-icons/pi";
 import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
+import { IssuedVsPendingReport } from "../types";
 
 interface Props {
   isActiveTab: number;
   setActiveTab: Dispatch<SetStateAction<number>>;
 }
-
-interface IssuedVsPendingReport {
-  officerName: string;
-  designation: string;
-  profilePicture: string;
-  scheduled: number;
-  completed: number;
-  submitted: number;
-  referredBack: number;
-  approved: number;
-  issued: number;
-  cancelled: number;
-}
-
 const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
   const [data, setData] = useState<IssuedVsPendingReport[]>([]);
   const [visitPlanGroup, setVisitPlanGroup] = useState<number>(-1);
@@ -96,12 +80,6 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
     }
   }, [visitPlanGroup, year]);
 
-  // if (visitPlanGroup) {
-  //   console.log("visitPlanGroup", visitPlanGroup);
-  //   handleSubmit();
-  // } else {
-  //   handleSubmit();
-  // }
   // State for search input
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -111,7 +89,6 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [
         item.officerName,
@@ -183,64 +160,6 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
       label: year,
     };
   });
-
-  //   const exportToExcel = (data: IssuedVsPendingReport[], label: string | undefined) => {
-  //     // Prepare data for export
-  //     console.log("data", data);
-  //     if (!data || data.length === 0) {
-  //       console.warn("No data provided for Excel export.");
-  //       // Optionally, show a user-friendly message instead of a console warn
-  //       toast.info("There is no data to export!"); // Or use a custom modal
-  //       return;
-  //     }
-
-  //     // 1. Collect all unique keys from all data items, preserving their first encountered order.
-  //     const uniqueKeysInOrder: string[] = [];
-  //     const seenKeys = new Set<string>(); // To track which keys have already been added
-
-  //     data.forEach((item) => {
-  //       for (const key in item) {
-  //         if (
-  //           Object.prototype.hasOwnProperty.call(item, key) &&
-  //           !seenKeys.has(key)
-  //         ) {
-  //           uniqueKeysInOrder.push(key);
-  //           seenKeys.add(key);
-  //         }
-  //       }
-  //     });
-
-  //     // 2. Prepend "Sr. No." as the first header
-  //     const headers: string[] = ["Sr. No.", ...uniqueKeysInOrder];
-
-  //     // 3. Prepare data for Excel dynamically based on collected headers
-  //     const dataForExcel = data.map((item, index) => {
-  //       const row: { [key: string]: string | number | null } = {};
-
-  //       row["Sr. No."] = index + 1;
-
-  //       // Add values for all other dynamic headers
-  //       headers.forEach((header) => {
-  //         // Iterate over dynamic headers only (excluding "Sr. No.")
-  //         // Use null for undefined values to ensure Excel treats them as empty cells
-  //         row[header] = item[header] !== undefined ? item[header] : null;
-  //       });
-
-  //       return row;
-  //     });
-
-  //     console.log("Prepared data for Excel:", dataForExcel);
-
-  //     // Create a worksheet from the data
-  //     const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
-
-  //     // Create a workbook
-  //     const workbook = XLSX.utils.book_new();
-  //     XLSX.utils.book_append_sheet(workbook, worksheet, "Visit Plans"); // Changed sheet name
-
-  //     // Write the workbook to a file
-  //     XLSX.writeFile(workbook, `${label}.xlsx`); // Changed filename
-  //   };
 
   // ──────────── (2) Create table rows from cards ────────────
   function cardsToTableRows(
@@ -401,39 +320,6 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
               </>
             }
           />
-          {/* <div
-            className="row d-flex align-items-center"
-            style={{ padding: "17.33px 26px" }}
-          >
-            <div className="col p-0">
-              <div className="row align-items-center">
-                <div className="col-auto mb-1 mb-xl-0">
-                  <h4 className="m-0" style={{ fontWeight: 800 }}>
-                    Issued Vs Pending Reports
-                  </h4>
-                </div>
-                <div className="col-auto mb-2 mb-lg-0">
-                  <span
-                    className="badge rounded-pill fs13px fw-6"
-                    style={{ color: "#1C6BA6", border: "1.08px solid #1C6BA6" }}
-                  >
-                    <div className="row align-items-center">
-                      <div className="col-auto pe-0">
-                        <PiCircleFill size={8} style={{ color: "#1C6BA6" }} />
-                      </div>
-                      <div className="col ps-1">
-                        {searchTerm ? filteredData.length : data?.length}/
-                        {searchTerm ? filteredData.length : data?.length}{" "}
-                        Officer Reports Status
-                      </div>
-                    </div>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            
-          </div> */}
           <div
             className="table-responsive  mb-2"
             style={{ margin: "0px -24px" }}
@@ -483,23 +369,6 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
                       <div className="col">
                         <div className="row d-flex flex-nowrap align-items-center">
                           <div className="col-auto pe-1">
-                            {/* <img
-                                className="rounded-circle shadow-sm"
-                                style={{
-                                  objectFit: "cover",
-                                  objectPosition: "center top",
-                                  width: "30px",
-                                  height: "30px",
-                                }}
-                                // width={30}
-                                // height={30}
-                                src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.profilePicture}`}
-                                alt="picture"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLImageElement).src =
-                                    "/images/dp1.png"; // fallback image in /public folder
-                                }}
-                              /> */}
                             {d.profilePicture && (
                               <Link
                                 href={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.profilePicture}`}

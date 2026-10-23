@@ -1,17 +1,17 @@
 "use client";
-import { GET_USER_PROJECTS_API, SMDP_SYNC_API } from "@/app/APIs";
-import Loader from "@/app/components/Loader/Loader";
-import Pagination from "@/app/components/Table/Pagination";
-import TableHeader from "@/app/components/Table/TableHeader";
-import TableHeading from "@/app/components/Table/TableHeading";
-import useAuthentication from "@/app/hooks/useAuthentication";
-import useProjects, { Project } from "@/app/hooks/useProjects";
-import useSectors from "@/app/hooks/useSectors";
-import useSuperGroups from "@/app/hooks/useSuperGroups";
-import apiClient, { AxiosError } from "@/app/services/api-client";
-import { getName } from "@/app/utils";
+import { GET_USER_PROJECTS_API, SMDP_SYNC_API } from "@/shared/api/endpoints";
+import Loader from "@/shared/components/Loader/Loader";
+import Pagination from "@/shared/components/Table/Pagination";
+import TableHeader from "@/shared/components/Table/TableHeader";
+import TableHeading from "@/shared/components/Table/TableHeading";
+import { useAuthentication } from "@/features/users";
+import { useProjects, Project } from "@/features/projects";
+import { useSectors } from "@/features/sectors";
+import { useSuperGroups } from "@/features/super-group";
+import apiClient, { AxiosError } from "@/shared/api/client";
+import { getName } from "@/shared/utils";
 import { sort } from "fast-sort";
-import { DM_Sans, Inter } from "next/font/google";
+import { dmSans, inter } from "@/shared/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -24,31 +24,12 @@ import GroupingForm from "./GroupingForm";
 import SmdpAllProjectsSyncForm from "./SmdpAllProjectsSyncForm";
 import SmdpSyncForm from "./SmdpSyncForm";
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  preload: false,
-});
-
-const inter = Inter({ subsets: ["latin"] });
-
 interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
   showData: boolean;
   setShowData: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export interface Option {
-  id: number;
-  superGroupLabel: string;
-}
-
-export interface UserOption {
-  id: number;
-  userName: string;
-}
-
 const UserProjectsList = ({
   refresh,
   setRefresh,
@@ -79,7 +60,6 @@ const UserProjectsList = ({
   // Handle search logic
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPage(1);
-    // const lowercasedFilter = searchTerm.toLowerCase();
     const filtered = data.filter((item) =>
       [item.id.toString(), item.gsNo, item.name, item.status]
         .filter((field) => field) // Remove undefined fields
@@ -231,7 +211,6 @@ const UserProjectsList = ({
                 handleSort={() => handleSort("status")}
               />
               <th style={{ whiteSpace: "nowrap" }}>ASSIGN USER</th>
-              {/* <th style={{ whiteSpace: "nowrap" }}>SYNC ATTRIBUTES</th> */}
               <th style={{ whiteSpace: "nowrap" }}>SUPER GROUP</th>
             </tr>
           </thead>
@@ -302,27 +281,9 @@ const UserProjectsList = ({
                 <td className="text-center">
                   <AssignUserForm id={d.id} options={users} />
                 </td>
-                {/* <td className="text-center">
-                  <SyncModal handleSubmit={handleSync} id={d.smdpProjectID} />
-                </td> */}
                 <td className="text-center">
                   <GroupingForm id={d.id} options={superGroups} />
                 </td>
-                {/* <td>
-                  <DeleteModal handleDelete={handleDelete} id={d.id} />
-                </td> */}
-                {/* <td>
-                  <DownloadPDFBtn />
-                </td> */}
-                {/* <td>
-                  <ProjectForm
-                    api={PROJECT_API}
-                    method="PUT"
-                    id={d.id}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                  />
-                </td> */}
               </tr>
             ))}
           </tbody>

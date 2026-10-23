@@ -5,7 +5,8 @@ import {
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Position, StaffTracking } from "../StaffTracking";
+import { StaffTracking } from "../StaffTracking";
+import { Position } from "../../types";
 
 interface Props {
   recordingData: StaffTracking[];

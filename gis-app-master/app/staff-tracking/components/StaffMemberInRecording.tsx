@@ -1,4 +1,4 @@
-import { formatDateTime } from "@/app/utils";
+import { formatDateTime } from "@/shared/utils";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Image from "next/image";
 import { StaffTracking } from "./StaffTracking";

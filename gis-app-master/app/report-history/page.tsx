@@ -2,13 +2,12 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DashboardTypeEnum } from "../dashboard/types/types";
-import useOfficers, { Officer } from "../hooks/useOfficers";
-import useReportHistoryUser from "../hooks/useReportHistoryUsers";
+import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
-import Cookies from "js-cookie";
+import { getSession } from "@/shared/utils/session";
 
-const loggedInUsername = Cookies.get("userName");
+const loggedInUsername = getSession("userName");
 
 const ReportHistoryPage = () => {
   const searchParams = useSearchParams();

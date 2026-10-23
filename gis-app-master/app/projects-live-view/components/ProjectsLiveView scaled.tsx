@@ -1,18 +1,18 @@
 "use client";
 
-import { MAIN_DASHBOARD_API } from "@/app/APIs";
+import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
 import TileLabel from "@/app/charts/components/TileLabel";
-import CustomInput from "@/app/components/Form/CustomInput";
-import ListWrapper from "@/app/components/ListWrapper";
-import { FilterData } from "@/app/dashboard/components/DashboardMonitoring";
+import CustomInput from "@/shared/components/Form/CustomInput";
+import ListWrapper from "@/shared/components/ListWrapper";
+import { FilterData } from "@/app/dashboard/types";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
   adpFilters,
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "@/app/dashboard/filters";
-import apiClient from "@/app/services/api-client";
-import { displayStatusText } from "@/app/utils";
+import apiClient from "@/shared/api/client";
+import { displayStatusText } from "@/shared/utils";
 import {
   DashboardSquare01Icon,
   LeftToRightListBulletIcon,
@@ -59,9 +59,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -81,9 +78,6 @@ const ProjectsLiveView = () => {
                 const numB = Number(b.gsNo) || 0;
                 return numA - numB;
               });
-
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
 
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
@@ -105,9 +99,6 @@ const ProjectsLiveView = () => {
                 return numA - numB;
               });
 
-            // setProjectsData(sortedData ?? []);
-            // console.log("sortedData data", sortedData);
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -128,9 +119,6 @@ const ProjectsLiveView = () => {
               const numB = parseInt(String(b.gsNo).trim(), 10) || 0;
               return numA - numB;
             });
-
-          // setProjectsData(sortedData ?? []);
-          // console.log("sortedData data", sortedData);
 
           const specificPoject = response.data.data.find(
             (project: ProjectsList) => Number(project.gSno) === 309,
@@ -222,8 +210,6 @@ const ProjectsLiveView = () => {
                     borderRadius: 180,
                   }}
                   placeholder="Search by GS number, ministry, officer, or location..."
-                  // value={searchTerm}
-                  // onChange={handleChange}
                   id="search"
                 />
               </div>
@@ -296,7 +282,6 @@ const ProjectsLiveView = () => {
             <div
               className="d-flex align-items-center"
               style={{
-                // background: "rgba(28, 107, 166, 0.15)",
                 gap: 78.73,
                 padding: "78.75px 209.95px",
                 borderRadius: 104.99,
