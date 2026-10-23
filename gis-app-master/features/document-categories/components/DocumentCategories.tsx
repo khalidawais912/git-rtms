@@ -225,7 +225,7 @@ const DocumentCategories = () => {
         <section className={styles.panel}>
           <header className={styles.panelHeader}>
             <span className={styles.panelIcon}>
-              <FolderOpen size={24} />
+              <FolderOpen size={20} />
             </span>
             <div className={styles.panelHeading}>
               <p className={styles.eyebrow}>Step 1</p>
@@ -324,7 +324,7 @@ const DocumentCategories = () => {
         <section className={`${styles.panel} ${styles.panelSub}`}>
           <header className={styles.panelHeader}>
             <span className={styles.panelIcon}>
-              <Folder size={24} />
+              <Folder size={20} />
             </span>
             <div className={styles.panelHeading}>
               <p className={styles.eyebrow}>Step 2</p>
@@ -332,7 +332,7 @@ const DocumentCategories = () => {
               <div className={styles.chips}>
                 {category && (
                   <span className={styles.pathChip}>
-                    <FolderOpen size={15} /> {category.docCategoryName}
+                    <FolderOpen size={13} /> {category.docCategoryName}
                   </span>
                 )}
                 <span className={styles.countPill}>
@@ -423,7 +423,7 @@ const DocumentCategories = () => {
         <section className={`${styles.panel} ${styles.panelDocs}`}>
           <header className={styles.panelHeader}>
             <span className={styles.panelIcon}>
-              <FileText size={24} />
+              <FileText size={20} />
             </span>
             <div className={styles.panelHeading}>
               <p className={styles.eyebrow}>Step 3</p>
@@ -431,7 +431,7 @@ const DocumentCategories = () => {
               <div className={styles.chips}>
                 {category && sub && (
                   <span className={styles.pathChip}>
-                    <Folder size={15} /> {category.docCategoryName} › {sub.docCategoryName}
+                    <Folder size={13} /> {category.docCategoryName} › {sub.docCategoryName}
                   </span>
                 )}
                 <span className={styles.countPill}>{plural(sub?.childCount ?? 0, "document")}</span>

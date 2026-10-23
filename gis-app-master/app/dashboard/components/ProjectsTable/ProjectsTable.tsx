@@ -452,18 +452,6 @@ const ProjectsTable = ({
   const exportHeaders = keysForPDF.map(formatKeyName);
 
   const buildExportRows = () => {
-
-    console.log(searchTerm , "searchTerm")
-
-    console.log(dropdownFilterValue , "dropdownFilterValue")
-    console.log(filteredData , "filteredData")
-    
-    
-    
-    console.log(modifiedData , "modifiedData")
-
-
-    
     const source =
       searchTerm || dropdownFilterValue.length > 0
         ? filteredData
@@ -649,12 +637,19 @@ const ProjectsTable = ({
 
   // Export to Excel — reuses buildExportRows(), no duplicate calculation
   const exportToExcel = () => {
+    exportDataToExcel(buildExportRows(), exportHeaders, `${exportFilenameBase}.xlsx`);
   };
 
   // Export to PDF — same rows, same headers, no duplicate calculation
   const exportToPdf = () => {
-    console.log(buildExportRows() , "buildExportRows data is heree..... 656");
-    
+    exportDataToPDFNEW(
+      exportHeaders,
+      buildExportRows(),
+      `${exportFilenameBase}.pdf`,
+      undefined,
+      undefined,
+      "landscape",
+    );
   };
 
   const [districtName, setDistrictName] = useState<string>("");
