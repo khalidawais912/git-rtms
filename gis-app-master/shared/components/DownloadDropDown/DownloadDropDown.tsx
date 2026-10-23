@@ -87,7 +87,11 @@ const DownloadDropDown = ({
           <Link
             href="#"
             className="btn w-100 fs12px fw-bold text-start shadow-none"
-            onClick={onClickPdf}
+            onClick={(e) => {
+              e.preventDefault();
+              setShow(false);
+              onClickPdf();
+            }}
           >
             <Image
               src={pdf}
@@ -103,7 +107,11 @@ const DownloadDropDown = ({
           <Link
             href="#"
             className="btn w-100 fs12px fw-bold text-start shadow-none"
-            onClick={onClickExcel}
+            onClick={(e) => {
+              e.preventDefault();
+              setShow(false);
+              onClickExcel();
+            }}
           >
             <Image
               src={excel}
