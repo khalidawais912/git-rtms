@@ -111,7 +111,7 @@ const FilterButtons = ({
             }}
           >
             <AutoTextSize mode="oneline" maxFontSizePx={14} minFontSizePx={9}>
-              CM Initiatives 126
+              CM Initiatives
             </AutoTextSize>
           </Button>
           <Button
