@@ -414,6 +414,7 @@ const ProjectsTable = ({
     reportStatus: "REPORT STATUS",
     latestIssuedReportCostOverRun: "CPI",
     latestIssuedReportTimeOverRun: "SPI",
+    markToEvaluation: "MARKED TO EVALUATION",
     // Add other mappings as needed
   };
 
