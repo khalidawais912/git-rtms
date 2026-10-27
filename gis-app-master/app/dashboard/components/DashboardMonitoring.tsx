@@ -251,6 +251,16 @@ const DashboardMonitoring = () => {
       )
       .map((key) => key as keyof ProjectsList);
 
+  // CM Initiatives card table: same columns plus the "Marked to Evaluation" toggle
+  // (as in the Utilization table). Other tables keep filteredCMADPKeys unchanged.
+  const filteredCMInitiativeKeys =
+    filteredCMADPKeys &&
+    activeFilter === "cmInitiative" &&
+    role !== "Special Role" &&
+    "markToEvaluation" in projectsData[0]
+      ? [...filteredCMADPKeys, "markToEvaluation" as keyof ProjectsList]
+      : filteredCMADPKeys;
+
   // Filter and map keys
   const baseKeys = [
     "gSno",
@@ -413,7 +423,7 @@ const DashboardMonitoring = () => {
                       value={data ? data.totalProjects : 0}
                       label={
                         activeFilter === "cmInitiative"
-                          ? "CM Initiatives 449"
+                          ? "CM Initiatives"
                           : "ADP Projects"
                       }
                       showTides={false}
@@ -425,13 +435,13 @@ const DashboardMonitoring = () => {
                 body={
                   <>
                     <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredCMADPKeys ? (
+                      {projectsData && filteredCMInitiativeKeys ? (
                         <ProjectsTable
                           rowCountOptions={rowCountOptions}
                           districtOptions={districtOptions}
                           sectorOptions={sectorOptions}
                           userOptions={userOptions}
-                          keys={filteredCMADPKeys}
+                          keys={filteredCMInitiativeKeys}
                           label={
                             activeFilter === "cmInitiative"
                               ? "CM Initiatives project Table"
@@ -1402,7 +1412,7 @@ const DashboardMonitoring = () => {
                                 size={32}
                               />
                             </div>
-                            <div className="col-auto px-1">Mark Evaluation</div>
+                            <div className="col-auto px-1">Marked To Evaluation</div>
                           </Button>
                         }
                         body={
