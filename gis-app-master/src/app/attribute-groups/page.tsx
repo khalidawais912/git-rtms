@@ -1,4 +1,4 @@
-import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import { DashboardType, DashboardTypeEnum } from "@/types/dashboard";
 import AttributeGroups from "@/features/attribute-groups/components/AttributeGroups";
 
 interface Props {

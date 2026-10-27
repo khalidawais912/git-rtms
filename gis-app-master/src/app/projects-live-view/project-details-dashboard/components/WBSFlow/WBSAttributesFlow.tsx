@@ -1,7 +1,7 @@
 import ReactFlow, { Controls } from "reactflow";
 import "reactflow/dist/style.css";
 import { Groups } from "../../../types";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import { FaImage } from "react-icons/fa";
 
 interface Props {

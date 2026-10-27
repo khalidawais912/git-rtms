@@ -1,6 +1,6 @@
-import { VISIT_API, VISIT_NEW_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Visit, VisitNew } from "./types";
+import { VISIT_API, VISIT_NEW_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Visit, VisitNew } from "../types";
 
 interface Props {
   refresh?: boolean;

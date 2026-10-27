@@ -1,6 +1,6 @@
-import apiClient from "@/shared/api/client";
-import { USER_API } from "@/shared/api/endpoints";
-import { UserFormData } from "./schema";
+import apiClient from "@/services/client";
+import { USER_API } from "@/services/endpoints";
+import { UserFormData } from "../schema";
 
 const AUTH_API = `/api/Authentication`;
 export const GET_ALL_USERS_API = `${AUTH_API}/users`;

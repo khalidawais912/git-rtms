@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { allPagesPath } from "@/shared/utils";
+import { allPagesPath } from "@/utils";
 
 const FooterToggle = () => {
   const currentPath = usePathname();

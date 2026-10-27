@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import ProjectDetailsDashboard from "../../components/ProjectDetailsDashboard";
 import { SingleProjectDashboard } from "../../../types";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
-import Loader from "@/shared/components/Loader/Loader";
+import apiClient, { AxiosError } from "@/services/client";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/services/endpoints";
+import Loader from "@/components/Loader/Loader";
 
 interface Props {
   params: { id: string; visitId: number }; // Change to string to match the routing expectations

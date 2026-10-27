@@ -1,10 +1,10 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import Spinner from "@/shared/components/Spinner";
+import { REPORTS_HISTORY_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
 import { Officer, ReportHistoryUser } from "@/features/users";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { triggerEscapeKeyPress } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { triggerEscapeKeyPress } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -12,10 +12,10 @@ import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { SubmittedReport, ReportHistory } from "../types";
-import { APPROVED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/constants/statuses";
 import HistoryList from "./HistoryList";
 
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import PdfIframe from "./pdf/PdfIframe";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -23,7 +23,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 // EasyMDE styles (required)
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
-import AlertMessage from "@/shared/components/AlertMessage";
+import AlertMessage from "@/components/AlertMessage";
 
 const schema = z.object({
   id: z.number().optional().default(0),

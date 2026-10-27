@@ -1,11 +1,11 @@
-import Menu from "@/shared/components/Menu";
+import Menu from "@/components/Menu";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import apiClient from "@/shared/api/client";
-import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
+import apiClient from "@/services/client";
+import { PC_IV_WORKFLOW_API } from "@/services/endpoints";
 import { SubmittedReport } from "@/app/report-history/types";
 import { useSearchParams } from "next/navigation";
-import useUserInfo from "@/shared/hooks/useUserInfo";
+import useUserInfo from "@/hooks/useUserInfo";
 
 const PCIVReportReview = () => {
   const [data, setData] = useState<SubmittedReport[]>();

@@ -2,7 +2,7 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useBackground from "../hooks/useBackground";
-import { allPagesPath } from "@/shared/utils";
+import { allPagesPath } from "@/utils";
 
 const BgChanger = () => {
   const currentPath = usePathname();

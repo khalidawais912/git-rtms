@@ -6,7 +6,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import React, { useState } from "react";
-import projectLocation from "../../../../public/images/projectLocation.png";
+import projectLocation from "@/public/images/projectLocation.png";
 import { SingleProjectDashboard } from "../../types";
 
 const containerStyle = {

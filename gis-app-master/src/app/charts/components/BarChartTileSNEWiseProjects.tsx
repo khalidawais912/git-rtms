@@ -1,6 +1,6 @@
-import Button from "@/shared/components/Button";
-import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
-import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/shared/components/types";
+import Button from "@/components/Button";
+import MySimpleBarChart from "@/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/components/types";
 import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { HiChartBar } from "react-icons/hi";

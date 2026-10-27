@@ -17,7 +17,7 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { calculateLeftMargin, calculateXAxisHeight } from "../types";
-import { formatAmountWithCommas } from "@/shared/utils";
+import { formatAmountWithCommas } from "@/utils";
 import { MyBarChartStyle, MyBarChartType } from "../../types";
 interface Props {
   data: MyBarChartType[];

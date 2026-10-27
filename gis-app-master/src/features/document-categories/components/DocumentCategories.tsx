@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import {
   ArrowLeft,
   ChevronRight,
@@ -23,7 +23,7 @@ import {
   deleteDocumentCategory,
   getDocumentCategories,
   renameDocumentCategory,
-} from "../api";
+} from "../services";
 import { DocumentCategoryNode } from "../types";
 import styles from "./DocumentCategories.module.css";
 import AddCategoryModal from "./AddCategoryModal";

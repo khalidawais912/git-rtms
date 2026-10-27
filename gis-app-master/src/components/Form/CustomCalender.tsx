@@ -1,4 +1,4 @@
-import { getFormattedDate, fromLocalDateString } from "@/shared/utils";
+import { getFormattedDate, fromLocalDateString } from "@/utils";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { Calendar, CalendarProps } from "react-date-range";
 import { createPortal } from "react-dom";

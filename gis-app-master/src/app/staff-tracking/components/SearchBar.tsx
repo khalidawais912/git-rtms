@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import search2 from "../../../public/icons/search2.svg";
+import search2 from "@/public/icons/search2.svg";
 
 const SearchBar = () => {
   const [visitId, setVisitId] = useState(0);

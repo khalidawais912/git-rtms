@@ -1,4 +1,4 @@
-import { manrope } from "@/shared/styles/fonts";
+import { manrope } from "@/styles/fonts";
 import { ReactNode } from "react";
 
 const FormWrapper = ({

@@ -1,8 +1,8 @@
 "use client";
-import { STAFF_ATTENDANCE_API } from "@/shared/api/endpoints";
-import Loader from "@/shared/components/Loader/Loader";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import apiClient from "@/shared/api/client";
+import { STAFF_ATTENDANCE_API } from "@/services/endpoints";
+import Loader from "@/components/Loader/Loader";
+import TableHeader from "@/components/Table/TableHeader";
+import apiClient from "@/services/client";
 import {
   addDayToFormattedDate,
   addSpaceToCamelCase,
@@ -10,13 +10,13 @@ import {
   formatKeyName,
   getFormattedDate,
   getTimeLeft,
-} from "@/shared/utils";
+} from "@/utils";
 import { useEffect, useState } from "react";
 import { AttendanceList, StaffRecord } from "../../types";
 import { sort } from "fast-sort";
-import Pagination from "@/shared/components/Table/Pagination";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
-import { exportDataToExcel } from "@/shared/utils/exportToExcel";
+import Pagination from "@/components/Table/Pagination";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
+import { exportDataToExcel } from "@/utils/exportToExcel";
 
 interface Props {
   params: { employeeId: string };

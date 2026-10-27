@@ -1,12 +1,12 @@
-import { STAFF_TRACKING_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import apiClient from "@/shared/api/client";
-import { formatDateTime } from "@/shared/utils";
+import { STAFF_TRACKING_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import apiClient from "@/services/client";
+import { formatDateTime } from "@/utils";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import userAdd from "../../../public/icons/userAdd.svg";
+import userAdd from "@/public/icons/userAdd.svg";
 import { getCurrentDate, StaffTracking } from "./StaffTracking";
 import { TrackingRequestData } from "../types";
 

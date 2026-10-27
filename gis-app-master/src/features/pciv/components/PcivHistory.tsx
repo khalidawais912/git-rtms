@@ -3,7 +3,7 @@ import { ReportHistoryUser } from "@/features/users";
 import Link from "next/link";
 import { Accordion } from "react-bootstrap";
 import ReactMarkDown from "react-markdown";
-import { pcivFileUrl } from "../api";
+import { pcivFileUrl } from "../services";
 import { PCIV_ACTION_LABEL } from "../constants";
 import { PcivReportTrail } from "../types";
 

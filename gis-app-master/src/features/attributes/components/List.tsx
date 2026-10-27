@@ -3,17 +3,17 @@ import {
   ATTRIBUTES_API,
   EVALUATION_ATTRIBUTES_API,
   GET_PROJECT_DETAIL_KEYS_API,
-} from "@/shared/api/endpoints";
-import DeleteModal from "@/shared/components/DeleteModal";
-import Loader from "@/shared/components/Loader/Loader";
-import Actions from "@/shared/components/Table/Actions";
-import Pagination from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import TableWrapper from "@/shared/components/Table/TableWrapper";
-import apiClient, { AxiosError } from "@/shared/api/client";
+} from "@/services/endpoints";
+import DeleteModal from "@/components/DeleteModal";
+import Loader from "@/components/Loader/Loader";
+import Actions from "@/components/Table/Actions";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
+import TableWrapper from "@/components/Table/TableWrapper";
+import apiClient, { AxiosError } from "@/services/client";
 import { sort } from "fast-sort";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

@@ -1,4 +1,4 @@
-import { OptionType } from "@/shared/components/types";
+import { OptionType } from "@/components/types";
 import { useAuthentication } from "@/features/users";
 import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";

@@ -1,6 +1,6 @@
-import { VEHICLE_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Vehicle } from "./types";
+import { VEHICLE_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Vehicle } from "../types";
 
 interface Props {
   refresh?: boolean;

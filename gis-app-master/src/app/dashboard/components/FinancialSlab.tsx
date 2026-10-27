@@ -1,4 +1,4 @@
-import AnimatedCounter from "@/shared/components/AnimatedCounter";
+import AnimatedCounter from "@/components/AnimatedCounter";
 
 interface Props {
   projectCategory: string;

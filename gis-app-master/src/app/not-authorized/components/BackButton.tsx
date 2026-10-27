@@ -1,8 +1,8 @@
 "use client";
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { FaChevronLeft } from "react-icons/fa";
-import { clearSession } from "@/shared/utils/session";
+import { clearSession } from "@/utils/session";
 
 const BackButton = () => {
   const handleLogout = () => {

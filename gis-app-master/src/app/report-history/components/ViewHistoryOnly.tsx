@@ -1,14 +1,14 @@
-import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import Loader from "@/shared/components/Loader/Loader";
+import { REPORTS_HISTORY_API } from "@/services/endpoints";
+import Loader from "@/components/Loader/Loader";
 import { ReportHistoryUser } from "@/features/users";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getFormattedDate } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { getFormattedDate } from "@/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ReactMarkDown from "react-markdown";
 import { SubmittedReport, ReportHistory } from "../types";
 import ReportHistoryDownload from "./ReportHistoryDownload";
-import AlertMessage from "@/shared/components/AlertMessage";
+import AlertMessage from "@/components/AlertMessage";
 
 interface Props {
   data: SubmittedReport;

@@ -1,5 +1,5 @@
 import axios, { AxiosError, CanceledError } from "axios";
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   headers: {

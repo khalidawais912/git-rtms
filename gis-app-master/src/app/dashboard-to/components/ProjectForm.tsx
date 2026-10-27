@@ -1,6 +1,6 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { useSectors } from "@/features/sectors";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 
 const schema = z.object({
   id: z.number().optional().default(0),

@@ -2,10 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { DashboardTypeEnum } from "@/types/dashboard";
 import { useOfficers, Officer, useReportHistoryUsers as useReportHistoryUser } from "@/features/users";
 import List from "./list/components/List";
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 
 const loggedInUsername = getSession("userName");
 

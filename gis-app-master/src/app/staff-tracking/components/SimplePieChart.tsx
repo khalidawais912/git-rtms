@@ -1,10 +1,10 @@
 // components/SimplePie.tsx
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions type
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import downArrowWhite from "../../../public/icons/downArrowWhite.svg";
+import downArrowWhite from "@/public/icons/downArrowWhite.svg";
 
 // Dynamically import the ApexChart component (for SSR)
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });

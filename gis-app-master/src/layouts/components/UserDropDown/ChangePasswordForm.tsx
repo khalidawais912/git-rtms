@@ -1,11 +1,11 @@
 "use client";
-import { AUTH_API } from "@/shared/api/endpoints";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { updatedMessage } from "@/shared/utils";
+import { AUTH_API } from "@/services/endpoints";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
+import apiClient, { AxiosError } from "@/services/client";
+import { updatedMessage } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
@@ -15,8 +15,8 @@ import { FaRegEye } from "react-icons/fa";
 import { MdOutlineLockReset } from "react-icons/md";
 import { TbEyeClosed } from "react-icons/tb";
 import { z } from "zod";
-import Button from "@/shared/components/Button";
-import Spinner from "@/shared/components/Spinner";
+import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
 
 const schema = z.object({
   UserName: z.string().min(1, { message: "Please add Username!" }),

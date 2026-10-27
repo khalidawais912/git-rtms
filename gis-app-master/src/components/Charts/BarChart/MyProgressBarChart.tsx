@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatAmountWithCommas } from "@/shared/utils";
+import { formatAmountWithCommas } from "@/utils";
 import { calculateLeftMargin, calculateXAxisHeight } from "../types";
 import {
   NameType,

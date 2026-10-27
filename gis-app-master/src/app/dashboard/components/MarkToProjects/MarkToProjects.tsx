@@ -1,16 +1,16 @@
-import { MARK_TO_EVALUATION_API } from "@/shared/api/endpoints";
-import DeleteModal from "@/shared/components/DeleteModal";
-import Actions from "@/shared/components/Table/Actions";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { BaseResponse, ErrorResponse } from "@/shared/api/types";
+import { MARK_TO_EVALUATION_API } from "@/services/endpoints";
+import DeleteModal from "@/components/DeleteModal";
+import Actions from "@/components/Table/Actions";
+import TableData from "@/components/Table/TableData";
+import TableHeading from "@/components/Table/TableHeading";
+import apiClient, { AxiosError } from "@/services/client";
+import { BaseResponse, ErrorResponse } from "@/services/types";
 import { SetStateAction, useEffect, useState } from "react";
 import { PiCircleFill } from "react-icons/pi";
 import { toast } from "react-toastify";
 import Form from "./Form";
 import axios from "axios";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MarkEvaluationProject } from "../../types";
 interface Props {

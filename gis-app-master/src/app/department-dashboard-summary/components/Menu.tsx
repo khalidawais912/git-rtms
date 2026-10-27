@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import archery from "../../../public/icons/archery.svg";
-import briefcaseWithSettings from "../../../public/icons/briefcaseWithSettings.svg";
-import umbrella from "../../../public/icons/umbrella.svg";
-import waveDown from "../../../public/icons/waveDown.svg";
-import waveUp from "../../../public/icons/waveUp.svg";
-import tideOne from "../../../public/images/tideOne.png";
-import tideTwo from "../../../public/images/tideTwo.png";
+import archery from "@/public/icons/archery.svg";
+import briefcaseWithSettings from "@/public/icons/briefcaseWithSettings.svg";
+import umbrella from "@/public/icons/umbrella.svg";
+import waveDown from "@/public/icons/waveDown.svg";
+import waveUp from "@/public/icons/waveUp.svg";
+import tideOne from "@/public/images/tideOne.png";
+import tideTwo from "@/public/images/tideTwo.png";
 
 const Menu = () => {
   const items = [

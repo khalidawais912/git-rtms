@@ -1,6 +1,6 @@
-import { DRIVER_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Driver } from "./types";
+import { DRIVER_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Driver } from "../types";
 
 interface Props {
   refresh?: boolean;

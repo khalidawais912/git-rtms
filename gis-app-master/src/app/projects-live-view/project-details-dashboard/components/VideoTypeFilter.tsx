@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { DashboardTypeEnum } from "@/types/dashboard";
 import { FaCircle } from "react-icons/fa";
 
 const VideoTypeFilter = () => {

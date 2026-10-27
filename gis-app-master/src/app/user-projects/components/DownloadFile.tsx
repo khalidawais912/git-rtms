@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Picture1 from "../../../public/images/projectPdfFile/Picture1.jpg";
-import Picture2 from "../../../public/images/projectPdfFile/Picture2.png";
-import Picture3 from "../../../public/images/projectPdfFile/Picture3.jpg";
-import Picture4 from "../../../public/images/projectPdfFile/Picture4.jpg";
-import Picture5 from "../../../public/images/projectPdfFile/Picture5.jpg";
-import Picture6 from "../../../public/images/projectPdfFile/Picture6.jpg";
-import Picture7 from "../../../public/images/projectPdfFile/Picture7.jpg";
+import Picture1 from "@/public/images/projectPdfFile/Picture1.jpg";
+import Picture2 from "@/public/images/projectPdfFile/Picture2.png";
+import Picture3 from "@/public/images/projectPdfFile/Picture3.jpg";
+import Picture4 from "@/public/images/projectPdfFile/Picture4.jpg";
+import Picture5 from "@/public/images/projectPdfFile/Picture5.jpg";
+import Picture6 from "@/public/images/projectPdfFile/Picture6.jpg";
+import Picture7 from "@/public/images/projectPdfFile/Picture7.jpg";
 
 const DownloadFile = () => {
   const projectsTableData = [

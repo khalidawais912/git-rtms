@@ -1,6 +1,6 @@
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { ReportHistoryUser } from "@/features/users";
-import { exportToPDFNew, getFormattedDate } from "@/shared/utils";
+import { exportToPDFNew, getFormattedDate } from "@/utils";
 import { SubmittedReport, ReportHistory } from "../types";
 
 interface Props {

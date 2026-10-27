@@ -1,14 +1,14 @@
 "use client";
-import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
-import AnimatedCounter from "@/shared/components/AnimatedCounter";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import { MAIN_DASHBOARD_API } from "@/services/endpoints";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
-import apiClient from "@/shared/api/client";
-import { devMap, formatAmountWithCommas } from "@/shared/utils";
+import apiClient from "@/services/client";
+import { devMap, formatAmountWithCommas } from "@/utils";
 import carOutline from "@/public/icons/carOutline.svg";
 import controllingReleaseCircle from "@/public/icons/controllingReleaseCircle.svg";
 import divideCircle from "@/public/icons/divideCircle.svg";
@@ -20,9 +20,9 @@ import settingCircleArrow from "@/public/icons/settingCircleArrow.svg";
 import spendingReleaseCircle from "@/public/icons/spendingReleaseCircle.svg";
 import staffTracking2 from "@/public/icons/staffTracking2.svg";
 import utilizationCircle from "@/public/icons/utilizationCircle.svg";
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 import dynamic from "next/dynamic";
-import { lexend, montserrat } from "@/shared/styles/fonts";
+import { lexend, montserrat } from "@/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -50,7 +50,7 @@ import { CheckmarkSquare01Icon } from "@hugeicons/core-free-icons";
 import MarkToProjects from "./MarkToProjects/MarkToProjects";
 import { FilterData } from "../types";
 
-const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
+const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
 export interface DistrictList {
   id: number;

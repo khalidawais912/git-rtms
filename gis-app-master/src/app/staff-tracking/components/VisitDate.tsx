@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import blueClock from "../../../public/icons/blueClock.svg";
+import blueClock from "@/public/icons/blueClock.svg";
 
 const VisitDate = () => {
   const items = ["a", "a", "a", "a", "a", "a", "a", "a", "a", "a"];

@@ -1,7 +1,7 @@
-import apiClient from "@/shared/api/client";
-import { DEPARTMENT_API } from "@/shared/api/endpoints";
-import { DepartmentWithRights } from "./schema";
-import { DataAgainstFiled, FiledList } from "./types";
+import apiClient from "@/services/client";
+import { DEPARTMENT_API } from "@/services/endpoints";
+import { DepartmentWithRights } from "../schema";
+import { DataAgainstFiled, FiledList } from "../types";
 
 export const getDepartment = (id: number) =>
   apiClient

@@ -1,17 +1,17 @@
-import Button from "@/shared/components/Button";
-import { lexend } from "@/shared/styles/fonts";
+import Button from "@/components/Button";
+import { lexend } from "@/styles/fonts";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FilterData, Filter } from "../types";
 import FilterModal from "./FilterModal";
-import { FILTER_SETTING_API } from "@/shared/api/endpoints";
-import apiClient from "@/shared/api/client";
+import { FILTER_SETTING_API } from "@/services/endpoints";
+import apiClient from "@/services/client";
 import {
   adpFilters,
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "../filters";
 import { AutoTextSize } from "auto-text-size";
-import Spinner from "@/shared/components/Spinner";
+import Spinner from "@/components/Spinner";
 
 interface Props {
   handleSubmit: (filterData: FilterData[]) => Promise<void>;

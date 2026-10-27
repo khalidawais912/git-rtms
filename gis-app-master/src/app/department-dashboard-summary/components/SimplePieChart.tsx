@@ -3,9 +3,9 @@ import { ApexOptions } from "apexcharts"; // Import ApexOptions type
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import blueCircle2 from "../../../public/icons/blueCircle2.svg";
-import redCircle2 from "../../../public/icons/redCircle2.svg";
-import yellowCircle from "../../../public/icons/yellowCircle.svg";
+import blueCircle2 from "@/public/icons/blueCircle2.svg";
+import redCircle2 from "@/public/icons/redCircle2.svg";
+import yellowCircle from "@/public/icons/yellowCircle.svg";
 
 // Dynamically import the ApexChart component (for SSR)
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });

@@ -2,8 +2,8 @@
 import {
   ATTRIBUTE_GROUP_MAPPING_API,
   EVALUATION_ATTRIBUTE_GROUP_MAPPING_API,
-} from "@/shared/api/endpoints";
-import apiClient from "@/shared/api/client";
+} from "@/services/endpoints";
+import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -11,10 +11,10 @@ import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import dbGrey from "@/public/icons/dbGrey.svg";
 import { Option } from "../types";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
 
 interface Props {
   id: number;

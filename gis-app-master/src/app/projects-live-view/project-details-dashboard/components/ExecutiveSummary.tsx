@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { PiGridFourBold } from "react-icons/pi";
 import { BsCircleFill } from "react-icons/bs";

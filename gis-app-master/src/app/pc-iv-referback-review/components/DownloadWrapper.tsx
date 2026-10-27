@@ -1,9 +1,9 @@
 "use client";
 
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
-import { exportDataToPDF } from "@/shared/utils";
-import { exportDataToExcelDynamicColumn } from "@/shared/utils/exportToExcel";
+import { exportDataToPDF } from "@/utils";
+import { exportDataToExcelDynamicColumn } from "@/utils/exportToExcel";
 import { SubmittedReport } from "../types";
 
 type ExportRow = Pick<

@@ -1,15 +1,15 @@
-import Button from "@/shared/components/Button";
-import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { defaultOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
-import ActionButton from "@/shared/components/Table/ActionButton";
-import TrashIcon from "@/shared/components/TrashIcon";
+import Button from "@/components/Button";
+import CustomToggleSwitch from "@/components/CustomToggleSwitch";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomSelect, { defaultOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
+import ActionButton from "@/components/Table/ActionButton";
+import TrashIcon from "@/components/TrashIcon";
 import { Attribute, Option } from "../types";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import {
   Dispatch,
   FormEvent,

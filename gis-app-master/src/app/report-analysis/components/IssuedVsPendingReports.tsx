@@ -1,23 +1,23 @@
-import { REPORT_API } from "@/shared/api/endpoints";
-import Avatar from "@/shared/components/Avatar";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import Pagination from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { REPORT_API } from "@/services/endpoints";
+import Avatar from "@/components/Avatar";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { useTourPlans } from "@/features/tour-plans";
-import apiClient from "@/shared/api/client";
-import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/shared/utils";
+import apiClient from "@/services/client";
+import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/utils";
 import {
   exportDataToExcel,
   exportDataToExcelNew,
   exportToExcelNewOne,
-} from "@/shared/utils/exportToExcel";
+} from "@/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

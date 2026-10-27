@@ -1,11 +1,11 @@
 "use client";
-import { VISIT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import DeleteModal from "@/shared/components/DeleteModal";
-import DisplayStatusText from "@/shared/components/DisplayStatusText";
-import Loader from "@/shared/components/Loader/Loader";
-import TableHeading from "@/shared/components/Table/TableHeading";
+import { VISIT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import DeleteModal from "@/components/DeleteModal";
+import DisplayStatusText from "@/components/DisplayStatusText";
+import Loader from "@/components/Loader/Loader";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useDriver } from "@/features/drivers";
 import { useProjects } from "@/features/projects";
@@ -17,11 +17,11 @@ import {
   COMPLETED,
   SCHEDULED,
   SUBMITTED,
-} from "@/shared/constants/statuses";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getFormattedDate, getName } from "@/shared/utils";
+} from "@/constants/statuses";
+import apiClient, { AxiosError } from "@/services/client";
+import { getFormattedDate, getName } from "@/utils";
 import { sort } from "fast-sort";
-import { inter } from "@/shared/styles/fonts";
+import { inter } from "@/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";

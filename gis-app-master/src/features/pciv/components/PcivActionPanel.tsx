@@ -1,10 +1,10 @@
 "use client";
 import { ReportHistoryUser } from "@/features/users";
-import AlertMessage from "@/shared/components/AlertMessage";
-import Button from "@/shared/components/Button";
-import Loader from "@/shared/components/Loader/Loader";
-import Spinner from "@/shared/components/Spinner";
-import { triggerEscapeKeyPress } from "@/shared/utils";
+import AlertMessage from "@/components/AlertMessage";
+import Button from "@/components/Button";
+import Loader from "@/components/Loader/Loader";
+import Spinner from "@/components/Spinner";
+import { triggerEscapeKeyPress } from "@/utils";
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
 import dynamic from "next/dynamic";
@@ -15,7 +15,7 @@ import {
   getPcivForwardTargets,
   PcivApiError,
   pressPcivButton,
-} from "../api";
+} from "../services";
 import {
   PCIV_ACTION,
   PCIV_BUTTON_LABEL,

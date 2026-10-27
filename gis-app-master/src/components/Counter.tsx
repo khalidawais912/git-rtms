@@ -1,6 +1,6 @@
 import Image from "next/image";
-import minus from "../../public/icons/minus.svg";
-import plus from "../../public/icons/plus.svg";
+import minus from "@/public/icons/minus.svg";
+import plus from "@/public/icons/plus.svg";
 import Button from "./Button";
 
 interface Props {

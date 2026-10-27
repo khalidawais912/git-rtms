@@ -1,6 +1,6 @@
 "use client";
 
-import { getSession, getRights } from "@/shared/utils/session";
+import { getSession, getRights } from "@/utils/session";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";

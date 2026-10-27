@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { ATTRIBUTE_GROUPS_API, EVALUATION_ATTRIBUTE_GROUPS_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
+import { ATTRIBUTE_GROUPS_API, EVALUATION_ATTRIBUTE_GROUPS_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
 import { useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
-import { AttributeGroup } from "./types";
+import { DashboardTypeEnum } from "@/types/dashboard";
+import { AttributeGroup } from "../types";
 
 interface Props {
   refresh?: boolean;

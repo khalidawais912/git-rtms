@@ -1,6 +1,6 @@
 "use client";
-import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
-import useLazyFetch from "@/shared/hooks/useLazyFetch";
+import { MAIN_DASHBOARD_API } from "@/services/endpoints";
+import useLazyFetch from "@/hooks/useLazyFetch";
 
 const ProjectDetailsDashboard = () => {
   const { data, error, isLoading, fetchData } = useLazyFetch<any>();

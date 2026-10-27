@@ -7,7 +7,7 @@ import {
   PcivTabDefinition,
 } from "@/features/pciv";
 import { useReportHistoryUsers } from "@/features/users";
-import useUserInfo from "@/shared/hooks/useUserInfo";
+import useUserInfo from "@/hooks/useUserInfo";
  
 const roleTabs = (labels: {
   receivedForward: string;

@@ -1,13 +1,13 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Loader from "@/shared/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { REPORTS_HISTORY_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Loader from "@/components/Loader/Loader";
+import { DashboardTypeEnum } from "@/types/dashboard";
 import { Officer, ReportHistoryUser } from "@/features/users";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import search3 from "@/public/icons/search3.svg";
-import { raleway } from "@/shared/styles/fonts";
+import { raleway } from "@/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -23,10 +23,10 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import DownloadWrapper from "../../components/DownloadWrapper";
 import ReportNoting from "../../components/ReportNoting";
 import ViewHistoryOnly from "../../components/ViewHistoryOnly";
-import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
+import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
-import AlertMessage from "@/shared/components/AlertMessage";
-import useUserInfo from "@/shared/hooks/useUserInfo";
+import AlertMessage from "@/components/AlertMessage";
+import useUserInfo from "@/hooks/useUserInfo";
 
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;

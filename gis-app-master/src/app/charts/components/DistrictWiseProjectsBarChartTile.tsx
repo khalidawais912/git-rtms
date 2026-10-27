@@ -1,4 +1,4 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import {
   ArrowUpRight03Icon,
   Location01Icon,
@@ -7,8 +7,8 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";
-import MySimpleBarChart from "@/shared/components/Charts/BarChart/MySimpleBarChart";
-import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/shared/components/types";
+import MySimpleBarChart from "@/components/Charts/BarChart/MySimpleBarChart";
+import { ChartGradient, MyBarChartStyle, MyBarChartType } from "@/components/types";
 import { DistrictProject } from "../types";
 import { getBlueGradientColor } from "./AssignProjectPartTwoBarChartTile";
 

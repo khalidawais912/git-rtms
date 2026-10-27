@@ -1,9 +1,9 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import adobeAcrobat from "../../../public/icons/adobeAcrobat.svg";
-import downloadLineBlack from "../../../public/icons/downloadLineBlack.svg";
+import adobeAcrobat from "@/public/icons/adobeAcrobat.svg";
+import downloadLineBlack from "@/public/icons/downloadLineBlack.svg";
 
 const Reports = () => {
   const items = ["a", "a", "a", "a"];

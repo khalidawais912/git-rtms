@@ -1,16 +1,16 @@
 "use client";
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { FiPlus } from "react-icons/fi";
 import Form from "./Form";
 import { Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useAttributes } from "@/features/attributes";
-import { REPORT_API } from "@/shared/api/endpoints";
+import { REPORT_API } from "@/services/endpoints";
 import { toast } from "react-toastify";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import { ReportTab } from "../types";
 import { useRouter } from "next/navigation";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 
 const MasterReport = () => {
   const [show, setShow] = useState(false);

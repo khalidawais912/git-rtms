@@ -1,8 +1,8 @@
-import CustomCalendar from "@/shared/components/Form/CustomCalender";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import TableData from "@/shared/components/Table/TableData";
-import { toLocalDateString } from "@/shared/utils";
+import CustomCalendar from "@/components/Form/CustomCalender";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import TableData from "@/components/Table/TableData";
+import { toLocalDateString } from "@/utils";
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { TempTourFormValues } from "./MonitoringVisitPlanList";
 

@@ -1,6 +1,6 @@
-import { SECTOR_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Sector } from "./types";
+import { SECTOR_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Sector } from "../types";
 
 interface Props {
   refresh?: boolean;

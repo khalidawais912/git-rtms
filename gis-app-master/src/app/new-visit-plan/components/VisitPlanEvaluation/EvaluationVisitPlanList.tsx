@@ -1,20 +1,20 @@
 "use client";
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { defaultNegativeNumberOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import Loader from "@/shared/components/Loader/Loader";
-import Spinner from "@/shared/components/Spinner";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomSelect, { defaultNegativeNumberOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import Loader from "@/components/Loader/Loader";
+import Spinner from "@/components/Spinner";
+import TableHeading from "@/components/Table/TableHeading";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { useTempTourPlans, TempTourPlan } from "@/features/tour-plans";
-import apiClient from "@/shared/api/client";
+import apiClient from "@/services/client";
 import {
   addDayToFormattedDate,
   deleteMessage,
   getFormattedDate,
-} from "@/shared/utils";
+} from "@/utils";
 import { AxiosError } from "axios";
 import { sort } from "fast-sort";
 import { useState } from "react";

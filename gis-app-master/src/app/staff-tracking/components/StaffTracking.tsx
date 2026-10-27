@@ -4,18 +4,18 @@ import {
   REVERSE_GEO_CODING_API,
   STAFF_TRACKING_API,
   VISIT_API,
-} from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+} from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
 import { useAuthentication } from "@/features/users";
 import { Project } from "@/features/projects";
-import apiClient from "@/shared/api/client";
-import { devMap, triggerEscapeKeyPress } from "@/shared/utils";
+import apiClient from "@/services/client";
+import { devMap, triggerEscapeKeyPress } from "@/utils";
 import redCircle from "@/public/icons/redCircle.svg";
 import { motion } from "framer-motion";
-import { lexend } from "@/shared/styles/fonts";
+import { lexend } from "@/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

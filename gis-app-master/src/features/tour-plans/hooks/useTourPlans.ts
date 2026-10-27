@@ -4,10 +4,10 @@ import {
   EVALUATION_TEMP_TOUR_PLAN_API,
   TEMP_TOUR_PLAN_API,
   TOUR_PLAN_API,
-} from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
-import { TempTourPlan, TourPlan } from "./types";
+} from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { DashboardTypeEnum } from "@/types/dashboard";
+import { TempTourPlan, TourPlan } from "../types";
 
 interface Props {
   refresh?: boolean;

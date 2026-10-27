@@ -1,16 +1,16 @@
 "use client";
 import search3 from "@/public/icons/search3.svg";
 import { ReportHistoryUser } from "@/features/users";
-import AlertMessage from "@/shared/components/AlertMessage";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Loader from "@/shared/components/Loader/Loader";
-import useUserInfo from "@/shared/hooks/useUserInfo";
-import { raleway } from "@/shared/styles/fonts";
-import styles from "@/shared/styles/ReportList.module.css";
+import AlertMessage from "@/components/AlertMessage";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Loader from "@/components/Loader/Loader";
+import useUserInfo from "@/hooks/useUserInfo";
+import { raleway } from "@/styles/fonts";
+import styles from "@/styles/ReportList.module.css";
 import Image from "next/image";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { getPcivHistory, getPcivInbox, PcivApiError } from "../api";
+import { getPcivHistory, getPcivInbox, PcivApiError } from "../services";
 import {
   PCIV_FINAL_STATUSES,
   PCIV_STATUS_CLASS,

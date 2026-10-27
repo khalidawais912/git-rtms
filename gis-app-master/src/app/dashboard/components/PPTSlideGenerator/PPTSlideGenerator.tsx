@@ -1,11 +1,11 @@
 "use client";
 
-import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Spinner from "@/shared/components/Spinner";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { ErrorResponse } from "@/shared/api/types";
+import { GENERATE_REPORT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Spinner from "@/components/Spinner";
+import apiClient, { AxiosError } from "@/services/client";
+import { ErrorResponse } from "@/services/types";
 import {
   ChangeEvent,
   FormEvent,
@@ -15,7 +15,7 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import DragableTable from "./DragableTable/DragableTable";
-import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
+import ToggleBetweenModals from "@/components/ToggleBetweenModals";
 import { SectorItem } from "../../types";
 const PPTSlideGenerator = () => {
   const [fromDate, setFromDate] = useState<string>("");

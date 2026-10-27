@@ -1,6 +1,6 @@
 import Image from "next/image";
-import adobeAcrobat from "../../../public/icons/adobeAcrobat.svg";
-import downloadLineBlack from "../../../public/icons/downloadLineBlack.svg";
+import adobeAcrobat from "@/public/icons/adobeAcrobat.svg";
+import downloadLineBlack from "@/public/icons/downloadLineBlack.svg";
 import { Groups, ReportsData } from "../types";
 
 interface Props {

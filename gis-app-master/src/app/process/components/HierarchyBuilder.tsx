@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import HirarchyFlow from "./HirarchyFlow";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -9,11 +9,11 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { useRoles } from "@/features/roles";
 import { useAuthentication } from "@/features/users";
 import Select, { SingleValue, StylesConfig } from "react-select";
-import { createdMessage } from "@/shared/utils";
-import { Option } from "@/shared/utils/types";
+import { createdMessage } from "@/utils";
+import { Option } from "@/utils/types";
 import { toast } from "react-toastify";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { DEPARTMENT_ROLES_SORTING_API } from "@/shared/api/endpoints";
+import apiClient, { AxiosError } from "@/services/client";
+import { DEPARTMENT_ROLES_SORTING_API } from "@/services/endpoints";
 import { GoArrowLeft } from "react-icons/go";
 import { FiArrowRightCircle } from "react-icons/fi";
 import CustomNode from "./CustomNode";

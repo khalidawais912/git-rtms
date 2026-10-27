@@ -1,17 +1,17 @@
 "use client";
 
-import { REPORT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import Spinner from "@/shared/components/Spinner";
-import TableData from "@/shared/components/Table/TableData";
+import { REPORT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomSelect from "@/components/Form/CustomSelect";
+import Spinner from "@/components/Spinner";
+import TableData from "@/components/Table/TableData";
 import TableHeading, {
   defaultStyle,
-} from "@/shared/components/Table/TableHeading";
+} from "@/components/Table/TableHeading";
 import { Attribute } from "@/features/attributes";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { createdMessage } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { createdMessage } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

@@ -1,4 +1,4 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { useAuthentication, Authentication } from "@/features/users";
 import { useDistrict, District } from "@/features/districts";
 import { Project, useProjects } from "@/features/projects";
@@ -6,7 +6,7 @@ import { TourPlan, useTourPlans } from "@/features/tour-plans";
 import { VisitNew, useVisitsNew } from "@/features/visits";
 import { useDriver, Driver } from "@/features/drivers";
 import { useVehicle, Vehicle } from "@/features/vehicles";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";

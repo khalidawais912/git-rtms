@@ -1,6 +1,6 @@
-import { DEPARTMENT_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Department } from "./types";
+import { DEPARTMENT_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Department } from "../types";
 
 interface Props {
   refresh?: boolean;

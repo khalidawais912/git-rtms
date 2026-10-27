@@ -1,22 +1,32 @@
 "use client";
-import { FEEDBACK_API } from "@/shared/api/endpoints";
+import { FEEDBACK_API } from "@/services/endpoints";
 import { FeedbackItem } from "@/features/feedback";
-import apiClient from "@/shared/api/client";
-import downArrowBold from "@/public/icons/downArrowBold.svg";
+import apiClient from "@/services/client";
 import feedback from "@/public/icons/feedback.svg";
 import signOut from "@/public/icons/signOut.svg";
-import { clearSession, getSession } from "@/shared/utils/session";
+import { clearSession, getSession } from "@/utils/session";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import Button from "@/shared/components/Button";
-import Spinner from "@/shared/components/Spinner";
+import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
 import ChangePasswordForm from "./ChangePasswordForm";
-import styles from "@/shared/components/DownloadDropDown/Dropdown.module.css";
+import styles from "@/components/DownloadDropDown/Dropdown.module.css";
 import UploadProfileImgAndSign from "./UploadProfileImgAndSign";
+import navStyles from "../Navbar/Navbar.module.css";
+
+/** "super_admin" → "SA", "umar shafiq" → "US" */
+const initials = (name: string) =>
+  name
+    .split(/[\s_.-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join("") || "U";
 
 const UserDropDown = () => {
+  const [roleLabel, setRoleLabel] = useState("");
   const [show, setShow] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userId, setUserId] = useState<number>();
@@ -41,6 +51,7 @@ const UserDropDown = () => {
     setUserName(userName);
     setUserId(parseInt(userId));
     setRole(role.toLowerCase());
+    setRoleLabel(role);
   }, [router]);
 
   const handleLogout = () => {
@@ -107,40 +118,22 @@ const UserDropDown = () => {
     <>
       {userName ? (
         <div className={styles.dropdown} ref={dropdownRef}>
-          <Button
-            className="btn btn-sm badge rounded-pill shadow-sm p-0 position-relative"
+          <button
+            type="button"
+            className={navStyles.user}
             onClick={() => setShow(!show)}
-            style={{
-              padding: "5px 15px 5px 8px",
-              background: "rgba(255, 255, 255, 0.62)",
-            }}
+            aria-label="Account menu"
+            aria-expanded={show}
+            title={[firstName, lastName].filter(Boolean).join(" ") || undefined}
           >
-            <div className="row d-flex align-items-center gx-2 py-1">
-              <div className="col-auto">
-                <img
-                  className="img-fluid rounded-circle m-0"
-                  src="/icons/logoNew.svg"
-                  style={{ objectFit: "cover" }}
-                  alt="profilePic"
-                  width={40}
-                  height={40}
-                />
-              </div>
-              <div className="col">
-                <p className="m-0 text-dark text-start fs13px fw-6">
-                  {userName}
-                </p>
-                <p
-                  className="m-0 text-start mt-1 fs11px fw-normal"
-                  style={{ color: "#575757" }}
-                >
-                  {firstName} {lastName}
-                </p>
-              </div>
-              <div className="col-auto ps-2 pe-3">
-                <Image src={downArrowBold} alt="downArrowBold" />
-              </div>
-            </div>
+            <span className={navStyles.avatar}>{initials(userName)}</span>
+            <span className={navStyles.userMeta}>
+              <span className={navStyles.userName}>{userName}</span>
+              <span className={navStyles.userRole}>{roleLabel}</span>
+            </span>
+            <svg className={navStyles.icon} style={{ width: 16, height: 16, opacity: 0.75 }} viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
             {role === "director" && (
               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {data && data.length > 0
@@ -148,12 +141,12 @@ const UserDropDown = () => {
                   : ""}
               </span>
             )}
-          </Button>
+          </button>
           <div
             className={`fs12px ${styles.dropdownContent} ${
               show && styles.show
             }`}
-            style={{ zIndex: 5 }}
+            style={{ zIndex: 5, right: 0, minWidth: 240 }}
           >
             <div className="row d-flex align-items-center m-0 pt-1">
               <div className="col-auto m-auto ms-1 mt-1 mb-1 p-0">

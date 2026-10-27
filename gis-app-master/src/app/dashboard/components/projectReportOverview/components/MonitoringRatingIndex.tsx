@@ -1,4 +1,4 @@
-import Menu from "@/shared/components/Menu";
+import Menu from "@/components/Menu";
 import { Groups } from "@/app/project-details-dashboard/types";
 import { useEffect, useState } from "react";
 

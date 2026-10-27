@@ -1,11 +1,11 @@
 "use client";
 
-import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Spinner from "@/shared/components/Spinner";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { ErrorResponse } from "@/shared/api/types";
+import { GENERATE_REPORT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Spinner from "@/components/Spinner";
+import apiClient, { AxiosError } from "@/services/client";
+import { ErrorResponse } from "@/services/types";
 import {
   ChangeEvent,
   Dispatch,
@@ -17,9 +17,9 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import DragableTable from "./DragableTable/DragableTable";
-import ToggleBetweenModals from "@/shared/components/ToggleBetweenModals";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
+import ToggleBetweenModals from "@/components/ToggleBetweenModals";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
 import { SectorItem } from "../../types";
 interface Props {
   isActiveTab: number;

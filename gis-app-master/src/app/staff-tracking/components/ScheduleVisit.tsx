@@ -1,13 +1,13 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import calendar from "../../../public/icons/calendar.svg";
-import locationPointBlue2 from "../../../public/icons/locationPointBlue2.svg";
-import moreDotsBlue from "../../../public/icons/moreDotsBlue.svg";
-import phone from "../../../public/icons/phone.svg";
-import twoCirclesVertical from "../../../public/icons/twoCirclesVertical.svg";
-import profilePic5 from "../../../public/images/profilePic5.png";
+import calendar from "@/public/icons/calendar.svg";
+import locationPointBlue2 from "@/public/icons/locationPointBlue2.svg";
+import moreDotsBlue from "@/public/icons/moreDotsBlue.svg";
+import phone from "@/public/icons/phone.svg";
+import twoCirclesVertical from "@/public/icons/twoCirclesVertical.svg";
+import profilePic5 from "@/public/images/profilePic5.png";
 
 const ScheduleVisit = () => {
   const items = ["a", "a", "a", "a", "a", "a"];

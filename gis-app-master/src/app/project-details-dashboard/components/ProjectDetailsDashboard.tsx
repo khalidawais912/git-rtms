@@ -1,26 +1,26 @@
 "use client";
 
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/services/endpoints";
 import { setContent } from "@/store/contentSlice";
-import apiClient from "@/shared/api/client";
-import { lexend } from "@/shared/styles/fonts";
+import apiClient from "@/services/client";
+import { lexend } from "@/styles/fonts";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Reports from "./Reports";
 import StaffTracking from "./StaffTracking";
 import VehicleTracking from "./VehicleTracking";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Menu from "@/shared/components/Menu";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Menu from "@/components/Menu";
 import { setTutorial } from "@/store/tutorialSlice";
-import { devMap } from "@/shared/utils";
+import { devMap } from "@/utils";
 import MyMap from "./GoogleMap/MyMap";
 import Header from "./Header";
 import MonitoringRatingIndex from "./MonitoringRatingIndex";
 import dynamic from "next/dynamic";
-import useAuthorization from "@/shared/hooks/useAuthorization";
+import useAuthorization from "@/hooks/useAuthorization";
 import WBSSummary from "./WBSFlow/WBSSummary";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import { SingleProjectDashboard } from "../types";
 
 const DistributedColumnChart = dynamic(

@@ -407,7 +407,7 @@ export function addSpaceToCamelCase(text: string) {
 }
 
 import * as XLSX from "xlsx";
-import { OptionType } from "@/shared/components/types";
+import { OptionType } from "@/components/types";
 import { PdfColumn } from "./types";
 
 export const downloadReportAnalysisToExcel = (

@@ -1,10 +1,10 @@
-import useData from "@/shared/hooks/useData";
-import { GET_ALL_STAFF_API, GET_ALL_USERS_API } from "./api";
+import useData from "@/hooks/useData";
+import { GET_ALL_STAFF_API, GET_ALL_USERS_API } from "../services";
 import {
   GET_ALL_OFFICERS_API,
   GET_ALL_USERS_AND_OFFICERS_API,
-} from "@/shared/api/endpoints";
-import { Authentication, Officer, ReportHistoryUser, User } from "./types";
+} from "@/services/endpoints";
+import { Authentication, Officer, ReportHistoryUser, User } from "../types";
 
 interface Props {
   refresh?: boolean;

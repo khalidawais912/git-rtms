@@ -1,24 +1,24 @@
 "use client";
-import { GENERATE_REPORT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { defaultOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import { paginationSelectStyles } from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { GENERATE_REPORT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomSelect, { defaultOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import { paginationSelectStyles } from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeading from "@/components/Table/TableHeading";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { ReportTypeStatusEnum } from "@/app/dashboard/types/reportTypeStatus";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import {
   displayStatusText,
   exportToPDF,
   formatAmountWithCommas,
   getTimeLeft,
-} from "@/shared/utils";
-import { exportDataToExcel } from "@/shared/utils/exportToExcel";
+} from "@/utils";
+import { exportDataToExcel } from "@/utils/exportToExcel";
 import { format } from "date-fns";
 import { sort } from "fast-sort";
 import Image from "next/image";
@@ -37,8 +37,8 @@ import Badge from "../../ProjectsTable/components/Badge";
 import styles from "../../ProjectsTable/ProjectsTable.module.css";
 import { FilterParams, RangeType } from "../../../types";
 import useProjectsTableUtils from "../../ProjectsTable/useProjectsTableUtils";
-import AsyncAction from "@/shared/components/Form/AsyncAction";
-import Spinner from "@/shared/components/Spinner";
+import AsyncAction from "@/components/Form/AsyncAction";
+import Spinner from "@/components/Spinner";
 import { ProjectsList, ProjectsTableProps } from "../types";
 import tableStyles from "./ProjectsTable.module.css";
 

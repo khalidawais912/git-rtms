@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import apiClient, { AxiosError, CanceledError } from "@/shared/api/client";
+import apiClient, { AxiosError, CanceledError } from "@/services/client";
 
 interface FetchProps {
   endpoint: string;

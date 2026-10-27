@@ -2,19 +2,19 @@ import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import more from "@/public/icons/more.svg";
-import Button from "@/shared/components/Button";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import Button from "@/components/Button";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
+import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { FiPlus } from "react-icons/fi";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import ActionButton from "@/shared/components/Table/ActionButton";
+import ActionButton from "@/components/Table/ActionButton";
 
 const schema = z.object({
   id: z.number().optional().default(0),

@@ -1,6 +1,6 @@
 import DashboardEvaluation from "./components/Evaluation/DashboardEvaluation";
-import DashboardMonitoring from "./components/DashboardMonitoring";
-import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import { MonitoringDashboard } from "@/features/monitoring-dashboard/components";
+import { DashboardType, DashboardTypeEnum } from "@/types/dashboard";
 import { cookies } from "next/headers";
 
 interface Props {
@@ -26,7 +26,7 @@ const DashboardPage = async ({ searchParams }: Props) => {
     ? (dashboardType as DashboardTypeEnum)
     : undefined;
 
-  return currentType ? <DashboardEvaluation /> : <DashboardMonitoring />;
+  return currentType ? <DashboardEvaluation /> : <MonitoringDashboard />;
 };
 
 export default DashboardPage;

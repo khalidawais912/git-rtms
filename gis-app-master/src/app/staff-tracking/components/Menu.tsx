@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import archery from "../../../public/icons/archery.svg";
-import eyeBold from "../../../public/icons/eyeBold.svg";
-import levelUp from "../../../public/icons/levelUp.svg";
-import meter from "../../../public/icons/meter.svg";
-import waveDown from "../../../public/icons/waveDown.svg";
-import waveUp from "../../../public/icons/waveUp.svg";
-import tideOne from "../../../public/images/tideOne.png";
-import tideTwo from "../../../public/images/tideTwo.png";
+import archery from "@/public/icons/archery.svg";
+import eyeBold from "@/public/icons/eyeBold.svg";
+import levelUp from "@/public/icons/levelUp.svg";
+import meter from "@/public/icons/meter.svg";
+import waveDown from "@/public/icons/waveDown.svg";
+import waveUp from "@/public/icons/waveUp.svg";
+import tideOne from "@/public/images/tideOne.png";
+import tideTwo from "@/public/images/tideTwo.png";
 
 const Menu = () => {
   return (

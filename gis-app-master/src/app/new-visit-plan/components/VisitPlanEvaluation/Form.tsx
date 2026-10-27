@@ -1,18 +1,18 @@
-import { TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
-import DeleteModal from "@/shared/components/DeleteModal";
-import CustomCalendar from "@/shared/components/Form/CustomCalender";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import TableData from "@/shared/components/Table/TableData";
+import { TEMP_TOUR_PLAN_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomToggleSwitch from "@/components/CustomToggleSwitch";
+import DeleteModal from "@/components/DeleteModal";
+import CustomCalendar from "@/components/Form/CustomCalender";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import TableData from "@/components/Table/TableData";
 import { TempTourPlan } from "@/features/tour-plans";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import {
   isoToLocalDateString,
   isValidDate,
   toLocalDateString,
-} from "@/shared/utils";
+} from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

@@ -1,6 +1,6 @@
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { PC_IV_WORKFLOW_API } from "@/shared/api/endpoints";
-import { BaseResponse } from "@/shared/api/types";
+import apiClient, { AxiosError } from "@/services/client";
+import { PC_IV_WORKFLOW_API } from "@/services/endpoints";
+import { BaseResponse } from "@/services/types";
 import {
   PcivActionResponse,
   PcivButton,
@@ -9,7 +9,7 @@ import {
   PcivReportTrail,
   PcivSignature,
   PcivSubmittedReportsResult,
-} from "./types";
+} from "../types";
 
 /**
  * The server answers almost everything with HTTP 200 and puts the real result in

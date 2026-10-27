@@ -1,15 +1,15 @@
-import Button from "@/shared/components/Button";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
+import Button from "@/components/Button";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import rolesBlack from "@/public/icons/rolesBlack.svg";
-import { updateUserRole } from "../api";
+import { updateUserRole } from "../services";
 import { RoleOption as Option } from "../types";
 interface Props {
   id: number;

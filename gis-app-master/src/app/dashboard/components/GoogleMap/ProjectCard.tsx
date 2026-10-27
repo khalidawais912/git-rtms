@@ -1,6 +1,6 @@
 import Image from "next/image";
-import tickStar from "../../../../public/icons/tickStar.svg";
-import whiteBuilding from "../../../../public/icons/whiteBuilding.svg";
+import tickStar from "@/public/icons/tickStar.svg";
+import whiteBuilding from "@/public/icons/whiteBuilding.svg";
 import { DistrictProjects } from "../../types";
 
 interface Props {

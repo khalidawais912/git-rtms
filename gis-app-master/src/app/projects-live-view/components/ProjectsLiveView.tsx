@@ -1,6 +1,6 @@
 "use client";
 
-import { MAIN_DASHBOARD_API } from "@/shared/api/endpoints";
+import { MAIN_DASHBOARD_API } from "@/services/endpoints";
 import { FilterData } from "@/app/dashboard/types";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import {
@@ -8,8 +8,8 @@ import {
   cmInitiativeFilters,
   oldCmInitiativeFilters,
 } from "@/app/dashboard/filters";
-import apiClient from "@/shared/api/client";
-import { formatAmountWithCommas, getInitials } from "@/shared/utils";
+import apiClient from "@/services/client";
+import { formatAmountWithCommas, getInitials } from "@/utils";
 import {
   DashboardSquare01Icon,
   LeftToRightListBulletIcon,

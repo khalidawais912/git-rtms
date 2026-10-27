@@ -1,11 +1,11 @@
 "use client";
-import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/shared/api/endpoints";
+import { MAIN_DASHBOARD_API, STAFF_TRACKING_API } from "@/services/endpoints";
 import { ProjectsList } from "@/app/dashboard/components/ProjectsTable/ProjectsTable";
 import { useAuthentication } from "@/features/users";
-import apiClient from "@/shared/api/client";
+import apiClient from "@/services/client";
 import { StaffTracking } from "@/app/staff-tracking/components/StaffTracking";
 import { TrackingRequestData } from "@/app/staff-tracking/types";
-import { formatDateTime } from "@/shared/utils";
+import { formatDateTime } from "@/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import TimeSpentOnProjectSiteFilterMenu from "./TimeSpentOnProjectSiteFilterMenu";

@@ -2,7 +2,7 @@ import {
   addDayToFormattedDate,
   formatAmountWithCommas,
   getFormattedDate,
-} from "@/shared/utils";
+} from "@/utils";
 import { SingleProjectDashboard } from "../../types";
 
 interface Props {

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Button from "@/shared/components/Button";
-import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
+import Button from "@/components/Button";
+import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import locationBlueMini from "@/public/icons/locationBlueMini.svg";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Link from "next/link";

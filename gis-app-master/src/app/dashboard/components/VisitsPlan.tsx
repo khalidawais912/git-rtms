@@ -1,19 +1,19 @@
-import { VISIT_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Loader from "@/shared/components/Loader/Loader";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { VISIT_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Loader from "@/components/Loader/Loader";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { useDistrict } from "@/features/districts";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";
-import apiClient from "@/shared/api/client";
-import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
-import { exportDataToExcel } from "@/shared/utils/exportToExcel";
+import apiClient from "@/services/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/utils";
+import { exportDataToExcel } from "@/utils/exportToExcel";
 import visitPlan from "@/public/icons/visitPlan.svg";
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 import Image from "next/image";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import ProjectsTable, { ProjectsList } from "./ProjectsTable/ProjectsTable";
 import useProjectsTableUtils from "./ProjectsTable/useProjectsTableUtils";
@@ -45,12 +45,17 @@ interface Props {
   getProjectsList: (status: string) => Promise<void>;
   projectsData: ProjectsList[];
   setProjectsData: Dispatch<SetStateAction<ProjectsList[] | undefined>>;
+  /** Custom card that opens the plan (the monitoring dashboard's Quick tools) */
+  trigger?: ReactNode;
+  buttonColumn?: string;
 }
 
 const VisitsPlan = ({
   getProjectsList,
   projectsData,
   setProjectsData,
+  trigger,
+  buttonColumn,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<VisitsPlan[]>();
@@ -188,8 +193,9 @@ const VisitsPlan = ({
         modalId="visitsPlan"
         HeaderRightPos={10}
         HeaderTopPos={0}
+        buttonColumn={buttonColumn}
         button={
-          <div
+          trigger ?? <div
             className="text-decoration-none cursor-pointer text-dark d-flex align-items-center justify-content-center"
             style={{
               height: "62px",

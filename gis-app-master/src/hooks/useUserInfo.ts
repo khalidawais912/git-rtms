@@ -1,6 +1,6 @@
 "use client";
 
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 import { useEffect, useState } from "react";
 
 const useUserInfo = () => {

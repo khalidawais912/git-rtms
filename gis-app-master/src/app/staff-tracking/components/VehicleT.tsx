@@ -1,20 +1,20 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import blueCirclePointer from "../../../public/icons/blueCirclePointer.svg";
-import call from "../../../public/icons/call.svg";
-import distance from "../../../public/icons/distance.svg";
-import fromToDirection from "../../../public/icons/fromToDirection.svg";
-import greenCircle from "../../../public/icons/greenCircle.svg";
-import message from "../../../public/icons/message.svg";
-import redCircle from "../../../public/icons/redCircle.svg";
-import threeCirclesVertical from "../../../public/icons/threeCirclesVertical.svg";
-import car1Right from "../../../public/images/car1Right.png";
-import car2Left from "../../../public/images/car2Left.png";
-import car3Left from "../../../public/images/car3Left.png";
-import carFrontCircleBlue from "../../../public/images/carFrontCircleBlue.png";
-import profilePic2 from "../../../public/images/profilePic2.png";
+import blueCirclePointer from "@/public/icons/blueCirclePointer.svg";
+import call from "@/public/icons/call.svg";
+import distance from "@/public/icons/distance.svg";
+import fromToDirection from "@/public/icons/fromToDirection.svg";
+import greenCircle from "@/public/icons/greenCircle.svg";
+import message from "@/public/icons/message.svg";
+import redCircle from "@/public/icons/redCircle.svg";
+import threeCirclesVertical from "@/public/icons/threeCirclesVertical.svg";
+import car1Right from "@/public/images/car1Right.png";
+import car2Left from "@/public/images/car2Left.png";
+import car3Left from "@/public/images/car3Left.png";
+import carFrontCircleBlue from "@/public/images/carFrontCircleBlue.png";
+import profilePic2 from "@/public/images/profilePic2.png";
 
 const VehicleT = () => {
   const items = [

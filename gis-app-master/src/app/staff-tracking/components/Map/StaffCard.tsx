@@ -1,5 +1,5 @@
 import { useAuthentication } from "@/features/users";
-import { formatDateTime } from "@/shared/utils";
+import { formatDateTime } from "@/utils";
 import staffMember from "@/public/icons/staffMember.svg";
 import Image from "next/image";
 import { useState } from "react";

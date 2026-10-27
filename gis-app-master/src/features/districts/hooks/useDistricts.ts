@@ -1,6 +1,6 @@
-import { DISTRICT_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { District } from "./types";
+import { DISTRICT_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { District } from "../types";
 
 interface Props {
   refresh?: boolean;

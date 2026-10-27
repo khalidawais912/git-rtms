@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Spinner from "@/shared/components/Spinner";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Spinner from "@/components/Spinner";
 import {
   Dispatch,
   FormEvent,

@@ -2,3 +2,79 @@
   background: linear-gradient(to right, #2377b6, #155e95);
   transition: all 0.3s ease-in-out;
 }
+
+/* ───────── Top bar · RTMES "Bold Blue" design ───────── */
+.topbar {
+  --tb-950: #0e2142; --tb-900: #133461; --tb-800: #184686; --tb-700: #1f58a8; --tb-600: #2d66b4;
+  --gold: #c9a54c;
+  position: relative;
+  z-index: 900;
+  background: linear-gradient(100deg, var(--tb-900), var(--tb-700));
+  border-bottom: 3px solid var(--gold);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(10, 25, 45, .18);
+}
+/* Evaluation: vivid azure */
+.topbarEval { --tb-950: #04263f; --tb-900: #063a5f; --tb-800: #085a99; --tb-700: #0b74c2; --tb-600: #137dcc; }
+
+.inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 28px; }
+.icon { width: 20px; height: 20px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+.brand { display: flex; align-items: center; gap: 14px; color: #fff !important; text-decoration: none; min-width: 0; }
+.brandLogo { width: 54px; height: 54px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex: none; box-shadow: 0 0 0 3px rgba(255,255,255,.18); }
+.brandLogo img { width: 46px; height: 46px; }
+.brandTitle { font-size: 22px; font-weight: 800; letter-spacing: .3px; line-height: 1.15; display: flex; align-items: baseline; gap: 10px; }
+.brandUrdu { font-size: 17px; font-weight: 600; color: var(--gold); }
+.brandSub { font-size: 14px; color: rgba(255,255,255,.85); margin-top: 2px; }
+
+.menuBtn {
+  display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; margin-left: 18px; border-radius: 12px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.28); color: #fff; font-weight: 700; font-size: 16px; white-space: nowrap;
+}
+.menuBtn:hover { background: rgba(255,255,255,.2); color: #fff; }
+.menuLabel { margin-left: 18px; font-weight: 800; font-size: 18px; color: #fff; }
+
+.spacer { flex: 1; }
+
+.moduleSwitch { display: flex; background: rgba(0,0,0,.22); padding: 4px; border-radius: 12px; gap: 2px; }
+.moduleSwitch button { display: inline-flex; align-items: center; border: 0; background: transparent; color: rgba(255,255,255,.88); padding: 9px 20px; border-radius: 9px; font-weight: 700; font-size: 15.5px; cursor: pointer; }
+.moduleSwitch button:not(.switchActive):hover { background: rgba(255,255,255,.12); color: #fff; }
+.moduleSwitch .switchActive { background: #fff; color: var(--tb-700); cursor: default; }
+
+.smdpBtn {
+  display: inline-flex; align-items: center; height: 48px; padding: 0 18px; border-radius: 12px; background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22); color: #fff !important; font-weight: 700; font-size: 15.5px; text-decoration: none;
+}
+.smdpBtn:hover { background: rgba(255,255,255,.2); }
+
+.iconBtn {
+  width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; position: relative;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); color: #fff !important;
+}
+.iconBtn:hover { background: rgba(255,255,255,.2); }
+.dot {
+  position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #bf3530;
+  color: #fff; font-size: 11.5px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--tb-800);
+}
+
+/* User menu trigger */
+.user {
+  display: flex; align-items: center; gap: 10px; padding: 5px 12px 5px 5px; background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22); border-radius: 14px; color: #fff; position: relative; cursor: pointer;
+}
+.user:hover { background: rgba(255,255,255,.2); }
+.avatar { width: 40px; height: 40px; border-radius: 10px; background: var(--gold); color: var(--tb-950); display: grid; place-items: center; font-weight: 800; font-size: 14.5px; flex: none; }
+.userMeta { display: flex; flex-direction: column; text-align: left; line-height: 1.2; }
+.userName { font-weight: 800; font-size: 15.5px; }
+.userRole { font-size: 13px; color: rgba(255,255,255,.82); }
+
+@media (max-width: 1100px) {
+  .brandSub, .userMeta { display: none; }
+  .menuBtn { margin-left: 0; }
+}
+@media (max-width: 700px) {
+  .inner { padding: 10px 12px; }
+  .spacer { display: none; }
+  .menuBtn span { display: none; }
+}
+@media print { .topbar { display: none; } }

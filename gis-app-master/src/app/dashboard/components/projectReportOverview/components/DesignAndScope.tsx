@@ -1,5 +1,5 @@
 import { Groups } from "@/app/project-details-dashboard/types";
-import { renderTinyMCEData } from "@/shared/utils";
+import { renderTinyMCEData } from "@/utils";
 
 interface Props {
   group: Groups;

@@ -1,14 +1,14 @@
 "use client";
-import Button from "@/shared/components/Button";
-import { AxiosError } from "@/shared/api/client";
-import { ErrorResponse } from "@/shared/api/types";
+import Button from "@/components/Button";
+import { AxiosError } from "@/services/client";
+import { ErrorResponse } from "@/services/types";
 import {
   createDepartment,
   getDataAgainstField,
   getDepartment,
   getFieldList,
   updateDepartment,
-} from "../api";
+} from "../services";
 import { DepartmentWithRights, departmentWithRightsSchema } from "../schema";
 import { FiledList, Option } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,13 +20,13 @@ import toast from "react-hot-toast";
 import Select, { SingleValue } from "react-select";
 import more from "@/public/icons/more.svg";
 import { RxCross2 } from "react-icons/rx";
-import ActionButton from "@/shared/components/Table/ActionButton";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
+import ActionButton from "@/components/Table/ActionButton";
+import FormWrapper from "@/components/Form/FormWrapper";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import SubmitButton from "@/components/Form/SubmitButton";
 import { FiPlus } from "react-icons/fi";
 
 interface Props {

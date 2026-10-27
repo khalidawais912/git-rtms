@@ -2,8 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { getSession, getRights } from "@/shared/utils/session";
-import Loader from "@/shared/components/Loader/Loader";
+import { getSession, getRights } from "@/utils/session";
+import Loader from "@/components/Loader/Loader";
 
 const Home = () => {
   const router = useRouter();

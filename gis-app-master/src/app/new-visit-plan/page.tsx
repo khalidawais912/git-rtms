@@ -1,5 +1,5 @@
-import ListWrapper from "@/shared/components/ListWrapper";
-import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import ListWrapper from "@/components/ListWrapper";
+import { DashboardType, DashboardTypeEnum } from "@/types/dashboard";
 import NewVisitPlan from "./components/NewVisitPlan";
 
 interface Props {

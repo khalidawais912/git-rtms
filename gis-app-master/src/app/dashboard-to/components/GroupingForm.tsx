@@ -1,12 +1,12 @@
-import { PROJECT_API, SUPER_GROUP_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import apiClient from "@/shared/api/client";
+import { PROJECT_API, SUPER_GROUP_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Select, { ActionMeta, SingleValue } from "react-select";
 import { toast } from "react-toastify";
-import superGroupBlack from "../../../public/icons/superGroupBlack.svg";
+import superGroupBlack from "@/public/icons/superGroupBlack.svg";
 import { Option } from "../types";
 interface Props {
   id: number;

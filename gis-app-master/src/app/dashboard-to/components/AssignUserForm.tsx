@@ -1,15 +1,15 @@
 import {
   ASSIGN_USER_TO_PROJECT_API,
   GET_ASSIGNED_USERS_TO_PROJECT_API,
-} from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import apiClient from "@/shared/api/client";
+} from "@/services/endpoints";
+import Button from "@/components/Button";
+import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import Select, { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
-import user3Black from "../../../public/icons/user3Black.svg";
+import user3Black from "@/public/icons/user3Black.svg";
 import { UserOption } from "../types";
 
 interface Props {

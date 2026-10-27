@@ -4,20 +4,20 @@ import {
   EVALUATION_TEMP_TOUR_PLAN_API,
   PROJECT_API,
   TEMP_TOUR_PLAN_API,
-} from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import Loader from "@/shared/components/Loader/Loader";
-import Pagination from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
+} from "@/services/endpoints";
+import Button from "@/components/Button";
+import Loader from "@/components/Loader/Loader";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useProjects, Project } from "@/features/projects";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getName } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { getName } from "@/utils";
 import { sort } from "fast-sort";
 import Image from "next/image";
 import { SetStateAction, useEffect, useState } from "react";
@@ -30,7 +30,7 @@ import complete from "@/public/icons/complete.svg";
 import AssignUserForm from "./AssignUserForm";
 import GroupingForm from "./GroupingForm";
 import StatusBadge from "./StatusBadge";
-import TableWrapper from "@/shared/components/Table/TableWrapper";
+import TableWrapper from "@/components/Table/TableWrapper";
 const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
   const PROJECT_API_ENDPOINT = dashboardType
     ? EVALUATION_PROJECT_API

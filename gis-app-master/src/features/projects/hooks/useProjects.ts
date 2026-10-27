@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { EVALUATION_PROJECT_API, PROJECT_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
-import { Project } from "./types";
+import { EVALUATION_PROJECT_API, PROJECT_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { DashboardTypeEnum } from "@/types/dashboard";
+import { Project } from "../types";
 
 interface Props {
   refresh?: boolean;

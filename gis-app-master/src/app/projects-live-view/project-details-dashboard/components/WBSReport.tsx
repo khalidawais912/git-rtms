@@ -1,4 +1,4 @@
-import { asap } from "@/shared/styles/fonts";
+import { asap } from "@/styles/fonts";
 import { useEffect } from "react";
 import { Groups } from "../../types";
 

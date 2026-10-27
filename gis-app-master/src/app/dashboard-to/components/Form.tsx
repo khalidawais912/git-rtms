@@ -1,6 +1,6 @@
-import { GET_USER_PROJECTS_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import ErrorMessage from "@/shared/components/ErrorMessage";
+import { GET_USER_PROJECTS_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import ErrorMessage from "@/components/ErrorMessage";
 import { useAuthentication, Authentication } from "@/features/users";
 import { useDistrict, District } from "@/features/districts";
 import { Project } from "@/features/projects";
@@ -8,8 +8,8 @@ import { TourPlan, useTourPlans } from "@/features/tour-plans";
 import { useDriver, Driver } from "@/features/drivers";
 import { useVehicle, Vehicle } from "@/features/vehicles";
 import { useVisits } from "@/features/visits";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { ErrorResponse } from "@/shared/api/types";
+import apiClient, { AxiosError } from "@/services/client";
+import { ErrorResponse } from "@/services/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,9 +17,9 @@ import Modal from "react-bootstrap/Modal";
 import { Controller, useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 import Select from "react-select";
-import { COMPLETED, SCHEDULED } from "@/shared/constants/statuses";
+import { COMPLETED, SCHEDULED } from "@/constants/statuses";
 
 const schema = z.object({
   id: z.number().optional().default(0),

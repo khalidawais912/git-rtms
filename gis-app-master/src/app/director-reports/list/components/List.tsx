@@ -1,19 +1,19 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import Loader from "@/shared/components/Loader/Loader";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import { REPORTS_HISTORY_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import Loader from "@/components/Loader/Loader";
+import apiClient, { AxiosError } from "@/services/client";
 import search3 from "@/public/icons/search3.svg";
-import { raleway } from "@/shared/styles/fonts";
+import { raleway } from "@/styles/fonts";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import DownloadWrapper from "../../components/DownloadWrapper";
-import { APPROVED, REFERBACK, SUBMITTED } from "@/shared/constants/statuses";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/constants/statuses";
 import ProjectTile from "./ProjectTile";
 import { ListProps, SubmittedReport, Tab } from "../../types";
-import AlertMessage from "@/shared/components/AlertMessage";
-import styles from "@/shared/styles/ReportList.module.css";
-import useUserInfo from "@/shared/hooks/useUserInfo";
+import AlertMessage from "@/components/AlertMessage";
+import styles from "@/styles/ReportList.module.css";
+import useUserInfo from "@/hooks/useUserInfo";
 
 const List = ({ dashbaordType, users, refresh }: ListProps) => {
   const [data, setData] = useState<SubmittedReport[]>([]);

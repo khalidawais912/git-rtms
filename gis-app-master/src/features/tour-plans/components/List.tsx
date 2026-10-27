@@ -1,22 +1,22 @@
 "use client";
-import { TOUR_PLAN_API } from "@/shared/api/endpoints";
-import DeleteModal from "@/shared/components/DeleteModal";
-import Loader from "@/shared/components/Loader/Loader";
-import Actions from "@/shared/components/Table/Actions";
-import Pagination from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
+import { TOUR_PLAN_API } from "@/services/endpoints";
+import DeleteModal from "@/components/DeleteModal";
+import Loader from "@/components/Loader/Loader";
+import Actions from "@/components/Table/Actions";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useTourPlans, TourPlan } from "@/features/tour-plans";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getFormattedDate } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
-import TableWrapper from "@/shared/components/Table/TableWrapper";
+import TableWrapper from "@/components/Table/TableWrapper";
 
 interface Props {
   refresh: boolean;

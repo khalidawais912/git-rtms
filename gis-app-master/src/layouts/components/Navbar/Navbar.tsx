@@ -1,15 +1,13 @@
 "use client";
-import { getSession } from "@/shared/utils/session";
-import { lexend } from "@/shared/styles/fonts";
+import { getSession } from "@/utils/session";
+import { inter } from "@/styles/fonts";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { FaPlay, FaYoutube } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import Button from "@/shared/components/Button";
 import GISMenu from "./GISMenu";
-import Spinner from "@/shared/components/Spinner";
+import Spinner from "@/components/Spinner";
 import UserDropDown from "../UserDropDown/UserDropDown";
 import DashboardTypeFilter from "./DashboardTypeFilter";
 import DepartmentCategoryFilter from "./DepartmentCategoryFilter";
@@ -23,9 +21,7 @@ const Navbar = () => {
   const currentPath = usePathname();
 
   useEffect(() => {
-    const type = searchParams.get("dashboardType");
-    console.log("searchParams type", type);
-    setCurrentType(type);
+    setCurrentType(searchParams.get("dashboardType"));
   }, [searchParams]);
 
   const [role, setRole] = useState<string>();
@@ -42,173 +38,81 @@ const Navbar = () => {
     if (departmentId) setDepartmentId(parseInt(departmentId));
   }, []);
 
-  const [isEnter, setEnter] = useState(false);
-
-  console.log("backendURL: ", process.env.NEXT_PUBLIC_BACKEND_API);
+  const spinner = (
+    <div className="d-flex align-items-center justify-content-center h-100">
+      <Spinner color="text-light" />
+    </div>
+  );
 
   return (
-    <nav
-      className={`navbar navbar-expand-lg navbar-light p-0 ${
-        currentType ? styles.bgGradientEvaluation : "bg-color-sea-blue"
-      } ${lexend.className}`}
-      style={{
-        boxShadow: "0px 3px 3px 1px rgba(0, 0, 0, 0.2)",
-      }}
+    <header
+      className={`${styles.topbar} ${currentType ? styles.topbarEval : ""} ${inter.className}`}
     >
-      <div className="container-fluid">
+      <div className={styles.inner}>
         <Link
-          className="navbar-brand"
+          className={styles.brand}
           href={`/${currentParams ? `?${currentParams}` : ""}`}
         >
-          <Image
-            src="/icons/logoNew1.svg"
-            alt="logoNew"
-            style={{
-              filter: "drop-shadow(0px 0px .75px green)",
-              width: "64px",
-              height: "64px",
-            }}
-            width={64}
-            height={64}
-            priority
-          />
+          <span className={styles.brandLogo}>
+            <Image src="/icons/logoNew1.svg" alt="Government of the Punjab" width={46} height={46} priority />
+          </span>
+          <span>
+            <span className={styles.brandTitle}>
+              RTMES <span className={styles.brandUrdu}>حکومتِ پنجاب</span>
+            </span>
+            <span className={`${styles.brandSub} d-block`}>
+              Directorate General Monitoring &amp; Evaluation · P&amp;D Board, Punjab
+            </span>
+          </span>
         </Link>
-        <Button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </Button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item dropdown">
-              <GISMenu dashboardType={currentType} />
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <Link className="dropdown-item" href="#">
-                    Action
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" href="#">
-                    Another action
-                  </Link>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <Link className="dropdown-item" href="#">
-                    Something else here
-                  </Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
 
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
-            {role !== "Special Role" && (
-              <li className="nav-item p-1 me-3 mt-1">
-                <Link href={currentTutorial} target="_blank">
-                  <div
-                    style={{
-                      position: "relative",
-                      display: "inline-block",
-                      width: "fit-content",
-                      height: "fit-content",
-                    }}
-                    onMouseEnter={() => setEnter(true)}
-                    onMouseLeave={() => setEnter(false)}
-                  >
-                    {/* Background div */}
-                    <FaPlay
-                      size={16}
-                      color={`${isEnter ? "white" : "rgba(255,255,255,0)"}`}
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        width: "10px",
-                        height: "10px",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 0, // Make sure it's behind the icon
-                        transition: "color .3s",
-                      }}
-                    />
-                    {/* YouTube Icon */}
-                    <FaYoutube
-                      color={`${isEnter ? "red" : "white"}`}
-                      size={40}
-                      style={{ transition: "color .3s" }}
-                    />
-                  </div>
-                </Link>
-              </li>
-            )}
-            {currentPath !== "/charts" && (
-              <>
-                {(departmentId === 0 || departmentId === 1) &&
-                role !== "Special Role" &&
-                role?.toLowerCase() !== "dgme reports" ? (
-                  <li className="nav-item p-1 me-3 m-auto">
-                    <Suspense
-                      fallback={
-                        <div className="d-flex align-items-center justify-content-center h-100">
-                          <Spinner color="text-light" />
-                        </div>
-                      }
-                    >
-                      <DashboardTypeFilter />
-                    </Suspense>
-                  </li>
-                ) : role === "Special Role" ||
-                  !role ||
-                  !departmentId ||
-                  "Administrative Secretary" ? (
-                  ""
-                ) : (
-                  <li className="nav-item p-1 me-3 m-auto">
-                    <Suspense
-                      fallback={
-                        <div className="d-flex align-items-center justify-content-center h-100">
-                          <Spinner color="text-light" />
-                        </div>
-                      }
-                    >
-                      <DepartmentCategoryFilter />
-                    </Suspense>
-                  </li>
-                )}
-              </>
-            )}
+        <GISMenu dashboardType={currentType} />
 
-            <li className="nav-item p-1 me-2">
-              <Link href="https://smdp.punjab.gov.pk/" target="_blank">
-                <Button
-                  className="btn rounded-pill fw-6 m-auto"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.62)",
-                    color: "#424242",
-                    fontSize: "0.813rem",
-                    padding: "10px 15px",
-                  }}
-                >
-                  SMDP
-                </Button>
-              </Link>
-            </li>
-            <li className="nav-item dropdown me-3">
-              <UserDropDown />
-            </li>
-          </ul>
-        </div>
+        <div className={styles.spacer} />
+
+        {currentPath !== "/charts" && (
+          <>
+            {(departmentId === 0 || departmentId === 1) &&
+            role !== "Special Role" &&
+            role?.toLowerCase() !== "dgme reports" ? (
+              <Suspense fallback={spinner}>
+                <DashboardTypeFilter />
+              </Suspense>
+            ) : role === "Special Role" ||
+              !role ||
+              !departmentId ||
+              "Administrative Secretary" ? (
+              ""
+            ) : (
+              <Suspense fallback={spinner}>
+                <DepartmentCategoryFilter />
+              </Suspense>
+            )}
+          </>
+        )}
+
+        <Link href="https://smdp.punjab.gov.pk/" target="_blank" className={styles.smdpBtn}>
+          SMDP
+        </Link>
+
+        {role !== "Special Role" && (
+          <Link
+            href={currentTutorial}
+            target="_blank"
+            className={styles.iconBtn}
+            title="Video tutorials"
+            aria-label="Video tutorials"
+          >
+            <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2" y="5" width="20" height="14" rx="3" />
+              <path d="m10 9 5 3-5 3z" />
+            </svg>
+          </Link>
+        )}
+
+        <UserDropDown />
       </div>
-    </nav>
+    </header>
   );
 };
 

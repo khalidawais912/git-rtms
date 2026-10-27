@@ -1,11 +1,11 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { useSectors } from "@/features/sectors";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import more from "../../../public/icons/more.svg";
+import more from "@/public/icons/more.svg";
 import { SmdpSync } from "../types";
 
 interface Props {

@@ -1,20 +1,20 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { defaultNumberOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import CustomTextArea from "@/shared/components/Form/CustomTextArea";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
-import ActionButton from "@/shared/components/Table/ActionButton";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomSelect, { defaultNumberOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import CustomTextArea from "@/components/Form/CustomTextArea";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
+import ActionButton from "@/components/Table/ActionButton";
+import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { SingleValue } from "react-select";
 import { z } from "zod";
-import CustomToggleSwitch from "@/shared/components/CustomToggleSwitch";
+import CustomToggleSwitch from "@/components/CustomToggleSwitch";
 
 const schema = z.object({
   id: z.number().optional().default(0),

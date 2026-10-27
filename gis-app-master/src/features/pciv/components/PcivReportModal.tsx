@@ -1,10 +1,10 @@
 "use client";
 import { ReportHistoryUser } from "@/features/users";
-import AlertMessage from "@/shared/components/AlertMessage";
-import Button from "@/shared/components/Button";
-import Loader from "@/shared/components/Loader/Loader";
+import AlertMessage from "@/components/AlertMessage";
+import Button from "@/components/Button";
+import Loader from "@/components/Loader/Loader";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getPcivHistory, PcivApiError, pcivFileUrl } from "../api";
+import { getPcivHistory, PcivApiError, pcivFileUrl } from "../services";
 import { PcivPanelLabels, PcivReportTrail } from "../types";
 import PcivActionPanel from "./PcivActionPanel";
 import PcivHistory from "./PcivHistory";

@@ -1,4 +1,4 @@
-import { OptionType } from "@/shared/components/types";
+import { OptionType } from "@/components/types";
 import { useDistrict } from "@/features/districts";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";

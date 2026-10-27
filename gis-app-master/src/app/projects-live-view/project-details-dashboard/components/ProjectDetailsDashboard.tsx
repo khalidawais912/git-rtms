@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Reports from "./Reports";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import dynamic from "next/dynamic";
 import { IoWifi } from "react-icons/io5";
 import ExecutiveSummary from "./ExecutiveSummary";

@@ -1,25 +1,25 @@
 "use client";
-import { SMDP_SYNC_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import DeleteModal from "@/shared/components/DeleteModal";
-import TableHeading from "@/shared/components/Table/TableHeading";
+import { SMDP_SYNC_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import DeleteModal from "@/components/DeleteModal";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAttributeGroups } from "@/features/attribute-groups";
 import { useProjects, Project } from "@/features/projects";
 import { useSectors, Sector } from "@/features/sectors";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getFormattedDate } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { motion } from "framer-motion";
-import { dmSans, inter } from "@/shared/styles/fonts";
+import { dmSans, inter } from "@/styles/fonts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import arrowLeft from "../../../public/icons/arrow-left.svg";
-import arrowRight from "../../../public/icons/arrow-right.svg";
-import calender from "../../../public/icons/calendar.svg";
-import cancel from "../../../public/icons/cancel.svg";
-import clock from "../../../public/icons/clock.svg";
-import complete from "../../../public/icons/complete.svg";
+import arrowLeft from "@/public/icons/arrow-left.svg";
+import arrowRight from "@/public/icons/arrow-right.svg";
+import calender from "@/public/icons/calendar.svg";
+import cancel from "@/public/icons/cancel.svg";
+import clock from "@/public/icons/clock.svg";
+import complete from "@/public/icons/complete.svg";
 import Form from "./Form";
 
 interface ListProps {

@@ -1,4 +1,4 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import { BsCircleFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";

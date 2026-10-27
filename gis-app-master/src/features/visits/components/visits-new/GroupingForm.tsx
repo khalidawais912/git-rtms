@@ -1,6 +1,6 @@
-import { ATTRIBUTE_GROUP_MAPPING_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import apiClient from "@/shared/api/client";
+import { ATTRIBUTE_GROUP_MAPPING_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";

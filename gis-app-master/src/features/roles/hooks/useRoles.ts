@@ -1,6 +1,6 @@
-import { ROLE_API } from "@/shared/api/endpoints";
-import useData from "@/shared/hooks/useData";
-import { Role } from "./types";
+import { ROLE_API } from "@/services/endpoints";
+import useData from "@/hooks/useData";
+import { Role } from "../types";
 
 interface Props {
   refresh?: boolean;

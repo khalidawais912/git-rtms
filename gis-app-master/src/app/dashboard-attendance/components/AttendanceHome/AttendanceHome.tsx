@@ -1,7 +1,7 @@
 "use client";
-import { DASHBOARD_ATTENDANCE_API } from "@/shared/api/endpoints";
-import Loader from "@/shared/components/Loader/Loader";
-import apiClient from "@/shared/api/client";
+import { DASHBOARD_ATTENDANCE_API } from "@/services/endpoints";
+import Loader from "@/components/Loader/Loader";
+import apiClient from "@/services/client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsFileEarmarkCheckFill } from "react-icons/bs";

@@ -1,6 +1,6 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import Image from "next/image";
-import dbGrey from "../../../public/icons/dbGrey.svg";
+import dbGrey from "@/public/icons/dbGrey.svg";
 
 interface Props {
   handleSubmit: (id: number) => void;

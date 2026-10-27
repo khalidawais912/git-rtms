@@ -1,7 +1,7 @@
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { DOCUMENT_CATEGORY_API } from "@/shared/api/endpoints";
-import { BaseResponse } from "@/shared/api/types";
-import { DocumentCategoryNode } from "./types";
+import apiClient, { AxiosError } from "@/services/client";
+import { DOCUMENT_CATEGORY_API } from "@/services/endpoints";
+import { BaseResponse } from "@/services/types";
+import { DocumentCategoryNode } from "../types";
  
 export class DocumentCategoryApiError extends Error {
   constructor(

@@ -1,4 +1,4 @@
-import Button from "@/shared/components/Button";
+import Button from "@/components/Button";
 import Image from "next/image";
 import ProjectModalContent from "./ProjectModalContent";
 import ProjectTab from "./ProjectTab";

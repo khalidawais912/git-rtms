@@ -3,12 +3,12 @@ import { useVehicle, Vehicle } from "@/features/vehicles";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import blueCirclePointer from "../../../public/icons/blueCirclePointer.svg";
-import fromToDirection from "../../../public/icons/fromToDirection.svg";
-import greenCircle from "../../../public/icons/greenCircle.svg";
-import threeCirclesVertical from "../../../public/icons/threeCirclesVertical.svg";
-import car1Right from "../../../public/images/car1Right.png";
-import profilePic2 from "../../../public/images/profilePic2.png";
+import blueCirclePointer from "@/public/icons/blueCirclePointer.svg";
+import fromToDirection from "@/public/icons/fromToDirection.svg";
+import greenCircle from "@/public/icons/greenCircle.svg";
+import threeCirclesVertical from "@/public/icons/threeCirclesVertical.svg";
+import car1Right from "@/public/images/car1Right.png";
+import profilePic2 from "@/public/images/profilePic2.png";
 import { VehicleTrackings } from "../types";
 
 interface Props {

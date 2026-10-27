@@ -1,9 +1,9 @@
-import Button from "@/shared/components/Button";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import Button from "@/components/Button";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import FormWrapper from "@/components/Form/FormWrapper";
+import SubmitButton from "@/components/Form/SubmitButton";
+import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import more from "@/public/icons/more.svg";
-import ActionButton from "@/shared/components/Table/ActionButton";
+import ActionButton from "@/components/Table/ActionButton";
 import { TbFileUpload } from "react-icons/tb";
 
 const schema = z.object({

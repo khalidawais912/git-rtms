@@ -1,24 +1,24 @@
 "use client";
-import { GET_USER_PROJECTS_API, VISIT_API } from "@/shared/api/endpoints";
-import DeleteModal from "@/shared/components/DeleteModal";
-import Loader from "@/shared/components/Loader/Loader";
-import Pagination from "@/shared/components/Table/Pagination";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
+import { GET_USER_PROJECTS_API, VISIT_API } from "@/services/endpoints";
+import DeleteModal from "@/components/DeleteModal";
+import Loader from "@/components/Loader/Loader";
+import Pagination from "@/components/Table/Pagination";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import { useVisits, Visit } from "@/features/visits";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import { sort } from "fast-sort";
-import { dmSans, inter } from "@/shared/styles/fonts";
+import { dmSans, inter } from "@/styles/fonts";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import calender from "../../../public/icons/calendar.svg";
-import cancel from "../../../public/icons/cancel.svg";
-import clock from "../../../public/icons/clock.svg";
-import complete from "../../../public/icons/complete.svg";
+import calender from "@/public/icons/calendar.svg";
+import cancel from "@/public/icons/cancel.svg";
+import clock from "@/public/icons/clock.svg";
+import complete from "@/public/icons/complete.svg";
 import Form from "./Form";
 import GroupingForm from "./GroupingForm";
 import {
@@ -28,8 +28,8 @@ import {
   ISSUED,
   SCHEDULED,
   SUBMITTED,
-} from "@/shared/constants/statuses";
-import DisplayStatusText from "@/shared/components/DisplayStatusText";
+} from "@/constants/statuses";
+import DisplayStatusText from "@/components/DisplayStatusText";
 import { useDriver } from "@/features/drivers";
 import { useVehicle } from "@/features/vehicles";
 import { useTourPlans } from "@/features/tour-plans";

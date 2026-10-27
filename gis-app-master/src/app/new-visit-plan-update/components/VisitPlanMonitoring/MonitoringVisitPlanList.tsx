@@ -1,15 +1,15 @@
 "use client";
 
-import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/shared/api/endpoints";
-import { OptionType } from "@/shared/components/types";
-import Loader from "@/shared/components/Loader/Loader";
-import TableHeading from "@/shared/components/Table/TableHeading";
+import { EVALUATION_TEMP_TOUR_PLAN_API, TEMP_TOUR_PLAN_API } from "@/services/endpoints";
+import { OptionType } from "@/components/types";
+import Loader from "@/components/Loader/Loader";
+import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
 import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";
 import { useTempTourPlans, useTourPlans } from "@/features/tour-plans";
 import { useVehicle } from "@/features/vehicles";
-import apiClient from "@/shared/api/client";
+import apiClient from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useEffect } from "react";

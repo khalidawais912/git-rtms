@@ -8,11 +8,11 @@ import { FaRegEye } from "react-icons/fa";
 import { TbEyeClosed } from "react-icons/tb";
 import { toast } from "react-toastify";
 import bgVideoNew from "@/public/video/bgVideoNew.mp4";
-import { AxiosError } from "@/shared/api/client";
-import { ErrorResponse } from "@/shared/api/types";
-import Button from "@/shared/components/Button";
-import ErrorMessage from "@/shared/components/ErrorMessage";
-import Spinner from "@/shared/components/Spinner";
+import { AxiosError } from "@/services/client";
+import { ErrorResponse } from "@/services/types";
+import Button from "@/components/Button";
+import ErrorMessage from "@/components/ErrorMessage";
+import Spinner from "@/components/Spinner";
 import { LoginFormData, loginSchema } from "../schema";
 import { LoginRouteResponse } from "../types";
 

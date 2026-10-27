@@ -1,4 +1,4 @@
-import { LOGIN_API } from "@/shared/api/endpoints";
+import { LOGIN_API } from "@/services/endpoints";
 import { NextRequest, NextResponse } from "next/server";
 import { serialize } from "cookie";
 import axios from "axios";

@@ -1,4 +1,4 @@
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
+import { DashboardTypeEnum } from "@/types/dashboard";
 import { ReportHistoryUser } from "@/features/users";
 
 export interface ReportHistory {

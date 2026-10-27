@@ -1,16 +1,16 @@
 "use client";
-import { EVALUATION_MAIN_DASHBOARD_API, EVALUATION_MAIN_DASHBOARD } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import { EVALUATION_MAIN_DASHBOARD_API, EVALUATION_MAIN_DASHBOARD } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import DashboardWrapper from "@/app/dashboard/components/DashboardWrapper";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import { setContent } from "@/store/contentSlice";
 import { setTutorial } from "@/store/tutorialSlice";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { devMap } from "@/shared/utils";
-import { getSession } from "@/shared/utils/session";
+import apiClient, { AxiosError } from "@/services/client";
+import { devMap } from "@/utils";
+import { getSession } from "@/utils/session";
 import dynamic from "next/dynamic";
-import { lexend } from "@/shared/styles/fonts";
+import { lexend } from "@/styles/fonts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ import { EvaluationMainDashboard, ProjectsList } from "./types";
 import styles from "./DashboardEvaluation.module.css";
 import { FilterData } from "../../types";
 
-const Menu = dynamic(() => import("@/shared/components/Menu"), { ssr: false });
+const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
 const DashboardEvaluation = () => {
   const [data, setData] = useState<EvaluationMainDashboard>();

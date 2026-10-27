@@ -1,6 +1,6 @@
 "use client";
 
-import { formatHHLStringDate } from "@/shared/utils";
+import { formatHHLStringDate } from "@/utils";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import { SingleProjectDashboard } from "../types";

@@ -1,17 +1,17 @@
 "use client";
-import { GENERATE_REPORT_API, MARK_TO_EVALUATION_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomInput from "@/shared/components/Form/CustomInput";
-import CustomLabel from "@/shared/components/Form/CustomLabel";
-import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import { paginationSelectStyles } from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import DownloadDropDown from "@/shared/components/DownloadDropDown/DownloadDropDown";
+import { GENERATE_REPORT_API, MARK_TO_EVALUATION_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomInput from "@/components/Form/CustomInput";
+import CustomLabel from "@/components/Form/CustomLabel";
+import CustomSelect, { defaultNegativeNumberOption, defaultOption } from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import { paginationSelectStyles } from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeading from "@/components/Table/TableHeading";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import ProjectReportOverviewModal from "@/app/dashboard/components/projectReportOverview/ProjectReportOverviewModal";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import {
   displayStatusText,
   exportDataToPDFNEW,
@@ -19,8 +19,8 @@ import {
   getCpiStatus,
   getSpiStatus,
   getTimeLeft,
-} from "@/shared/utils";
-import { exportDataToExcel } from "@/shared/utils/exportToExcel";
+} from "@/utils";
+import { exportDataToExcel } from "@/utils/exportToExcel";
 import { format } from "date-fns";
 import { sort } from "fast-sort";
 import Image from "next/image";
@@ -42,7 +42,7 @@ import Badge from "./components/Badge";
 import styles from "./ProjectsTable.module.css";
 import { reportStatusOptions } from "./ProjectsTableUtils";
 import { FilterParams, RangeType } from "../../types";
-import GenericToggleControl from "@/shared/components/Form/GenericToggleControl";
+import GenericToggleControl from "@/components/Form/GenericToggleControl";
 
 export interface ProjectsList {
   id: number;

@@ -1,5 +1,5 @@
-import ListWrapper from "@/shared/components/ListWrapper";
-import { DashboardType, DashboardTypeEnum } from "@/shared/types/dashboard";
+import ListWrapper from "@/components/ListWrapper";
+import { DashboardType, DashboardTypeEnum } from "@/types/dashboard";
 import EvaluationVisitPlanList from "./components/VisitPlanEvaluation/EvaluationVisitPlanList";
 import MonitoringVisitPlanList from "./components/VisitPlanMonitoring/MonitoringVisitPlanList";
 

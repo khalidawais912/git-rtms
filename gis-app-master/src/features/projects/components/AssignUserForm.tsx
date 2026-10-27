@@ -1,12 +1,12 @@
 import {
   ASSIGN_USER_TO_PROJECT_API,
   GET_ASSIGNED_USERS_TO_PROJECT_API,
-} from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomSelect from "@/shared/components/Form/CustomSelect";
-import { OptionType } from "@/shared/components/types";
-import FormWrapper from "@/shared/components/Form/FormWrapper";
-import apiClient from "@/shared/api/client";
+} from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomSelect from "@/components/Form/CustomSelect";
+import { OptionType } from "@/components/types";
+import FormWrapper from "@/components/Form/FormWrapper";
+import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
@@ -14,7 +14,7 @@ import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import user3Black from "@/public/icons/user3Black.svg";
 import { UserOption } from "../types";
-import SubmitButton from "@/shared/components/Form/SubmitButton";
+import SubmitButton from "@/components/Form/SubmitButton";
 
 interface Props {
   id: number;

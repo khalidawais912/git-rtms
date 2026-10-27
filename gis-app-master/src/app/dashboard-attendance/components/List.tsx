@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getSession } from "@/shared/utils/session";
+import { getSession } from "@/utils/session";
 import { useRouter } from "next/navigation";
 import { FaDownload, FaSearch } from "react-icons/fa";
 

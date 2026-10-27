@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
-import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "@/shared/api/endpoints";
-import { DashboardTypeEnum } from "@/shared/types/dashboard";
-import useData from "@/shared/hooks/useData";
+import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "@/services/endpoints";
+import { DashboardTypeEnum } from "@/types/dashboard";
+import useData from "@/hooks/useData";
 import { useSearchParams } from "next/navigation";
-import { Attribute } from "./types";
+import { Attribute } from "../types";
 
 interface Props {
   refresh?: boolean;

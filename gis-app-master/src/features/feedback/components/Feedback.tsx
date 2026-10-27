@@ -1,18 +1,18 @@
 "use client";
-import { FEEDBACK_API } from "@/shared/api/endpoints";
-import Button from "@/shared/components/Button";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
+import { FEEDBACK_API } from "@/services/endpoints";
+import Button from "@/components/Button";
+import CustomModal from "@/components/CustomModal/CustomModal";
 import { setFeedbackCount } from "@/store/feedbackCountSlice";
 import { useAuthentication } from "@/features/users";
 import { useProjects } from "@/features/projects";
-import apiClient, { AxiosError } from "@/shared/api/client";
+import apiClient, { AxiosError } from "@/services/client";
 import {
   addDayToFormattedDate,
   getDaysAgo,
   getFormattedDate,
-} from "@/shared/utils";
-import { getSession } from "@/shared/utils/session";
-import { lexend } from "@/shared/styles/fonts";
+} from "@/utils";
+import { getSession } from "@/utils/session";
+import { lexend } from "@/styles/fonts";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoSearch } from "react-icons/io5";

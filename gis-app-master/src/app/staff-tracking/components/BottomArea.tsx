@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import uploadBlack from "../../../public/icons/uploadBlack.svg";
-import locationImage from "../../../public/images/locationImage.png";
+import uploadBlack from "@/public/icons/uploadBlack.svg";
+import locationImage from "@/public/images/locationImage.png";
 
 const BottomArea = () => {
   const items = ["a", "a", "a", "a", "a"];

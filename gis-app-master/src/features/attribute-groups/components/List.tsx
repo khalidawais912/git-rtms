@@ -2,21 +2,21 @@
 import {
   ATTRIBUTE_GROUPS_API,
   EVALUATION_ATTRIBUTE_GROUPS_API,
-} from "@/shared/api/endpoints";
-import DeleteModal from "@/shared/components/DeleteModal";
-import Loader from "@/shared/components/Loader/Loader";
-import Actions from "@/shared/components/Table/Actions";
-import Pagination from "@/shared/components/Table/Pagination";
-import RowHeader from "@/shared/components/Table/RowHeader";
-import TableData from "@/shared/components/Table/TableData";
-import TableHeader from "@/shared/components/Table/TableHeader";
-import TableHeading from "@/shared/components/Table/TableHeading";
-import TableWrapper from "@/shared/components/Table/TableWrapper";
+} from "@/services/endpoints";
+import DeleteModal from "@/components/DeleteModal";
+import Loader from "@/components/Loader/Loader";
+import Actions from "@/components/Table/Actions";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableHeading from "@/components/Table/TableHeading";
+import TableWrapper from "@/components/Table/TableWrapper";
 import { useAttributeGroups } from "../hooks";
 import { AttributeGroup } from "../types";
 import { useAttributes } from "@/features/attributes";
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { getFormattedDate } from "@/shared/utils";
+import apiClient, { AxiosError } from "@/services/client";
+import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";

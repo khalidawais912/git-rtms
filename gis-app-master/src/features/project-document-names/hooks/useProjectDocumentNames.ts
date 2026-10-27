@@ -1,6 +1,6 @@
-import { PROJECT_DOCUMENT_NAMES_API } from "@/shared/api/endpoints";
-import { ProjectDocumentName } from "./schema";
-import useData from "@/shared/hooks/useData";
+import { PROJECT_DOCUMENT_NAMES_API } from "@/services/endpoints";
+import { ProjectDocumentName } from "../schema";
+import useData from "@/hooks/useData";
 
 interface Props {
   refresh?: boolean;

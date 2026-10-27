@@ -1,6 +1,6 @@
 "use client";
 
-import { TRACKING_API } from "@/shared/api/endpoints";
+import { TRACKING_API } from "@/services/endpoints";
 import {
   AdvancedMarker,
   APIProvider,

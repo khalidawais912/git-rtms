@@ -1,6 +1,6 @@
 "use client";
 
-import { asap } from "@/shared/styles/fonts";
+import { asap } from "@/styles/fonts";
 import { Groups } from "../../types";
 import WBSAttributesFlow from "./WBSFlow/WBSAttributesFlow";
 import WBSGroupFlow from "./WBSFlow/WBSGroupFlow";

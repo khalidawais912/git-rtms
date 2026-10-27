@@ -1,11 +1,11 @@
 "use client";
-import { SINGLE_PROJECT_DASHBOARD_API } from "@/shared/api/endpoints";
-import CustomModal from "@/shared/components/CustomModal/CustomModal";
-import Loader from "@/shared/components/Loader/Loader";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/services/endpoints";
+import CustomModal from "@/components/CustomModal/CustomModal";
+import Loader from "@/components/Loader/Loader";
 import { SingleProjectDashboard } from "@/app/project-details-dashboard/types";
 import Reports from "@/app/project-details-dashboard/components/Reports";
-import apiClient from "@/shared/api/client";
-import { addDayToFormattedDate, getFormattedDate } from "@/shared/utils";
+import apiClient from "@/services/client";
+import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { IoWifiOutline } from "react-icons/io5";

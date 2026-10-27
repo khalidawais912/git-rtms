@@ -1,7 +1,7 @@
 "use client";
 
-import AnimatedSwap from "@/shared/components/AnimatedSwap";
-import Spinner from "@/shared/components/Spinner";
+import AnimatedSwap from "@/components/AnimatedSwap";
+import Spinner from "@/components/Spinner";
 import { useId, useState } from "react";
 import { ControlType } from "../types";
 interface BaseProps {

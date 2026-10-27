@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import List from "./List";
-import ListWrapper from "@/shared/components/ListWrapper";
+import ListWrapper from "@/components/ListWrapper";
 
 const Rights = () => {
   const [refresh, setRefresh] = useState(false);

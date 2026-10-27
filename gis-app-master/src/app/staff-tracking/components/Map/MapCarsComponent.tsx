@@ -1,6 +1,6 @@
 "use client";
-import { COORDINATES_API } from "@/shared/api/endpoints";
-import apiClient from "@/shared/api/client";
+import { COORDINATES_API } from "@/services/endpoints";
+import apiClient from "@/services/client";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Image from "next/image";
@@ -12,7 +12,7 @@ import {
   Popup,
   TileLayer,
 } from "react-leaflet";
-import search2 from "../../../../public/icons/search2.svg";
+import search2 from "@/public/icons/search2.svg";
 import { StaffTracking } from "../../types";
 const getRotationAngle = (direction: string): number => {
   switch (direction.toLocaleLowerCase()) {
