@@ -4,7 +4,7 @@ import Loader from "@/components/Loader/Loader";
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader variant="page" />}>
       <Home />
     </Suspense>
   );

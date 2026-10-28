@@ -68,7 +68,7 @@ const Home = () => {
     checkAndRedirect(); // ✅ Call it, don’t return it
   }, [router]);
 
-  return <Loader />;
+  return <Loader variant="page" />;
 };
 
 export default Home;

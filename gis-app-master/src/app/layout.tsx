@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Suspense } from "react";
+import AppLoader from "@/components/AppLoader/AppLoader";
 import BgChanger from "@/components/BgChanger";
 import BootstrapClient from "@/components/BootstrapClient";
 import FooterToggle from "@/components/FooterToggle";
@@ -33,17 +34,18 @@ export default function RootLayout({
     <html lang="en">
       <body className={plusJakartaSans.className}>
         <ReduxProvider>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader variant="page" />}>
             <BgChanger />
             <NavbarToggle />
           </Suspense>
           <main className="p-2">{children}</main>
-          <Suspense fallback={<Loader />}>
+          <Suspense fallback={<Loader variant="page" />}>
             <FooterToggle />
           </Suspense>
         </ReduxProvider>
         <BootstrapClient />
         <ToastContainers />
+        <AppLoader />
       </body>
     </html>
   );

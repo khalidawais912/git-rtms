@@ -1,53 +1,58 @@
 "use client";
+/* RTMES loader for loading states.
+   - variant="page": route loading / redirects. Keeps the full-screen RTMES loader (AppLoader) on screen.
+   - variant="inline" (default): the same design, compact, covering its container (tables, modals, panels).
+     The logo fills and the count rises towards 90% until the content arrives and this unmounts. */
+import styles from "@/components/AppLoader/AppLoader.module.css";
+import { stepMessage } from "@/components/AppLoader/AppLoader";
+import LoaderLogo from "@/components/AppLoader/LoaderLogo";
+import { holdAppLoader } from "@/components/AppLoader/loaderStore";
+import { useEffect, useRef, useState } from "react";
 
-import { useEffect, useState, Suspense } from "react";
-import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
-import EarthLoading from "./earthLoading.json";
+interface Props {
+  variant?: "page" | "inline";
+}
 
-// Dynamically import Lottie only on client
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const CAP = 90;
 
-const Loader = () => {
-  const [isClient, setIsClient] = useState(false);
+const InlineLoader = () => {
+  const [progress, setProgress] = useState(0);
+  const p = useRef(0);
 
   useEffect(() => {
-    // This ensures code only runs on client
-    setIsClient(true);
+    let frame: number;
+    const step = () => {
+      p.current = Math.min(CAP, p.current + Math.max(0.15, (CAP - p.current) * 0.03));
+      setProgress(p.current);
+      if (p.current < CAP) frame = requestAnimationFrame(step);
+    };
+    frame = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame);
   }, []);
 
-  if (!isClient) return null; // Prevent SSR crash
-
   return (
-    <Suspense fallback={"Loading..."}>
-      <div
-        style={{
-          background: "rgba(0, 0, 0, 0.4)",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          zIndex: 5,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <motion.div
-          style={{ width: "100px", height: "100px" }}
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <Lottie animationData={EarthLoading} loop={true} />
-        </motion.div>
+    <div className={styles.inline} role="status" aria-live="polite">
+      <div className={styles.box}>
+        <LoaderLogo progress={progress} className={styles.smallLogo} />
+        <div className={styles.pct}>
+          {Math.round(progress)}
+          <small>%</small>
+        </div>
+        <div className={styles.bar}>
+          <span style={{ width: `${progress}%` }} />
+        </div>
+        <div className={styles.msg}>{stepMessage(progress)}</div>
       </div>
-    </Suspense>
+    </div>
   );
 };
+
+const PageLoader = () => {
+  useEffect(() => holdAppLoader(), []);
+  return null;
+};
+
+const Loader = ({ variant = "inline" }: Props) =>
+  variant === "page" ? <PageLoader /> : <InlineLoader />;
 
 export default Loader;

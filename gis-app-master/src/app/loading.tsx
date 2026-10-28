@@ -1,7 +1,7 @@
 import Loader from "@/components/Loader/Loader";
 
 const LoadingPage = () => {
-  return <Loader />;
+  return <Loader variant="page" />;
 };
 
 export default LoadingPage;

@@ -476,3 +476,8 @@ select {
 .recharts-wrapper *:focus {
   outline: none !important;
 }
+
+/* AppLoader: no page scroll while the loader shows */
+body.app-loading {
+  overflow: hidden;
+}
