@@ -1,9 +1,10 @@
 "use client";
 /* RTMES loader (design: rtmes-loader.css / rtmes-loader.js).
-   - First open: counts 0 → 90% while the page loads, then to 100% once it has loaded
-     (at least 0.9 s, at most 6 s) and fades out.
-   - Moving to another page through a link: shows again with "Opening …", counts up while the
-     next page loads and finishes when the new page is on screen.
+   - Follows the API: every apiClient request made while the loader is up is counted. 0 → 30% for
+     the page itself, then 30 → 90% as the responses come back; 100% and fade out once the page
+     has loaded and all responses are in (at least 0.9 s; gives up waiting on the API after 30 s).
+   - First open of the app, and moving to another page through a link ("Opening …").
+   - Requests made after the loader has closed (button clicks, polling) do not bring it back.
    - While a page-level <Loader variant="page" /> is mounted (route loading, redirects) it stays up.
    The markup is in the server HTML, so the loader is visible before the app's scripts run. */
 import { inter } from "@/styles/fonts";
@@ -11,7 +12,13 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./AppLoader.module.css";
 import LoaderLogo from "./LoaderLogo";
-import { getPendingLoads, subscribeAppLoader } from "./loaderStore";
+import {
+  beginRequestSession,
+  endRequestSession,
+  getPendingLoads,
+  getRequestState,
+  subscribeAppLoader,
+} from "./loaderStore";
 
 const STEPS: [number, string][] = [
   [0, "Connecting to RTMES…"],
@@ -21,8 +28,10 @@ const STEPS: [number, string][] = [
 ];
 
 const MIN_MS = 900; // shortest time the loader stays up
-const MAX_MS = 6000; // stop waiting for the page after this (page-level loads still hold it)
-const CAP = 90; // counts up to here until the page is ready
+const MAX_MS = 30000; // never wait longer for slow or hanging API calls (page-level loads still hold it)
+const QUIET_MS = 400; // no request in flight for this long = the page's data has arrived
+const PAGE_SHARE = 30; // % for opening the page itself, before API responses
+const CAP = 90; // highest % until the page and all its API responses are done
 
 export const stepMessage = (p: number) => STEPS.filter((s) => p >= s[0]).pop()![1];
 
@@ -31,6 +40,7 @@ const AppLoader = () => {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
   const [label, setLabel] = useState<string | null>(null);
+  const [counts, setCounts] = useState<[number, number] | null>(null); // API responses done / requests
 
   const p = useRef(0);
   const frame = useRef<number>();
@@ -43,19 +53,40 @@ const AppLoader = () => {
     cancelAnimationFrame(frame.current!);
     const step = (now: number) => {
       const t = now - started.current;
-      const idle = getPendingLoads() === 0;
-      const goal = idle && ((ready.current && t > MIN_MS) || t > MAX_MS) ? 100 : CAP;
-      p.current = Math.min(goal, p.current + Math.max(0.4, (goal - p.current) * 0.05));
-      setProgress(p.current);
+      const api = getRequestState();
+      // All API responses are back and nothing new has started for a moment
+      const quiet = api.inFlight === 0 && now - api.lastActivity >= QUIET_MS;
+      const finish =
+        getPendingLoads() === 0 && ((ready.current && quiet && t > MIN_MS) || t > MAX_MS);
+      // Before any request: up to 30%. Then 30% → 90% as responses come back.
+      const goal = finish
+        ? 100
+        : api.started > 0
+          ? PAGE_SHARE + ((CAP - PAGE_SHARE) * api.finished) / api.started
+          : PAGE_SHARE;
+      if (p.current < goal) {
+        p.current = Math.min(goal, p.current + Math.max(0.4, (goal - p.current) * 0.08));
+        setProgress(p.current);
+      }
+      setCounts((prev) =>
+        api.started === 0
+          ? null
+          : prev && prev[0] === api.finished && prev[1] === api.started
+            ? prev
+            : [api.finished, api.started],
+      );
       if (p.current >= 100) {
         setTimeout(() => {
           // A new load started during the fade: keep counting
-          if (getPendingLoads() > 0) {
+          const waitingForApi =
+            getRequestState().inFlight > 0 && performance.now() - started.current < MAX_MS;
+          if (getPendingLoads() > 0 || waitingForApi) {
             p.current = CAP;
             run();
             return;
           }
           shown.current = false;
+          endRequestSession();
           setVisible(false);
           document.body.classList.remove("app-loading");
         }, 260);
@@ -72,6 +103,8 @@ const AppLoader = () => {
       ready.current = isReady;
       started.current = performance.now();
       shown.current = true;
+      beginRequestSession();
+      setCounts(null);
       setProgress(0);
       setLabel(message);
       setVisible(true);
@@ -161,7 +194,15 @@ const AppLoader = () => {
         <div className={styles.bar}>
           <span style={{ width: `${progress}%` }} />
         </div>
-        <div className={styles.msg}>{label ?? stepMessage(progress)}</div>
+        <div className={styles.msg}>
+          {label ?? stepMessage(progress)}
+          {counts && progress < 100 && (
+            <span className={styles.count}>
+              {" "}
+              · Data {counts[0]}/{counts[1]}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
