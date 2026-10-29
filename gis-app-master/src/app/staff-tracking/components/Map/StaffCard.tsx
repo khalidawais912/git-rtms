@@ -26,7 +26,7 @@ const StaffCard = ({
   duration,
   width = "350px",
 }: Props) => {
-  const [refresh, setRefresh] = useState(false);
+  const [refresh] = useState(false);
   const { data: users } = useAuthentication({ refresh });
   return (
     <div
@@ -44,7 +44,7 @@ const StaffCard = ({
                 className="badge rounded-pill text-white fs14px fw-normal p-2"
                 style={{ background: "#81BFC0" }}
               >
-                <img
+                <Image unoptimized width={8} height={8} alt=""
                   src="/icons/whiteCircle.svg"
                   className="img-fluid"
                   style={{ width: "8px", height: "8px", marginBottom: "2px" }}
@@ -60,14 +60,14 @@ const StaffCard = ({
                   setSelectedStaffIndex(9 + parseInt("a"))
                 }
               >
-                <img src="/icons/cross.svg" alt="cross" />
+                <Image unoptimized width={16} height={16} src="/icons/cross.svg" alt="cross" />
               </button>
             </div>
           </div>
 
           <div className="col text-center">
             {data.userPicture && data.userPicture.length > 0 ? (
-              <img
+              <Image unoptimized width={90} height={90}
                 src={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.userPicture}`}
                 className="mb-1 img-fluid rounded-circle shadow"
                 style={{
@@ -116,7 +116,7 @@ const StaffCard = ({
                 </p>
               </div>
               <div className="col-1 p-0 img-fluid">
-                <img
+                <Image unoptimized width={2} height={30}
                   src="/icons/verticalLine.svg"
                   alt="verticalLine"
                   className="img-fluid"
@@ -150,7 +150,7 @@ const StaffCard = ({
                 </p>
               </div>
               <div className="col-1 p-0 img-fluid">
-                <img
+                <Image unoptimized width={2} height={30}
                   src="/icons/verticalLine.svg"
                   alt="verticalLine"
                   className="img-fluid"
@@ -176,7 +176,7 @@ const StaffCard = ({
               style={{ marginLeft: "-20px", marginRight: "0px" }}
             >
               <div className="col-1 p-0">
-                <img
+                <Image unoptimized width={8} height={60}
                   src="/icons/twoCirclesVertical.svg"
                   alt="twoCirclesVertical"
                   className="img-fluid mt-1"
@@ -222,7 +222,7 @@ const StaffCard = ({
                   &nbsp;
                 </p>
                 <p className="fs-6 m-0 fw-normal">
-                  <img
+                  <Image unoptimized width={18} height={18}
                     src="/icons/carSideViewBlack.svg"
                     alt="carSideViewBlack"
                     className="img-fluid"

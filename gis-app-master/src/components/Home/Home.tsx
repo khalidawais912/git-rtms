@@ -4,13 +4,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { getSession, getRights } from "@/utils/session";
 import Loader from "@/components/Loader/Loader";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const Home = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentParams = searchParams.toString();
 
-  useEffect(() => {
+  const onRouterChange = useEffectEvent(() => {
     const checkAndRedirect = async () => {
       const token = getSession("token");
       const role = getSession("role");
@@ -66,7 +67,8 @@ const Home = () => {
     };
 
     checkAndRedirect(); // ✅ Call it, don’t return it
-  }, [router]);
+  });
+  useEffect(() => onRouterChange(), [router, onRouterChange]);
 
   return <Loader variant="page" />;
 };

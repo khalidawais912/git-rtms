@@ -2,7 +2,6 @@ import { REPORTS_HISTORY_API } from "@/services/endpoints";
 import Loader from "@/components/Loader/Loader";
 import { ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ReactMarkDown from "react-markdown";
@@ -47,7 +46,6 @@ const ViewHistoryOnly = ({ data, users }: Props) => {
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
     if (data) getReportHistory(data.visitId, data.projectId, data.reportType);
   }, [data]);
   return (

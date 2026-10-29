@@ -12,9 +12,7 @@ import Image from "next/image";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaChevronDown } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
 import {
-  IoArrowForwardCircleOutline,
   IoClose,
   IoSearchOutline,
 } from "react-icons/io5";
@@ -51,13 +49,12 @@ const List = () => {
     const handleSubmit = async () => {
       try {
         const response = await apiClient.get(REPORT_API + "/GetALL");
-        console.log("response", response);
         if (response.status === 404) {
           toast.error(response.data);
         }
         setTabs(response.data);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     };
@@ -67,13 +64,12 @@ const List = () => {
   const handleSubmit = async (reportId: number) => {
     try {
       const response = await apiClient.get(`${REPORT_API}/run/${reportId}`);
-      console.log("response", response.data);
       if (response.status === 404) {
         toast.error(response.data);
       }
       setData(response.data);
     } catch (err) {
-      console.log((err as AxiosError).message);
+      console.error((err as AxiosError).message);
       toast.error((err as AxiosError).message);
     }
   };
@@ -108,7 +104,6 @@ const List = () => {
 
   const exportToExcel = (data: ReportRun[], label: string | undefined) => {
     // Prepare data for export
-    console.log("data", data);
     if (!data || data.length === 0) {
       console.warn("No data provided for Excel export.");
       // Optionally, show a user-friendly message instead of a console warn
@@ -151,7 +146,6 @@ const List = () => {
       return row;
     });
 
-    console.log("Prepared data for Excel:", dataForExcel);
 
     // Create a worksheet from the data
     const worksheet = XLSX.utils.json_to_sheet(dataForExcel);
@@ -166,12 +160,11 @@ const List = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await apiClient.delete(`${REPORT_API}/${id}`);
-      console.log(response);
+      await apiClient.delete(`${REPORT_API}/${id}`);
       toast.success(deleteMessage);
       setRefreshTabs((prev) => !prev);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error((err as AxiosError).message);
     }
   };

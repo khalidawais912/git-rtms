@@ -1,12 +1,13 @@
 import Button from "@/components/Button";
 import { Groups } from "../types";
 import RenderRichText from "./RenderRichText";
+import Image from "next/image";
 
 interface Props {
   observations: Groups;
 }
 
-const ReportsModal: any = ({ observations }: Props) => {
+const ReportsModal = ({ observations }: Props) => {
   return (
     <>
       <Button
@@ -15,7 +16,7 @@ const ReportsModal: any = ({ observations }: Props) => {
         data-bs-toggle="modal"
         data-bs-target="#reportsModal"
       >
-        <img
+        <Image unoptimized width={15} height={15}
           src="/icons/linkArrowBlack.svg"
           className="img-fluid"
           style={{ width: "15px", height: "15px" }}
@@ -63,7 +64,7 @@ const ReportsModal: any = ({ observations }: Props) => {
                       )}
                     </p>
                     {observationAttribute.verificatioContentPath && (
-                      <img
+                      <Image unoptimized width={100} height={100}
                         className="img-fluid"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_API}${observationAttribute.verificatioContentPath}`}
                         alt="observationImage"

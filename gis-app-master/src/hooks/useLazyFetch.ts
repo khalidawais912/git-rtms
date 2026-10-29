@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import type { AxiosRequestConfig } from "axios";
 import apiClient, { AxiosError, CanceledError } from "@/services/client";
 
 interface FetchProps {
   endpoint: string;
   method?: "GET" | "PUT" | "POST"; // Specify request type (default is "GET")
-  body?: any; // Query parameters for GET or body data for PUT
+  body?: unknown; // Request config for GET or body data for PUT
 }
 
 const useLazyFetch = <T>() => {
@@ -21,7 +22,7 @@ const useLazyFetch = <T>() => {
     try {
       let response;
       if (method === "GET") {
-        response = await apiClient.get(endpoint, body);
+        response = await apiClient.get(endpoint, body as AxiosRequestConfig);
       } else if (method === "PUT") {
         response = await apiClient.put(endpoint, body);
       }

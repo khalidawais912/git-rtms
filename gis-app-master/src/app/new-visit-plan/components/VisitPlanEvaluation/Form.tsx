@@ -1,6 +1,5 @@
 import { TEMP_TOUR_PLAN_API } from "@/services/endpoints";
 import Button from "@/components/Button";
-import CustomToggleSwitch from "@/components/CustomToggleSwitch";
 import DeleteModal from "@/components/DeleteModal";
 import CustomCalendar from "@/components/Form/CustomCalender";
 import CustomSelect from "@/components/Form/CustomSelect";
@@ -83,7 +82,6 @@ const Form = ({
     control,
     formState: { errors },
   } = useForm<COUTempTourPlan>({ resolver: zodResolver(schema) });
-  console.log(errors);
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
 
@@ -145,14 +143,12 @@ const Form = ({
       setValue("district_Id", planData.districtId);
       setValue("isFocalPerson", planData.isFocalPerson);
     }
-  }, [planData]);
+  }, [planData, setValue]);
 
   const verfiyForm = async () => {
     const isValid = await trigger();
 
     if (isValid) {
-      const values = getValues();
-      console.log("✅ Form Values:", values);
 
       notifyCreate("Form is verified ✅");
     } else {
@@ -187,9 +183,8 @@ const Form = ({
           setDriverVerified(false);
           notifyError(response.data.message);
         }
-        console.log(response);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         notifyError((err as AxiosError).message);
       }
     }
@@ -221,9 +216,8 @@ const Form = ({
           setVehicleVerified(false);
           toast.error(response.data.message);
         }
-        console.log(response);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         notifyError((err as AxiosError).message);
       }
     }

@@ -3,6 +3,7 @@
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import { Groups, SingleProjectDashboard } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   financialAnalysis: Groups;
@@ -16,7 +17,7 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
   const [labels, setLabels] = useState<string[]>([]);
   const [calculatedData, setCalculatedData] = useState<string[]>([]);
 
-  useEffect(() => {
+  const onFinancialAnalysisChange = useEffectEvent(() => {
     const accumulativePc1Cost = data.groups
       .find((group) => group.name.toLowerCase() === "project profile")
       ?.attributes.find(
@@ -25,11 +26,6 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
     setCalculatedData(["30%", "70%"]);
 
     // Initialize series and labels
-    const parsedSeries = financialAnalysis?.attributes
-      .slice(1, -2)
-      .map((attribute) =>
-        Math.round(parseFloat(attribute.values[0]?.value || "0"))
-      );
 
     const parsedLabels = financialAnalysis?.attributes
       .slice(1, -2)
@@ -41,9 +37,10 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
       Math.round(oneThirdValue + oneThirdValue),
     ]);
     setLabels(parsedLabels);
-  }, [financialAnalysis, projectProfile]);
+  });
+  useEffect(() => onFinancialAnalysisChange(), [financialAnalysis, projectProfile, onFinancialAnalysisChange]);
 
-  useEffect(() => {
+  const onSeriesChange = useEffectEvent(() => {
     // Render chart only when both series and labels are initialized
     if (chartRef?.current && series?.length && labels?.length) {
       const chartOptions: ApexOptions = {
@@ -169,7 +166,8 @@ const SimplePieChart = ({ financialAnalysis, projectProfile, data }: Props) => {
         chart.destroy();
       };
     }
-  }, [series, labels]);
+  });
+  useEffect(() => onSeriesChange(), [series, labels, onSeriesChange]);
 
   return (
     <div

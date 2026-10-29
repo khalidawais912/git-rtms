@@ -7,7 +7,6 @@ import { useAttributeGroups } from "@/features/attribute-groups";
 import { useProjects, Project } from "@/features/projects";
 import { useSectors, Sector } from "@/features/sectors";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { motion } from "framer-motion";
 import { dmSans, inter } from "@/styles/fonts";
@@ -34,12 +33,12 @@ const ProjectsList = ({
   showData,
   setShowData,
 }: ListProps) => {
-  const { data, setData, error, setError, isLoading } = useProjects({
+  const { data, setData, setError, isLoading } = useProjects({
     refresh,
   });
   const { data: sectorsData } = useSectors({ refresh });
-  const { data: attributeGroups } = useAttributeGroups({ refresh });
-  const [originalData, setOriginalData] = useState<Project[]>([]); // Store the original data
+  useAttributeGroups({ refresh });
+  const [, setOriginalData] = useState<Project[]>([]); // Store the original data
 
   const deleteMessage = "Deleted Successfully!";
 
@@ -77,7 +76,6 @@ const ProjectsList = ({
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);
@@ -116,33 +114,7 @@ const ProjectsList = ({
   };
 
   // Paginate data to display only the current page's rows
-  const paginatedData = data.slice(
-    (currentPage - 1) * rows,
-    currentPage * rows,
-  );
-  const hideCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      // Filter the data to hide completed items
-      setData((prevData) =>
-        prevData.filter((item) => item.status !== "Complete"),
-      );
-    } else {
-      // Reset to the original data
-      setData([...originalData]);
-    }
-  };
 
-  const showCancel = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      // Filter the data to show only canceled items
-      setData((prevData) =>
-        prevData.filter((item) => item.status === "Cancel"),
-      );
-    } else {
-      // Reset to the original data
-      setData([...originalData]);
-    }
-  };
 
   const getName = (id: number, data: Sector[]) => {
     const sector = data.find((sector) => sector.id === id);

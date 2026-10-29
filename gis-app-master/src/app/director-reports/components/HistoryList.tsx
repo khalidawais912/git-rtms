@@ -15,8 +15,6 @@ const HistoryList = ({
   users,
   submittedReport,
 }: Props) => {
-  console.log("descendingOrderDatas", descendingOrderData);
-  console.log("submittedReport", submittedReport);
   return (
     <>
       {descendingOrderData?.map((d, i) => (

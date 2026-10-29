@@ -29,7 +29,7 @@ export function calculateXAxisHeight(
   labels: string[],
   fontSize: number,
   xAxisLabelOrientation: "horizontal" | "vertical" = "horizontal",
-  lineGap = 2,
+  _lineGap = 2,
   baseOffset = 16,
 ) {
   if (xAxisLabelOrientation === "horizontal") {

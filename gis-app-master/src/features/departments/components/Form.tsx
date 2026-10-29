@@ -12,13 +12,11 @@ import {
 import { DepartmentWithRights, departmentWithRightsSchema } from "../schema";
 import { FiledList, Option } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import Select, { SingleValue } from "react-select";
-import more from "@/public/icons/more.svg";
+import { SingleValue } from "react-select";
 import { RxCross2 } from "react-icons/rx";
 import ActionButton from "@/components/Table/ActionButton";
 import FormWrapper from "@/components/Form/FormWrapper";
@@ -168,15 +166,13 @@ const Form = ({ method, id, setRefresh }: Props) => {
           });
         }
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: DepartmentWithRights) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     const modifiedFormData = {
       ...formData, // your form data
@@ -187,14 +183,11 @@ const Form = ({ method, id, setRefresh }: Props) => {
       })),
     };
 
-    console.log("modified Form Data:", modifiedFormData);
 
     try {
-      const response =
-        method === "POST"
+      method === "POST"
           ? await createDepartment(modifiedFormData)
           : await updateDepartment(modifiedFormData);
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
@@ -439,7 +432,6 @@ const Form = ({ method, id, setRefresh }: Props) => {
                     <div className="row mt-2 m-0">
                       <div className="col ps-0">
                         {fields.map((field, index) => {
-                          const id = 0;
                           // Get current fieldName value from form state
                           const selectedFieldNameId = watch(
                             `departmentRights.${index}.fieldName`,

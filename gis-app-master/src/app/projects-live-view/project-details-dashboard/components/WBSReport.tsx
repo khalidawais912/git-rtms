@@ -1,5 +1,4 @@
 import { asap } from "@/styles/fonts";
-import { useEffect } from "react";
 import { Groups } from "../../types";
 
 interface Props {
@@ -7,9 +6,6 @@ interface Props {
 }
 
 const WBSReport = ({ majorDeliverables }: Props) => {
-  useEffect(() => {
-    console.log("majorDeliverables:", majorDeliverables);
-  }, [majorDeliverables]);
 
   return (
     <>

@@ -2,7 +2,6 @@ import { PROJECT_API } from "@/services/endpoints";
 import Button from "@/components/Button";
 import CustomModal from "@/components/CustomModal/CustomModal";
 import ProgressBar from "@/components/ProgressBar";
-import { Attributes, Groups } from "@/app/project-details-dashboard/types";
 import apiClient from "@/services/client";
 import book from "@/public/icons/book.svg";
 import dotsL from "@/public/icons/dotsL.svg";
@@ -18,7 +17,8 @@ import starBalloon from "@/public/icons/starBalloon.svg";
 import warningIcon2 from "@/public/icons/warningIcon2.svg";
 import waveUp2 from "@/public/icons/waveUp2.svg";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import type { Attributes, Groups } from "@/app/project-details-dashboard/types";
 import Accordion from "react-bootstrap/Accordion";
 import DesignAndScope from "./components/DesignAndScope";
 import EarnedValueAnalysis from "./components/EarnedValueAnalysis";
@@ -97,13 +97,6 @@ const icons = [
 const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
   const [projectsData, setProjectsData] = useState<Project | null>(null);
   const [isLoading, setLoading] = useState(false);
-  const [totalValue, setTotalValue] = useState<number>();
-  const [gainedValue, setGainedValue] = useState<number>();
-  const handleClose = () => setShow(false);
-  const [show, setShow] = useState(false);
-  const handleShow = async () => {
-    setShow(true);
-  };
 
   const handleSubmit = async (id: number, visitId: number) => {
     setLoading(true);
@@ -113,51 +106,39 @@ const ProjectReportOverviewModal = ({ value, id, visitId }: Props) => {
       );
       setProjectsData(response.data.data);
       setLoading(false);
-      console.log("reports data", response.data.data);
     } catch (err) {
       console.error("Submission error:", err);
       setLoading(false);
     }
   };
 
-  const calculatePercentage = (attributes: any, groups: any) => {
+  const calculatePercentage = (attributes: Attributes[], groups: Groups[]) => {
     const totalValue =
       attributes.length > 0
         ? attributes.length
         : groups.reduce(
-            (total: any, group: any) => total + (group.attributes?.length || 0),
+            (total: number, group: Groups) => total + (group.attributes?.length || 0),
             0,
           ) || 0;
 
     const gainedValue =
       attributes.length > 0
         ? attributes.filter(
-            (attribute: any) =>
+            (attribute) =>
               attribute.values.length > 0 && attribute.values[0].value !== null,
           ).length
-        : groups.reduce((gained: any, group: any) => {
+        : groups.reduce((gained: number, group: Groups) => {
             const groupGained = group.attributes?.filter(
-              (attribute: any) =>
+              (attribute) =>
                 attribute.values.length > 0 &&
                 attribute.values[0]?.value !== null,
             ).length;
             return gained + (groupGained || 0);
           }, 0) || 0;
 
-    console.log(
-      "gained percentage:",
-      gainedValue && totalValue ? (gainedValue / totalValue) * 100 : 0,
-      "gainedValue:",
-      gainedValue,
-      "totalValue:",
-      totalValue,
-    );
     return gainedValue && totalValue ? (gainedValue / totalValue) * 100 : 0;
   };
 
-  useEffect(() => {
-    console.log("projectsData", projectsData);
-  }, [projectsData]);
 
   return (
     <>

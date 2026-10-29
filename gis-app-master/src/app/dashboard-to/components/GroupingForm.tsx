@@ -4,8 +4,7 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
-import Select, { ActionMeta, SingleValue } from "react-select";
-import { toast } from "react-toastify";
+import Select, { CSSObjectWithLabel, SingleValue } from "react-select";
 import superGroupBlack from "@/public/icons/superGroupBlack.svg";
 import { Option } from "../types";
 interface Props {
@@ -47,8 +46,7 @@ const GroupingForm = ({ id, options }: Props) => {
   const handleClose = () => setShow(false);
 
   const handleSelectGroup = (
-    newValue: SingleValue<{ value: number; label: string }>,
-    actionMeta: ActionMeta<{ value: number; label: string }>
+    newValue: SingleValue<{ value: number; label: string }>
   ) => {
     if (newValue) {
       const selectedOptions = {
@@ -61,11 +59,7 @@ const GroupingForm = ({ id, options }: Props) => {
     }
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -74,18 +68,15 @@ const GroupingForm = ({ id, options }: Props) => {
       ? selectedOptions.map((group) => group.id)
       : null;
 
-    console.log("selectedOptions", selectedOptions);
     try {
       if (selectedOptions.length > 0) {
-        const response = await apiClient.post(
+        await apiClient.post(
           `${SUPER_GROUP_API}/AssignSuperGroupToProject?superGroupID=${optionId}&projectID=${id}`
         );
-        console.log(response);
       } else {
-        const response = await apiClient.post(
+        await apiClient.post(
           `${SUPER_GROUP_API}/AssignSuperGroupToProject?projectID=${id}`
         );
-        console.log(response);
       }
       handleClose();
     } catch (error) {
@@ -107,14 +98,14 @@ const GroupingForm = ({ id, options }: Props) => {
 
   // Custom styles for react-select options
   const customStyles = {
-    option: (provided: any, state: any) => ({
+    option: (provided: CSSObjectWithLabel, state: { isSelected: boolean }) => ({
       ...provided,
       backgroundColor: state.isSelected
         ? "#B0E0E6" // Light blue for selected options
         : provided.backgroundColor,
       color: state.isSelected ? "#000" : provided.color,
     }),
-    multiValue: (provided: any) => ({
+    multiValue: (provided: CSSObjectWithLabel) => ({
       ...provided,
       backgroundColor: "#B0E0E6", // Light blue for selected values
     }),

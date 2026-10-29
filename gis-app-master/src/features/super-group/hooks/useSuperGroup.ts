@@ -2,8 +2,8 @@ import { useSearchParams } from "next/navigation";
 import { EVALUATION_SUPER_GROUP_API, SUPER_GROUP_API } from "@/services/endpoints";
 import useData from "@/hooks/useData";
 import { DashboardTypeEnum } from "@/types/dashboard";
-import { useEffect, useMemo } from "react";
-import { GroupsList, SuperGroup } from "../types";
+import { useMemo } from "react";
+import { SuperGroup } from "../types";
 
 interface Props {
   refresh?: boolean;
@@ -20,9 +20,6 @@ export const useSuperGroups = ({ refresh = false }: Props = {}) => {
       : SUPER_GROUP_API;
   }, [dashboardType]);
 
-  useEffect(() => {
-    console.log("endpoint", endpoint);
-  }, [endpoint]);
 
   return useData<SuperGroup>({ refresh, endpoint });
 };

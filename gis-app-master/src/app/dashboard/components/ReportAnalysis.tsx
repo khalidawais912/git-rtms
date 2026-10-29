@@ -7,7 +7,6 @@ import apiClient from "@/services/client";
 import { StaffTracking } from "@/app/staff-tracking/components/StaffTracking";
 import { TrackingRequestData } from "@/app/staff-tracking/types";
 import { formatDateTime } from "@/utils";
-import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { dmSans } from "@/styles/fonts";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
@@ -17,6 +16,7 @@ import { ProjectsList } from "./ProjectsTable/ProjectsTable";
 import { data, tabs } from "./reportAnalysisData";
 import TimeSpentOnProjectSiteFilterMenu from "./TimeSpentOnProjectSiteFilterMenu";
 import { StaffTrackingData, StartEndLatLng } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const ReportAnalysis = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
@@ -42,12 +42,11 @@ const ReportAnalysis = () => {
 
   const [latLngsOfVisits, setLatLngsOfVisits] = useState<StartEndLatLng[]>([]);
 
-  const [refresh, setRefresh] = useState(false);
+  const [refresh] = useState(false);
 
   const { data: users } = useAuthentication({ refresh });
 
   const getProjectsList = async (status: string) => {
-    console.log("status", status);
     try {
       const response = await apiClient.post(
         `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=${status}`,
@@ -61,7 +60,7 @@ const ReportAnalysis = () => {
 
   const fetchedIds = new Set(); // Tracks already fetched visitId-userId combinations
 
-  useEffect(() => {
+  const onFilteredDataChange = useEffectEvent(() => {
     if (filteredData) {
       const fetchPromises = []; // Collect promises for batching
       for (let i = 0; i < filteredData.length; i++) {
@@ -130,7 +129,8 @@ const ReportAnalysis = () => {
         })
         .catch((err) => console.error("Error fetching recording data:", err));
     }
-  }, [filteredData]);
+  });
+  useEffect(() => onFilteredDataChange(), [filteredData, onFilteredDataChange]);
 
   const fetchRecordingData = async (
     recordingTrackingRequestBody: TrackingRequestData,
@@ -142,7 +142,7 @@ const ReportAnalysis = () => {
       );
       return response.data.data[0];
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return null;
     }
   };
@@ -204,14 +204,11 @@ const ReportAnalysis = () => {
       }
 
       setLatLngsOfVisits(newLatLngs);
-      console.log("Updated latLngs final:", newLatLngs); // For debugging
-      console.log("recordingData final:", recordingData); // Debugging the input data
+       // For debugging
+       // Debugging the input data
     }, 20000);
   }, [recordingData]);
 
-  useEffect(() => {
-    console.log("latLngsOfVisitsV", latLngsOfVisits);
-  }, [latLngsOfVisits]);
 
   const calculateOfficerDuration = (
     firstCoordinateCreatedAt: string,
@@ -285,7 +282,7 @@ const ReportAnalysis = () => {
     return 0;
   };
 
-  const formatMinutesToReadableTime: any = (minutes: number): string => {
+  const formatMinutesToReadableTime = (minutes: number): string => {
     const absMinutes = Math.abs(minutes); // Handle negative durations
     const hours = Math.floor(absMinutes / 60);
     const remainingMinutes = absMinutes % 60;
@@ -315,7 +312,6 @@ const ReportAnalysis = () => {
       : `${formattedTime}`;
   };
 
-  const label = "Report Analysis - Time Spent on Project Site";
 
   const exportTimeSpentonProjectSiteToExcel = () => {
     // Prepare data for export
@@ -1967,68 +1963,6 @@ const ReportAnalysis = () => {
   );
 };
 
-interface DirectionProps {
-  startLatLng: { latitude: string; longitude: string; createdAt: string };
-  endLatLng: { latitude: string; longitude: string; createdAt: string };
-}
 
-function Directions({ startLatLng, endLatLng }: DirectionProps) {
-  const routesLibrary = useMapsLibrary("routes");
-  const [directionsService, setDirectionsService] =
-    useState<google.maps.DirectionsService>();
-  const [duration, setDuration] = useState<string | undefined>();
-
-  useEffect(() => {
-    if (!routesLibrary) {
-      console.log("routesLibrary is not loaded yet");
-      return;
-    }
-    console.log("routesLibrary loaded:", routesLibrary);
-    setDirectionsService(new routesLibrary.DirectionsService());
-  }, [routesLibrary]);
-
-  useEffect(() => {
-    if (!directionsService) {
-      console.log("directionsService is not initialized");
-    } else {
-      console.log("directionsService initialized:", directionsService);
-    }
-  }, [directionsService]);
-
-  useEffect(() => {
-    if (!directionsService) return;
-
-    console.log("Fetching directions with:", {
-      origin: startLatLng,
-      destination: endLatLng,
-    });
-
-    directionsService
-      .route({
-        origin: {
-          lat: parseFloat(startLatLng.latitude),
-          lng: parseFloat(startLatLng.longitude),
-        },
-        destination: {
-          lat: parseFloat(endLatLng.latitude),
-          lng: parseFloat(endLatLng.longitude),
-        },
-        travelMode: google.maps.TravelMode.DRIVING,
-        provideRouteAlternatives: false,
-      })
-      .then((response) => {
-        const leg = response.routes[0]?.legs[0];
-        if (leg?.duration?.text) {
-          setDuration(leg.duration.text); // Set duration to parent
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching directions:", error);
-        setDuration(undefined); // Handle error gracefully
-      });
-  }, [directionsService, startLatLng, endLatLng]);
-
-  return <>{duration || "Calculating..."}</>;
-}
 
 export default ReportAnalysis;

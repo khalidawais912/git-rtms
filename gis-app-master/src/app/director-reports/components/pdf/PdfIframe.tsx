@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   reportPath: string;
@@ -14,9 +15,10 @@ const PdfIframe: React.FC<Props> = ({ reportPath, iframeKey }) => {
     if (timestamp) setTimeStamp(timestamp);
   }, [reportPath]);
 
-  useEffect(() => {
+  const onTimeStampChange = useEffectEvent(() => {
     if (timeStamp) setSrcWithTimestamp(`${reportPath}?t=${timeStamp}`);
-  }, [timeStamp]);
+  });
+  useEffect(() => onTimeStampChange(), [timeStamp, onTimeStampChange]);
 
   return (
     <iframe

@@ -41,7 +41,7 @@ const ResizeableText = ({ children, maxFont = 24, minFont = 12 }: Props) => {
     >
       <span
         ref={textRef}
-        style={{ fontSize: fontSize, display: "inline-block" }}
+        style={{ fontSize, display: "inline-block" }}
       >
         {children}
       </span>

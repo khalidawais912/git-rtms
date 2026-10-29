@@ -28,7 +28,7 @@ interface Props {
   refresh: boolean;
 }
 
-const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
+const Form = ({ api, method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -58,21 +58,18 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("normalizedName", itemData.normalizedName);
         setValue("concurrencyStamp", itemData.concurrencyStamp);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
 
   const onSubmit = async (formData: Role) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

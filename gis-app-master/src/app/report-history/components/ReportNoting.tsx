@@ -24,6 +24,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 import "easymde/dist/easymde.min.css";
 import type { Options as SimpleMDEOptions } from "easymde";
 import AlertMessage from "@/components/AlertMessage";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const schema = z.object({
   id: z.number().optional().default(0),
@@ -67,7 +68,6 @@ const ReportNoting = ({
   deputyDirectors,
   directors,
   departmentHead,
-  officers,
   onCommentSubmitted,
 }: Props) => {
   const {
@@ -82,7 +82,6 @@ const ReportNoting = ({
       remarks: "", // 👈 make sure it starts as empty string, not undefined
     },
   });
-  console.log(errors);
 
   const [descendingOrderReportsHistory, setDescendingOrderReportsHistory] =
     useState<ReportHistory[]>();
@@ -96,12 +95,11 @@ const ReportNoting = ({
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = parseInt(e.target.value);
-    console.log(selectedId);
 
     setValue("submittedTo", selectedId);
   };
 
-  useEffect(() => {
+  const onSubmittedFromChange = useEffectEvent(() => {
     if (
       role === "deputy director" &&
       descendingOrderReportsHistory &&
@@ -123,16 +121,10 @@ const ReportNoting = ({
       setReferback(true);
     }
 
-    console.log("submittedTo", submittedTo);
-  }, [
-    data.submittedFrom,
-    setValue,
-    submittedTo,
-    role,
-    descendingOrderReportsHistory,
-  ]);
+  });
+  useEffect(() => onSubmittedFromChange(), [data.submittedFrom, setValue, submittedTo, role, descendingOrderReportsHistory, onSubmittedFromChange]);
 
-  useEffect(() => {
+  const onDescendingOrderReportsHistoryChange = useEffectEvent(() => {
     if (
       role === "director" &&
       descendingOrderReportsHistory &&
@@ -148,13 +140,12 @@ const ReportNoting = ({
         descendingOrderReportsHistory &&
           descendingOrderReportsHistory[0].submittedFrom,
       );
-      console.log("status", REFERBACK);
       setReferback(true);
     }
-  }, [descendingOrderReportsHistory]);
+  });
+  useEffect(() => onDescendingOrderReportsHistoryChange(), [descendingOrderReportsHistory, onDescendingOrderReportsHistoryChange]);
 
   const onSubmit = async (formData: ReportNoting) => {
-    console.log(errors);
     if (role) {
       const modifiedFormData = {
         ...formData,
@@ -212,18 +203,14 @@ const ReportNoting = ({
                                       : REFERBACK,
         reportType: data.reportType,
       };
-      console.log("modifiedFormData", modifiedFormData);
-      console.log("submittedTo", submittedTo);
 
-      console.log("modified Form Data:", modifiedFormData);
 
       try {
         setSubmitting(true);
-        const response = await apiClient.post(
+        await apiClient.post(
           `${REPORTS_HISTORY_API}/MarkedReport`,
           modifiedFormData,
         );
-        console.log("Response:", response);
         toast.success("Report Marked Successfully");
         triggerEscapeKeyPress();
         setRefresh((prev) => !prev);
@@ -234,7 +221,7 @@ const ReportNoting = ({
         }
       } catch (err) {
         setSubmitting(false);
-        console.log("err", err);
+        console.error("err", err);
         console.error((err as AxiosError).message);
         toast.error("An unexpected error occured.");
       }
@@ -252,14 +239,12 @@ const ReportNoting = ({
         const response = await apiClient.get(
           `${REPORTS_HISTORY_API}/GetReportHistory?visitId=${visitId}&ProjectId=${projectId}&reportType=${reportType}`,
         );
-        console.log("response", response);
         if (response.data !== null) {
           const sorted = [...response.data.data].sort((a, b) =>
             (b.sDate || "").localeCompare(a.sDate || ""),
           );
 
           setDescendingOrderReportsHistory(sorted);
-          console.log("sorted", sorted);
 
           const sortedAsc = [...response.data.data].sort((a, b) =>
             (a.sDate || "").localeCompare(b.sDate || ""),
@@ -276,17 +261,11 @@ const ReportNoting = ({
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
     if (data) getReportHistory(data.visitId, data.projectId, data.reportType);
   }, [data]);
 
   useEffect(() => {
     if (descendingOrderReportsHistory) {
-      console.log("reportsHistory", descendingOrderReportsHistory);
-      console.log(
-        "test 1",
-        descendingOrderReportsHistory[0].status === SUBMITTED,
-      );
     }
   }, [descendingOrderReportsHistory]);
 
@@ -518,10 +497,6 @@ const ReportNoting = ({
                                         const newValue = !isMarked;
                                         setMarked(newValue);
                                         setReferback(false);
-                                        console.log(
-                                          "departmentHead designation: ",
-                                          departmentHead.designation,
-                                        );
 
                                         if (newValue) {
                                           setValue(

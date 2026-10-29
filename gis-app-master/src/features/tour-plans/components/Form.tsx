@@ -44,8 +44,6 @@ const Form = ({
   api,
   method,
   id,
-  setRefresh,
-  refresh,
   setData,
   users,
 }: Props) => {
@@ -62,7 +60,7 @@ const Form = ({
   const createdMessage = "Created Successfully";
   const updatedMessage = "Updated Successfully";
 
-  const [userName, setUserName] = useState<string>("");
+  const [, setUserName] = useState<string>("");
   const [userId, setUserId] = useState<number>(0);
 
   const handleClose = () => {
@@ -77,8 +75,6 @@ const Form = ({
       const userId = users.find((user) => user.userName === userName)?.id;
       setUserId(userId ? userId : 1);
     }
-    console.log(userId);
-    console.log(userName);
 
     setShow(true);
     if (method === "PUT" && userId) {
@@ -95,28 +91,24 @@ const Form = ({
         setValue("createdBy", itemData.userId ? itemData.userId : 0);
         setValue("updatedBy", userId);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: TourPlan) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     const modifiedFormData = {
       ...formData,
       updatedBy: userId,
     };
-    console.log("modifiedFormData", modifiedFormData);
     try {
       const response = await apiClient({
-        method: method,
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setData((prevData) => [...prevData, response.data.data]);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

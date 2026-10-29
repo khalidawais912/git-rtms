@@ -8,8 +8,8 @@ import CustomInput from "../Form/CustomInput";
 interface Props {
   heading: string;
   searchTerm: string;
-  filteredData: any[];
-  data: any[];
+  filteredData: unknown[];
+  data: unknown[];
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   form?: ReactNode;
   status?: string;
@@ -26,7 +26,7 @@ const TableHeader = ({
   status,
   searchClassName,
 }: Props) => {
-  const [isInputFocused, setIsInputFocused] = useState(false); // Detect input focus
+  const [, setIsInputFocused] = useState(false); // Detect input focus
 
   const inputRef = useRef<HTMLInputElement>(null);
 

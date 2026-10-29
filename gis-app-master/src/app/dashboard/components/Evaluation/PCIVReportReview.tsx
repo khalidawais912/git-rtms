@@ -15,8 +15,6 @@ const PCIVReportReview = () => {
 
   useEffect(() => {
     if (role) {
-      console.log("role:", role);
-      console.log("role check", role.toLowerCase().includes("director"));
     }
   }, [role]);
 
@@ -32,7 +30,6 @@ const PCIVReportReview = () => {
           },
         );
 
-        console.log("response", response);
         if (response.data.data) setData(response.data.data.reports);
         else setData([]);
       } catch (err) {
@@ -44,18 +41,6 @@ const PCIVReportReview = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(
-        "report review count",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId,
-        ).length,
-      );
-      console.log(
-        "report review data",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId,
-        ),
-      );
     }
   }, [data]);
 

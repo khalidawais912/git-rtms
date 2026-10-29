@@ -21,6 +21,8 @@ import ProjectsTable from "./ProjectsTable/ProjectsTable";
 import { EvaluationMainDashboard, ProjectsList } from "./types";
 import styles from "./DashboardEvaluation.module.css";
 import { FilterData } from "../../types";
+import Image from "next/image";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
@@ -42,20 +44,21 @@ const DashboardEvaluation = () => {
     dispatch(setTutorial(tutorialLink));
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     handleButtonClick(
       "https://www.youtube.com/watch?v=1wgAwCufsko&ab_channel=DirectorateGeneralMonitoringandEvaluation",
       "dashboard",
     );
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
-  const [isLoading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState<"cmInitiative" | "adp">(
+  const [, setLoading] = useState(true);
+  const [activeFilter] = useState<"cmInitiative" | "adp">(
     "cmInitiative",
   );
 
   const [otherFilters, setOtherFilters] = useState<FilterData[]>([]);
-  const [combinedFilters, setCombinedFilters] = useState<FilterData[]>([]);
+  const [, setCombinedFilters] = useState<FilterData[]>([]);
 
   const cmInitiativeFilters = [
     {
@@ -79,17 +82,15 @@ const DashboardEvaluation = () => {
     },
   ];
 
-  useEffect(() => {
+  const onActiveFilterChange = useEffectEvent(() => {
     setCombinedFilters(
       activeFilter === "cmInitiative"
         ? [...cmInitiativeFilters, ...otherFilters]
         : [...adpFilters, ...otherFilters],
     );
-  }, [activeFilter]);
+  });
+  useEffect(() => onActiveFilterChange(), [activeFilter, onActiveFilterChange]);
 
-  const handleFilterChange = (filterType: "cmInitiative" | "adp") => {
-    setActiveFilter(filterType);
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -125,46 +126,7 @@ const DashboardEvaluation = () => {
     }
   };
 
-  const filteredCMADPKeys =
-    projectsData &&
-    projectsData.length > 0 &&
-    Object?.keys(projectsData[0])
-      .filter((key) =>
-        [
-          "gSno",
-          "projectName",
-          "sectorName",
-          "districtName",
-          "cost",
-          "revisedAllocation",
-          "pnDReleases",
-          "utilization",
-          "utilPercent",
-          role !== "Special Role" && "visitCount",
-        ].includes(key),
-      )
-      .map((key) => key as keyof ProjectsList);
 
-  const filteredNoOfProjectsKeys =
-    projectsData &&
-    projectsData.length > 0 &&
-    Object.keys(projectsData[0])
-      .filter((key) =>
-        [
-          "gSno",
-          "projectName",
-          "sectorName",
-          "districtName",
-          role !== "Special Role" && "visitCount",
-          "userName",
-          "reportCompletion",
-          "visitStartDate",
-          "completedDate",
-          role !== "Special Role" && "deadline",
-          "fileGenrated",
-        ].includes(key),
-      )
-      .map((key) => key as keyof ProjectsList);
 
   const filteredSubmittedPcIvKeys =
     projectsData &&
@@ -209,44 +171,6 @@ const DashboardEvaluation = () => {
       )
       .map((key) => key as keyof ProjectsList);
 
-  const otherFilteredKeys =
-    projectsData &&
-    projectsData.length > 0 &&
-    Object.keys(projectsData[0])
-      .filter((key) =>
-        [
-          "id",
-          "name",
-          "gsNo",
-          "sectorId",
-          "sectorName",
-          "visitStartDate",
-          "visitEndDate",
-          "cost",
-          "userName",
-          "designation",
-          "visitId",
-          "approvalDate",
-          "sponsoringAgencyName",
-          "sponsring_agency_id",
-          "executingAgencyName",
-          "executing_agency_id",
-          "city",
-          "division_Id",
-          "divisionName",
-          "districtId",
-          "districtName",
-          "isSNE",
-          "isPCIVSubmitted",
-          "pcivSubmittedDate",
-          "status",
-          "visitCount",
-          "maxMRIValue",
-          "avgMRIValue",
-          "hasVisited",
-        ].includes(key),
-      )
-      .map((key) => key as keyof ProjectsList);
 
   return (
     <DashboardWrapper>
@@ -451,7 +375,7 @@ const DashboardEvaluation = () => {
                 >
                   <div className="position-relative h-100">
                     <div className={styles.chartsArrow}>
-                      <img
+                      <Image unoptimized width={34} height={34}
                         src="/icons/linkArrow.svg"
                         className={`img-fluid ${styles.chartsArrowIcon}`}
                         alt="linkArrow"

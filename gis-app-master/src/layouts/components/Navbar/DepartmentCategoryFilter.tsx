@@ -1,31 +1,21 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/Button";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "@/types/dashboard";
+import { useSearchParams } from "next/navigation";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const DepartmentCategoryFilter = () => {
   const searchParams = useSearchParams();
-  const currentPath = usePathname();
-  const router = useRouter();
   const departmentCategory =
     searchParams.get("departmentCategory") || undefined;
 
   const [selectedButton, setSelectedButton] = useState(1);
 
-  const handleStatusChange = useCallback(
-    (departmentCategory: string) => {
-      const query =
-        departmentCategory && `?departmentCategory=${departmentCategory}`;
-      router.push(currentPath + query);
-    },
-    [router, currentPath]
-  );
-
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     if (departmentCategory) setSelectedButton(2);
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   return (
     <div

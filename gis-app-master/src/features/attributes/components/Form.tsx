@@ -66,7 +66,6 @@ const Form = ({
   method,
   id,
   setRefresh,
-  refresh,
   projectDetailKeys,
   data,
 }: Props) => {
@@ -146,15 +145,12 @@ const Form = ({
     labelError: "Please add Label!",
     attributeDataTypeError: "Please add Attribute DataType!",
   };
-  const updated = "Updated Successfully";
 
-  const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
 
   const handleClose = () => setShow(false);
   const handleShow = async () => {
     setShow(true);
-    console.log("formData.readOnly:", formData.readOnly);
     if (method === "PUT") {
       try {
         // send a POST request to the server to add the product
@@ -221,7 +217,7 @@ const Form = ({
         setRemoveable(itemData.removeable === 1 ? true : false);
         setMaster(itemData.isMaster === 1 ? true : false);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -272,7 +268,6 @@ const Form = ({
       ...prev,
       [name]: newValue ? newValue.value : "",
     }));
-    console.log({ name, newValue, actionMeta });
   }
 
   // Function to handle adding new option
@@ -329,7 +324,6 @@ const Form = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("before submit formData.readOnly:", formData.readOnly);
 
     switch (true) {
       case !formData.label:
@@ -338,7 +332,6 @@ const Form = ({
 
       default:
         try {
-          console.log("data:", { attribute: formData, options: optionsData });
 
           const modifiedFormData = {
             ...formData,
@@ -376,8 +369,8 @@ const Form = ({
 
           // send a POST request to the server to add the product
           if (method === "POST") {
-            const response = await apiClient({
-              method: method,
+            await apiClient({
+              method,
               url: api,
               data: {
                 attribute: modifiedFormData,
@@ -442,11 +435,10 @@ const Form = ({
             setReadOnly(false);
             setRemoveable(false);
             setMaster(false);
-            console.log("Submit Response:", response.data);
             setRefresh((prev) => !prev);
           } else {
-            const response = await apiClient({
-              method: method,
+            await apiClient({
+              method,
               url: api,
               data: {
                 attribute: modifiedFormData,
@@ -458,13 +450,11 @@ const Form = ({
                     : null,
               },
             });
-            console.log("response", response);
             setRefresh((prev) => !prev);
             handleClose();
-            console.log("after submit formData.readOnly:", formData.readOnly);
           }
         } catch (err) {
-          console.log((err as AxiosError).message);
+          console.error((err as AxiosError).message);
         }
     }
   };

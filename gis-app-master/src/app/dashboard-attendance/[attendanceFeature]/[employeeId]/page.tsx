@@ -1,22 +1,17 @@
 "use client";
 import { STAFF_ATTENDANCE_API } from "@/services/endpoints";
 import Loader from "@/components/Loader/Loader";
-import TableHeader from "@/components/Table/TableHeader";
 import apiClient from "@/services/client";
 import {
-  addDayToFormattedDate,
   addSpaceToCamelCase,
   exportToPDF,
   formatKeyName,
-  getFormattedDate,
-  getTimeLeft,
 } from "@/utils";
 import { useEffect, useState } from "react";
 import { AttendanceList, StaffRecord } from "../../types";
-import { sort } from "fast-sort";
 import Pagination from "@/components/Table/Pagination";
 import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
-import { exportDataToExcel } from "@/utils/exportToExcel";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   params: { employeeId: string };
@@ -43,7 +38,6 @@ const EmployeeProfilePage = ({ params }: Props) => {
         },
       );
       setData(response.data.data);
-      console.log("staff record ", response);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -51,72 +45,23 @@ const EmployeeProfilePage = ({ params }: Props) => {
     }
   };
 
-  useEffect(() => {
-    const now = new Date();
+  const onMount = useEffectEvent(() => {
     handleSubmit(parseInt(employeeId), null, null);
-    console.log(
-      "date from:",
-      new Date(now.getFullYear(), now.getMonth(), 1).toISOString(),
-    );
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   // State for search input
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
 
   // State for filtered data
-  const [filteredData, setFilteredData] = useState<AttendanceList[]>([]);
+  const [filteredData] = useState<AttendanceList[]>([]);
 
   // Handle search logic
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPage(1);
-    const filtered = data?.dailyAttandance.filter((item) =>
-      [
-        item.userId.toString(),
-        item.attandanceId.toString(),
-        item.department,
-        item.employeeDesignation,
-        item.employeeName,
-      ]
-        .filter((field) => field) // Remove undefined fields
-        .map((field) => field.toLowerCase())
-        .some((field) => field.includes(e.target.value.toLowerCase())),
-    );
-    if (filtered) setFilteredData(filtered);
-  };
 
   // Update searchTerm and clear search if empty
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    handleSearch(e);
-  };
 
   // for sorting
-  const [sortConfig, setSortConfig] = useState<{
-    key: keyof AttendanceList;
-    direction: "asc" | "desc";
-  } | null>(null);
 
-  const handleSort = (key: keyof AttendanceList) => {
-    let direction: "asc" | "desc" = "asc";
-
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "asc"
-    ) {
-      direction = "desc";
-    }
-    if (data?.dailyAttandance) {
-      const sortedData = sort(data?.dailyAttandance)[direction](key);
-      setSortConfig({ key, direction });
-      setData((prevData) => {
-        if (prevData) {
-          return { ...prevData, dailyAttandance: [...sortedData] };
-        }
-        return prevData;
-      });
-    }
-  };
 
   // for selecting rows per page
   const [rows, setRows] = useState(10); // Default to 11 rows per page
@@ -140,25 +85,13 @@ const EmployeeProfilePage = ({ params }: Props) => {
   }));
 
   const tableRows = (searchTerm ? filteredData : data?.dailyAttandance)?.map(
-    (data: any, index: number) => {
-      const row: Record<string, any> = { srNo: index + 1 }; // Initialize row with srNo
+    (data, index: number) => {
+      const row: Record<string, unknown> = { srNo: index + 1 }; // Initialize row with srNo
 
       keysForPDF.forEach((key) => {
         switch (key) {
           case "srNo":
             row[key] = index + 1;
-            break;
-          case "id":
-            row[key] = data.id;
-            break;
-          case "projectName":
-            row[key] = data.projectName;
-            break;
-          case "districtName":
-            row[key] = data.districtName;
-            break;
-          case "sectorName":
-            row[key] = data.sectorName;
             break;
           case "employeeName":
             row[key] = `${data.employeeName} (${data.employeeDesignation})`;
@@ -175,11 +108,8 @@ const EmployeeProfilePage = ({ params }: Props) => {
                 : ""
             }`;
             break;
-          case "reportCompletion":
-            row[key] = `${Math.round(data.reportCompletion)}%`;
-            break;
           default:
-            row[key] = data[key]; // Handle any additional keys dynamically
+            row[key] = data[key as keyof AttendanceList]; // Handle any additional keys dynamically
         }
       });
 
@@ -187,7 +117,7 @@ const EmployeeProfilePage = ({ params }: Props) => {
     },
   );
 
-  const heading = addSpaceToCamelCase(employeeId).includes("Present")
+  addSpaceToCamelCase(employeeId).includes("Present")
     ? addSpaceToCamelCase(employeeId).split(" ")[1]
     : addSpaceToCamelCase(employeeId).includes("Daily Late Comer")
       ? "Late Arrival"
@@ -223,123 +153,8 @@ const EmployeeProfilePage = ({ params }: Props) => {
       : ""
   }, Today`;
 
-  const renameMap: Record<string, string> = {
-    srNo: "Sr No",
-    id: "GS No.",
-    fileGenrated: "REPORT GENERATED",
-    visitStartDate: "DATE RANGE",
-    visitCount: "No. OF VISITS",
-    // Add other mappings as needed
-  };
 
   // Export to Excel function
-  const exportToExcel = () => {
-    const headers = ["srNo", ...keys].map(formatKeyName); // Rename headers dynamically
-
-    const excelData = (searchTerm ? filteredData : data?.dailyAttandance)?.map(
-      (item: any, index: number) => {
-        const row: Record<string, any> = {};
-
-        headers.forEach((header) => {
-          const key =
-            Object.keys(renameMap).find((k) => formatKeyName(k) === header) ||
-            header; // Find original key from renamed header
-
-          switch (key) {
-            case "srNo":
-              row[header] = index + 1;
-              break;
-            case "id":
-              row[header] = item.id;
-              break;
-            case formatKeyName("projectName"):
-              row[header] = item.projectName;
-              break;
-            case formatKeyName("districtName"):
-              row[header] = item.districtName;
-              break;
-            case formatKeyName("sectorName"):
-              row[header] = item.sectorName;
-              break;
-            case formatKeyName("userName"):
-              row[header] = `${item.userName} (${item.designation})`;
-              break;
-            case formatKeyName("reportCompletion"):
-              row[header] = `${Math.round(item.reportCompletion)}%`;
-              break;
-            case "visitStartDate":
-              row[header] =
-                item.visitStartDate &&
-                `${new Date(item.visitStartDate).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })} To ${
-                  item.visitEndDate &&
-                  new Date(item.visitEndDate).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })
-                }`;
-              break;
-            case formatKeyName("completedDate"):
-              row[header] =
-                item.completedDate &&
-                `${new Date(item.completedDate).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}`;
-              break;
-            case formatKeyName("deadline"):
-              row[header] =
-                item.reportStatus && item.reportStatus.toLowerCase() === "yes"
-                  ? "Submitted"
-                  : `${getTimeLeft(item.deadline).replace("-", "")}`;
-              break;
-            case "visitCount":
-              row[header] = item.visitCount;
-              break;
-            case "fileGenrated":
-              row[header] = item.fileGenrated;
-              break;
-            case formatKeyName("cost"):
-              row[header] = item.cost;
-              break;
-            case formatKeyName("revisedAllocation"):
-              row[header] = item.revisedAllocation;
-              break;
-            case formatKeyName("pnDReleases"):
-              row[header] = item.pnDReleases;
-              break;
-            case formatKeyName("utilization"):
-              row[header] = item.utilization;
-              break;
-
-            default:
-              row[header] = item[formatKeyName(key)] || ""; // Handle any additional keys dynamically
-          }
-        });
-
-        return row;
-      },
-    );
-
-    exportDataToExcel(
-      excelData!,
-      headers,
-      `${label} ${new Date().toLocaleDateString("en-GB", {
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })}.xlsx`,
-    );
-  };
 
   return (
     <>

@@ -238,7 +238,6 @@ const Form = ({
                     selectedOption ? Number(selectedOption.value) : null
                   );
                   if (selectedOption) {
-                    const driverId = Number(selectedOption.value);
                   }
                 }}
               />
@@ -285,7 +284,6 @@ const Form = ({
                     selectedOption ? Number(selectedOption.value) : null
                   );
                   if (selectedOption) {
-                    const vehicleId = Number(selectedOption.value);
                   }
                 }}
               />

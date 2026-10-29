@@ -1,5 +1,4 @@
 import { Groups } from "@/app/project-details-dashboard/types";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 
 interface Props {
   group: Groups;

@@ -1,24 +1,22 @@
 import { GET_USER_PROJECTS_API } from "@/services/endpoints";
 import Button from "@/components/Button";
 import ErrorMessage from "@/components/ErrorMessage";
-import { useAuthentication, Authentication } from "@/features/users";
-import { useDistrict, District } from "@/features/districts";
+import { Authentication } from "@/features/users";
+import { District } from "@/features/districts";
 import { Project } from "@/features/projects";
-import { TourPlan, useTourPlans } from "@/features/tour-plans";
-import { useDriver, Driver } from "@/features/drivers";
-import { useVehicle, Vehicle } from "@/features/vehicles";
-import { useVisits } from "@/features/visits";
+import { TourPlan } from "@/features/tour-plans";
+import { Driver } from "@/features/drivers";
+import { Vehicle } from "@/features/vehicles";
 import apiClient, { AxiosError } from "@/services/client";
 import { ErrorResponse } from "@/services/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import more from "@/public/icons/more.svg";
-import Select from "react-select";
 import { COMPLETED, SCHEDULED } from "@/constants/statuses";
 
 const schema = z.object({
@@ -74,7 +72,6 @@ const Form = ({
   method,
   id,
   setRefresh,
-  refresh,
   visits,
   drivers,
   vehicles,
@@ -90,12 +87,11 @@ const Form = ({
     formState: { errors },
   } = useForm<Visit>({ resolver: zodResolver(schema) });
   const [show, setShow] = useState(false);
-  const [selectedDistrictId, setSelectedDistrictId] = useState<number>();
+  const [, setSelectedDistrictId] = useState<number>();
   const [userProjects, setUserProjects] = useState<Project[]>([]);
 
   const modalId = `formModal-${id}`;
 
-  const createdMessage = "Created Successfully";
   const updatedMessage = "Visit Scheduled Successfully";
 
   const handleClose = () => {
@@ -106,7 +102,7 @@ const Form = ({
   const handleShow = async () => {
     setShow(true);
     const itemData: Visit | undefined = visits.find(
-      (itemData: any) => itemData.id === id,
+      (itemData) => itemData.id === id,
     );
     if (itemData) {
       setValue("visitPlanGroup", itemData.visitPlanGroup);
@@ -125,7 +121,6 @@ const Form = ({
   };
 
   const onSubmit = async (formData: Visit) => {
-    console.log("Form Data:", formData);
 
     try {
       const modifiedFormData = {
@@ -138,12 +133,11 @@ const Form = ({
         op_submitted_at: null,
       };
 
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(updatedMessage);
       handleClose();
@@ -161,7 +155,6 @@ const Form = ({
       const response = await apiClient.get(
         `${GET_USER_PROJECTS_API}?userId=${id}`,
       );
-      console.log("Response:", response);
       setUserProjects(response.data.data);
     } catch (err) {
       console.error("Submission error:", err);
@@ -239,7 +232,7 @@ const Form = ({
                         className="form-select form-select-sm color-light-dark"
                       >
                         <option value="">Select</option>
-                        {visitPlans?.map((d: any) => (
+                        {visitPlans?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.name}
                           </option>
@@ -261,7 +254,7 @@ const Form = ({
                         }
                       >
                         <option value="">Select</option>
-                        {users?.map((d: any) => (
+                        {users?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.fullName}
                           </option>
@@ -285,7 +278,7 @@ const Form = ({
                         className="form-select form-select-sm color-light-dark"
                       >
                         <option value="">Select</option>
-                        {userProjects?.map((userProject: any) => (
+                        {userProjects?.map((userProject) => (
                           <option key={userProject.id} value={userProject.id}>
                             {userProject.name}
                           </option>
@@ -324,7 +317,7 @@ const Form = ({
                         }}
                       >
                         <option value="">Select</option>
-                        {districts?.map((d: any) => (
+                        {districts?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.districtName}
                           </option>

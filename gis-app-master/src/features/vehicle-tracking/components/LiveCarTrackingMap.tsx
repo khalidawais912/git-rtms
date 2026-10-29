@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import CarCard from "./CarCard";
 import toast, { Toaster } from "react-hot-toast";
 import { Position, Tracking } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 const LiveCarTrackingMap = () => {
   const initialCenterPosition = {
     lat: 31.1704,
@@ -49,7 +50,7 @@ const MapWithMarkers = () => {
   const map = useMap();
 
   const [open, setOpen] = useState(false);
-  const [hasCenteredMap, setHasCenteredMap] = useState(false); // To track map centering
+   // To track map centering
 
   const [position, setPosition] = useState<Position>(); // Starting position (latitude, longitude)
   const [path, setPath] = useState<Position[]>([]); // Empty path initially
@@ -60,11 +61,10 @@ const MapWithMarkers = () => {
 
   const [isError, setError] = useState(false);
 
-  const [followCar, setFollowCar] = useState(false); // Follow mode flag
+  const [followCar] = useState(false); // Follow mode flag
   const [initialCenterDone, setInitialCenterDone] = useState(false); // Initial centering flag
 
   // Function to toggle follow mode
-  const toggleFollowMode = () => setFollowCar((prev) => !prev);
 
   useEffect(() => {
     if (map && position) {
@@ -134,7 +134,7 @@ const MapWithMarkers = () => {
     requestAnimationFrame(step);
   };
 
-  useEffect(() => {
+  const onMapChange = useEffectEvent(() => {
     if (!map) return;
 
     const fetchCoordinates = async () => {
@@ -171,7 +171,8 @@ const MapWithMarkers = () => {
     const interval = setInterval(fetchCoordinates, 5000);
 
     return () => clearInterval(interval);
-  }, [map]);
+  });
+  useEffect(() => onMapChange(), [map, onMapChange]);
 
   useEffect(() => {
     if (isError) {
@@ -179,7 +180,7 @@ const MapWithMarkers = () => {
     }
   }, [isError]);
 
-  useEffect(() => {
+  const onArrayIndexChange = useEffectEvent(() => {
     if (!map || arrayIndex >= path.length - 1) return;
 
     const from = path[arrayIndex];
@@ -188,7 +189,8 @@ const MapWithMarkers = () => {
     if (from && to) {
       moveCar(from, to, duration);
     }
-  }, [arrayIndex, path, map]);
+  });
+  useEffect(() => onArrayIndexChange(), [arrayIndex, path, map, onArrayIndexChange]);
 
   useEffect(() => {
     if (!map) return;
@@ -196,7 +198,6 @@ const MapWithMarkers = () => {
     const newAngle = getRotationAngle(direction);
 
     if (Math.abs(newAngle - rotationAngle) > 1) {
-      const stepDuration = 20;
       let animationFrameId: number;
 
       const step = () => {
@@ -235,9 +236,9 @@ const MapWithMarkers = () => {
   ); // Adjust debounce timing as needed
 
   // Debounce utility
-  function debounce(fn: Function, delay: number) {
+  function debounce<A extends unknown[]>(fn: (...args: A) => void, delay: number) {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    return (...args: any[]) => {
+    return (...args: A) => {
       if (timeoutId) clearTimeout(timeoutId);
       timeoutId = setTimeout(() => fn(...args), delay);
     };
@@ -263,6 +264,7 @@ const MapWithMarkers = () => {
               transition: "transform 2s",
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
             <img
               src="/images/carTop2.png"
               alt="carTop2"

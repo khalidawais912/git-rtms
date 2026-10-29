@@ -1,7 +1,6 @@
 import { REPORTS_HISTORY_API } from "@/services/endpoints";
 import { ReportHistoryUser } from "@/features/users";
 import apiClient, { AxiosError } from "@/services/client";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import { useEffect, useState } from "react";
 import HistoryList from "../../components/HistoryList";
 import { ReportHistory, SubmittedReport } from "../../types";
@@ -17,8 +16,8 @@ const ProjectTile = ({ data, index, users }: Props) => {
   const [descendingOrderReportsHistory, setDescendingOrderReportsHistory] =
     useState<ReportHistory[]>();
 
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [, setLoading] = useState(false);
+  const [, setError] = useState("");
 
   useEffect(() => {
     const getReportHistory = async (
@@ -36,7 +35,6 @@ const ProjectTile = ({ data, index, users }: Props) => {
         );
 
         setDescendingOrderReportsHistory(sorted);
-        console.log("sorted", sorted);
 
         setLoading(false);
       } catch (err) {
@@ -47,7 +45,6 @@ const ProjectTile = ({ data, index, users }: Props) => {
         setLoading(false);
       }
     };
-    console.log("visit id:", data.visitId, "project id", data.projectId);
     if (data) getReportHistory(data.visitId, data.projectId, data.reportType);
   }, [data]);
 

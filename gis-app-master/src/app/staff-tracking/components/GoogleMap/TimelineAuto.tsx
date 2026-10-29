@@ -8,6 +8,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { StaffTracking } from "../StaffTracking";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   setGoogleDuration: Dispatch<SetStateAction<string | undefined>>;
@@ -60,7 +61,7 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
     useState<google.maps.DirectionsRenderer>();
 
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(0);
+  const [routeIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
@@ -80,7 +81,7 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
     );
   }, [routesLibrary, map, recordingData]);
 
-  useEffect(() => {
+  const onDirectionsServiceChange = useEffectEvent(() => {
     if (!directionsService || !directionsRenderer) return;
 
     directionsService
@@ -108,7 +109,8 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
         directionsRenderer.setDirections(response);
         setRoutes(response.routes);
       });
-  }, [directionsService, directionsRenderer]);
+  });
+  useEffect(() => onDirectionsServiceChange(), [directionsService, directionsRenderer, onDirectionsServiceChange]);
 
   useEffect(() => {
     if (!directionsRenderer) return;

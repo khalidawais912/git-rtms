@@ -1,11 +1,11 @@
 import Button from "@/components/Button";
-import { useAuthentication, Authentication } from "@/features/users";
-import { useDistrict, District } from "@/features/districts";
-import { Project, useProjects } from "@/features/projects";
-import { TourPlan, useTourPlans } from "@/features/tour-plans";
-import { VisitNew, useVisitsNew } from "@/features/visits";
-import { useDriver, Driver } from "@/features/drivers";
-import { useVehicle, Vehicle } from "@/features/vehicles";
+import { Authentication } from "@/features/users";
+import { District } from "@/features/districts";
+import { Project } from "@/features/projects";
+import { TourPlan } from "@/features/tour-plans";
+import { VisitNew } from "@/features/visits";
+import { Driver } from "@/features/drivers";
+import { Vehicle } from "@/features/vehicles";
 import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -72,7 +72,6 @@ const Form = ({
   method,
   id,
   setRefresh,
-  refresh,
   visitsNew,
   drivers,
   vehicles,
@@ -101,7 +100,7 @@ const Form = ({
   const handleShow = async () => {
     setShow(true);
     const itemData: VisitNew | undefined = visitsNew.find(
-      (itemData: any) => itemData.id === id
+      (itemData) => itemData.id === id
     );
 
     if (itemData) {
@@ -120,7 +119,6 @@ const Form = ({
   };
 
   const onSubmit = async (formData: Visit) => {
-    console.log("Form Data:", formData);
     try {
       const modifiedFormData = {
         ...formData,
@@ -135,12 +133,11 @@ const Form = ({
         visitPlanPath: "",
       };
 
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(updatedMessage);
       handleClose();
@@ -221,7 +218,7 @@ const Form = ({
                         className="form-select form-select-sm color-light-dark"
                       >
                         <option value="">Select</option>
-                        {visitPlans?.map((d: any) => (
+                        {visitPlans?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.name}
                           </option>
@@ -241,7 +238,7 @@ const Form = ({
                         {...register("projectId", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"
                       >
-                        {projects?.map((d: any) => (
+                        {projects?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.name}
                           </option>
@@ -261,7 +258,7 @@ const Form = ({
                         {...register("assignedTo", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"
                       >
-                        {users?.map((d: any) => (
+                        {users?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.userName}
                           </option>

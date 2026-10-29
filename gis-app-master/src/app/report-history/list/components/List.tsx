@@ -27,6 +27,7 @@ import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/constants/statuses";
 import { SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/components/AlertMessage";
 import useUserInfo from "@/hooks/useUserInfo";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
@@ -70,9 +71,6 @@ const List = ({
   const [shouldAutoOpen, setShouldAutoOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    console.log("selectedTab", selectedTab);
-  }, [selectedTab]);
 
   // State for filtered data
   const [filteredData, setFilteredData] = useState<
@@ -89,17 +87,14 @@ const List = ({
           `${REPORTS_HISTORY_API}/GetSubmittedReports?submittedTo=${userId}`,
         );
         if (response.data.data) {
-          console.log("response.data.data", response.data.data);
 
           const sortedData = response.data.data.reports.sort(
-            (a: any, b: any) =>
+            (a: SubmittedReport, b: SubmittedReport) =>
               new Date(a.submittedDate).getTime() -
               new Date(b.submittedDate).getTime(),
           );
           setData(sortedData);
-          console.log("sortedData data", sortedData);
         }
-        console.log("original data", response.data.data);
         setLoading(false);
       } catch (err) {
         setError((err as AxiosError).message);
@@ -110,7 +105,7 @@ const List = ({
     if (userId) handleSubmit(userId);
   }, [userId, refresh]);
 
-  useEffect(() => {
+  const onIssuedReportsDataChange = useEffectEvent(() => {
     if (issuedReportsData) {
       if (userRole === "MONITORING") {
         setIssuedReportCount(
@@ -124,7 +119,8 @@ const List = ({
         setIssuedReportCount(issuedReportsData.length);
       }
     }
-  }, [issuedReportsData]);
+  });
+  useEffect(() => onIssuedReportsDataChange(), [issuedReportsData, onIssuedReportsDataChange]);
 
   useEffect(() => {
     const handleSubmit = async () => {
@@ -136,11 +132,10 @@ const List = ({
 
         if (response.data.data) {
           const sortedData = response.data.data.sort(
-            (a: any, b: any) => b.visitId - a.visitId,
+            (a: SubmittedReport, b: SubmittedReport) => b.visitId - a.visitId,
           );
 
           setIssuedReportsData(sortedData);
-          console.log("issued response.data.data", response.data.data);
         }
         setLoading(false);
       } catch (err) {
@@ -157,7 +152,7 @@ const List = ({
 
   const [tabs, setTabs] = useState<Tab[]>();
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     const tabs = [
       {
         id: 1,
@@ -305,7 +300,8 @@ const List = ({
       });
       if (updatedTabs) setTabs(updatedTabs);
     }
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   useEffect(() => {
     if (!tabs) return;
@@ -354,7 +350,6 @@ const List = ({
     }
   }, [tabs, role, selectedTab, data]);
 
-  console.log("tabs", tabs);
 
   // 👇 NEW: Get comment-eligible reports (where user needs to comment)
   const getCommentEligibleReports = () => {
@@ -364,7 +359,7 @@ const List = ({
   };
 
   // 👇 NEW: Auto-open first modal on initial load
-  useEffect(() => {
+  const onFilteredDataChange = useEffectEvent(() => {
     if (
       !hasOpenedInitialModal.current &&
       filteredData &&
@@ -389,7 +384,8 @@ const List = ({
         }, 500);
       }
     }
-  }, [filteredData, selectedTabLabel, userId]);
+  });
+  useEffect(() => onFilteredDataChange(), [filteredData, selectedTabLabel, userId, onFilteredDataChange]);
 
   // 👇 NEW: Handle auto-opening next modal after submission
   useEffect(() => {
@@ -454,9 +450,6 @@ const List = ({
     setSearchData(filtered);
   };
 
-  useEffect(() => {
-    console.log("searchData", searchData);
-  }, [searchData]);
 
   // 🔍 Search handler
   const handleSearchIssuedReports = (e: ChangeEvent<HTMLInputElement>) => {
@@ -649,7 +642,6 @@ const List = ({
                             setCurrentAutoOpenIndex(-1);
                             setShouldAutoOpen(false);
                             hasOpenedInitialModal.current = false;
-                            console.log("tab filteredData", tab.filteredData);
                           }}
                         >
                           {tab.label}

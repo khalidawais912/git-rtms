@@ -59,15 +59,12 @@ const ChangePasswordForm = ({ userName }: { userName: string }) => {
   };
 
   const onSubmit = async (formData: ChangePassword) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     setSubmitting(true);
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         `${AUTH_API}/ChangePassword?UserName=${formData.UserName}&Password=${formData.Password}`
       );
-      console.log("Response:", response);
       toast.success(`Password ${updatedMessage}`);
       setSubmitting(false);
       handleClose();

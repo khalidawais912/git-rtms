@@ -1,9 +1,7 @@
 "use client";
-import { FILTER_SETTING_API } from "@/services/endpoints";
 import Button from "@/components/Button";
-import apiClient from "@/services/client";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import filterBlack from "@/public/icons/filterBlack.svg";
 import { FilterData, Filter } from "../types";
 import { Modal } from "react-bootstrap";
@@ -31,7 +29,6 @@ const FilterModal = ({
   otherFilters,
   setOtherFilters,
   handleSubmit,
-  combinedFilters,
   activeFilter,
   userFiltersData,
 }: Props) => {
@@ -39,7 +36,7 @@ const FilterModal = ({
 
   // Ref array for select elements to reset them on "Reset" click
   const selectRefs = useRef<Array<HTMLSelectElement | null>>([]);
-  const [selectedIndices, setSelectedIndices] = useState<{
+  const [, setSelectedIndices] = useState<{
     [key: number]: boolean;
   }>({});
 
@@ -47,7 +44,6 @@ const FilterModal = ({
   const handleSelectChange = (
     identifier: string,
     value: string,
-    index: number,
   ) => {
     setOtherFilters((prevFilters) => {
       let updatedFilters;
@@ -106,10 +102,9 @@ const FilterModal = ({
   const handleCustomSelectChange = (
     identifier: string,
     selected: SingleValue<OptionType>,
-    index: number,
   ) => {
     const value = selected?.value || "";
-    handleSelectChange(identifier, value, index);
+    handleSelectChange(identifier, value);
   };
 
   return (
@@ -178,7 +173,6 @@ const FilterModal = ({
                             handleCustomSelectChange(
                               d.filterIdentifier,
                               newValue,
-                              i,
                             )
                           }
                           menuPlacement="auto"

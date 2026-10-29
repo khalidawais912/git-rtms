@@ -6,15 +6,13 @@ import AssignProjectPartTwoBarChartTile from "./components/AssignProjectPartTwoB
 import BarChartTile from "./components/BarChartTile";
 import BarChartTileSNEWiseProjects from "./components/BarChartTileSNEWiseProjects";
 import BarChartTileTotalProjects from "./components/BarChartTileTotalProjects";
-import CompletedProjectsBarChartTile from "./components/CompletedProjectsBarChartTile";
 import DistrictWiseProjectsBarChartTile from "./components/DistrictWiseProjectsBarChartTile";
-import SectorWiseProgressPieChartTile from "./components/SectorWiseProgressPieChartTile";
 import apiClient, { CanceledError } from "@/services/client";
 import { EVALUATION_MAIN_DASHBOARD_API } from "@/services/endpoints";
 import { Stats } from "./types";
 const ChartsPage = () => {
   const [data, setData] = useState<Stats>();
-  const [isLoading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,7 +27,6 @@ const ChartsPage = () => {
           },
         );
         setData(response.data);
-        console.log("evaluation charts data:", response.data);
         setLoading(false);
       } catch (err) {
         if (err instanceof CanceledError) return;

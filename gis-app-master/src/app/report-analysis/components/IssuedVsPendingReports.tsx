@@ -12,19 +12,14 @@ import TableHeading from "@/components/Table/TableHeading";
 import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import { useTourPlans } from "@/features/tour-plans";
 import apiClient from "@/services/client";
-import { addSpaceToCamelCase, exportToPDF, exportToPDFNew } from "@/utils";
+import { exportToPDF } from "@/utils";
 import {
-  exportDataToExcel,
-  exportDataToExcelNew,
   exportToExcelNewOne,
 } from "@/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { PiCircleFill } from "react-icons/pi";
 import { SingleValue } from "react-select";
-import { toast } from "react-toastify";
-import * as XLSX from "xlsx";
 import { IssuedVsPendingReport } from "../types";
 
 interface Props {
@@ -48,32 +43,23 @@ const IssuedVsPendingReports = ({ isActiveTab, setActiveTab }: Props) => {
     const apiUrl = `${REPORT_API}/GetUserVisitsStatusReport${
       params.toString() ? "?" + params.toString() : ""
     }`;
-    console.log("Final API URL:", apiUrl);
 
     try {
       const response = await apiClient.get(apiUrl);
       setData(response.data);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   useEffect(() => {
     if (visitPlanGroup !== -1 && year) {
-      console.log("visitPlanGroup", visitPlanGroup);
-      console.log("year", year);
       handleSubmit(visitPlanGroup, year);
     } else if (visitPlanGroup !== -1) {
-      console.log("visitPlanGroup", visitPlanGroup);
-      console.log("year", year);
       handleSubmit(visitPlanGroup);
     } else if (year) {
-      console.log("visitPlanGroup", visitPlanGroup);
-      console.log("year", year);
       handleSubmit(-1, year);
     } else if (visitPlanGroup === -1 && year === "") {
-      console.log("visitPlanGroup", visitPlanGroup);
-      console.log("year", year);
       handleSubmit();
     } else {
       handleSubmit();

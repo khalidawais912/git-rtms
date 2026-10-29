@@ -25,7 +25,7 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   const [refresh, setRefresh] = useState(false);
   const [isPageLimit, setPageLimit] = useState(false);
 
-  const { data, setData, setError, error, isLoading } = useAttributes({
+  const { data, setData, setError, isLoading } = useAttributes({
     refresh,
   });
 
@@ -71,11 +71,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
     setFilteredData(filtered);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm !== "") {
-    }
-  };
 
   // Update searchTerm and clear search if empty
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +114,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.attributeId !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);
@@ -134,7 +128,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
         const response = await apiClient.get(`${GET_PROJECT_DETAIL_KEYS_API}`);
         const data = response.data.data; // Assuming this returns an array of group objects
         setProjectDetailKeys(data);
-        console.log("projectDetailKeys", projectDetailKeys);
       } catch (error) {
         console.error("Error fetching selected groups:", error);
       }
@@ -325,7 +318,7 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
                   <TableData>{d.remarks}</TableData>
                   <TableData className="text-center">{d.removeable}</TableData>
                   <TableData>
-                    {d.options?.map((option: any, i) => (
+                    {d.options?.map((option, i) => (
                       <span key={i}>
                         {option.label}
                         ,&nbsp;

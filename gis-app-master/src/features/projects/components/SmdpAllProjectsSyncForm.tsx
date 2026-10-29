@@ -23,10 +23,9 @@ const SmdpAllProjectsSyncForm = ({
   id,
   setRefresh,
   refresh,
-  showData,
   setShowData,
 }: Props) => {
-  const { data, setError } = useSectors({ refresh });
+  const { setError } = useSectors({ refresh });
   const [formData, setFormData] = useState<SmdpSync>({
     schemeId: "",
   });
@@ -46,17 +45,6 @@ const SmdpAllProjectsSyncForm = ({
     setShow(true);
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,32 +58,29 @@ const SmdpAllProjectsSyncForm = ({
         try {
           // send a POST request to the server to add the product
           if (method === "POST") {
-            const response = await apiClient({
-              method: method,
+            await apiClient({
+              method,
               url: `${api}?SchemeID=${formData.schemeId}`,
             });
             notifyCreate(created);
             setFormData({
               schemeId: "",
             });
-            console.log("response", response);
             setRefresh((prev) => !prev);
             setShowData(true);
             handleClose();
           } else {
-            const response = await apiClient({
-              method: method,
+            await apiClient({
+              method,
               url: `${api}/${id}`,
               data: formData,
             });
-            console.log("response", response);
             notifyCreate(updated);
             setRefresh((prev) => !prev);
           }
           // handle the response and perform any necessary actions
-          console.log("data", formData);
         } catch (err) {
-          console.log((err as AxiosError).message);
+          console.error((err as AxiosError).message);
           notifyError((err as AxiosError).message);
           setError((err as AxiosError).message);
         }

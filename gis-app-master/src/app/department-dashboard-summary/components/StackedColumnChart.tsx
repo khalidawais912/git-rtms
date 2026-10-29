@@ -9,10 +9,6 @@ import greenCircle from "@/public/icons/greenCircle.svg";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const StackedColumnChart = () => {
-  const blueDarkColor = "#074F83";
-  const blueLightColor = "#0C8CE9";
-  const greenDarkColor = "#36F097";
-  const greenLightColor = "#36F09733";
 
   // Chart options and data
   const [chartData] = useState({

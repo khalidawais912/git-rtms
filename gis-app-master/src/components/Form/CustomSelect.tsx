@@ -39,7 +39,7 @@ export const defaultOption = { value: "", label: "Select" };
 export const defaultNumberOption = { value: "0", label: "Select" };
 export const defaultNegativeNumberOption = { value: "-1", label: "Select" };
 
-const CustomSelect = forwardRef<any, Props>(
+const CustomSelect = forwardRef<unknown, Props>(
   (
     {
       options,
@@ -58,12 +58,11 @@ const CustomSelect = forwardRef<any, Props>(
       maxHeight = 43 * 6,
       defaultValue,
       radius = undefined,
-    },
-    ref
+    }
   ) => {
     const [menuPortalTarget, setMenuPortalTarget] =
       useState<HTMLElement | null>(null);
-    const [isClicked, setIsClicked] = useState(false);
+    const [, setIsClicked] = useState(false);
 
     useEffect(() => {
       setMenuPortalTarget(document.body);
@@ -150,7 +149,7 @@ const CustomSelect = forwardRef<any, Props>(
       // Styles for the dropdown menu list (this is where scrollbar lives)
       menuList: (base) => ({
         ...base,
-        maxHeight: maxHeight, // show 6 options, then scroll
+        maxHeight, // show 6 options, then scroll
         "::-webkit-scrollbar": {
           width: "8px",
           height: "8px",
@@ -252,7 +251,7 @@ const CustomSelect = forwardRef<any, Props>(
       // Styles for the dropdown menu list (this is where scrollbar lives)
       menuList: (base) => ({
         ...base,
-        maxHeight: maxHeight, // show 6 options, then scroll
+        maxHeight, // show 6 options, then scroll
         "::-webkit-scrollbar": {
           width: "8px",
           height: "8px",
@@ -268,7 +267,7 @@ const CustomSelect = forwardRef<any, Props>(
           background: "#108fa8",
         },
       }),
-      multiValue: (provided: any) => ({
+      multiValue: (provided) => ({
         ...provided,
         backgroundColor: "#B0E0E6", // Light blue for selected values
       }),

@@ -10,8 +10,7 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ActionMeta, MultiValue } from "react-select";
-import { toast } from "react-toastify";
+import { MultiValue } from "react-select";
 import user3Black from "@/public/icons/user3Black.svg";
 import { UserOption } from "../types";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -51,8 +50,7 @@ const AssignUserForm = ({ id, options }: Props) => {
   }, [id, refresh]);
 
   const handleSelectGroup = (
-    newValue: MultiValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: MultiValue<{ value: string; label: string }>
   ) => {
     // Map selected groups to the original format (GroupOption)
     const selectedOptions = newValue
@@ -65,11 +63,7 @@ const AssignUserForm = ({ id, options }: Props) => {
     setSelectedOptions(selectedOptions);
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -82,8 +76,7 @@ const AssignUserForm = ({ id, options }: Props) => {
     };
 
     try {
-      const response = await apiClient.post(ASSIGN_USER_TO_PROJECT_API, data);
-      console.log(response);
+      await apiClient.post(ASSIGN_USER_TO_PROJECT_API, data);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);

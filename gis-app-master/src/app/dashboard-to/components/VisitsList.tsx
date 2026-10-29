@@ -1,12 +1,11 @@
 "use client";
-import { GET_USER_PROJECTS_API, VISIT_API } from "@/services/endpoints";
+import { VISIT_API } from "@/services/endpoints";
 import DeleteModal from "@/components/DeleteModal";
 import Loader from "@/components/Loader/Loader";
 import Pagination from "@/components/Table/Pagination";
 import TableHeader from "@/components/Table/TableHeader";
 import TableHeading from "@/components/Table/TableHeading";
 import { useAuthentication } from "@/features/users";
-import { useSectors } from "@/features/sectors";
 import { useSuperGroups } from "@/features/super-group";
 import { useVisits, Visit } from "@/features/visits";
 import apiClient, { AxiosError } from "@/services/client";
@@ -37,7 +36,7 @@ import { useDistrict } from "@/features/districts";
 
 const VisitsList = () => {
   const [refresh, setRefresh] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading] = useState(false);
   const { data, setData, setError } = useVisits({ refresh });
   const { data: visits } = useVisits({ refresh });
   const { data: drivers } = useDriver({ refresh });
@@ -49,7 +48,6 @@ const VisitsList = () => {
   const { data: superGroups } = useSuperGroups({ refresh });
 
   const deleteMessage = "Deleted Successfully!";
-  const syncMessage = "Attribute Values synced Successfully!";
 
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
@@ -109,19 +107,6 @@ const VisitsList = () => {
     currentPage * rows,
   );
 
-  const handleSubmit = async (id: number) => {
-    try {
-      const response = await apiClient.get(
-        `${GET_USER_PROJECTS_API}?userId=${id}`,
-      );
-      console.log("Response:", response);
-      setData(response.data.data);
-      setCurrentPage(1);
-    } catch (err) {
-      console.error("Submission error:", err);
-      toast.error((err as AxiosError).message);
-    }
-  };
 
   const handleDelete = async (id: number) => {
     try {
@@ -129,7 +114,6 @@ const VisitsList = () => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

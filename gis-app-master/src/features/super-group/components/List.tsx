@@ -19,13 +19,9 @@ import { toast } from "react-toastify";
 import Form from "./Form";
 import GroupingForm from "./GroupingForm";
 
-interface ListProps {
-  refresh: boolean;
-  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
-}
 const List = ({ dashboardType }: { dashboardType?: string }) => {
   const [refresh, setRefresh] = useState(false);
-  const { data, setData, setError, error, isLoading } = useSuperGroups({
+  const { data, setData, setError, isLoading } = useSuperGroups({
     refresh,
   });
   const [isPageLimit, setPageLimit] = useState(false);
@@ -91,7 +87,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

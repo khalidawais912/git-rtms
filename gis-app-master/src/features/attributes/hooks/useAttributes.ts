@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { EVALUATION_ATTRIBUTES_API, ATTRIBUTES_API } from "@/services/endpoints";
 import { DashboardTypeEnum } from "@/types/dashboard";
 import useData from "@/hooks/useData";

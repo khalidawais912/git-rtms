@@ -8,14 +8,11 @@ import {
   LabelList,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  NameType,
-  ValueType,
-} from "recharts/types/component/DefaultTooltipContent";
+
+
 import { calculateLeftMargin, calculateXAxisHeight } from "../types";
 import { formatAmountWithCommas } from "@/utils";
 import { MyBarChartStyle, MyBarChartType } from "../../types";

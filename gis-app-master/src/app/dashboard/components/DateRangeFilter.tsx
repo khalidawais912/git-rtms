@@ -15,8 +15,6 @@ const DateRangeFilter = () => {
 
   const handleSelect = (ranges: RangeKeyDict) => {
     const { selection } = ranges;
-    console.log(selection.startDate);
-    console.log(selection.endDate);
     setState([
       {
         startDate: selection.startDate, // Assign directly; already Date | undefined

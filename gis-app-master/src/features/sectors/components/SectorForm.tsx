@@ -39,7 +39,7 @@ interface Props {
   setData: React.Dispatch<React.SetStateAction<Sector[]>>;
 }
 
-const SectorForm = ({ api, method, id, setRefresh, refresh, data }: Props) => {
+const SectorForm = ({ api, method, id, setRefresh, data }: Props) => {
   const [isSubmitting, setSubmitting] = useState(false);
   const {
     register,
@@ -72,7 +72,7 @@ const SectorForm = ({ api, method, id, setRefresh, refresh, data }: Props) => {
         setValue("updateAt", new Date().toISOString());
         setSubmitting(false);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
         setSubmitting(false);
       } finally {
@@ -82,20 +82,17 @@ const SectorForm = ({ api, method, id, setRefresh, refresh, data }: Props) => {
   };
 
   const onSubmit = async (formData: Sector) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     const modifiedFormData = {
       ...formData,
       parentId: formData.parentId === 0 ? null : formData.parentId,
     };
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

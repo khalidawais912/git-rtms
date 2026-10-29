@@ -13,28 +13,7 @@ import {
 } from "react-leaflet";
 import search2 from "@/public/icons/search2.svg";
 import { StaffTracking } from "../../types";
-const getRotationAngle = (direction: string): number => {
-  switch (direction.toLocaleLowerCase()) {
-    case "north":
-      return 0;
-    case "north east":
-      return 45;
-    case "east":
-      return 90;
-    case "south east":
-      return 135;
-    case "south":
-      return 180;
-    case "south west":
-      return 225;
-    case "west":
-      return 270;
-    case "north west":
-      return 315;
-    default:
-      return 0;
-  }
-};
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const getRotatedCarIcon = (rotationAngle: number) =>
   L.divIcon({
@@ -46,7 +25,7 @@ const getRotatedCarIcon = (rotationAngle: number) =>
     iconAnchor: [35, 28], // center the icon
   });
 
-const carIcon = new L.Icon({
+new L.Icon({
   iconUrl: "/images/carTop2.png",
   iconSize: [70, 56], // Adjust size
   iconAnchor: [25, 25],
@@ -55,15 +34,15 @@ const carIcon = new L.Icon({
 const MapCarsRecordedComponent = () => {
   const [position, setPosition] = useState<[number, number]>(); // Starting position (latitude, longitude)
   const [path, setPath] = useState<[number, number][]>([]); // Empty path initially
-  const [direction, setDirection] = useState<string>("north"); // Empty path initially
-  const [rotationAngle, setRotationAngle] = useState<number>(0); // Track rotation angle
+   // Empty path initially
+  const [rotationAngle] = useState<number>(0); // Track rotation angle
   const [arrayIndex, setArrayIndex] = useState(0);
   const markerRef = useRef<L.Marker>(null);
   const duration = 500; // Duration between each move (in ms)
   const [data, setData] = useState<StaffTracking[]>();
   const [visitId, setVisitId] = useState(1);
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     const fetchData = async () => {
       try {
         const response = await apiClient.get(`${COORDINATES_API}/${visitId}`);
@@ -80,11 +59,12 @@ const MapCarsRecordedComponent = () => {
           ]); // Set initial position to the first coordinate
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     fetchData();
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   // Helper function to interpolate between two points
   const lerp = (start: number, end: number, t: number) => {
@@ -96,7 +76,7 @@ const MapCarsRecordedComponent = () => {
     to: [number, number],
     duration: number
   ) => {
-    let start = Date.now();
+    const start = Date.now();
     const step = () => {
       const now = Date.now();
       const elapsedTime = now - start;
@@ -120,11 +100,12 @@ const MapCarsRecordedComponent = () => {
     requestAnimationFrame(step); // Start the animation
   };
 
-  useEffect(() => {
+  const onPathChange = useEffectEvent(() => {
     if (arrayIndex < path.length - 1) {
       moveCar(path[arrayIndex - 1], path[arrayIndex], duration);
     }
-  }, [path, arrayIndex]);
+  });
+  useEffect(() => onPathChange(), [path, arrayIndex, onPathChange]);
 
   return (
     <>

@@ -9,19 +9,6 @@ import tideOne from "@/public/images/tideOne.png";
 import tideTwo from "@/public/images/tideTwo.png";
 
 const Menu = () => {
-  const items = [
-    {
-      mainIcon: briefcaseWithSettings,
-      score: 50,
-      waveIcon: waveUp,
-      waveValue: "+12.5%",
-      waveValueColor: "text-white",
-      label: "New Identified Schemes",
-      animation: false,
-      backgroundColor:
-        "linear-gradient(to bottom right, #40DDFF , #14BAE3, #13B1E6,#11AADF,#0B98C5)",
-    },
-  ];
   return (
     <div className="row d-flex justify-content-start ps-3">
       <div className="col-lg-4 col-md-6 col-sm-12 ps-0 pe-3">

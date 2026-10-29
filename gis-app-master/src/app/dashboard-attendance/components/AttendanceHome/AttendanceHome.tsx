@@ -24,7 +24,6 @@ const AttendanceHome = () => {
       try {
         const response = await apiClient.get(DASHBOARD_ATTENDANCE_API);
         setData(response.data);
-        console.log("attendace data ", response);
       } catch (err) {
         console.error("Submission error:", err);
       }

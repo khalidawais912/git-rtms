@@ -2,7 +2,7 @@ import Menu from "@/components/Menu";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import apiClient from "@/services/client";
-import { PC_IV_WORKFLOW_API, REPORTS_HISTORY_API } from "@/services/endpoints";
+import { PC_IV_WORKFLOW_API } from "@/services/endpoints";
 import { SubmittedReport } from "@/app/report-history/types";
 import useUserInfo from "@/hooks/useUserInfo";
 
@@ -16,8 +16,6 @@ const PCIVReview = ({
 
   useEffect(() => {
     if (role) {
-      console.log("role:", role);
-      console.log("role check", role.toLowerCase().includes("director"));
     }
   }, [role]);
 
@@ -40,18 +38,6 @@ const PCIVReview = ({
 
   useEffect(() => {
     if (data) {
-      console.log(
-        "report review count",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId,
-        ).length,
-      );
-      console.log(
-        "report review data",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId,
-        ),
-      );
     }
   }, [data]);
 

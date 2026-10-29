@@ -63,22 +63,19 @@ const SectorForm = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("createdAt", itemData.createdAt);
         setValue("updateAt", new Date().toISOString());
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: Sector) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

@@ -67,12 +67,6 @@ const MyMap = ({ data }: Props) => {
       }
     }, [map, markers]);
 
-    const handleMarkerClick = (position: { lat: number; lng: number }) => {
-      if (map) {
-        map.setCenter(position); // Set the center to the clicked marker
-        map.setZoom(17); // Adjust zoom level
-      }
-    };
 
     return (
       <>
@@ -93,6 +87,7 @@ const MyMap = ({ data }: Props) => {
               }}
             >
               <span>
+                {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                 <img
                   src="/images/projectLocation.png"
                   alt="projectLocation"

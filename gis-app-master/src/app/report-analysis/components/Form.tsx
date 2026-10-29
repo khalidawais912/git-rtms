@@ -26,6 +26,7 @@ import { PiTrashSimpleBold } from "react-icons/pi";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { OptionType } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 const schema = z.object({
   reportName: z.string().min(1, { message: "Please add Report Name!" }),
   attributeIds: z
@@ -95,12 +96,13 @@ const Form = ({ handleClose, attributes, show, setRefreshTabs }: Props) => {
 
   const [groupByFields, setGroupByFields] = useState<string[]>([]);
 
-  useEffect(() => {
+  const onShowChange = useEffectEvent(() => {
     if (show) {
       setGroupByFields(defaultGroupByFields);
       setValue("groupByFields", defaultGroupByFields);
     }
-  }, [show]);
+  });
+  useEffect(() => onShowChange(), [show, onShowChange]);
 
   const [availableAttributes, setAvailableAttributes] = useState(
     attributes.filter((a) => a.isMaster === 1)
@@ -145,17 +147,13 @@ const Form = ({ handleClose, attributes, show, setRefreshTabs }: Props) => {
 
     setValue("groupByFields", updated);
     setGroupByFields(updated);
-    console.log("groupByFields", getValues("groupByFields"));
   };
 
   const onSubmit = async (formData: MasterReportGenerate) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     try {
       setSubmitting(true);
-      const response = await apiClient.post(REPORT_API + "/generate", formData);
-      console.log("Response:", response);
+      await apiClient.post(REPORT_API + "/generate", formData);
       toast.success(createdMessage);
       handleClose();
       setRefreshTabs((prev) => !prev);

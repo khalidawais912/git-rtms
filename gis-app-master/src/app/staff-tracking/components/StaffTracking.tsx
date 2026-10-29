@@ -27,6 +27,7 @@ import TimelineCustomPath from "./GoogleMap/TimelineCustomPath";
 import StaffMember from "./StaffMember";
 import StaffMemberInRecording from "./StaffMemberInRecording";
 import { Coordinates, Position, ProjectVisit, TrackingRequestData } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 export interface StaffTracking {
   userId: string;
@@ -101,9 +102,8 @@ const StaffTracking = () => {
       );
       if (response.data.data) {
         setData(response.data.data);
-        console.log("new data response", response);
         // Update each marker position with interpolation
-        response.data.data.forEach((d: any) => {
+        response.data.data.forEach((d: StaffTracking) => {
           const userId = d.userId;
           const newLat = parseFloat(
             d.coordinates[d.coordinates.length - 1].latitude,
@@ -144,42 +144,40 @@ const StaffTracking = () => {
           animateMarker(Date.now());
         });
       } else {
-        console.log("Something bad happened");
       }
     } catch (err) {
       console.error("Submission error:", err);
     }
   };
 
-  useEffect(() => {
-    console.log("liveTrackingRequestBody:", liveTrackingRequestBody);
+  const onMount = useEffectEvent(() => {
     getStaffWithCoordinates(liveTrackingRequestBody);
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   const handleButtonClick = (content: string, tutorialLink: string) => {
     dispatch(setContent(content));
     dispatch(setTutorial(tutorialLink));
   };
 
-  useEffect(() => {
+  const onMount2 = useEffectEvent(() => {
     handleButtonClick(
       "StaffTracking",
       "https://www.youtube.com/watch?v=L38gouuFtyo&ab_channel=DirectorateGeneralMonitoringandEvaluation",
     );
-  }, []);
+  });
+  useEffect(() => onMount2(), [onMount2]);
 
   const [position, setPosition] = useState<Position>(); // Starting position (latitude, longitude)
   const [path, setPath] = useState<Position[]>([]); // Empty path initially
   const [recordingData, setRecordingData] = useState<StaffTracking[]>();
 
   const fetchRecordingData = async () => {
-    console.log("recordingTrackingRequestBody", recordingTrackingRequestBody);
     try {
       const response = await apiClient.post(
         STAFF_TRACKING_API,
         recordingTrackingRequestBody,
       );
-      console.log("recording data:", response.data.data);
       const responseData: StaffTracking[] = await response.data.data;
       setRecordingData(response.data.data);
       const coordinatesList = responseData[0]?.coordinates;
@@ -196,7 +194,7 @@ const StaffTracking = () => {
         }); // Set initial position to the first coordinate
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -242,7 +240,7 @@ const StaffTracking = () => {
 
   const [userProjects, setUserProjects] = useState<Project[]>([]); // Store the original data
   const [userVisits, setUserVisits] = useState<ProjectVisit[]>([]); // Store the original data
-  const [userDate, setUserDate] = useState<Date | null>(); // Store the original data
+  const [, setUserDate] = useState<Date | null>(); // Store the original data
   const [isVisitSelected, setVisitSelected] = useState<boolean>(false); // Store the original data
   const [isDateSelected, setDateSelected] = useState<boolean>(false); // Store the original data
   const [isCombineRouteSelected, setCombineRouteSelected] =
@@ -253,7 +251,6 @@ const StaffTracking = () => {
       const response = await apiClient.get(
         `${GET_USER_PROJECTS_API}?userId=${id}`,
       );
-      console.log("Response:", response);
       setUserProjects(response.data.data);
     } catch (err) {
       console.error("Submission error:", err);
@@ -265,7 +262,6 @@ const StaffTracking = () => {
       const response = await apiClient.get(
         `${VISIT_API}/GetVisitsByProjectId?ProjectId=${projectId}&userId=${userId}`,
       );
-      console.log("Response:", response);
       setUserVisits(response.data.data);
     } catch (err) {
       console.error("Submission error:", err);

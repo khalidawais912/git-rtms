@@ -7,9 +7,7 @@ import { useAuthentication } from "@/features/users";
 import { useProjects } from "@/features/projects";
 import apiClient, { AxiosError } from "@/services/client";
 import {
-  addDayToFormattedDate,
   getDaysAgo,
-  getFormattedDate,
 } from "@/utils";
 import { getSession } from "@/utils/session";
 import { lexend } from "@/styles/fonts";
@@ -18,6 +16,8 @@ import toast from "react-hot-toast";
 import { IoSearch } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { FeedbackItem } from "../types";
+import Image from "next/image";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const Feedback = () => {
   const [selectedButton, setSelectedButton] = useState(2);
@@ -32,7 +32,7 @@ const Feedback = () => {
     if (id) setUserId(parseInt(id));
   }, []);
 
-  useEffect(() => {
+  const onUserIdChange = useEffectEvent(() => {
     const handleSubmit = async (userId: number) => {
       try {
         const response = await apiClient.get(
@@ -46,7 +46,7 @@ const Feedback = () => {
         }
         dispatch(
           setFeedbackCount(
-            response.data.data.filter((d: any) => d.status === 0).length,
+            response.data.data.filter((d: FeedbackItem) => d.status === 0).length,
           ),
         );
       } catch (err) {
@@ -54,16 +54,15 @@ const Feedback = () => {
       }
     };
     if (userId) handleSubmit(userId);
-  }, [userId, refresh]);
+  });
+  useEffect(() => onUserIdChange(), [userId, refresh, onUserIdChange]);
 
   const { data: projects } = useProjects({ refresh });
 
   const handleSubmit = async (data: FeedbackItem) => {
-    console.log("feedback data", data);
     try {
-      const response = await apiClient.put(FEEDBACK_API, data);
+      await apiClient.put(FEEDBACK_API, data);
       toast.success("Issue Resolved Successfully");
-      console.log("resolved api status:", response);
       setRefresh(!refresh);
     } catch (err) {
       console.error("Submission error:", (err as AxiosError).message);
@@ -109,20 +108,21 @@ const Feedback = () => {
     if (status === -1) {
       setFilteredData(
         data
-          ?.filter((d: any) => d) // Apply any additional filters if needed
-          .sort((a: any, b: any) =>
+          ?.filter((d) => d) // Apply any additional filters if needed
+          .sort((a, b) =>
             a.status === 0 ? -1 : b.status === 0 ? 1 : 0,
           ),
       );
     } else {
       setStatus(status);
-      setFilteredData(data?.filter((d: any) => d.status === status));
+      setFilteredData(data?.filter((d) => d.status === status));
     }
   };
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     if (data) handleFilterData(data, status);
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   return (
     <div
@@ -254,7 +254,7 @@ const Feedback = () => {
                   >
                     {users.find((user) => user.id === d.userId) && (
                       <div className="col-auto">
-                        <img
+                        <Image unoptimized width={40} height={40}
                           src={`${process.env.NEXT_PUBLIC_BACKEND_API}${
                             users.find((user) => user.id === d.userId)?.picture
                           }`}
@@ -403,7 +403,7 @@ const Feedback = () => {
                             modalId={`feedbackImage${d.id}`}
                             button={
                               <Button className="btn p-0">
-                                <img
+                                <Image unoptimized width={252} height={112}
                                   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.commentPath}`}
                                   alt="feedbackImage"
                                   className="img-fluid"
@@ -424,7 +424,7 @@ const Feedback = () => {
                                   height: "100%",
                                 }}
                               >
-                                <img
+                                <Image unoptimized width={100} height={100}
                                   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.commentPath}`}
                                   alt="feedbackImage"
                                   className="img-fluid"

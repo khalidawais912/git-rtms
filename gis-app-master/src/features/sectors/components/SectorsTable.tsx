@@ -11,12 +11,12 @@ import RowHeader from "@/components/Table/RowHeader";
 import { useSectors } from "../hooks";
 import { Sector } from "../types";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import SectorForm from "./SectorForm";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface SectorsTableProps {
   refresh: boolean;
@@ -40,7 +40,7 @@ const SectorsTable = ({ refresh, setRefresh }: SectorsTableProps) => {
   const [hasMeasured, setHasMeasured] = useState(false);
   const [rowHeight, setRowHeight] = useState<number | null>(null);
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     // Skip recalculation if user manually set page limit
     if (isPageLimit) return;
 
@@ -67,7 +67,8 @@ const SectorsTable = ({ refresh, setRefresh }: SectorsTableProps) => {
         setRowHeight(avgHeight);
       }
     }
-  }, [data, currentPage, isPageLimit]);
+  });
+  useEffect(() => onDataChange(), [data, currentPage, isPageLimit, onDataChange]);
 
   const notifyCreate = (msg: string) => toast.success(msg);
   const notifyError = (msg: string) => toast.error(msg);

@@ -1,8 +1,6 @@
 import ReactFlow, { Controls } from "reactflow";
 import "reactflow/dist/style.css";
 import { Groups } from "../../types";
-import CustomModal from "@/components/CustomModal/CustomModal";
-import { FaImage } from "react-icons/fa";
 
 interface Props {
   majorDeliverables: Groups;
@@ -12,7 +10,7 @@ interface Props {
 const WBSSummary = ({ majorDeliverables, progressAnalysis }: Props) => {
 
   // Generate unique IDs for nodes and edges
-  const getNodeId = (prefix: any, id: any) => `${prefix}-${id}`;
+  const getNodeId = (prefix: string, id: string | number) => `${prefix}-${id}`;
 
   // Transform data into nodes
   const nodes = [
@@ -86,24 +84,10 @@ const nodeStyle = {
   border: "0px",
 };
 
-const attributeNodeStyle = {
-  background: "rgba(255,255,255,0)",
-  color: "#fff",
-  fontWeight: "bold",
-  width: "20%",
-  padding: "0px",
-  border: "0px",
-  borderTopRightRadius: "50px",
-  borderBottomRightRadius: "50px",
-};
 
 const edgeStyle = {
   stroke: "#009688",
 };
 
-const majorDeliverableStyle = {
-  textAlign: "center",
-  fontSize: "16px",
-};
 
 export default WBSSummary;

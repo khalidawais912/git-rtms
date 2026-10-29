@@ -49,6 +49,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkSquare01Icon } from "@hugeicons/core-free-icons";
 import MarkToProjects from "./MarkToProjects/MarkToProjects";
 import { FilterData } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
@@ -114,7 +115,6 @@ const DashboardMonitoring = () => {
   useEffect(() => {
     const userRole = getSession("role");
     const departmentId = getSession("departmentId");
-    const userId = getSession("userId");
     if (userRole) setRole(userRole);
     if (departmentId) setDepartmentId(parseInt(departmentId));
   }, []);
@@ -124,14 +124,15 @@ const DashboardMonitoring = () => {
     dispatch(setTutorial(tutorialLink));
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     handleButtonClick(
       "dashboard",
       "https://www.youtube.com/watch?v=1wgAwCufsko&ab_channel=DirectorateGeneralMonitoringandEvaluation",
     );
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
-  const [isLoading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<"cmInitiative" | "adp">(
     "cmInitiative",
   );
@@ -140,13 +141,14 @@ const DashboardMonitoring = () => {
   const [combinedFilters, setCombinedFilters] = useState<FilterData[]>([]);
 
   // Combine active filter with other filters
-  useEffect(() => {
+  const onActiveFilterChange = useEffectEvent(() => {
     setCombinedFilters(
       activeFilter === "cmInitiative"
         ? [...cmInitiativeFilters, ...otherFilters]
         : [...adpFilters, ...otherFilters],
     );
-  }, [activeFilter]);
+  });
+  useEffect(() => onActiveFilterChange(), [activeFilter, onActiveFilterChange]);
 
   const handleFilterChange = (filterType: "cmInitiative" | "adp") => {
     setActiveFilter(filterType);
@@ -157,8 +159,6 @@ const DashboardMonitoring = () => {
     try {
       const response = await apiClient.post(MAIN_DASHBOARD_API, filterData);
       setData(response.data.data);
-      console.log("response:", response.data.data);
-      console.log("FilterData:", filterData);
       setLoading(false);
     } catch (err) {
       console.error("Submission error:", err);
@@ -170,20 +170,14 @@ const DashboardMonitoring = () => {
     handleSubmit(cmInitiativeFilters);
   }, []);
 
-  useEffect(() => {
-    console.log("dashboard api", data);
-  }, [data]);
 
   const [projectsData, setProjectsData] = useState<ProjectsList[]>();
-  console.log(projectsData , "projectsData data is here........");
   
   const { rowCountOptions, districtOptions, sectorOptions, userOptions } =
     useProjectsTableUtils();
 
   const getProjectsList = async (status: string) => {
     setProjectsData([]);
-    console.log("status", status);
-    console.log("get projects with combinedFilters", combinedFilters);
     try {
       if (activeFilter === "cmInitiative") {
         const yearFilter = otherFilters.find(
@@ -300,7 +294,6 @@ const DashboardMonitoring = () => {
       .filter((key) => key in projectsData[0])
       .map((key) => key as keyof ProjectsList);
 
-  console.log("filteredCMADPUtilizationKeys", filteredCMADPUtilizationKeys);
 
   const filteredNoOfProjectsKeys =
     projectsData &&
@@ -369,9 +362,10 @@ const DashboardMonitoring = () => {
     ProjectsList[]
   >([]);
 
-  useEffect(() => {
+  const onMount2 = useEffectEvent(() => {
     getProjectsList("TotalProject");
-  }, []);
+  });
+  useEffect(() => onMount2(), [onMount2]);
 
   useEffect(() => {
     if (projectsData) {

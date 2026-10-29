@@ -11,6 +11,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   selectedIndex: number;
@@ -27,15 +28,14 @@ const TimeSpentOnProjectSiteFilterMenu = ({
   setSelectedIndex,
   projectsData,
   setProjectsData,
-  filteredData,
   setFilteredData,
   getProjectsList,
 }: Props) => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
-  const [slidePath, setSlidePath] = useState<string>("");
+  const [slidePath] = useState<string>("");
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
-  const [isSubmitted, setSubmitted] = useState<boolean>(false);
+  const [isSubmitted] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,9 +43,7 @@ const TimeSpentOnProjectSiteFilterMenu = ({
     getProjectsList("BeingMonitored");
   };
 
-  useEffect(() => {
-    console.log("fromDate", new Date(fromDate).toLocaleDateString("en-GB"));
-    console.log("toDate", new Date(toDate).toLocaleDateString("en-GB"));
+  const onProjectsDataChange = useEffectEvent(() => {
 
     const dateFilteredData =
       projectsData &&
@@ -65,11 +63,13 @@ const TimeSpentOnProjectSiteFilterMenu = ({
         return true;
       });
     setFilteredData(dateFilteredData);
-  }, [projectsData]);
+  });
+  useEffect(() => onProjectsDataChange(), [projectsData, onProjectsDataChange]);
 
-  useEffect(() => {
+  const onIsSubmittedChange = useEffectEvent(() => {
     if (isSubmitting) setSubmitting(false);
-  }, [isSubmitted]);
+  });
+  useEffect(() => onIsSubmittedChange(), [isSubmitted, onIsSubmittedChange]);
 
   useEffect(() => {
     if (slidePath) {

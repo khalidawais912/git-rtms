@@ -1,5 +1,5 @@
 import { Groups } from "@/app/project-details-dashboard/types";
-import { getFormattedDate } from "@/utils";
+import Image from "next/image";
 
 interface Props {
   group: Groups;
@@ -72,7 +72,7 @@ const Main = ({ group }: Props) => {
           {group?.attributes.find(
             (attribute) => attribute.label.toLowerCase() === "report picture",
           )?.values[0]?.verificatioContentPath && (
-            <img
+            <Image unoptimized width={80} height={80}
               src={`${process.env.NEXT_PUBLIC_BACKEND_API}${
                 group?.attributes.find(
                   (attribute) =>

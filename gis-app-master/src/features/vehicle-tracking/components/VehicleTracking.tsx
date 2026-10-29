@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { VT_RECORDING_API } from "@/services/endpoints";
+import { useEffect, useState } from "react";
 import TimelineAuto from "./TimelineAuto";
 import CustomModal from "@/components/CustomModal/CustomModal";
 import Button from "@/components/Button";
 import { useVehicle } from "@/features/vehicles";
 import Image from "next/image";
 import redCircle from "@/public/icons/redCircle.svg";
-import axios from "axios";
 import { motion } from "framer-motion";
 import TimelineCustom from "./TimelineCustom";
 import TimelineBothCustomAndGoogle from "./TimelineBothCustomAndGoogle";
 import LiveCarTrackingMap from "./LiveCarTrackingMap";
 import Vehicles from "./Vehicles";
-import { devMap, triggerEscapeKeyPress } from "@/utils";
+import { devMap } from "@/utils";
 import { LuUsers } from "react-icons/lu";
 import { LiaCarSideSolid } from "react-icons/lia";
 import { TbMap2, TbUserSquareRounded } from "react-icons/tb";
@@ -37,7 +35,7 @@ const NewVehicleTracking = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
-  const [data, setData] = useState<VehicleTrackingRecording>();
+  const [data] = useState<VehicleTrackingRecording>();
   const [isMapLive, setLiveMap] = useState(true);
   const [filterOption, setFilterOption] = useState<number>(0);
   const [viewResults, setViewResults] = useState(false);
@@ -77,36 +75,7 @@ const NewVehicleTracking = () => {
   const [isCombineRouteSelected, setCombineRouteSelected] =
     useState<boolean>(true);
 
-  console.log("params updated", fromDate, toDate, vehicleNo);
 
-  const handleSubmit = async (
-    fromDate: string,
-    toDate: string,
-    vehicleNo: string
-  ) => {
-    console.log(
-      `${VT_RECORDING_API}?starttime=${new Date(
-        fromDate
-      ).toISOString()}&endtime=${new Date(
-        toDate
-      ).toISOString()}&v_ids=${vehicleNo}`
-    );
-    const response = await axios(
-      `${VT_RECORDING_API}?starttime=${new Date(
-        fromDate
-      ).toISOString()}&endtime=${new Date(
-        toDate
-      ).toISOString()}&v_ids=${vehicleNo}`
-    );
-    console.log("response", response);
-    setData(response.data);
-    triggerEscapeKeyPress();
-  };
-
-  useEffect(() => {
-    if (data && data[vehicleNo])
-      console.log("data[vehicleNo][0].GpsTime", data[vehicleNo][0]?.GpsTime);
-  }, [data]);
 
   return (
     <div

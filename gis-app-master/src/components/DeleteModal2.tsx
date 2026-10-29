@@ -1,5 +1,4 @@
 import Image from "next/image";
-import trashIcon from "@/public/icons/trash.svg";
 import trashImage from "@/public/images/trash.png";
 import Button from "./Button";
 import { ReactNode, useState } from "react";

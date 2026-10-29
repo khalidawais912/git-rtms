@@ -76,18 +76,17 @@ const MonitoringVisitPlanList = ({
     resolver: zodResolver(tempTourPlansSchema),
   });
 
-  console.log("errors", errors);
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "formsData",
   });
 
-  const { data, setData, isLoading } = useTempTourPlans();
+  const { data, isLoading } = useTempTourPlans();
   const { data: users } = useAuthentication();
   const { data: drivers } = useDriver();
   const { data: vehicles } = useVehicle();
   const { data: districts } = useDistrict();
-  const { data: tours } = useTourPlans();
+  useTourPlans();
 
   const TEMP_TOUR_PLAN_API_ENDPOINT = dashboardType
     ? EVALUATION_TEMP_TOUR_PLAN_API
@@ -137,8 +136,6 @@ const MonitoringVisitPlanList = ({
       }));
 
       reset({ formsData: sanitizedData });
-      console.log("data", data);
-      console.log("sanitizedData", sanitizedData);
     }
   }, [data, reset]);
 
@@ -179,11 +176,10 @@ const MonitoringVisitPlanList = ({
   const handleDelete = async (tempId: number, index: number) => {
     try {
       // Only call API if this record exists in backend (id > 0)
-      const response = await apiClient.delete(
+      await apiClient.delete(
         `${TEMP_TOUR_PLAN_API}/${tempId}`,
       );
       // Remove row from field array
-      console.log("delete response", response);
       remove(index);
     } catch (err) {
       console.error("Failed to delete item", err);

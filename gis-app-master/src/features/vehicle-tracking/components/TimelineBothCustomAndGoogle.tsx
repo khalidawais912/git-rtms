@@ -1,8 +1,6 @@
 import {
   APIProvider,
   Map,
-  useMap,
-  useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import { VehicleTrackingRecording } from "../types";
 import { RoutePolyline } from "./TimelineCustom";

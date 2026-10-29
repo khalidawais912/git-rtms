@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -17,8 +17,8 @@ const Badge = ({
     <span
       className={`badge rounded-pill fw-6 fs15px text-nowrap ${className}`}
       style={{
-        background: background,
-        color: color,
+        background,
+        color,
         padding: "5px 8px",
       }}
     >

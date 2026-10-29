@@ -1,6 +1,7 @@
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import { SingleProjectDashboard } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -36,16 +37,6 @@ const DistributedColumnChart2 = ({ data }: Props) => {
       const allocationValue = parseFloat(allocation || "0");
       const releasesValue = parseFloat(releases || "0");
       const utilizationValue = parseFloat(utilization || "0");
-      console.log(
-        "allocationValue:",
-        allocationValue,
-        "accumulativePC1Cost:",
-        accumulativePC1Cost,
-        "releasesValue:",
-        releasesValue,
-        "utilizationValue:",
-        utilizationValue
-      );
 
       // Calculate percentages
       const allocationPercentage =
@@ -66,11 +57,6 @@ const DistributedColumnChart2 = ({ data }: Props) => {
         `${Math.round(releasesPercentage)}`,
         `${Math.round(utilizationPercentage)}`,
       ];
-      console.log(
-        allocationPercentage,
-        releasesPercentage,
-        utilizationPercentage
-      );
       // Set the percentages in state
       setCalculatedData(percentages);
     }
@@ -104,7 +90,7 @@ const DistributedColumnChart2 = ({ data }: Props) => {
     setCategories(["Total Cost", "Allocation", "Releases", "Utilization"]);
   }, [data]);
 
-  useEffect(() => {
+  const onSeriesChange = useEffectEvent(() => {
     if (chartRef.current && series.length && categories.length) {
       const chartOptions: ApexOptions = {
         chart: {
@@ -184,7 +170,8 @@ const DistributedColumnChart2 = ({ data }: Props) => {
         chart.destroy();
       };
     }
-  }, [series, categories]);
+  });
+  useEffect(() => onSeriesChange(), [series, categories, onSeriesChange]);
 
   return (
     <div

@@ -39,6 +39,7 @@ import SimplePieChart from "./SimplePieChart";
 import VisitsPlan from "./VisitsPlan";
 import useProjectsTableUtils from "./ProjectsTable/useProjectsTableUtils";
 import { FilterData } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
@@ -85,6 +86,28 @@ interface Props {
   dashboardType?: string;
 }
 
+const cmInitiativeFilters = [
+  {
+    filterIdentifier: "ProjectSubType",
+    filterValues: "CM Package",
+  },
+  {
+    filterIdentifier: "ProjectSubType",
+    filterValues: "CM Package, Flagship / Mega Project",
+  },
+  {
+    filterIdentifier: "ProjectSubType",
+    filterValues: "CM Package, Programme",
+  },
+];
+
+const adpFilters = [
+  {
+    filterIdentifier: "",
+    filterValues: "",
+  },
+];
+
 const Dashboard = ({ dashboardType }: Props) => {
   const [data, setData] = useState<MainDashboard>();
   const [role, setRole] = useState<string>();
@@ -126,7 +149,7 @@ const Dashboard = ({ dashboardType }: Props) => {
       "dashboard",
       "https://www.youtube.com/watch?v=1wgAwCufsko&ab_channel=DirectorateGeneralMonitoringandEvaluation",
     );
-  }, []);
+  }, [dispatch]);
 
   const [isLoading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<"cmInitiative" | "adp">(
@@ -136,28 +159,6 @@ const Dashboard = ({ dashboardType }: Props) => {
   const [otherFilters, setOtherFilters] = useState<FilterData[]>([]);
   const [combinedFilters, setCombinedFilters] = useState<FilterData[]>([]);
 
-  const cmInitiativeFilters = [
-    {
-      filterIdentifier: "ProjectSubType",
-      filterValues: "CM Package",
-    },
-    {
-      filterIdentifier: "ProjectSubType",
-      filterValues: "CM Package, Flagship / Mega Project",
-    },
-    {
-      filterIdentifier: "ProjectSubType",
-      filterValues: "CM Package, Programme",
-    },
-  ];
-
-  const adpFilters = [
-    {
-      filterIdentifier: "",
-      filterValues: "",
-    },
-  ];
-
   // Combine active filter with other filters
   useEffect(() => {
     setCombinedFilters(
@@ -165,7 +166,7 @@ const Dashboard = ({ dashboardType }: Props) => {
         ? [...cmInitiativeFilters, ...otherFilters]
         : [...adpFilters, ...otherFilters],
     );
-  }, [activeFilter, adpFilters, otherFilters, cmInitiativeFilters]);
+  }, [activeFilter, otherFilters]);
 
   const handleFilterChange = (filterType: "cmInitiative" | "adp") => {
     setActiveFilter(filterType);
@@ -178,8 +179,6 @@ const Dashboard = ({ dashboardType }: Props) => {
         withCredentials: true,
       });
       setData(response.data.data);
-      console.log("response:", response.data.data);
-      console.log("FilterData:", filterData);
       setLoading(false);
     } catch (err) {
       console.error("Submission error:", err);
@@ -189,18 +188,13 @@ const Dashboard = ({ dashboardType }: Props) => {
 
   useEffect(() => {
     handleSubmit(cmInitiativeFilters);
-  }, [cmInitiativeFilters]);
+  }, []);
 
-  useEffect(() => {
-    console.log("dashboard api", data);
-  }, [data]);
 
   const [projectsData, setProjectsData] = useState<ProjectsList[]>();
 
   const getProjectsList = async (status: string) => {
     setProjectsData([]);
-    console.log("status", status);
-    console.log("get projects with combinedFilters", combinedFilters);
     try {
       if (activeFilter === "cmInitiative") {
         const response = await apiClient.post(
@@ -289,9 +283,10 @@ const Dashboard = ({ dashboardType }: Props) => {
     ProjectsList[]
   >([]);
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     getProjectsList("TotalProject");
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   useEffect(() => {
     if (projectsData) {

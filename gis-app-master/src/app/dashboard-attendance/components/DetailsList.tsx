@@ -1,11 +1,10 @@
 "use client";
-import { FaDownload, FaSearch } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa";
 import { AttendanceList } from "../types";
 import TableHeader from "@/components/Table/TableHeader";
 import { useEffect, useState } from "react";
 import { sort } from "fast-sort";
 import apiClient from "@/services/client";
-import Button from "@/components/Button";
 import Pagination from "@/components/Table/Pagination";
 import TableHeading from "@/components/Table/TableHeading";
 

@@ -14,6 +14,7 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import search2 from "@/public/icons/search2.svg";
 import { StaffTracking } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const carIcon = new L.Icon({
   iconUrl: "/images/locationPointRoadBig.png",
@@ -30,7 +31,7 @@ const MapCarsManualComponent = () => {
   const [path, setPath] = useState<[number, number][]>([]);
 
   const markerRef = useRef<L.Marker>(null);
-  const speed = 0.0001; // Adjust speed of car animation
+   // Adjust speed of car animation
   const duration = 2000; // Duration between each move (in ms)
   const [visitId, setVisitId] = useState(3);
   const [data, setData] = useState<StaffTracking[]>();
@@ -40,9 +41,8 @@ const MapCarsManualComponent = () => {
       try {
         const response = await apiClient.get(`${COORDINATES_API}/${visitId}`);
         setData(response.data.data);
-        console.log("staff", response.data.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     };
     fetchData();
@@ -59,7 +59,6 @@ const MapCarsManualComponent = () => {
         parseFloat(data[0].latitude),
         parseFloat(data[0].longitude),
       ]); // Set initial position to the first coordinate
-      console.log(data);
     }
   }, [data]);
 
@@ -73,7 +72,7 @@ const MapCarsManualComponent = () => {
     to: [number, number],
     duration: number
   ) => {
-    let start = Date.now();
+    const start = Date.now();
     const step = () => {
       const now = Date.now();
       const elapsedTime = now - start;
@@ -97,11 +96,12 @@ const MapCarsManualComponent = () => {
     requestAnimationFrame(step); // Start the animation
   };
 
-  useEffect(() => {
+  const onPathChange = useEffectEvent(() => {
     if (arrayIndex < path.length - 1) {
       moveCar(path[arrayIndex - 1], path[arrayIndex], duration);
     }
-  }, [path, arrayIndex]);
+  });
+  useEffect(() => onPathChange(), [path, arrayIndex, onPathChange]);
 
   return (
     <>

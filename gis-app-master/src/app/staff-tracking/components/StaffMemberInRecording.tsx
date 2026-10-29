@@ -22,7 +22,7 @@ const StaffMemberInRecording = ({
           <div className="row d-flex flex-wrap m-0 ">
             <div className="col-auto">
               {recordingData[0]?.userPicture ? (
-                <img
+                <Image unoptimized width={70} height={70}
                   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${recordingData[0]?.userPicture}`}
                   className="mb-1 img-fluid rounded-circle shadow"
                   style={{
@@ -68,11 +68,11 @@ const StaffMemberInRecording = ({
                 style={{ color: "#0C8CE9" }}
               >
                 {recordingData[0]?.districtName}{" "}
-                <img src="/icons/locationBlueMini.svg" alt="locationBlueMini" />
+                <Image unoptimized width={9} height={10} src="/icons/locationBlueMini.svg" alt="locationBlueMini" />
               </p>
               <p className="m-0 fs11px text-wrap text-break">
                 {recordingData[0]?.phoneNumber}{" "}
-                <img src="/icons/phone3.svg" alt="phone" />
+                <Image unoptimized width={10} height={10} src="/icons/phone3.svg" alt="phone" />
               </p>
             </div>
           </div>
@@ -90,7 +90,7 @@ const StaffMemberInRecording = ({
               </p>
             </div>
             <div className="col-auto img-fluid">
-              <img
+              <Image unoptimized width={2} height={20}
                 src="/icons/verticalLine.svg"
                 alt="verticalLine"
                 className="img-fluid"

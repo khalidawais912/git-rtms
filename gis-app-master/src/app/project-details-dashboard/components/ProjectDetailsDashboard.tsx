@@ -22,6 +22,7 @@ import useAuthorization from "@/hooks/useAuthorization";
 import WBSSummary from "./WBSFlow/WBSSummary";
 import Loader from "@/components/Loader/Loader";
 import { SingleProjectDashboard } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const DistributedColumnChart = dynamic(
   () => import("./DistributedColumnChart"),
@@ -58,12 +59,13 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
     dispatch(setTutorial(tutorialLink));
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     handleButtonClick(
       "projectDetailsDashboard",
       "https://www.youtube.com/watch?v=PDHSsWfMhNM&ab_channel=DirectorateGeneralMonitoringandEvaluation",
     );
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   const handleSubmit = async (projectId: number, visitId: number) => {
     setLoading(true);
@@ -72,10 +74,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
         `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}&visitId=${visitId}`,
       );
       setData(response.data.data);
-      console.log(
-        `check now: projectid=${projectId}&visit=${visitId}`,
-        response,
-      );
       setLoading(false);
     } catch (err) {
       console.error("Submission error:", err);
@@ -83,13 +81,11 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const onIdChange = useEffectEvent(() => {
     handleSubmit(parseInt(id), visitId);
-  }, [id]);
+  });
+  useEffect(() => onIdChange(), [id, onIdChange]);
 
-  useEffect(() => {
-    console.log("dashboard api", data);
-  }, [data]);
 
   const [projectRating, setProjectRating] = useState<number>(0);
   const [cpi, setCpi] = useState<number>(0);
@@ -145,7 +141,7 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     if (data) {
       setProjectRating(
         searchMonitoringRatingIndex(
@@ -170,7 +166,6 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
         );
       }
 
-      console.log("physicalVsPlanned:", physicalVsPlanned);
 
       const achievedProgressVsFinancialProgress = data.groups
         .find((group) => group.name.toLowerCase().includes("progress analysis"))
@@ -185,34 +180,14 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
           parseFloat(achievedProgressVsFinancialProgress?.values[0]?.value),
         );
       }
-      console.log("achievedVsFinancial:", achievedVsFinancial);
     }
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
-  useEffect(() => {
-    console.log("check id", id);
-    console.log("check visit", visitId);
-  }, [id, visitId]);
 
   useEffect(() => {
     if (data) {
-      const filteredAttributes = data.groups.find((group) =>
-        group.name?.toLowerCase().includes("progress analysis"),
-      )?.attributes[5];
 
-      console.log("Filtered attributes: ", filteredAttributes);
-      console.log(
-        "lowercase attributes:",
-        filteredAttributes?.label.toLowerCase(),
-      );
-      console.log(
-        "lowercase attributes trim:",
-        filteredAttributes?.label.trim().toLowerCase(),
-      );
-      console.log(
-        "decimal value",
-        parseFloat(filteredAttributes?.values[0]?.value!),
-      );
     }
   }, [data]);
 
@@ -273,7 +248,7 @@ const ProjectDetailsDashboard = ({ id, visitId }: Props) => {
                             PLANNED_VS_ACTUAL_PHYSICAL_PROGRESS,
                           ].includes(attribute.label.toLowerCase()),
                       )
-                      .map((attribute: any) => (
+                      .map((attribute) => (
                         <Menu
                           showValueInDecimal={true}
                           key={attribute.attributeId}

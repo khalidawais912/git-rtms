@@ -1,6 +1,7 @@
 import React from "react";
 import { Attributes } from "../../types";
 import RenderRichText from "../RenderRichText";
+import Image from "next/image";
 
 interface Props {
   data: Attributes;
@@ -25,12 +26,12 @@ const ProjectCard = ({ data, setSelectedStaffIndex }: Props) => {
             className="p-0 btn shadow-none"
             onClick={() => setSelectedStaffIndex(9999 + Math.random())}
           >
-            <img src="/icons/cross.svg" alt="cross" />
+            <Image unoptimized width={16} height={16} src="/icons/cross.svg" alt="cross" />
           </button>
         </div>
       </div>
       {data.values[0].verificatioContentPath && (
-        <img
+        <Image unoptimized width={200} height={200}
           src={`${process.env.NEXT_PUBLIC_BACKEND_API}${data.values[0].verificatioContentPath}`}
           alt="obervation image"
           style={{ width: "100%", height: "200px", objectFit: "cover" }}

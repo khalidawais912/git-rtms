@@ -14,6 +14,7 @@ import {
 } from "react-leaflet";
 import search2 from "@/public/icons/search2.svg";
 import { StaffTracking } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 const getRotationAngle = (direction: string): number => {
   switch (direction.toLocaleLowerCase()) {
     case "north":
@@ -47,7 +48,7 @@ const getRotatedCarIcon = (rotationAngle: number) =>
     iconAnchor: [35, 28], // center the icon
   });
 
-const carIcon = new L.Icon({
+new L.Icon({
   iconUrl: "/images/locationPointRoad.png",
   iconSize: [70, 56], // Adjust size
   iconAnchor: [25, 25],
@@ -56,7 +57,7 @@ const carIcon = new L.Icon({
 const MapCarsComponent = () => {
   const [position, setPosition] = useState<[number, number]>(); // Starting position (latitude, longitude)
   const [path, setPath] = useState<[number, number][]>([]); // Empty path initially
-  const [direction, setDirection] = useState<string>("north"); // Empty path initially
+  const [direction] = useState<string>("north"); // Empty path initially
   const [rotationAngle, setRotationAngle] = useState<number>(0); // Track rotation angle
   const [arrayIndex, setArrayIndex] = useState(0);
   const markerRef = useRef<L.Marker>(null);
@@ -71,7 +72,7 @@ const MapCarsComponent = () => {
     to: [number, number],
     duration: number
   ) => {
-    let start = Date.now();
+    const start = Date.now();
     const step = () => {
       const now = Date.now();
       const elapsedTime = now - start;
@@ -94,10 +95,10 @@ const MapCarsComponent = () => {
 
     requestAnimationFrame(step); // Start the animation
   };
-  const [data, setData] = useState<StaffTracking[]>();
+  const [, setData] = useState<StaffTracking[]>();
   const [visitId, setVisitId] = useState(1);
 
-  useEffect(() => {
+  const onPathChange = useEffectEvent(() => {
     // Function to fetch the latest coordinates from the API
     const fetchCoordinates = async () => {
       try {
@@ -140,9 +141,10 @@ const MapCarsComponent = () => {
 
     // Clean up the interval on unmount
     return () => clearInterval(interval);
-  }, [path, visitId]);
+  });
+  useEffect(() => onPathChange(), [path, visitId, onPathChange]);
 
-  useEffect(() => {
+  const onArrayIndexChange = useEffectEvent(() => {
     // Move the car if there are more points in the path
     if (arrayIndex < path.length) {
       const from = path[arrayIndex];
@@ -152,7 +154,8 @@ const MapCarsComponent = () => {
         moveCar(from, to, duration);
       }
     }
-  }, [arrayIndex, path]);
+  });
+  useEffect(() => onArrayIndexChange(), [arrayIndex, path, onArrayIndexChange]);
 
   useEffect(() => {
     const newAngle = getRotationAngle(direction);
@@ -165,7 +168,7 @@ const MapCarsComponent = () => {
         angleDifference -= 360; // Rotate in the shorter direction
       }
 
-      const stepDuration = 20; // Lower value means smoother and slower rotation
+       // Lower value means smoother and slower rotation
       let animationFrameId: number;
 
       const step = () => {

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Button from "@/components/Button";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import locationBlueMini from "@/public/icons/locationBlueMini.svg";
 import profilePic3 from "@/public/icons/profilePic3.svg";
 import Link from "next/link";
@@ -33,7 +32,7 @@ const StaffTracking = ({ data }: Props) => {
           </div>
           <div className="col text-end">
             <Link href="/staff-tracking" className="btn p-0">
-              <img
+              <Image unoptimized width={15} height={15}
                 src="/icons/linkArrowBlack.svg"
                 className="img-fluid"
                 style={{ width: "15px", height: "15px" }}
@@ -64,7 +63,7 @@ const StaffTracking = ({ data }: Props) => {
               <div className="row d-flex">
                 <div className="col-auto">
                   {d.userPicture && d.userPicture.length > 0 ? (
-                    <img
+                    <Image unoptimized width={70} height={70}
                       src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.userPicture}`}
                       className="mb-1 img-fluid rounded-circle shadow"
                       style={{
@@ -113,7 +112,7 @@ const StaffTracking = ({ data }: Props) => {
                     <Image src={locationBlueMini} alt="locationBlueMini" />
                   </p>
                   <p className="m-0 fs11px text-wrap text-break">
-                    {d?.phoneNumber} <img src="/icons/phone3.svg" alt="phone" />
+                    {d?.phoneNumber} <Image unoptimized width={10} height={10} src="/icons/phone3.svg" alt="phone" />
                   </p>
                 </div>
               </div>
@@ -136,7 +135,7 @@ const StaffTracking = ({ data }: Props) => {
                   </p>
                 </div>
                 <div className="col p-0">
-                  <img
+                  <Image unoptimized width={2} height={20}
                     src="/icons/verticalLine.svg"
                     alt="verticalLine"
                     className="img-fluid"

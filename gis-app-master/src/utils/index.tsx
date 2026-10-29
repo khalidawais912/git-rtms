@@ -1,6 +1,5 @@
 export const getFormattedDate = (
   dateInput: string | Date,
-  formatType: "short" | "numeric" = "short",
 ): string => {
   let date: Date | null = null;
 
@@ -39,8 +38,16 @@ export const getFormattedDate = (
   return `${day}-${month}-${year}`;
 };
 
-export const getName = (id: number, data: any) => {
-  const record = data.find((item: any) => item.id === id);
+interface NamedRecord {
+  id: number;
+  name?: string;
+  userName?: string;
+  regNumber?: string;
+  driverName?: string;
+}
+
+export const getName = (id: number, data: NamedRecord[]) => {
+  const record = data.find((item) => item.id === id);
   if (record?.name) return record?.name;
   if (record?.userName) return record?.userName;
   if (record?.regNumber) return record?.regNumber;
@@ -100,8 +107,10 @@ export function formatHHLStringDate(inputDate: string): string {
 }
 
 import jsPDF from "jspdf";
-import "jspdf-autotable";
-import autoTable from "jspdf-autotable";
+import autoTable, { CellInput, RowInput } from "jspdf-autotable";
+
+/** jspdf-autotable stores the last table's position on the document */
+type WithLastTable = jsPDF & { lastAutoTable: { finalY: number } };
 
 const renameMap: Record<string, string> = {
   id: "GS No.",
@@ -116,7 +125,7 @@ export const formatKeyName = (key: string): string => {
 
 export const exportToPDF = (
   columns: { header: string; dataKey: string }[],
-  tableRows: any[],
+  tableRows: unknown[],
   selectedDate: Date,
   label: string,
 ) => {
@@ -136,7 +145,7 @@ export const exportToPDF = (
   // Add table to PDF using autoTable plugin
   doc.autoTable({
     columns,
-    body: tableRows,
+    body: tableRows as RowInput[],
     theme: "grid", // Options: 'grid', 'plain', or 'striped'
 
     headStyles: {
@@ -163,7 +172,7 @@ export const exportToPDF = (
 
 export const exportToPDFNew = (
   columns: { header: string; dataKey: string }[],
-  tableRows: any[],
+  tableRows: unknown[],
   selectedDate: Date,
   label: string,
 ) => {
@@ -189,7 +198,7 @@ export const exportToPDFNew = (
   // Add table to PDF using autoTable plugin
   doc.autoTable({
     columns,
-    body: tableRows,
+    body: tableRows as RowInput[],
     theme: "grid", // grid gives bordered cells like Bootstrap table
     startY: 25 + (wrappedTitle.length - 1) * 8,
 
@@ -361,7 +370,7 @@ export function formatAmountWithCommas(
   return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
 
-export const renderTinyMCEData = (info: any) => {
+export const renderTinyMCEData = (info?: string | null) => {
   if (info) {
     return <div dangerouslySetInnerHTML={{ __html: info }} />;
   }
@@ -379,28 +388,6 @@ export const triggerEscapeKeyPress = () => {
   document.dispatchEvent(escapeEvent);
 };
 
-const postData = async (url: string, data: Record<string, any>) => {
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Inform the server you're sending JSON data
-      },
-      body: JSON.stringify(data), // Convert the data object to a JSON string
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json(); // Parse the response JSON
-    console.log("Response:", result);
-    return result;
-  } catch (error) {
-    console.error("Error posting data:", error);
-    throw error; // Optional: re-throw the error to handle it higher up
-  }
-};
 
 export function addSpaceToCamelCase(text: string) {
   return text.replace(/([a-z])([A-Z])/g, "$1 $2");
@@ -410,13 +397,21 @@ import * as XLSX from "xlsx";
 import { OptionType } from "@/components/types";
 import { PdfColumn } from "./types";
 
+/** One row of the report analysis; groups and sub-groups are nested rows */
+interface ReportAnalysisRow {
+  rowLabels: string;
+  groups?: ReportAnalysisRow[];
+  subGroups?: ReportAnalysisRow[];
+  [key: string]: unknown;
+}
+
 export const downloadReportAnalysisToExcel = (
-  data: any,
+  data: Record<string, ReportAnalysisRow[]>,
   filename: string = "Report.xlsx",
 ) => {
   // Flatten the data into rows
-  const flattenData = (items: any[], parentLabels: string[] = []) => {
-    const rows: any[] = [];
+  const flattenData = (items: ReportAnalysisRow[], parentLabels: string[] = []) => {
+    const rows: Record<string, unknown>[] = [];
     items.forEach((item) => {
       const { groups, subGroups, ...rest } = item;
       const row = {
@@ -440,7 +435,7 @@ export const downloadReportAnalysisToExcel = (
   // Generate worksheet for each dataset
   const sheets: { [key: string]: XLSX.WorkSheet } = {};
   for (const [sheetName, dataset] of Object.entries(data)) {
-    const flattened = flattenData(dataset as any[]);
+    const flattened = flattenData(dataset);
     sheets[sheetName] = XLSX.utils.json_to_sheet(flattened);
   }
 
@@ -641,7 +636,7 @@ export const isValidDate = (dateString: string): boolean => {
 };
 export const exportDataToPDF = (
   columns: PdfColumn[],
-  rows: any[],
+  rows: Record<string, unknown>[],
   filename: string,
   orientation: "portrait" | "landscape" = "portrait",
 ) => {
@@ -653,7 +648,7 @@ export const exportDataToPDF = (
   autoTable(doc, {
     startY: 25,
     head: [columns.map((c) => c.label)],
-    body: rows.map((row) => columns.map((c) => row[c.value])),
+    body: rows.map((row) => columns.map((c) => row[c.value] as CellInput)),
     styles: { fontSize: 10 },
     headStyles: { fillColor: [19, 66, 115] },
   });
@@ -677,15 +672,15 @@ export const booleanOptions: OptionType[] = [
 
 export const exportDataToPDFNEW = (
   headers: string[],
-  rows: any[],
+  rows: Record<string, unknown>[],
   filename: string,
   beforeTable?: {
     headers: string[];
-    rows: any[];
+    rows: Record<string, unknown>[];
   },
   afterTable?: {
     headers: string[];
-    rows: any[];
+    rows: Record<string, unknown>[];
   },
   orientation: "portrait" | "landscape" = "portrait",
 ) => {
@@ -702,7 +697,7 @@ export const exportDataToPDFNEW = (
       startY: currentY,
       head: [beforeTable.headers],
       body: beforeTable.rows.map((row) =>
-        beforeTable.headers.map((h) => row[h]),
+        beforeTable.headers.map((h) => row[h] as CellInput),
       ),
       didParseCell: (data) => {
         if (data.column.index === 0) {
@@ -711,14 +706,14 @@ export const exportDataToPDFNEW = (
       },
     });
 
-    currentY = (doc as any).lastAutoTable.finalY + 10;
+    currentY = (doc as WithLastTable).lastAutoTable.finalY + 10;
   }
 
   // Main Table
   autoTable(doc, {
     startY: currentY,
     head: [headers],
-    body: rows.map((row) => headers.map((h) => row[h])),
+    body: rows.map((row) => headers.map((h) => row[h] as CellInput)),
     styles: { fontSize: 10 },
     headStyles: { fillColor: [65, 105, 225] },
 
@@ -731,14 +726,14 @@ export const exportDataToPDFNEW = (
     },
   });
 
-  currentY = (doc as any).lastAutoTable.finalY + 10;
+  currentY = (doc as WithLastTable).lastAutoTable.finalY + 10;
 
   // Summary Table
   if (afterTable) {
     autoTable(doc, {
       startY: currentY,
       head: [afterTable.headers],
-      body: afterTable.rows.map((row) => afterTable.headers.map((h) => row[h])),
+      body: afterTable.rows.map((row) => afterTable.headers.map((h) => row[h] as CellInput)),
       didParseCell: (data) => {
         if (data.column.index === 0) {
           data.cell.styles.fontStyle = "bold";

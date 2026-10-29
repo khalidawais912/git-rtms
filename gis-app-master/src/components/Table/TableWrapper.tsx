@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props<T> {
   children: (
@@ -32,7 +33,7 @@ export const TableWrapper = <T,>({
   const firstRowRef = useRef<HTMLTableRowElement | null>(null);
   const [rowHeight, setRowHeight] = useState<number | null>(null);
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     if (isPageLimit || !containerRef.current) return;
 
     // Delay measurement slightly to allow DOM/layout settle
@@ -61,7 +62,8 @@ export const TableWrapper = <T,>({
     }, 200); // slight delay smooths flicker
 
     return () => clearTimeout(timeout);
-  }, [data, currentPage, isPageLimit, headerHeight, setRows]);
+  });
+  useEffect(() => onDataChange(), [data, currentPage, isPageLimit, headerHeight, setRows, onDataChange]);
 
   return (
     <div className="table-responsive mb-2" style={{ margin: "0 -12px" }}>

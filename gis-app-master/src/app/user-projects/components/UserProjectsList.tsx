@@ -97,7 +97,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
       const response = await apiClient.get(
         `${GET_USER_PROJECTS_API}?userId=${id}`
       );
-      console.log("Response:", response);
       setData(response.data.data);
       setCurrentPage(1);
       setSelectedUserId(id);
@@ -119,9 +118,6 @@ const UserProjectsList = ({ refresh }: ListProps) => {
     }
   }, [users]);
 
-  useEffect(() => {
-    console.log("data", data);
-  }, [data]);
 
   return (
     <>

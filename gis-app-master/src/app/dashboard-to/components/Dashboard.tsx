@@ -27,7 +27,7 @@ const customStyles: StylesConfig<Option, false> = {
     ...base,
     zIndex: 9999,
   }),
-  option: (base, state) => ({
+  option: (base) => ({
     ...base,
     fontSize: "14px",
   }),
@@ -119,7 +119,7 @@ const Dashboard = () => {
             >
               <div className="row d-flex justify-content-between m-0">
                 <div className="col-auto">
-                  <img
+                  <Image unoptimized width={160} height={118}
                     src="/images/car1Right.png"
                     alt="car"
                     className="img-fluid"
@@ -172,7 +172,7 @@ const Dashboard = () => {
             >
               <div className="row d-flex justify-content-between m-0">
                 <div className="col-auto">
-                  <img
+                  <Image unoptimized width={160} height={118}
                     src="/images/car1Right.png"
                     alt="car"
                     className="img-fluid"

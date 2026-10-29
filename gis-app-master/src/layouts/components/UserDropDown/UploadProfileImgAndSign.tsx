@@ -66,7 +66,7 @@ const UploadProfileImgAndSign = ({ userId }: Props) => {
       formData.append("profilePicture", data.profilePicture[0]);
       formData.append("signature", data.signature[0]);
 
-      const response = await apiClient.put(
+      await apiClient.put(
         USER_API + "/UpdateUserProfile",
         formData,
         {
@@ -76,7 +76,6 @@ const UploadProfileImgAndSign = ({ userId }: Props) => {
         },
       );
 
-      console.log("Response:", response);
 
       toast.success(updatedMessage);
       handleClose();

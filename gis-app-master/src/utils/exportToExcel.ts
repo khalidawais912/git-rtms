@@ -9,7 +9,7 @@ import { ExcelColumn } from "./types";
  */
 
 export const exportDataToExcel = (
-  data: Record<string, any>[],
+  data: Record<string, unknown>[],
   headers: string[],
   filename: string
 ) => {
@@ -29,7 +29,7 @@ export const exportDataToExcel = (
 };
 
 export const exportDataToExcelNew = (
-  data: Record<string, any>[],
+  data: Record<string, unknown>[],
   headers: { key: string; label: string }[],
   filename: string
 ) => {
@@ -40,7 +40,7 @@ export const exportDataToExcelNew = (
     // Data rows, correctly mapping each row's data
     ...data.map((row, rowIndex) => {
       // Create a new array for the current row's data
-      const rowData: any[] = [];
+      const rowData: unknown[] = [];
 
       // Loop through the headers to get the data in the correct order
       headers.forEach((h) => {
@@ -67,7 +67,7 @@ export const exportDataToExcelNew = (
 };
 
 // With Generic type
-export const exportToExcelNewOne = <T extends Record<string, any>>(
+export const exportToExcelNewOne = <T extends Record<string, unknown>>(
   columns: { header: string; dataKey: keyof T }[], // 👈 keyof T ensures only valid keys
   tableRows: T[],
   filename: string
@@ -86,7 +86,7 @@ export const exportToExcelNewOne = <T extends Record<string, any>>(
 };
 export const exportDataToExcelDynamicColumn = (
   columns: ExcelColumn[],
-  rows: Record<string, any>[],
+  rows: Record<string, unknown>[],
   filename: string
 ) => {
   const worksheetData = [

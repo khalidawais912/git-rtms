@@ -1,6 +1,5 @@
 "use client";
 import Button from "@/components/Button";
-import { useRouter } from "next/navigation";
 import { FaChevronLeft } from "react-icons/fa";
 import { clearSession } from "@/utils/session";
 

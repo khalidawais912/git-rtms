@@ -30,7 +30,7 @@ interface Props {
   roles: Role[];
 }
 
-const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
+const Form = ({ method, id, setRefresh, roles }: Props) => {
   const {
     register,
     handleSubmit,
@@ -39,7 +39,7 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
     control,
     formState: { errors },
   } = useForm<UserFormData>({ resolver: zodResolver(userSchema) });
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [, setPreviewUrl] = useState<string | null>(null);
   const [buttonType, setButtonType] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
@@ -79,7 +79,7 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
           itemData.userProfile?.department_Id ?? 0,
         );
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
@@ -87,11 +87,9 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
   const onSubmit = async (formData: UserFormData) => {
     setSubmitting(true);
     try {
-      const response =
-        method === "POST"
+      method === "POST"
           ? await createUser(formData)
           : await updateUser(id!, formData);
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       setSubmitting(false);
@@ -148,7 +146,6 @@ const Form = ({ method, id, setRefresh, refresh, roles }: Props) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      console.log("Dropped file:", e.dataTransfer.files[0]);
       setSelectedFile(e.dataTransfer.files[0]);
       // Do your upload logic here
     }

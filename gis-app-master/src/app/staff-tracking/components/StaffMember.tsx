@@ -32,7 +32,6 @@ const StaffMember = ({ setLiveTrackingRequestBody, setMapStatus }: Props) => {
       if (response.data.data) {
         setData(response.data.data);
       } else {
-        console.log("Something bad happend");
       }
     } catch (err) {
       console.error("Submission error:", err);
@@ -133,7 +132,7 @@ const StaffMember = ({ setLiveTrackingRequestBody, setMapStatus }: Props) => {
                     <div className="row d-flex">
                       <div className="col-lg-3 col-md-3 col-sm-12 ps-0">
                         {d.userPicture ? (
-                          <img
+                          <Image unoptimized width={70} height={70}
                             src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.userPicture}`}
                             className="mb-1 img-fluid rounded-circle shadow"
                             style={{
@@ -179,14 +178,14 @@ const StaffMember = ({ setLiveTrackingRequestBody, setMapStatus }: Props) => {
                           style={{ color: "#0C8CE9" }}
                         >
                           {d.districtName}{" "}
-                          <img
+                          <Image unoptimized width={9} height={10}
                             src="/icons/locationBlueMini.svg"
                             alt="locationBlueMini"
                           />
                         </p>
                         <p className="m-0 fs11px text-wrap text-break">
                           {d?.phoneNumber}{" "}
-                          <img src="/icons/phone3.svg" alt="phone" />
+                          <Image unoptimized width={10} height={10} src="/icons/phone3.svg" alt="phone" />
                         </p>
                       </div>
                     </div>
@@ -204,7 +203,7 @@ const StaffMember = ({ setLiveTrackingRequestBody, setMapStatus }: Props) => {
                         </p>
                       </div>
                       <div className="col-1 p-0 img-fluid">
-                        <img
+                        <Image unoptimized width={2} height={20}
                           src="/icons/verticalLine.svg"
                           alt="verticalLine"
                           className="img-fluid"

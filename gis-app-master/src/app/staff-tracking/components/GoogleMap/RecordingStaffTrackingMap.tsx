@@ -6,12 +6,12 @@ import {
   APIProvider,
   InfoWindow,
   Map,
-  useMap,
 } from "@vis.gl/react-google-maps";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import StaffCard from "../Map/StaffCard";
 import { StaffTracking } from "../StaffTracking";
 import { Position } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   recordingData: StaffTracking[];
@@ -22,7 +22,7 @@ interface Props {
   path: Position[];
 }
 
-const RecordingStaffTrackingMap: any = ({
+const RecordingStaffTrackingMap = ({
   fetchRecordingData,
   position,
   setPosition,
@@ -32,7 +32,7 @@ const RecordingStaffTrackingMap: any = ({
   const [selectedStaffIndex, setSelectedStaffIndex] = useState<
     number | undefined
   >(0);
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const [arrayIndex, setArrayIndex] = useState(0);
 
   const [startLocation, setStartLocation] = useState<string>();
@@ -67,15 +67,13 @@ const RecordingStaffTrackingMap: any = ({
   };
 
   // Helper function to interpolate between two points
-  const lerp = (start: number, end: number, t: number) => {
-    return start + t * (end - start);
-  };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     fetchRecordingData();
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
-  useEffect(() => {
+  const onArrayIndexChange = useEffectEvent(() => {
     if (path && path.length > 0 && arrayIndex < path.length - 1) {
       let startTime: number | null = null;
 
@@ -99,72 +97,9 @@ const RecordingStaffTrackingMap: any = ({
 
       requestAnimationFrame(animate);
     }
-  }, [arrayIndex, path]);
+  });
+  useEffect(() => onArrayIndexChange(), [arrayIndex, path, onArrayIndexChange]);
 
-  const MapWithMarkers = () => {
-    const map = useMap();
-
-    const markers = recordingData.map((d) => {
-      return {
-        position: { position },
-      };
-    });
-
-    useEffect(() => {
-      if (map && markers.length > 0) {
-        const bounds = new window.google.maps.LatLngBounds();
-        markers.forEach((marker) => bounds.extend(position));
-        map.fitBounds(bounds);
-      }
-    }, [map, markers]);
-
-    const handleMarkerClick = (position: { lat: number; lng: number }) => {
-      if (map) {
-        map.setCenter(position); // Set the center to the clicked marker
-        map.setZoom(17); // Adjust zoom level
-      }
-    };
-
-    return (
-      <>
-        {recordingData.map((d) => (
-          <AdvancedMarker
-            key={d.userId}
-            position={position}
-            onClick={() => {
-              setSelectedStaffIndex(parseInt(d.userId));
-            }}
-          >
-            <span>
-              <img
-                src="/images/projectLocation.png"
-                alt="projectLocation"
-                style={{ width: "60px", height: "70px" }}
-              />
-            </span>
-          </AdvancedMarker>
-        ))}
-
-        {recordingData.map(
-          (d) =>
-            selectedStaffIndex === parseInt(d.userId) && (
-              <InfoWindow
-                key={d.userId}
-                position={position}
-                pixelOffset={[0, -60]}
-              >
-                <StaffCard
-                  data={d}
-                  setSelectedStaffIndex={setSelectedStaffIndex}
-                  startLocation={startLocation}
-                  endLocation={endLocation}
-                />
-              </InfoWindow>
-            )
-        )}
-      </>
-    );
-  };
 
   return (
     <APIProvider apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`}>
@@ -198,6 +133,7 @@ const RecordingStaffTrackingMap: any = ({
                   <span>
                     <div className="position-relative">
                       <div className="position-absolute">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                         <img
                           src="/images/locationPointRoadBig.png"
                           alt="locationPointRoadBig"
@@ -209,6 +145,7 @@ const RecordingStaffTrackingMap: any = ({
                         />
                       </div>
                       <div className="position-absolute">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                         <img
                           className="img-fluid rounded-circle"
                           src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.userPicture}`}

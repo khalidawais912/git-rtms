@@ -14,6 +14,7 @@ import { ListProps, SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/components/AlertMessage";
 import styles from "@/styles/ReportList.module.css";
 import useUserInfo from "@/hooks/useUserInfo";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const List = ({ dashbaordType, users, refresh }: ListProps) => {
   const [data, setData] = useState<SubmittedReport[]>([]);
@@ -41,7 +42,7 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
         );
         if (response.data.data) {
           const sortedData = response.data.data.reports.sort(
-            (a: any, b: any) =>
+            (a: SubmittedReport, b: SubmittedReport) =>
               new Date(a.submittedDate).getTime() -
               new Date(b.submittedDate).getTime(),
           );
@@ -66,7 +67,7 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
 
         if (response.data.data) {
           const sortedData = response.data.data.sort(
-            (a: any, b: any) => b.visitId - a.visitId,
+            (a: SubmittedReport, b: SubmittedReport) => b.visitId - a.visitId,
           );
 
           setIssuedReportsData(sortedData);
@@ -85,7 +86,7 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
 
   const [tabs, setTabs] = useState<Tab[]>();
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     const tabs = [
       {
         id: 1,
@@ -233,7 +234,8 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
       });
       setTabs(updatedTabs);
     }
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   useEffect(() => {
     if (!tabs) return;
@@ -276,11 +278,12 @@ const List = ({ dashbaordType, users, refresh }: ListProps) => {
     }
   }, [tabs, role, selectedTab, data]);
 
-  useEffect(() => {
+  const onDashbaordTypeChange = useEffectEvent(() => {
     setSelectedTab(0);
     setSelectedLabel("All");
     setFilteredData(data);
-  }, [dashbaordType]);
+  });
+  useEffect(() => onDashbaordTypeChange(), [dashbaordType, onDashbaordTypeChange]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();

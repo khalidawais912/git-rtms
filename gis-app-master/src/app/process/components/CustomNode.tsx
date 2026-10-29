@@ -2,7 +2,6 @@ import { HiOutlineTrash } from "react-icons/hi";
 
 const CustomNode = ({
   id,
-  roleId,
   index,
   onDelete,
   roleName,

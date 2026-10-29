@@ -36,7 +36,7 @@ const defaultValues: ProjectDocumentName = {
   updateAt: new Date().toISOString(),
 };
 
-const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
+const Form = ({ api, method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -70,23 +70,20 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
         setValue("createdAt", itemData.createdAt);
         setValue("updateAt", new Date().toISOString());
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: ProjectDocumentName) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

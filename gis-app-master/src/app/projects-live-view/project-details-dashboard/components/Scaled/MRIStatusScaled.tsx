@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { SingleProjectDashboard } from "../../../types";
 import { getCpiStatus, getSpiStatus } from "@/utils";
 
 interface Props {

@@ -1,5 +1,6 @@
 import { Groups } from "@/app/project-details-dashboard/types";
 import RenderRichText from "@/app/project-details-dashboard/components/RenderRichText";
+import Image from "next/image";
 
 interface Props {
   group: Groups;
@@ -25,11 +26,14 @@ const ObservationsAndRecommendations = ({ group }: Props) => {
                 )}
                 {attribute?.values[0]?.verificatioContentPath && (
                   <li className="mb-3">
-                    <img
+                    <Image
+                      unoptimized
+                      width={100}
+                      height={100}
                       src={`${process.env.NEXT_PUBLIC_BACKEND_API}${attribute.values[0].verificatioContentPath}`}
                       alt="obervatiopn image"
                       className="rounded-3"
-                      style={{ width: "100%", objectFit: "cover" }}
+                      style={{ width: "100%", height: "auto", objectFit: "cover" }}
                     />
                   </li>
                 )}

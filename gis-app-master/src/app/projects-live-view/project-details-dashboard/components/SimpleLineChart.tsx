@@ -5,6 +5,7 @@ import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
 import { FaCircle } from "react-icons/fa";
 import { SingleProjectDashboard } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -34,7 +35,7 @@ const SimpleLineChart = ({ data }: Props) => {
     );
   };
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     const visitD: string =
       data.groups
         .find((group) => group.name.toLowerCase().includes("main"))
@@ -56,7 +57,8 @@ const SimpleLineChart = ({ data }: Props) => {
       visitDate: formatHHLStringDate(visitD),
       plannedStartDate: formatHHLStringDate(plannedSD),
     });
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   useEffect(() => {
     if (chartRef.current && progressData) {

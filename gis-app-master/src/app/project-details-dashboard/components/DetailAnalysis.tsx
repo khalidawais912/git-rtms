@@ -1,8 +1,6 @@
 import Button from "@/components/Button";
 import CustomModal from "@/components/CustomModal/CustomModal";
 import { DetailedAnalysis } from "../types";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
-import DistributedColumnChart2 from "./DistributedColumnChart2";
 import LinearChart from "./LinearChart";
 
 const DetailAnalysis = ({ data }: { data: DetailedAnalysis[] }) => {

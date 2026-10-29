@@ -1,5 +1,5 @@
 // app/api/user-info/route.ts (or app/api/me/route.ts, choose a meaningful name)
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers"; // For reading HttpOnly cookies in Server Components/API Routes
 import axios from "axios";
 
@@ -22,7 +22,7 @@ interface BackendUserInfoSuccessResponse {
   data: UserInfoResponseData;
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get("token")?.value;
@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
 
     // 2. Return the user info data to the frontend
     return NextResponse.json(backendRes.data.data, { status: 200 });
-  } catch (err: any) {
+  } catch (err) {
     console.error("User Info API route error:", err);
 
     if (axios.isAxiosError(err)) {

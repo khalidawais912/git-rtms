@@ -2,7 +2,6 @@
 import { Library } from "@googlemaps/js-api-loader";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
-import { SingleProjectDashboard } from "../../../types";
 
 const containerStyle = {
   width: "100%",
@@ -11,13 +10,10 @@ const containerStyle = {
   boxShadow: "0px 3px 10px 1px #c4c4c4",
 };
 
-interface Props {
-  data: SingleProjectDashboard;
-}
 
 const libraries: Library[] = ["marker"];
 
-function UpdateMap({ data }: Props) {
+function UpdateMap() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`,
@@ -42,7 +38,7 @@ function UpdateMap({ data }: Props) {
         });
 
         const marker = new AdvancedMarkerElement({
-          map: map,
+          map,
           position: new google.maps.LatLng(center.lat, center.lng),
           content: pin.element,
           gmpClickable: true,
@@ -76,7 +72,7 @@ function UpdateMap({ data }: Props) {
     mapId: process.env.NEXT_PUBLIC_GOOGLE_MAP_ID,
     mapTypeId: "hybrid",
     zoom: 15,
-    center: center,
+    center,
   };
 
   return isLoaded ? (

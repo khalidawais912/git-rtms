@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setContent } from "@/store/contentSlice";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const useAuthorization = (requiredRight: string) => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const useAuthorization = (requiredRight: string) => {
     dispatch(setContent(content));
   };
 
-  useEffect(() => {
+  const onRouterChange = useEffectEvent(() => {
     // ✅ Prevent running on the server
     if (typeof window === "undefined") return;
 
@@ -30,7 +31,8 @@ const useAuthorization = (requiredRight: string) => {
     if (!rights.includes(requiredRight)) {
       router.push(rights.length > 0 ? `/${rights[0]}` : "/not-authorized");
     }
-  }, [router, requiredRight]);
+  });
+  useEffect(() => onRouterChange(), [router, requiredRight, onRouterChange]);
 };
 
 export default useAuthorization;

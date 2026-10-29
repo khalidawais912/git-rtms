@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import Button from "@/components/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DashboardTypeEnum } from "@/types/dashboard";
 import { FaCircle } from "react-icons/fa";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const VideoTypeFilter = () => {
   const searchParams = useSearchParams();
@@ -22,9 +22,10 @@ const VideoTypeFilter = () => {
     [router, currentPath]
   );
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     if (dashboardType) setSelectedButton(2);
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   return (
     <div

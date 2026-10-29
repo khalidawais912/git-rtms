@@ -1,7 +1,7 @@
 import { formatAmountWithCommas } from "@/utils";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProjectsList } from "./ProjectsTable/ProjectsTable";
 
 // Dynamically import the ApexChart component
@@ -13,14 +13,10 @@ interface Props {
 }
 
 const DistributedColumnChart = ({ data, activeFilter }: Props) => {
-  const chartRef = useRef<HTMLDivElement>(null);
   const [series, setSeries] = useState<number[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [calculatedData, setCalculatedData] = useState<string[]>([]);
   const astarik = ["", "*", "**", "***"];
-  const [allocation, setAllocation] = useState<string>();
-  const [releases, setReleases] = useState<string>();
-  const [utilization, setUtilization] = useState<string>();
 
   useEffect(() => {
     if (data) {
@@ -89,12 +85,12 @@ const DistributedColumnChart = ({ data, activeFilter }: Props) => {
       },
       yaxis: {
         labels: {
-          formatter: (value: any) => `${Math.round(value)}M`,
+          formatter: (value) => `${Math.round(value)}M`,
         },
       },
       dataLabels: {
         enabled: true,
-        formatter: (value: any, opts: any) => {
+        formatter: (value: number, opts: { dataPointIndex: number }) => {
           const index = opts.dataPointIndex;
           if (index === 0) {
             return `${formatAmountWithCommas(value)} M`;

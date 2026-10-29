@@ -34,9 +34,6 @@ const MarkdownEditorWithSpellcheck = () => {
       ],
       textareaProps: { spellCheck: true, autoCorrect: "on" },
       autoDownloadFontAwesome: false,
-      // ✅ enable browser's built-in spellcheck on the hidden textarea
-      // @ts-ignore
-      textareaProps: { spellCheck: true, autoCorrect: "on" },
       // ✅ also tell CodeMirror to use native spellcheck
       renderingConfig: {
         codeSyntaxHighlighting: true,

@@ -105,7 +105,7 @@ const CarCard = ({ apiData }: Props) => {
             </OverlayTrigger>
           )}
           {apiData["GBB-062"].Vehicle_Make} {apiData["GBB-062"].Vehicle_Model}{" "}
-          <img
+          <Image unoptimized width={7} height={6}
             src="/icons/rightTriangleBlue.svg"
             alt="rightTriangleBlue"
             className="img-fluid"
@@ -213,7 +213,7 @@ const CarCard = ({ apiData }: Props) => {
           style={{ marginLeft: "-20px", marginRight: "0px" }}
         >
           <div className="col-1 p-0">
-            <img
+            <Image unoptimized width={8} height={60}
               src="/icons/twoCirclesVertical.svg"
               alt="twoCirclesVertical"
               className="img-fluid mt-1"
@@ -255,7 +255,7 @@ const CarCard = ({ apiData }: Props) => {
             </p>
           </div>
           <div className="col-1 p-0 img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"

@@ -10,19 +10,17 @@ const ReportHistoryPage = () => {
   const searchParams = useSearchParams();
   const dashboardType = searchParams.get("dashboardType");
 
-  const [refresh, setRefresh] = useState(false);
+  const [refresh] = useState(false);
 
   const { data: users } = useReportHistoryUser();
   const { data: officers } = useOfficers();
-  console.log("users", users);
-  console.log("officers", officers);
 
   const [deputyDirectors, setDeputyDirectors] = useState<Officer[]>();
   const [directors, setDirectors] = useState<Officer[]>();
   const [departmentHead, setDepartmentHead] = useState<Officer>();
 
   const types = Object.values(DashboardTypeEnum);
-  const currentType = types.includes(dashboardType as any)
+  const currentType = (types as string[]).includes(dashboardType ?? "")
     ? (dashboardType as DashboardTypeEnum)
     : undefined;
 

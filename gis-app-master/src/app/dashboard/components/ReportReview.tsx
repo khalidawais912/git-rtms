@@ -12,7 +12,7 @@ const ReportReview = ({
   dashboardType?: string | null | undefined;
 }) => {
   const [data, setData] = useState<SubmittedReport[]>();
-  const { userId, role } = useUserInfo();
+  const { userId } = useUserInfo();
 
   useEffect(() => {
     const handleSubmit = async (userId: number) => {
@@ -30,18 +30,6 @@ const ReportReview = ({
 
   useEffect(() => {
     if (data) {
-      console.log(
-        "report review count",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId
-        ).length
-      );
-      console.log(
-        "report review data",
-        data?.filter(
-          (d) => d.submittedTo === userId || d.submittedFrom === userId
-        )
-      );
     }
   }, [data]);
 

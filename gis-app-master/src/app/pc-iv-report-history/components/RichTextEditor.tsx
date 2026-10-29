@@ -21,8 +21,6 @@ import {
   AlignRight,
   AlignJustify,
   Link2,
-  Image,
-  Table,
   Undo,
   Redo,
   Highlighter,

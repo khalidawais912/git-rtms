@@ -14,18 +14,18 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import ToggleBetweenModals from "@/components/ToggleBetweenModals";
 import DragableTable from "./PPTSlideGenerator/DragableTable/DragableTable";
 import { SectorItem } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 const MasterReport = () => {
   const [fromDate, setFromDate] = useState<string>("");
   const [toDate, setToDate] = useState<string>("");
   const [slidePath, setSlidePath] = useState<string>("");
   const [isSubmitting, setSubmitting] = useState<boolean>(false);
   const [mrStatus, setMRStatus] = useState<number[]>([]);
-  const [sectorNames, setSectorNames] = useState<string[]>([]);
+  const [, setSectorNames] = useState<string[]>([]);
   const [sectors, setSectors] = useState<SectorItem[]>([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [, setSelectAll] = useState(false);
   const [selectAllMRStatus, setSelectAllMRStatus] = useState(false);
 
   const masterReportStatues = [
@@ -69,42 +69,7 @@ const MasterReport = () => {
     );
   };
 
-  const handleSectorChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
 
-    setSectors((prev) => {
-      let updated;
-      if (e.target.checked) {
-        const newItem = {
-          id: prev.length + 1,
-          title: value,
-        };
-        updated = [...prev, newItem];
-      } else {
-        updated = prev.filter((item) => item.title !== value);
-      }
-
-      setSelectAll(updated.length === sectorNames.length); // Update "Select All" state
-      // Recalculate IDs dynamically based on current order
-      return updated.map((item, index) => ({
-        ...item,
-        id: index + 1,
-      }));
-    });
-  };
-
-  const handleSelectAllChange = () => {
-    if (selectAll) {
-      setSectors([]); // Unselect all
-    } else {
-      const allSectorObjects = sectorNames.map((title, index) => ({
-        id: index + 1,
-        title,
-      }));
-      setSectors(allSectorObjects); // Select all
-    }
-    setSelectAll(!selectAll); // Toggle state
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -125,14 +90,6 @@ const MasterReport = () => {
       toast.error("Please select Atleast one Sector!");
       return;
     }
-    console.log("fromDate", new Date(fromDate).toISOString().split("T")[0]);
-    console.log("toDate", new Date(toDate).toISOString().split("T")[0]);
-    console.log("response object", {
-      mrStatus,
-      toDate: new Date(toDate).toISOString().split("T")[0],
-      fromDate: new Date(fromDate).toISOString().split("T")[0],
-      sector: sectors.map((sector) => sector.title),
-    });
     try {
       setSubmitting(true);
       const response = await apiClient.post(
@@ -145,7 +102,6 @@ const MasterReport = () => {
         },
       );
 
-      console.log(response);
       toast.success("PPT Generated Successfully");
       setSlidePath(
         process.env.NEXT_PUBLIC_BACKEND_API + "/" + response.data.data,
@@ -175,12 +131,6 @@ const MasterReport = () => {
       toast.info("Please select 'To Date'!");
       return;
     }
-    console.log("sectors async data: ", {
-      pirority: mrStatus,
-      to: new Date(toDate).toISOString().split("T")[0],
-      from: new Date(fromDate).toISOString().split("T")[0],
-      sector: [""],
-    });
     try {
       const response = await apiClient.post(
         `${GENERATE_REPORT_API}/GetSectorAsync`,
@@ -192,7 +142,6 @@ const MasterReport = () => {
         },
       );
 
-      console.log(response);
       setSectorNames(response.data.data);
       toast.success("Sectors Obtained Successfully");
     } catch (err) {
@@ -205,9 +154,10 @@ const MasterReport = () => {
     }
   }, [mrStatus, fromDate, toDate]);
 
-  useEffect(() => {
+  const onMrStatusChange = useEffectEvent(() => {
     setSelectAllMRStatus(mrStatus.length === masterReportStatues.length);
-  }, [mrStatus]);
+  });
+  useEffect(() => onMrStatusChange(), [mrStatus, onMrStatusChange]);
 
   useEffect(() => {
     if (mrStatus.length > 0 || fromDate.length > 0 || toDate.length > 0)

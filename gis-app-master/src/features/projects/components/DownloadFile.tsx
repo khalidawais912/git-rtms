@@ -855,7 +855,7 @@ const DownloadFile = () => {
                                   >
                                     <div
                                       className={`col p-0 ${
-                                        (i === 3 && j == 1) ||
+                                        (i === 3 && j === 1) ||
                                         i === 7 ||
                                         i === 8 ||
                                         i === 9 ||

@@ -4,7 +4,6 @@ import { useDistrict } from "@/features/districts";
 import { useDriver } from "@/features/drivers";
 import { useTourPlans } from "@/features/tour-plans";
 import { useVehicle } from "@/features/vehicles";
-import { useMemo } from "react";
 
 const useNewVisitPlanUtils = () => {
   const { data: users } = useAuthentication();

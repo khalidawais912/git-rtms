@@ -9,6 +9,7 @@ import {
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { StaffTracking } from "../StaffTracking";
 import { Position } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   path: Position[];
@@ -25,12 +26,6 @@ const TimelineCustomPath = ({
   endLocation,
   setOfficerDuration,
 }: Props) => {
-  const routeCoordinates = [
-    { lat: 43.6532, lng: -79.3832 }, // Toronto
-    { lat: 44.2312, lng: -76.4859 }, // Kingston
-    { lat: 45.4215, lng: -75.6972 }, // Ottawa
-    { lat: 45.5017, lng: -73.5673 }, // Montreal
-  ];
 
   return (
     <div
@@ -73,13 +68,11 @@ interface RoutePolylineProps {
 function RoutePolyline({
   routeCoordinates,
   recordingData,
-  startLocation,
-  endLocation,
   setOfficerDuration,
 }: RoutePolylineProps) {
   const map = useMap();
   const geometryLibrary = useMapsLibrary("geometry");
-  const [distance, setDistance] = useState<any>();
+  const [distance, setDistance] = useState<string>();
 
   const calculateDuration = (recordingData: StaffTracking[]) => {
     if (recordingData && recordingData[0].coordinates.length > 0) {
@@ -106,7 +99,7 @@ function RoutePolyline({
     }
   };
 
-  useEffect(() => {
+  const onMapChange = useEffectEvent(() => {
     if (!map) return;
 
     if (geometryLibrary && recordingData) {
@@ -156,7 +149,8 @@ function RoutePolyline({
     return () => {
       routePath.setMap(null);
     };
-  }, [map, routeCoordinates, geometryLibrary]);
+  });
+  useEffect(() => onMapChange(), [map, routeCoordinates, geometryLibrary, onMapChange]);
 
   return (
     <div

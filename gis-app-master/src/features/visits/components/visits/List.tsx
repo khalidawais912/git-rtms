@@ -20,7 +20,7 @@ import {
   SUBMITTED,
 } from "@/constants/statuses";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate, getName } from "@/utils";
+import { getName } from "@/utils";
 import { sort } from "fast-sort";
 import { inter } from "@/styles/fonts";
 import Image from "next/image";
@@ -31,13 +31,14 @@ import cancel from "@/public/icons/cancel.svg";
 import clock from "@/public/icons/clock.svg";
 import complete from "@/public/icons/complete.svg";
 import Form from "./Form";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface ListProps {
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const List = ({ refresh, setRefresh }: ListProps) => {
-  const { data, setData, setError, error, isLoading } = useVisits({
+  const { data, setData, setError, isLoading } = useVisits({
     refresh,
   });
   const { data: projects } = useProjects({ refresh });
@@ -108,7 +109,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);
@@ -128,12 +128,14 @@ const List = ({ refresh, setRefresh }: ListProps) => {
 
   const handleFilterData = (data: Visit[], status: string) => {
     setStatus(status);
-    setFilteredData(data?.filter((d: any) => d.status === status));
+    // The API sends status as text ("pending", "scheduled")
+    setFilteredData(data?.filter((d) => String(d.status) === status));
   };
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     handleFilterData(data, status);
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   return (
     <>

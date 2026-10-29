@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import apiClient, { AxiosError, CanceledError } from "@/services/client";
 
 interface Props {
@@ -11,7 +10,6 @@ const useData = <T>({ refresh = false, endpoint }: Props) => {
   const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
-  const notifyError = (message: string) => toast.error(message);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,7 +21,6 @@ const useData = <T>({ refresh = false, endpoint }: Props) => {
         });
         setData(response.data.data);
         setLoading(false);
-        console.log("api Data:", response.data.data);
       } catch (err) {
         if (err instanceof CanceledError) return;
         setError((err as AxiosError).message);

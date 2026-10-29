@@ -8,7 +8,7 @@ interface Props {
   observations: Groups;
 }
 
-const Reports = ({ reports, observations }: Props) => {
+const Reports = ({ reports }: Props) => {
 
   return (
     <div
@@ -43,7 +43,7 @@ const Reports = ({ reports, observations }: Props) => {
                 {d.reportPath && (
                   <>
                     <div className="col mx-2">
-                      <img
+                      <Image unoptimized width={567} height={200}
                         src="/images/pdfViewable.png"
                         alt="pdfViewable"
                         style={{

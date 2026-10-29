@@ -25,7 +25,7 @@ const customStyles: StylesConfig<Option, false> = {
     ...base,
     zIndex: 9999,
   }),
-  option: (base, state) => ({
+  option: (base) => ({
     ...base,
     fontSize: "14px",
   }),
@@ -34,9 +34,9 @@ const customStyles: StylesConfig<Option, false> = {
 const Dashboard = () => {
   const { data: tours } = useTourPlans();
   const [isClient, setIsClient] = useState(false);
-  const [showButtons, setShowButtons] = useState(true);
+  const [showButtons] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState("0px");
+  const [, setHeight] = useState("0px");
 
   useEffect(() => {
     setIsClient(true);

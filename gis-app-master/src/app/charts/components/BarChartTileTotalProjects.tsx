@@ -1,5 +1,5 @@
 import Button from "@/components/Button";
-import { ArrowUpRight03Icon, UserGroupIcon } from "@hugeicons/core-free-icons";
+import { ArrowUpRight03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
 import TileLabel from "./TileLabel";

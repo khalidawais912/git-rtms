@@ -6,20 +6,18 @@ import Button from "./Button";
 
 const LoginModal = () => {
   const postRoute = `${process.env.NEXT_PUBLIC_BACKEND_API}/api/Authentication/login`;
-  const [data, setData] = useState([]);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSumbit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = axios.post(postRoute, {
+      axios.post(postRoute, {
         userName,
         password,
       });
-      console.log("user logged in successfully", response);
     } catch (error) {
-      console.log("Error fetching data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 

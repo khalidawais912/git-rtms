@@ -2,7 +2,6 @@ const darkBlue = "#002060";
 const mateRed = "#963634";
 const orange = "#E26B0A";
 const green = "#00B050";
-const yellow = "#fcb103";
 export const tabs = [
   { label: "Reports Generated", backGroundColor: "#FFFF00" },
   { label: "Reports Generated (No_Comp Rat)", backGroundColor: darkBlue },

@@ -16,6 +16,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
 import { ProjectDocumentName } from "../schema";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   refresh: boolean;
@@ -41,7 +42,7 @@ const List = ({ refresh, setRefresh }: Props) => {
   const [hasMeasured, setHasMeasured] = useState(false);
   const [rowHeight, setRowHeight] = useState<number | null>(null);
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     // Skip recalculation if user manually set page limit
     if (isPageLimit) return;
 
@@ -68,7 +69,8 @@ const List = ({ refresh, setRefresh }: Props) => {
         setRowHeight(avgHeight);
       }
     }
-  }, [data, currentPage, isPageLimit]);
+  });
+  useEffect(() => onDataChange(), [data, currentPage, isPageLimit, onDataChange]);
 
   const notifyCreate = (msg: string) => toast.success(msg);
   const notifyError = (msg: string) => toast.error(msg);

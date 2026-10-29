@@ -17,10 +17,6 @@ const SingleProjectDashboardPage = ({ params }: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    console.log("check id", id);
-    console.log("check visit", visitId);
-  }, [id, visitId]);
 
   useEffect(() => {
     const handleSubmit = async (projectId: number, visitId: number) => {
@@ -30,10 +26,6 @@ const SingleProjectDashboardPage = ({ params }: Props) => {
           `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}&visitId=${visitId}`,
         );
         setData(response.data.data);
-        console.log(
-          `check now: projectid=${projectId}&visit=${visitId}`,
-          response,
-        );
         setLoading(false);
       } catch (err) {
         console.error("Submission error:", err);

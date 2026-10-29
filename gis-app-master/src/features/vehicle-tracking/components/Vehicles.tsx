@@ -1,6 +1,5 @@
 import { VEHICLE_API } from "@/services/endpoints";
 import Button from "@/components/Button";
-import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/services/client";
 import car1Right from "@/public/icons/car1Right.svg";
 import Image from "next/image";
@@ -9,53 +8,17 @@ import carFrontBlue from "@/public/icons/carFrontBlue.svg";
 import fuel from "@/public/icons/fuel.svg";
 import seat from "@/public/icons/seat.svg";
 import transmission from "@/public/icons/transmission.svg";
-import car2Left from "@/public/images/car2Left.png";
-import car3Left from "@/public/images/car3Left.png";
 import { AvailableVehicles } from "../types";
 const Vehicles = () => {
   const [status, setStatus] = useState<string>("all");
   const [data, setData] = useState<AvailableVehicles[]>();
   const [filteredData, setFilteredData] = useState<AvailableVehicles[]>();
-  const [refresh, setRefresh] = useState(false);
 
-  const items2 = [
-    {
-      driderName: "Jamshed Ali",
-      carName: "Toyota Corolla GLi",
-      carIcon: car1Right,
-    },
-    {
-      driderName: "Hammad",
-      carName: "Suzuki Alto",
-      carIcon: car3Left,
-    },
-    {
-      driderName: "Haroon",
-      carName: "Suzuki Swift",
-      carIcon: car2Left,
-    },
-    {
-      driderName: "Jamshed Ali",
-      carName: "Toyota Corolla GLi",
-      carIcon: car1Right,
-    },
-    {
-      driderName: "Hammad",
-      carName: "Suzuki Alto",
-      carIcon: car3Left,
-    },
-    {
-      driderName: "Haroon",
-      carName: "Suzuki Swift",
-      carIcon: car2Left,
-    },
-  ];
 
   useEffect(() => {
     const handleSubmit = async () => {
       try {
         const response = await apiClient.get(`${VEHICLE_API}/GetVehiclesList`);
-        console.log("Response:", response);
         setData(response.data.data);
       } catch (err) {
         console.error("Submission error:", err);
@@ -181,7 +144,7 @@ const Vehicles = () => {
                 <div className="row d-flex m-0 mb-2">
                   <div className="col-lg-12 col-md-12 col-sm-12 p-0 m-0 text-center">
                     {d.vehicleImage && (
-                      <img
+                      <Image unoptimized width={100} height={100}
                         src={
                           `${process.env.NEXT_PUBLIC_BACKEND_API}${d.vehicleImage}` ||
                           car1Right

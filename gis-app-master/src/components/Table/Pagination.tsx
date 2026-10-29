@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { PiCircleFill } from "react-icons/pi";
 import { GroupBase, SingleValue, StylesConfig } from "react-select";
@@ -13,8 +13,8 @@ const CustomSelect = dynamic(() => import("../Form/CustomSelect"), {
 
 interface Props {
   searchTerm: string;
-  filteredData: any[];
-  data: any[];
+  filteredData: unknown[];
+  data: unknown[];
   rows: number;
   setRows: Dispatch<SetStateAction<number>>;
   currentPage: number;
@@ -69,9 +69,6 @@ const Pagination = ({
     setCurrentPage(1);
   };
 
-  const handleLastPage = () => {
-    setCurrentPage(totalPages);
-  };
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
@@ -306,7 +303,7 @@ export const paginationSelectStyles: StylesConfig<
   false,
   GroupBase<OptionType>
 > = {
-  control: (base, state) => ({
+  control: (base) => ({
     ...base,
     "::-webkit-scrollbar": {
       width: "8px", // Narrower scrollbar

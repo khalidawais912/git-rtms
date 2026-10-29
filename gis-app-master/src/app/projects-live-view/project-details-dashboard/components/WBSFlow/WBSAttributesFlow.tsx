@@ -3,6 +3,7 @@ import "reactflow/dist/style.css";
 import { Groups } from "../../../types";
 import CustomModal from "@/components/CustomModal/CustomModal";
 import { FaImage } from "react-icons/fa";
+import Image from "next/image";
 
 interface Props {
   majorDeliverables: Groups;
@@ -10,7 +11,7 @@ interface Props {
 
 const WBSAttributesFlow = ({ majorDeliverables }: Props) => {
   // Generate unique IDs for nodes and edges
-  const getNodeId = (prefix: any, id: any) => `${prefix}-${id}`;
+  const getNodeId = (prefix: string, id: string | number) => `${prefix}-${id}`;
 
   // Transform data into nodes
   const nodes = [
@@ -111,7 +112,7 @@ const WBSAttributesFlow = ({ majorDeliverables }: Props) => {
                             }
                             body={
                               <div className="col text-center bg-white p-3 rounded-3">
-                                <img
+                                <Image unoptimized width={100} height={100}
                                   src={`${process.env.NEXT_PUBLIC_BACKEND_API}${attribute?.values[0]?.verificatioContentPath}`}
                                   className="img-fluid rounded-3 w-100"
                                   style={{
@@ -187,9 +188,5 @@ const edgeStyle = {
   stroke: "#009688",
 };
 
-const majorDeliverableStyle = {
-  textAlign: "center",
-  fontSize: "16px",
-};
 
 export default WBSAttributesFlow;

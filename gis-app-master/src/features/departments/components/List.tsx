@@ -80,10 +80,6 @@ const List = ({ refresh, setRefresh }: Props) => {
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
 
   // Paginate data to display only the current page's rows
-  const paginatedData = (searchTerm ? filteredData : data).slice(
-    (currentPage - 1) * rows,
-    currentPage * rows,
-  );
 
   const handleDelete = async (id: number) => {
     try {
@@ -91,7 +87,6 @@ const List = ({ refresh, setRefresh }: Props) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

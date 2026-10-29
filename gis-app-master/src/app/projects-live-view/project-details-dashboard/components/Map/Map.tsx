@@ -7,7 +7,6 @@ import {
 } from "@react-google-maps/api";
 import React, { useState } from "react";
 import projectLocation from "@/public/images/projectLocation.png";
-import { SingleProjectDashboard } from "../../../types";
 
 const containerStyle = {
   width: "100%",
@@ -16,11 +15,8 @@ const containerStyle = {
   boxShadow: "0px 3px 10px 1px #c4c4c4",
 };
 
-interface Props {
-  data: SingleProjectDashboard;
-}
 
-function Map({ data }: Props) {
+function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: `${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`,

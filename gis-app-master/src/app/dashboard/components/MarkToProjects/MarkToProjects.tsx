@@ -5,7 +5,7 @@ import TableData from "@/components/Table/TableData";
 import TableHeading from "@/components/Table/TableHeading";
 import apiClient, { AxiosError } from "@/services/client";
 import { BaseResponse, ErrorResponse } from "@/services/types";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PiCircleFill } from "react-icons/pi";
 import { toast } from "react-toastify";
 import Form from "./Form";
@@ -47,19 +47,16 @@ const MarkToProjects = ({ role }: Props) => {
     return () => controller.abort();
   }, [refresh]);
 
-  const handleUpdate = async (projectId: number) => {
-  };
 
   const handleDelete = async (id: number) => {
     try {
       const response = await apiClient.delete<ErrorResponse>(
         `${MARK_TO_EVALUATION_API}/${id}`,
       );
-      console.log("response", response);
       toast.success(response.data.responseMessage);
       setRefresh((prev) => !prev);
     } catch (err) {
-      console.log("err", err);
+      console.error("err", err);
       toast.error(
         (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
           "Please try again later!",

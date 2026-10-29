@@ -41,7 +41,6 @@ const FilterButtons = ({
           `${FILTER_SETTING_API}/GetUserFilters?userId=${userId}`
         );
         setUserFiltersData(response.data.data);
-        console.log("filtersss", response);
       } catch (err) {
         console.error("Submission error:", err);
       }

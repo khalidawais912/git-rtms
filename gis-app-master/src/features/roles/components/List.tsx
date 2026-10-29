@@ -25,7 +25,7 @@ interface ListProps {
 }
 const List = ({ refresh, setRefresh }: ListProps) => {
   const [isPageLimit, setPageLimit] = useState(false);
-  const { data, setData, setError, error, isLoading } = useRoles({ refresh });
+  const { data, setData, setError, isLoading } = useRoles({ refresh });
   const { data: rights } = useRights({ refresh });
   const deleteMessage = "Deleted Successfully!";
 
@@ -55,11 +55,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
     setFilteredData(filtered);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm !== "") {
-    }
-  };
 
   // Update searchTerm and clear search if empty
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +68,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

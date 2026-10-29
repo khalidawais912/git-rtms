@@ -32,7 +32,7 @@ function HirarchyFlow({ nodes, setNodes, onNodeClick }: Props) {
   const onNodesChange: OnNodesChange = useCallback(
     (changes) =>
       setNodes((nds) => applyNodeChanges(changes, nds) as CustomNode[]),
-    []
+    [setNodes]
   );
 
   const onEdgesChange: OnEdgesChange = useCallback(

@@ -106,7 +106,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       notifyError((err as AxiosError).message);

@@ -6,8 +6,7 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ActionMeta, SingleValue } from "react-select";
-import { toast } from "react-toastify";
+import { SingleValue } from "react-select";
 import rolesBlack from "@/public/icons/rolesBlack.svg";
 import { updateUserRole } from "../services";
 import { RoleOption as Option } from "../types";
@@ -31,7 +30,6 @@ const GroupingForm = ({ id, options, userName }: Props) => {
 
   const handleSelectGroup = (
     newValue: SingleValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>,
   ) => {
     if (newValue) {
       const selectedOptions = {
@@ -44,11 +42,7 @@ const GroupingForm = ({ id, options, userName }: Props) => {
     }
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -57,10 +51,8 @@ const GroupingForm = ({ id, options, userName }: Props) => {
       ? selectedOptions.map((group) => group.name)
       : null;
 
-    console.log("selectedOptions", selectedOptions);
     try {
-      const response = await updateUserRole(userName, roleName);
-      console.log(response);
+      await updateUserRole(userName, roleName);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -80,19 +72,6 @@ const GroupingForm = ({ id, options, userName }: Props) => {
   }));
 
   // Custom styles for react-select options
-  const customStyles = {
-    option: (provided: any, state: any) => ({
-      ...provided,
-      backgroundColor: state.isSelected
-        ? "#B0E0E6" // Light blue for selected options
-        : provided.backgroundColor,
-      color: state.isSelected ? "#000" : provided.color,
-    }),
-    multiValue: (provided: any) => ({
-      ...provided,
-      backgroundColor: "#B0E0E6", // Light blue for selected values
-    }),
-  };
 
   return (
     <>

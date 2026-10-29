@@ -5,11 +5,11 @@ import Loader from "@/components/Loader/Loader";
 import { SingleProjectDashboard } from "@/app/project-details-dashboard/types";
 import Reports from "@/app/project-details-dashboard/components/Reports";
 import apiClient from "@/services/client";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { IoWifiOutline } from "react-icons/io5";
 import { MdFullscreen } from "react-icons/md";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   id: string;
@@ -60,21 +60,14 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const onIdChange = useEffectEvent(() => {
     const handleSubmit = async (projectId: number, visitId: number) => {
       setLoading(true);
-      console.log(
-        `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}&visitId=${visitId}`,
-      );
       try {
         const response = await apiClient.get(
           `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}&visitId=${visitId}`,
         );
         setData(response.data.data);
-        console.log(
-          `check now: projectid=${projectId}&visit=${visitId}`,
-          response,
-        );
         setLoading(false);
       } catch (err) {
         console.error("Submission error:", err);
@@ -83,12 +76,12 @@ const SingleProjectLiveViewPage = ({ id, visitId }: Props) => {
     };
 
     handleSubmit(parseInt(id), visitId);
-  }, [id]);
+  });
+  useEffect(() => onIdChange(), [id, onIdChange]);
 
   const previewDate = (requriedDate: string) => {
     if (!requriedDate) return "";
 
-    console.log("requriedDate", requriedDate);
     return new Date(requriedDate).toLocaleDateString("en-GB", {
       weekday: "short",
       day: "2-digit",

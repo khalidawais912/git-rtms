@@ -7,8 +7,7 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import Select, { ActionMeta, MultiValue } from "react-select";
-import { toast } from "react-toastify";
+import { MultiValue } from "react-select";
 import dbGrey from "@/public/icons/dbGrey.svg";
 import { Option } from "../types";
 import CustomSelect from "@/components/Form/CustomSelect";
@@ -38,7 +37,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
         `${ATTRIBUTE_GROUP_MAPPING_API_Endpoint}/${id}`
       );
       const data = response.data.data; // Assuming this returns an array of group objects
-      console.log("attribute group mapping response data", data);
       setSelectedOptions(data); // Set the selected groups as objects
     } catch (error) {
       console.error("Error fetching selected groups:", error);
@@ -57,8 +55,7 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
   const handleClose = () => setShow(false);
 
   const handleSelectGroup = (
-    newValue: MultiValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: MultiValue<{ value: string; label: string }>
   ) => {
     // Map selected groups to the original format (GroupOption)
     const selectedOptions = newValue
@@ -71,11 +68,7 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
     setSelectedOptions(selectedOptions);
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -89,11 +82,10 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
 
     try {
       if (ATTRIBUTE_GROUP_MAPPING_API_Endpoint) {
-        const response = await apiClient.post(
+        await apiClient.post(
           ATTRIBUTE_GROUP_MAPPING_API_Endpoint,
           data
         );
-        console.log(response);
         handleClose();
       }
     } catch (error) {

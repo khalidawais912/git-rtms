@@ -20,7 +20,7 @@ const MasterReport = () => {
   const router = useRouter();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [refreshTabs, setRefreshTabs] = useState(false);
+  const [, setRefreshTabs] = useState(false);
 
   useEffect(() => {
     const handleSubmit = async () => {
@@ -28,14 +28,13 @@ const MasterReport = () => {
 
       try {
         const response = await apiClient.get(REPORT_API + "/GetALL");
-        console.log("response", response);
         if (response.status === 404) {
           toast.error(response.data);
         }
         setTabs(response.data);
         setLoading(false);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
         setLoading(false);
       }
@@ -47,7 +46,7 @@ const MasterReport = () => {
     if (!isLoading && tabs.length > 0) {
       router.push("/report-analysis/list");
     }
-  }, [isLoading, tabs]);
+  }, [isLoading, tabs, router]);
 
   return (
     <div

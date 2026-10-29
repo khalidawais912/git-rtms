@@ -3,7 +3,7 @@ import { TextareaHTMLAttributes, forwardRef } from "react";
 interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 const CustomTextArea = forwardRef<HTMLTextAreaElement, Props>(
-  ({ className, style, ...rest }, ref) => {
+  ({ className, style, ...rest }) => {
     return (
       <textarea
         {...rest}

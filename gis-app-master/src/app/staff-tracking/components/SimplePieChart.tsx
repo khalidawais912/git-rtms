@@ -3,14 +3,13 @@ import Button from "@/components/Button";
 import { ApexOptions } from "apexcharts"; // Import ApexOptions type
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import downArrowWhite from "@/public/icons/downArrowWhite.svg";
 
 // Dynamically import the ApexChart component (for SSR)
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const SimplePieChart = () => {
-  const chartRef = useRef<HTMLDivElement>(null);
   // Define chart options and data
   const [chartData] = useState<{
     options: ApexOptions; // Set the type as ApexOptions

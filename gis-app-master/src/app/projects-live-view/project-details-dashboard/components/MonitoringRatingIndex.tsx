@@ -5,7 +5,7 @@ interface Props {
   group: Groups;
 }
 const MonitoringRatingIndex = ({ group }: Props) => {
-  const [mri, setMRI] = useState<number>();
+  const [, setMRI] = useState<number>();
   useEffect(() => {
     const mriValue = group.group
       .find((g) => g.name.toLowerCase() === "performance")

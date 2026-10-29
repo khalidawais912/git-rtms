@@ -33,10 +33,6 @@ const Form = ({ setRefresh, id }: Props) => {
   const {
     register,
     handleSubmit,
-    setValue,
-    reset,
-    control,
-    formState: { errors },
   } = useForm<MarktoEvaluation>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -45,16 +41,13 @@ const Form = ({ setRefresh, id }: Props) => {
   });
 
   const onSubmit = async (formData: MarktoEvaluation) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     try {
-      const response = await apiClient({
+      await apiClient({
         method: "PUT",
         url: MARK_TO_EVALUATION_API,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(updatedMessage);
     } catch (err) {
@@ -90,8 +83,7 @@ const Form = ({ setRefresh, id }: Props) => {
               <GenericToggleControl
                 controlType="checkbox"
                 checked={false}
-                onCheckedChange={async (e) => {
-                  console.log(e, "testing");
+                onCheckedChange={async () => {
                 }}
               />
             </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import search2 from "@/public/icons/search2.svg";
 
 const SearchBar = () => {
-  const [visitId, setVisitId] = useState(0);
+  const [, setVisitId] = useState(0);
   return (
     <div className="row">
       <div className="col fw-bold" style={{ fontSize: "1.5rem" }}>

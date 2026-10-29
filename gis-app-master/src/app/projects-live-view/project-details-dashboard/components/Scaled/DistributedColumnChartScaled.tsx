@@ -2,10 +2,10 @@
 
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { useEffect, useRef, useState } from "react";
-import DetailAnalysis from "../DetailAnalysis";
 import { SingleProjectDashboard } from "../../../types";
 import Card from "../Card";
 import { GoArrowUpRight } from "react-icons/go";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -16,18 +16,15 @@ interface Props {
 
 const DistributedColumnChartScaled = ({
   data,
-  spi,
-  cpi,
-  projectRating,
 }: Props) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const [series, setSeries] = useState<number[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [calculatedData, setCalculatedData] = useState<string[]>([]);
   const astarik = ["", "*", "**", "***"];
-  const [allocation, setAllocation] = useState<string>();
-  const [releases, setReleases] = useState<string>();
-  const [utilization, setUtilization] = useState<string>();
+  const [, setAllocation] = useState<string>();
+  const [, setReleases] = useState<string>();
+  const [, setUtilization] = useState<string>();
 
   useEffect(() => {
     const financialAnalysis = data.groups.find((group) =>
@@ -61,16 +58,6 @@ const DistributedColumnChartScaled = ({
       const allocationValue = parseFloat(allocation || "0");
       const releasesValue = parseFloat(releases || "0");
       const utilizationValue = parseFloat(utilization || "0");
-      console.log(
-        "allocationValue:",
-        allocationValue,
-        "accumulativePC1Cost:",
-        accumulativePC1Cost,
-        "releasesValue:",
-        releasesValue,
-        "utilizationValue:",
-        utilizationValue,
-      );
 
       // Calculate percentages
       const allocationPercentage =
@@ -91,11 +78,6 @@ const DistributedColumnChartScaled = ({
         `${Math.round(releasesPercentage)}`,
         `${Math.round(utilizationPercentage)}`,
       ];
-      console.log(
-        allocationPercentage,
-        releasesPercentage,
-        utilizationPercentage,
-      );
       // Set the percentages in state
       setCalculatedData(percentages);
     }
@@ -135,7 +117,7 @@ const DistributedColumnChartScaled = ({
     setCategories(["Total Cost", "Allocation", "Releases", "Utilization"]);
   }, [data]);
 
-  useEffect(() => {
+  const onSeriesChange = useEffectEvent(() => {
     if (chartRef.current && series.length && categories.length) {
       const chartOptions: ApexOptions = {
         chart: {
@@ -227,7 +209,8 @@ const DistributedColumnChartScaled = ({
         chart.destroy();
       };
     }
-  }, [series, categories]);
+  });
+  useEffect(() => onSeriesChange(), [series, categories, onSeriesChange]);
 
   return (
     <>

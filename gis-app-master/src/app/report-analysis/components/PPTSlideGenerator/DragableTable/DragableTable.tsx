@@ -2,6 +2,7 @@
 import {
   closestCorners,
   DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
@@ -27,14 +28,15 @@ const DragableTable = ({ sectors, setSectors }: Props) => {
   const getSectorPos = (id: number) =>
     sectors.findIndex((sector) => sector.id === id);
 
-  const handleDragEnd = (event: { active: any; over: any }) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (active.id === over.id) return;
+    // Dropped outside the list, or back on the same row
+    if (!over || active.id === over.id) return;
 
     setSectors((sectors) => {
-      const originalPos = getSectorPos(active.id);
-      const newPos = getSectorPos(over.id);
+      const originalPos = getSectorPos(Number(active.id));
+      const newPos = getSectorPos(Number(over.id));
       return arrayMove(sectors, originalPos, newPos);
     });
   };

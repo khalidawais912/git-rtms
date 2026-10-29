@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import AnimatedCounter from "./AnimatedCounter";
 import { useEffect, useState } from "react";
 import styles from "./Menu.module.css";
+import Image from "next/image";
 
 interface Props {
   tideOneImage?: string;
@@ -60,8 +61,8 @@ const Menu = ({
         styles.cardContainer
       } ${classNames}`}
       style={{
-        outline: outline,
-        background: background,
+        outline,
+        background,
         borderRadius: "10px",
         overflow: "hidden",
         position: "relative",
@@ -76,7 +77,7 @@ const Menu = ({
             transition={{ duration: 3, ease: "easeInOut" }} // Control duration and easing
             style={{ position: "absolute", zIndex: 1, left: -50, right: 0 }}
           >
-            <img
+            <Image unoptimized width={170} height={170}
               src={tideOneImage}
               alt="tideOne"
               style={{ width: "160%", height: "170px" }}
@@ -89,7 +90,7 @@ const Menu = ({
             transition={{ duration: 2, ease: "easeInOut" }} // Control duration and easing
             style={{ position: "absolute", zIndex: 0, left: -35, right: 0 }}
           >
-            <img
+            <Image unoptimized width={170} height={170}
               src={tideTwoImage}
               alt="tideTwo"
               style={{ width: "250%", height: "170px" }}
@@ -99,7 +100,7 @@ const Menu = ({
       )}
       {showArrow && (
         <div style={{ position: "absolute", right: 0 }}>
-          <img
+          <Image unoptimized width={34} height={34}
             src="/icons/linkArrow.svg"
             className="img-fluid"
             style={{
@@ -122,7 +123,7 @@ const Menu = ({
       >
         {icon && (
           <div className="col-auto text-lg-end text-md-center text-center pe-0">
-            <img
+            <Image unoptimized width={100} height={100}
               src={icon}
               alt={icon}
               className="img-fluid"

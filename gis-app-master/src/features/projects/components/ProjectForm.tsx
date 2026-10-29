@@ -71,15 +71,13 @@ const ProjectForm = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("status", itemData.status);
         setValue("smdpProjectID", itemData.smdpProjectID);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: Project) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
 
     const modifiedFormData = {
       ...formData,
@@ -88,12 +86,11 @@ const ProjectForm = ({ api, method, id, setRefresh, refresh }: Props) => {
     };
 
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

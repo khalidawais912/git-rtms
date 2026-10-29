@@ -1,6 +1,8 @@
 import { formatDateTime } from "@/utils";
 import { useEffect, useState } from "react";
 import { StaffTracking } from "../StaffTracking";
+import Image from "next/image";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   data: StaffTracking;
@@ -64,12 +66,13 @@ const TimelineCard = ({
       : `${formattedTime}`;
   };
 
-  useEffect(() => {
+  const onOfficerDurationChange = useEffectEvent(() => {
     if (officerDuration && googleDuration) {
       const timeSpent = calculateTimeSpent(officerDuration, googleDuration);
       setTimeSpent(timeSpent);
     }
-  }, [officerDuration, googleDuration]);
+  });
+  useEffect(() => onOfficerDurationChange(), [officerDuration, googleDuration, onOfficerDurationChange]);
 
   return (
     <div className="col">
@@ -89,7 +92,7 @@ const TimelineCard = ({
             <p className="m-0 fs-6 fw-normal">{startLocation}</p>
           </div>
           <div className="col-auto img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"
@@ -114,7 +117,7 @@ const TimelineCard = ({
             </p>
           </div>
           <div className="col-auto img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"
@@ -132,7 +135,7 @@ const TimelineCard = ({
             </p>
           </div>
           <div className="col-auto img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"
@@ -148,7 +151,7 @@ const TimelineCard = ({
             </p>
           </div>
           <div className="col-auto img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"
@@ -166,7 +169,7 @@ const TimelineCard = ({
             </p>
           </div>
           <div className="col-auto img-fluid">
-            <img
+            <Image unoptimized width={2} height={30}
               src="/icons/verticalLine.svg"
               alt="verticalLine"
               className="img-fluid"

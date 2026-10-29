@@ -36,7 +36,6 @@ const ProgressScaled = ({ data }: Props) => {
         );
       }
 
-      console.log("physicalVsPlanned:", physicalVsPlanned);
 
       const achievedProgressVsFinancialProgress = data.groups
         .find((group) => group.name.toLowerCase().includes("progress analysis"))
@@ -51,7 +50,6 @@ const ProgressScaled = ({ data }: Props) => {
           parseFloat(achievedProgressVsFinancialProgress?.values[0]?.value)
         );
       }
-      console.log("achievedVsFinancial:", achievedVsFinancial);
     }
   }, [data]);
 

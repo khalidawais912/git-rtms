@@ -16,7 +16,7 @@ interface Props {
 }
 
 const VehicleTracking = ({ data }: Props) => {
-  const [refresh, setRefresh] = useState(false);
+  const [refresh] = useState(false);
 
   const { data: vehicles } = useVehicle({ refresh });
   const { data: drivers } = useDriver({ refresh });
@@ -62,7 +62,7 @@ const VehicleTracking = ({ data }: Props) => {
                 <div className="col-auto">
                   <span>
                     {d.officerPicture ? (
-                      <img
+                      <Image unoptimized width={47} height={47}
                         className="img-fluid rounded-circle"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.officerPicture}`}
                         alt="profilePic2"
@@ -155,7 +155,7 @@ const VehicleTracking = ({ data }: Props) => {
                 <div className="col-lg-4 col-md-8 col-sm-12">
                   <div className="row d-flex mt-2 m-0">
                     <div className="col-auto px-0">
-                      <img
+                      <Image unoptimized width={47} height={47}
                         className="img-fluid rounded-circle"
                         style={{
                           width: "47px",
@@ -213,7 +213,7 @@ const VehicleTracking = ({ data }: Props) => {
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-12 text-end pe-4">
                   {d.vehicalPicture ? (
-                    <img
+                    <Image unoptimized width={145} height={145}
                       className="img-fluid"
                       src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.vehicalPicture}`}
                       alt="carImage"

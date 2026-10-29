@@ -107,6 +107,8 @@ export interface Attributes {
       remarks: string;
       latitude: string;
       longitude: string;
+      /** 2 = critical observation */
+      priority?: number;
     },
   ];
   evaluationFormula: string;

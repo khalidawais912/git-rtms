@@ -1,6 +1,5 @@
 import Button from "@/components/Button";
-import MySimpleBarChart from "@/components/Charts/BarChart/MySimpleBarChart";
-import { ChartGradient, MyBarChartStyle, MyBarChartType, MyTwoLevelPieChartStyle, TwoLevelPieData } from "@/components/types";
+import { MyTwoLevelPieChartStyle, TwoLevelPieData } from "@/components/types";
 import { ArrowUpRight03Icon, Location01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Card from "./Card";
@@ -12,12 +11,6 @@ const SectorWiseProgressPieChartTile = ({
 }: {
   chartSize?: "small" | "large";
 }) => {
-  const socialGradientColor: ChartGradient = {
-    id: "my-gradient-color-3",
-    from: "#036CCF",
-    to: "#004687",
-    direction: "vertical", // optional
-  };
 
   const data: TwoLevelPieData = {
     outer: [

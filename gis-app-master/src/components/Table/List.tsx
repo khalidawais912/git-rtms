@@ -11,11 +11,9 @@ interface Props<T> {
 
 const ProjectsTable = <T,>({
   tableData,
-  setTableData,
   label,
   keys,
   allowLink = false,
-  searchTermDefault = "",
 }: Props<T>) => {
   return (
     <div>

@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const WaveAnimation = () => {
   return (
@@ -10,7 +11,7 @@ const WaveAnimation = () => {
         transition={{ duration: 2, ease: "easeInOut" }} // Duration of the animation
         style={{ position: "absolute", zIndex: 1, left: -50, right: 0 }} // Set proper z-index
       >
-        <img
+        <Image unoptimized width={1440} height={200}
           src="/images/attendance/wave1Blue.png"
           alt="Wave1Blue"
           style={{ width: "100%", height: "200px", opacity: "0.4" }}
@@ -23,7 +24,7 @@ const WaveAnimation = () => {
         transition={{ duration: 3, ease: "easeInOut" }} // Same duration for smooth animation
         style={{ position: "absolute", zIndex: 0, left: 0, right: 0 }} // Set proper z-index
       >
-        <img
+        <Image unoptimized width={1440} height={200}
           src="/images/attendance/wave2Blue.png"
           alt="Wave2Blue"
           style={{ width: "100%", height: "200px", opacity: "0.6" }}

@@ -15,7 +15,6 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import DragableTable from "./DragableTable/DragableTable";
-import ToggleBetweenModals from "@/components/ToggleBetweenModals";
 import { SectorItem } from "../../types";
 const PPTSlideGenerator = () => {
   const [fromDate, setFromDate] = useState<string>("");
@@ -92,14 +91,6 @@ const PPTSlideGenerator = () => {
       toast.error("Please select Atleast one Sector!");
       return;
     }
-    console.log("fromDate", new Date(fromDate).toISOString().split("T")[0]);
-    console.log("toDate", new Date(toDate).toISOString().split("T")[0]);
-    console.log("response object", {
-      priority,
-      toDate: new Date(toDate).toISOString().split("T")[0],
-      fromDate: new Date(fromDate).toISOString().split("T")[0],
-      sector: sectors.map((sector) => sector.title),
-    });
     try {
       setSubmitting(true);
       const response = await apiClient.post(
@@ -112,7 +103,6 @@ const PPTSlideGenerator = () => {
         },
       );
 
-      console.log(response);
       toast.success("PPT Generated Successfully");
       setSlidePath(
         process.env.NEXT_PUBLIC_BACKEND_API + "/" + response.data.data,
@@ -142,12 +132,6 @@ const PPTSlideGenerator = () => {
       toast.info("Please select 'To Date'!");
       return;
     }
-    console.log("sectors async data: ", {
-      pirority: priority,
-      toDate: new Date(toDate).toISOString().split("T")[0],
-      fromDate: new Date(fromDate).toISOString().split("T")[0],
-      sector: [""],
-    });
     try {
       const response = await apiClient.post(
         `${GENERATE_REPORT_API}/GetSectorAsync`,
@@ -159,7 +143,6 @@ const PPTSlideGenerator = () => {
         },
       );
 
-      console.log(response);
       setSectorNames(response.data.data);
       toast.success("Sectors Obtained Successfully");
     } catch (err) {

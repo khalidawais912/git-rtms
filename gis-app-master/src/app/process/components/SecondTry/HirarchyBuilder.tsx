@@ -6,7 +6,6 @@ import { OptionType } from "@/components/types";
 import { useRoles } from "@/features/roles";
 import apiClient from "@/services/client";
 import { getTimeAgo, hexToRgba } from "@/utils";
-import { Option } from "@/utils/types";
 import { Edge, MarkerType, Node } from "@xyflow/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,9 +16,10 @@ import { GoArrowLeft } from "react-icons/go";
 import { HiOutlineTrash } from "react-icons/hi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { SlSizeFullscreen } from "react-icons/sl";
-import { SingleValue, StylesConfig } from "react-select";
+import { SingleValue } from "react-select";
 import { toast } from "react-toastify";
 import HirarchyFlow from "./HirarchyFlow";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface DepartmentRolesSorting {
   roleId: number | unknown;
@@ -44,16 +44,15 @@ const HierarchyBuilder = () => {
           DEPARTMENT_ROLES_SORTING_API + "/GetByDepartment"
         );
         setData(response.data.data);
-        console.log("load previous hirarchy", response.data.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
     loadData();
   }, []);
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     if (data) {
       // Convert data to nodes and edges
       const loadedNodes: Node[] = data.map((item, index) => {
@@ -109,20 +108,14 @@ const HierarchyBuilder = () => {
       setEdges(loadedEdges);
       setNodeId(data.length + 1); // increment for new nodes later
 
-      console.log("📦 Reconstructed flow from DB", {
-        loadedNodes,
-        loadedEdges,
-      });
     }
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
   useEffect(() => {
     setClient(true);
   }, []);
 
-  useEffect(() => {
-    console.log("nodes", nodes);
-  }, [nodes, edges]);
 
   const getNodeLabel = (
     roleId: number,
@@ -213,7 +206,7 @@ const HierarchyBuilder = () => {
       id: newId,
       data: {
         role: roleId,
-        description: description,
+        description,
         label: getNodeLabel(roleId, description, nodes.length, () =>
           handleDeleteNode(newId)
         ),
@@ -366,54 +359,6 @@ const HierarchyBuilder = () => {
     }
   };
 
-  const logNodesInDisplayOrder = () => {
-    const nodeMap = new Map(nodes.map((node) => [node.id, node]));
-    const childrenMap = new Map<string, string[]>();
-
-    // Build children map from edges
-    edges.forEach((edge) => {
-      const source = edge.source;
-      const target = edge.target;
-
-      if (!childrenMap.has(source)) {
-        childrenMap.set(source, []);
-      }
-
-      childrenMap.get(source)!.push(target);
-    });
-
-    // Find root node(s) — nodes that are not targets
-    const allTargets = new Set(edges.map((e) => e.target));
-    const rootNodes = nodes.filter((n) => !allTargets.has(n.id));
-
-    const visited = new Set<string>();
-    const ordered: typeof nodes = [];
-
-    const dfs = (nodeId: string) => {
-      if (visited.has(nodeId)) return;
-      visited.add(nodeId);
-
-      const node = nodeMap.get(nodeId);
-      if (node) {
-        ordered.push(node);
-        const children = childrenMap.get(nodeId) || [];
-        children.forEach(dfs);
-      }
-    };
-
-    // Start DFS from each root node
-    rootNodes.forEach((root) => dfs(root.id));
-
-    console.log("🧩 Nodes in display order:");
-    ordered.forEach((node, index) => {
-      console.log(`Node ${index + 1}:`, {
-        displayIndex: index + 1,
-        role: node.data.role,
-        description: node.data.description,
-        staticId: node.id,
-      });
-    });
-  };
 
   const getNodesInDisplayOrder = (nodes: Node[], edges: Edge[]): Node[] => {
     const nodeMap = new Map(nodes.map((node) => [node.id, node]));
@@ -467,14 +412,12 @@ const HierarchyBuilder = () => {
 
   const handleSubmit = async () => {
     const payload = prepareDepartmentRolesSortingPayload(nodes, edges);
-    console.log("🧠 Final API Payload", payload);
 
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         `${DEPARTMENT_ROLES_SORTING_API}/save-sorting`,
         payload
       );
-      console.log("response", response);
       toast.success("Successfully submitted!");
     } catch (error) {
       toast.error("Failed to submit.");
@@ -492,26 +435,6 @@ const HierarchyBuilder = () => {
     };
   });
 
-  const customStyles: StylesConfig<Option, false> = {
-    control: (base) => ({
-      ...base,
-      fontSize: "14px",
-      border: "1px solid #E2E4E5",
-      fontWeight: "500",
-    }),
-    menu: (base) => ({
-      ...base,
-      zIndex: 9999,
-    }),
-    menuPortal: (base) => ({
-      ...base,
-      zIndex: 9999,
-    }),
-    option: (base, state) => ({
-      ...base,
-      fontSize: "14px",
-    }),
-  };
 
   return (
     <>

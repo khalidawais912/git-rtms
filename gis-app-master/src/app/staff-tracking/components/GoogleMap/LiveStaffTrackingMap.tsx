@@ -9,6 +9,7 @@ import { Fragment, useEffect, useState } from "react";
 import StaffCard from "../Map/StaffCard";
 import { StaffTracking } from "../StaffTracking";
 import { Position, TrackingRequestData } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   data: StaffTracking[];
@@ -28,8 +29,8 @@ const LiveStaffTrackingMap = ({
   const [selectedStaffIndex, setSelectedStaffIndex] = useState<
     number | undefined
   >(0);
-  const [open, setOpen] = useState(false);
-  const [zoom, setZoom] = useState(6);
+  const [, setOpen] = useState(false);
+  const [zoom] = useState(6);
   const [startLocation, setStartLocation] = useState<string>();
   const [endLocation, setEndLocation] = useState<string>();
 
@@ -61,15 +62,14 @@ const LiveStaffTrackingMap = ({
     }
   };
 
-  useEffect(() => {
+  const onLiveTrackingRequestBodyChange = useEffectEvent(() => {
     const interval = setInterval(() => {
       getStaffWithCoordinates(liveTrackingRequestBody);
-      console.log("liveTrackingRequestBody:", liveTrackingRequestBody);
-      console.log("coordinates updated");
     }, 5000); // Call every 5 seconds
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [liveTrackingRequestBody, markerPositions]);
+  });
+  useEffect(() => onLiveTrackingRequestBodyChange(), [liveTrackingRequestBody, markerPositions, onLiveTrackingRequestBodyChange]);
 
   return (
     <APIProvider apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`}>
@@ -108,6 +108,7 @@ const LiveStaffTrackingMap = ({
                   <span>
                     <div className="position-relative">
                       <div className="position-absolute">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                         <img
                           src="/images/locationPointRoadBig.png"
                           alt="locationPointRoadBig"
@@ -115,6 +116,7 @@ const LiveStaffTrackingMap = ({
                         />
                       </div>
                       <div className="position-absolute">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                         <img
                           className="img-fluid rounded-circle"
                           src={

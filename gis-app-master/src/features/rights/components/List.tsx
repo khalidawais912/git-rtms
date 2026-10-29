@@ -12,7 +12,6 @@ import TableWrapper from "@/components/Table/TableWrapper";
 import { useRights } from "../hooks";
 import { Right } from "../types";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -24,7 +23,7 @@ interface ListProps {
 }
 
 const List = ({ refresh, setRefresh }: ListProps) => {
-  const { data, setData, setError, error, isLoading } = useRights({ refresh });
+  const { data, setData, setError, isLoading } = useRights({ refresh });
   const deleteMessage = "Deleted Successfully!";
   const [isPageLimit, setPageLimit] = useState(false);
 
@@ -61,7 +60,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.rightId !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

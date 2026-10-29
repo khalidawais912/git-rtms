@@ -2,28 +2,31 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getSession } from "@/utils/session";
-import { useRouter } from "next/navigation";
 import { FaDownload, FaSearch } from "react-icons/fa";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
+
+/** One row of the DailyPresent API */
+interface PresentRecord {
+  employeeName: string;
+}
 
 const PresentAttendance = () => {
-  const [attendanceData, setAttendanceData] = useState<any>();
-  const [error, setError] = useState(null);
+  const [attendanceData, setAttendanceData] = useState<PresentRecord[]>();
 
-  const [pageName, setPageName] = useState("Present");
-  const [filteredData, setFilteredData] = useState([]); // For filtered data based on search
+  const [pageName] = useState("Present");
+  const [filteredData, setFilteredData] = useState<PresentRecord[]>([]); // For filtered data based on search
   const [selectedDate, setSelectedDate] = useState(""); // For manual date selection
   const [searchTerm, setSearchTerm] = useState(""); // For search input field
   const [currentPage, setCurrentPage] = useState(1); // For pagination
   const [recordsPerPage] = useState(40); // Number of records to show per page
 
-  const router = useRouter();
 
   // Function to get today's date in the required format
-  const getFormattedDate = (date: any) => {
+  const getFormattedDate = (date: Date | string) => {
     const d = new Date(date);
     let month = "" + (d.getMonth() + 1); // Months are 0-indexed, so add 1
     let day = "" + d.getDate();
-    let year = d.getFullYear();
+    const year = d.getFullYear();
 
     if (month.length < 2) month = "0" + month;
     if (day.length < 2) day = "0" + day;
@@ -32,7 +35,7 @@ const PresentAttendance = () => {
   };
 
   // Function to call the DailyAttendance API
-  const fetchAttendance = async (date: any) => {
+  const fetchAttendance = async (date: Date | string) => {
     const token = getSession("token"); // Get token from cookies for authentication
 
     if (!token) {
@@ -65,22 +68,13 @@ const PresentAttendance = () => {
   };
 
   // Automatically fetch today's attendance when component mounts
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     fetchAttendance(new Date()); // Call API with today's date on initial load
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   // Handle manual date selection and API call
-  const handleDateSubmit = () => {
-    if (selectedDate) {
-      fetchAttendance(selectedDate); // Call API with the selected date
-    } else {
-      alert("Please select a date");
-    }
-  };
 
-  // Log the updated attendanceData after it changes
-  useEffect(() => {
-  }, [attendanceData]); // Only runs when attendanceData changes
 
   // Real-time search handler
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,17 +83,15 @@ const PresentAttendance = () => {
     setSearchTerm(searchValue);
 
     // Filter attendance data based on search term
-    const filtered =
-      attendanceData &&
-      attendanceData.filter((data: any) =>
-        data.employeeName.toLowerCase().includes(searchValue),
-      );
+    const filtered = (attendanceData ?? []).filter((data) =>
+      data.employeeName.toLowerCase().includes(searchValue),
+    );
     setFilteredData(filtered);
   };
 
   const clearSearch = () => {
     setSearchTerm("");
-    setFilteredData(attendanceData); // Reset to original data
+    setFilteredData(attendanceData ?? []); // Reset to original data
   };
 
   // Calculate current records for pagination

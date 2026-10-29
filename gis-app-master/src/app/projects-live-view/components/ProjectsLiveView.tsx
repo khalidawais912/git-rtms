@@ -21,21 +21,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const ProjectsLiveView = () => {
-  const [activeFilter, setActiveFilter] = useState<"cmInitiative" | "adp">(
+  const [activeFilter] = useState<"cmInitiative" | "adp">(
     "cmInitiative",
   );
 
-  const [projectsData, setProjectsData] = useState<ProjectsList[]>();
-  const [otherFilters, setOtherFilters] = useState<FilterData[]>([]);
-  const [combinedFilters, setCombinedFilters] = useState<FilterData[]>([]);
+  const [, setProjectsData] = useState<ProjectsList[]>();
+  const [otherFilters] = useState<FilterData[]>([]);
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     const getProjectsList = async (status: string) => {
       setProjectsData([]);
-      console.log("status", status);
-      console.log("get projects with combinedFilters", combinedFilters);
       try {
         if (activeFilter === "cmInitiative") {
           const yearFilter = otherFilters.find(
@@ -46,14 +44,6 @@ const ProjectsLiveView = () => {
               `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=${status}`,
               [...cmInitiativeFilters, ...otherFilters],
             );
-            const sortedData = response.data.data
-              ?.slice() // avoid mutating response data
-              .sort((a: any, b: any) => {
-                const numA = Number(a.gsNo) || 0; // fallback for invalid/missing values
-                const numB = Number(b.gsNo) || 0;
-                return numA - numB;
-              });
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -66,14 +56,6 @@ const ProjectsLiveView = () => {
               `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=${status}`,
               [...cmInitiativeFilters, ...otherFilters],
             );
-            const sortedData = response.data.data
-              ?.slice() // avoid mutating response data
-              .sort((a: any, b: any) => {
-                const numA = Number(a.gsNo) || 0; // fallback for invalid/missing values
-                const numB = Number(b.gsNo) || 0;
-                return numA - numB;
-              });
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -86,14 +68,6 @@ const ProjectsLiveView = () => {
               `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=${status}`,
               [...oldCmInitiativeFilters, ...otherFilters],
             );
-            const sortedData = response.data.data
-              ?.slice() // avoid mutating response data
-              .sort((a: any, b: any) => {
-                const numA = Number(a.gsNo) || 0; // fallback for invalid/missing values
-                const numB = Number(b.gsNo) || 0;
-                return numA - numB;
-              });
-
             const specificPoject = response.data.data.find(
               (project: ProjectsList) => Number(project.gSno) === 309,
             );
@@ -107,14 +81,6 @@ const ProjectsLiveView = () => {
             `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=${status}`,
             [...adpFilters, ...otherFilters],
           );
-          const sortedData = response.data.data
-            ?.slice() // avoid mutating response data
-            .sort((a: any, b: any) => {
-              const numA = parseInt(String(a.gsNo).trim(), 10) || 0;
-              const numB = parseInt(String(b.gsNo).trim(), 10) || 0;
-              return numA - numB;
-            });
-
           const specificPoject = response.data.data.find(
             (project: ProjectsList) => Number(project.gSno) === 309,
           );
@@ -129,8 +95,8 @@ const ProjectsLiveView = () => {
     };
 
     getProjectsList("BeingMonitored");
-  }, []);
-  console.log("projectsData", projectsData);
+  });
+  useEffect(() => onMount(), [onMount]);
   const dummyProjects = [
     {
       reportStatus: "Average",

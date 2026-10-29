@@ -16,7 +16,6 @@ const TimelineAuto = ({
   data: VehicleTrackingRecording;
   vehicleNo: string;
 }) => {
-  const [open, setOpen] = useState(false);
   const position = { lat: 43.6532, lng: -79.3832 };
 
   return (
@@ -54,7 +53,7 @@ export function Directions({
     useState<google.maps.DirectionsRenderer>();
 
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(0);
+  const [routeIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
@@ -73,7 +72,6 @@ export function Directions({
       })
     );
 
-    console.log(directionsService);
   }, [routesLibrary, map]);
 
   useEffect(() => {
@@ -108,7 +106,6 @@ export function Directions({
 
   if (!leg) return null;
 
-  console.log(routes);
   return (
     <>
       {showBlackCard ? (

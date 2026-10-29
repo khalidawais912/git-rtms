@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Position } from "../../../types";
 const ProjectLocationMap = ({ height = "130px" }: { height?: string }) => {
   const [initialPosition, setInitialPosition] = useState<Position>();
-  const [zoom, setZoom] = useState<number>(17);
+  const [zoom] = useState<number>(17);
   useEffect(() => {
     setInitialPosition({
       lat: 31.1471,

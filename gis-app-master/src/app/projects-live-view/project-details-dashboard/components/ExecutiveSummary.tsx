@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { PiGridFourBold } from "react-icons/pi";
 import { BsCircleFill } from "react-icons/bs";
-import { Groups, SingleProjectDashboard } from "../../types";
+import { SingleProjectDashboard } from "../../types";
 
 interface Props {
   data: SingleProjectDashboard;
@@ -12,14 +12,14 @@ interface Props {
 
 const ExecutiveSummary = ({ data }: Props) => {
   const [gestationPeriod, setGestationPeriod] = useState(0);
-  const [plannedStartDate, setPlannedStartDate] = useState("");
+  const [, setPlannedStartDate] = useState("");
   const [pcICost, setPcICost] = useState(0);
   const [estimatedCostCompletion, setEstimatedCostCompletion] = useState(0);
   const [timeEstimateCompletion, setTimeEstimateCompletion] = useState(0);
   const [criticalObservations, setCriticalObservations] = useState<string[]>(
     []
   );
-  const [residentEngineer, setResidentEngineer] = useState(
+  const [residentEngineer] = useState(
     data.is_ResidentEngineer
   );
   const [reHiredMonths, setReHiredMonths] = useState<string>("");
@@ -36,7 +36,7 @@ const ExecutiveSummary = ({ data }: Props) => {
       const critical = obsGroup.attributes
         .filter(
           (att) =>
-            att.values?.[0]?.value && (att as any).values?.[0]?.priority === 2
+            att.values?.[0]?.value && att.values?.[0]?.priority === 2
         )
         .map((att) => att.values[0].value);
       setCriticalObservations(critical);

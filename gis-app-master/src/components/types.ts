@@ -1,3 +1,4 @@
+import type { StaticImageData } from "next/image";
 import type { TooltipProps } from "recharts";
 import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 
@@ -88,7 +89,7 @@ export interface PieItem {
   color?: string;
   gradient?: ChartGradient;
 
-  [key: string]: any; // ✅ REQUIRED for Recharts
+  [key: string]: unknown; // ✅ REQUIRED for Recharts
 }
 
 export interface TwoLevelPieData {
@@ -132,7 +133,7 @@ export interface Data {
   name: string;
   nameId: string;
   link: string;
-  icon: any;
+  icon: StaticImageData | string;
   backgroundColor: string;
 }
 

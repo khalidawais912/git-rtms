@@ -14,7 +14,7 @@ interface Props {
 
 export const getBlueGradientColor = (id: string): ChartGradient => {
   return {
-    id: id,
+    id,
     from: "#036CCF",
     to: "#004687",
   };

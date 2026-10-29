@@ -68,10 +68,8 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
     formState: { errors },
   } = useForm<Visit>({ resolver: zodResolver(schema) });
   const [show, setShow] = useState(false);
-  console.log(errors);
   const modalId = `formModal-${id}`;
 
-  const createdMessage = "Created Successfully";
   const updatedMessage = "Visit Scheduled Successfully";
 
   const handleClose = () => {
@@ -107,14 +105,13 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("reportPath", itemData[0].reportPath);
         setValue("tracking_status", itemData[0].tracking_status);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         setError((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: Visit) => {
-    console.log("Form Data:", formData);
     try {
       const modifiedFormData = {
         ...formData,
@@ -124,12 +121,11 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
         status: (formData.status = "scheduled"),
       };
 
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(updatedMessage);
       handleClose();
@@ -210,7 +206,7 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                         {...register("projectId", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"
                       >
-                        {projects?.map((d: any) => (
+                        {projects?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.name}
                           </option>
@@ -230,7 +226,7 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
                         {...register("assignedTo", { valueAsNumber: true })}
                         className="form-select form-select-sm color-light-dark"
                       >
-                        {users?.map((d: any) => (
+                        {users?.map((d) => (
                           <option key={d.id} value={d.id}>
                             {d.userName}
                           </option>

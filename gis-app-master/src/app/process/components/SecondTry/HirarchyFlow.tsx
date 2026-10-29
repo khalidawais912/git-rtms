@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   ReactFlow,
   Controls,
@@ -17,6 +17,7 @@ import {
   MarkerType,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   nodes: Node[];
@@ -92,10 +93,11 @@ function HirarchyFlow({
     );
   };
 
-  useEffect(() => {
+  const onEdgesChange2 = useEffectEvent(() => {
     // Recalculate node display indexes on edge change
     updateDisplayIndexesFromEdges();
-  }, [edges]);
+  });
+  useEffect(() => onEdgesChange2(), [edges, onEdgesChange2]);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),

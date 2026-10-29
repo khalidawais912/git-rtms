@@ -6,19 +6,16 @@ import TableHeading from "@/components/Table/TableHeading";
 import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
 import apiClient from "@/services/client";
 import {
-  addDayToFormattedDate,
   addSpaceToCamelCase,
   exportToPDF,
   formatKeyName,
-  getFormattedDate,
-  getTimeLeft,
 } from "@/utils";
-import { exportDataToExcel } from "@/utils/exportToExcel";
 import { sort } from "fast-sort";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AttendanceList } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   params: { attendanceFeature: string };
@@ -28,7 +25,7 @@ const AttendanceDetailsPage = ({ params }: Props) => {
   const currentPath = usePathname();
   const [data, setData] = useState<AttendanceList[]>();
   const [isLoading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(""); // For manual date selection
+   // For manual date selection
 
   const handleSubmit = async (startDate: string) => {
     try {
@@ -36,7 +33,6 @@ const AttendanceDetailsPage = ({ params }: Props) => {
         startDate,
       });
       setData(response.data.attendanceList);
-      console.log("attendace data ", response);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -44,10 +40,10 @@ const AttendanceDetailsPage = ({ params }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     handleSubmit(new Date().toISOString());
-    console.log("selectedDate:", selectedDate);
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   // State for search input
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -108,19 +104,6 @@ const AttendanceDetailsPage = ({ params }: Props) => {
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
 
   // Handle date selection
-  const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const date = e.target.value;
-    setSelectedDate(date);
-
-    try {
-      const response = await apiClient.post(`/${attendanceFeature}`, {
-        startDate: new Date(date).toISOString(),
-      });
-      setFilteredData(response.data.attendanceList); // Sync filteredData
-    } catch (err) {
-      console.error("Error fetching attendance by date:", err);
-    }
-  };
 
   const paginatedData =
     data &&
@@ -139,25 +122,13 @@ const AttendanceDetailsPage = ({ params }: Props) => {
   }));
 
   const tableRows = (searchTerm ? filteredData : data)?.map(
-    (data: any, index) => {
-      const row: Record<string, any> = { srNo: index + 1 }; // Initialize row with srNo
+    (data, index) => {
+      const row: Record<string, unknown> = { srNo: index + 1 }; // Initialize row with srNo
 
       keysForPDF.forEach((key) => {
         switch (key) {
           case "srNo":
             row[key] = index + 1;
-            break;
-          case "id":
-            row[key] = data.id;
-            break;
-          case "projectName":
-            row[key] = data.projectName;
-            break;
-          case "districtName":
-            row[key] = data.districtName;
-            break;
-          case "sectorName":
-            row[key] = data.sectorName;
             break;
           case "employeeName":
             row[key] = `${data.employeeName} (${data.employeeDesignation})`;
@@ -174,11 +145,8 @@ const AttendanceDetailsPage = ({ params }: Props) => {
                 : ""
             }`;
             break;
-          case "reportCompletion":
-            row[key] = `${Math.round(data.reportCompletion)}%`;
-            break;
           default:
-            row[key] = data[key]; // Handle any additional keys dynamically
+            row[key] = data[key as keyof AttendanceList]; // Handle any additional keys dynamically
         }
       });
 
@@ -204,123 +172,8 @@ const AttendanceDetailsPage = ({ params }: Props) => {
 
   const label = `${heading} Attendance List`;
 
-  const renameMap: Record<string, string> = {
-    srNo: "Sr No",
-    id: "GS No.",
-    fileGenrated: "REPORT GENERATED",
-    visitStartDate: "DATE RANGE",
-    visitCount: "No. OF VISITS",
-    // Add other mappings as needed
-  };
 
   // Export to Excel function
-  const exportToExcel = () => {
-    const headers = ["srNo", ...keys].map(formatKeyName); // Rename headers dynamically
-
-    const excelData = (searchTerm ? filteredData : data)?.map(
-      (item: any, index) => {
-        const row: Record<string, any> = {};
-
-        headers.forEach((header) => {
-          const key =
-            Object.keys(renameMap).find((k) => formatKeyName(k) === header) ||
-            header; // Find original key from renamed header
-
-          switch (key) {
-            case "srNo":
-              row[header] = index + 1;
-              break;
-            case "id":
-              row[header] = item.id;
-              break;
-            case formatKeyName("projectName"):
-              row[header] = item.projectName;
-              break;
-            case formatKeyName("districtName"):
-              row[header] = item.districtName;
-              break;
-            case formatKeyName("sectorName"):
-              row[header] = item.sectorName;
-              break;
-            case formatKeyName("userName"):
-              row[header] = `${item.userName} (${item.designation})`;
-              break;
-            case formatKeyName("reportCompletion"):
-              row[header] = `${Math.round(item.reportCompletion)}%`;
-              break;
-            case "visitStartDate":
-              row[header] =
-                item.visitStartDate &&
-                `${new Date(item.visitStartDate).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })} To ${
-                  item.visitEndDate &&
-                  new Date(item.visitEndDate).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })
-                }`;
-              break;
-            case formatKeyName("completedDate"):
-              row[header] =
-                item.completedDate &&
-                `${new Date(item.completedDate).toLocaleDateString("en-GB", {
-                  weekday: "short",
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}`;
-              break;
-            case formatKeyName("deadline"):
-              row[header] =
-                item.reportStatus && item.reportStatus.toLowerCase() === "yes"
-                  ? "Submitted"
-                  : `${getTimeLeft(item.deadline).replace("-", "")}`;
-              break;
-            case "visitCount":
-              row[header] = item.visitCount;
-              break;
-            case "fileGenrated":
-              row[header] = item.fileGenrated;
-              break;
-            case formatKeyName("cost"):
-              row[header] = item.cost;
-              break;
-            case formatKeyName("revisedAllocation"):
-              row[header] = item.revisedAllocation;
-              break;
-            case formatKeyName("pnDReleases"):
-              row[header] = item.pnDReleases;
-              break;
-            case formatKeyName("utilization"):
-              row[header] = item.utilization;
-              break;
-
-            default:
-              row[header] = item[formatKeyName(key)] || ""; // Handle any additional keys dynamically
-          }
-        });
-
-        return row;
-      },
-    );
-
-    exportDataToExcel(
-      excelData!,
-      headers,
-      `${label} ${new Date().toLocaleDateString("en-GB", {
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })}.xlsx`,
-    );
-  };
 
   return (
     <>

@@ -1,7 +1,5 @@
 import {
-  addDayToFormattedDate,
   formatAmountWithCommas,
-  getFormattedDate,
 } from "@/utils";
 import { SingleProjectDashboard } from "../../types";
 

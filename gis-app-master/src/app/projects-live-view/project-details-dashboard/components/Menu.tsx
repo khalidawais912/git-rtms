@@ -6,13 +6,9 @@ import levelUp from "@/public/icons/levelUp.svg";
 import meter from "@/public/icons/meter.svg";
 import tideOne from "@/public/images/tideOne.png";
 import tideTwo from "@/public/images/tideTwo.png";
-import { SingleProjectDashboard } from "../../types";
 
-interface Props {
-  data: SingleProjectDashboard;
-}
 
-const Menu = ({ data }: Props) => {
+const Menu = () => {
   const backgroundColors = {
     yellow:
       "linear-gradient(to bottom right, #FFEC40 , #A5E314, #D1E613,#DBDF11,#A3C50B)",

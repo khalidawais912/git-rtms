@@ -23,6 +23,7 @@ import VideoPreview from "./VideoPreview";
 import VideoTypeFilter from "./VideoTypeFilter";
 import WorkInProgress from "./WorkInProgress";
 import { SingleProjectDashboard } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const DistributedColumnChart = dynamic(
   () => import("./DistributedColumnChart"),
@@ -33,7 +34,7 @@ const SimplePieChart = dynamic(() => import("./SimplePieChart"), {
   ssr: false,
 });
 
-const WBSReportUpdated = dynamic(() => import("./WBSReportUpdated"), {
+dynamic(() => import("./WBSReportUpdated"), {
   ssr: false,
 });
 
@@ -90,7 +91,7 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
     }
   };
 
-  useEffect(() => {
+  const onDataChange = useEffectEvent(() => {
     if (data) {
       setProjectRating(
         searchMonitoringRatingIndex(
@@ -101,31 +102,13 @@ const ProjectDetailsDashboard = ({ data }: Props) => {
       );
       getCPIAndSPI();
     }
-  }, [data]);
+  });
+  useEffect(() => onDataChange(), [data, onDataChange]);
 
-  useEffect(() => {
-    console.log("dashboard api", data);
-  }, [data]);
 
   useEffect(() => {
     if (data) {
-      const filteredAttributes = data.groups.find((group) =>
-        group.name?.toLowerCase().includes("progress analysis"),
-      )?.attributes[5];
 
-      console.log("Filtered attributes: ", filteredAttributes);
-      console.log(
-        "lowercase attributes:",
-        filteredAttributes?.label.toLowerCase(),
-      );
-      console.log(
-        "lowercase attributes trim:",
-        filteredAttributes?.label.trim().toLowerCase(),
-      );
-      console.log(
-        "decimal value",
-        parseFloat(filteredAttributes?.values[0]?.value!),
-      );
     }
   }, [data]);
 

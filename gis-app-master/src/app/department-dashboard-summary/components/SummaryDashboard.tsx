@@ -16,7 +16,6 @@ import { Fragment } from "react";
 import { FaFile } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { PiCircleFill, PiLineVerticalThin } from "react-icons/pi";
-import { ActionMeta, SingleValue } from "react-select";
 import SummaryDetail from "./SummaryDetail";
 
 const SummaryDashboard = () => {
@@ -101,10 +100,8 @@ const SummaryDashboard = () => {
   ];
 
   const handleSelectChange = (
-    newValue: SingleValue<OptionType>,
-    actionMeta: ActionMeta<OptionType>
+    
   ) => {
-    console.log({ newValue, actionMeta });
     /* your state handling logic */
   };
 

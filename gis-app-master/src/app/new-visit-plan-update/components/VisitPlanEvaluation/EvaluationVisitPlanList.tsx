@@ -15,12 +15,9 @@ import { useTempTourPlans, TempTourPlan, useTourPlans } from "@/features/tour-pl
 import { useVehicle } from "@/features/vehicles";
 import apiClient from "@/services/client";
 import {
-  addDayToFormattedDate,
   deleteMessage,
-  getFormattedDate,
 } from "@/utils";
 import { AxiosError } from "axios";
-import { sort } from "fast-sort";
 import { useState } from "react";
 import { IoMdInformationCircle } from "react-icons/io";
 import { SingleValue } from "react-select";
@@ -35,7 +32,7 @@ const EvaluationVisitPlanList = ({
 }) => {
   const [refresh, setRefresh] = useState(false);
   const [visitPlanGroup, setVisitPlanGroup] = useState<number>(-1);
-  const { data, setData, isLoading } = useTempTourPlans({ refresh });
+  const { data, isLoading } = useTempTourPlans({ refresh });
   const { data: users } = useAuthentication();
   const { data: drivers } = useDriver();
   const { data: vehicles } = useVehicle();
@@ -49,10 +46,9 @@ const EvaluationVisitPlanList = ({
 
   const [isSubmitting, setSubmitting] = useState(false);
   // State for search input
-  const [searchTerm, setSearchTerm] = useState("");
 
   // State for filtered data
-  const [filteredData, setFilteredData] = useState<TempTourPlan[]>([]);
+  const [, setFilteredData] = useState<TempTourPlan[]>([]);
 
   const [formsData, setFormsData] = useState<COUTempTourPlan[]>([]);
   const [copiedFormData, setCopiedFormData] = useState<
@@ -60,72 +56,20 @@ const EvaluationVisitPlanList = ({
   >();
 
   // Handle search logic
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPage(1);
-    const filtered = data.filter((item) =>
-      [
-        item.gsNo.toString(),
-        item.projectId.toString(),
-        item.projectid.toString(),
-        item.projectName,
-        item.district,
-        item.sectors,
-        item.cost.toString(),
-        item.type.toString(),
-        item.userId.toString(),
-        item.meOfficerName,
-        item.section,
-        item.driverName,
-        item.vehicleNumber,
-      ]
-        .filter((field) => field) // Remove undefined fields
-        .map((field) => field.toLowerCase())
-        .some((field) => field.includes(e.target.value.toLowerCase())),
-    );
-    setFilteredData(filtered);
-  };
 
   // Update searchTerm and clear search if empty
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    handleSearch(e);
-  };
 
   // for sorting
-  const [sortConfig, setSortConfig] = useState<{
-    key: keyof TempTourPlan;
-    direction: "asc" | "desc";
-  } | null>(null);
 
-  const handleSort = (key: keyof TempTourPlan) => {
-    let direction: "asc" | "desc" = "asc";
-
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "asc"
-    ) {
-      direction = "desc";
-    }
-    const sortedData = sort(data)[direction](key);
-    setSortConfig({ key, direction });
-    setData([...sortedData]);
-  };
 
   // for selecting rows per page
-  const [rows, setRows] = useState(10); // Default to 11 rows per page
-  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+   // Default to 11 rows per page
+   // Track the current page
 
   // Paginate data to display only the current page's rows
-  const paginatedData = (searchTerm ? filteredData : data).slice(
-    (currentPage - 1) * rows,
-    currentPage * rows,
-  );
 
   const saveFormsData = async (formsData: COUTempTourPlan[]) => {
-    console.log("formsData", formsData);
     const filteredFormsData = formsData.filter((form) => form !== undefined);
-    console.log("filteredFormsData", filteredFormsData);
     try {
       const response = await apiClient.post(
         `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-or-update`,
@@ -141,7 +85,7 @@ const EvaluationVisitPlanList = ({
 
       setRefresh((prev) => !prev);
     } catch (err) {
-      console.log("err", err);
+      console.error("err", err);
       toast.error((err as AxiosError)?.response?.data as string);
     }
   };
@@ -151,9 +95,7 @@ const EvaluationVisitPlanList = ({
       toast.error("Please select visit plan");
       return;
     }
-    console.log("formsData", formsData);
     const filteredFormsData = formsData.filter((form) => form !== undefined);
-    console.log("filteredFormsData", filteredFormsData);
 
     const modifiedFormData: CreateVisit[] = filteredFormsData.map((form) => ({
       id: 0,
@@ -182,20 +124,18 @@ const EvaluationVisitPlanList = ({
       submitted_to: null,
     }));
 
-    console.log("crete-visit:", modifiedFormData);
     try {
       setSubmitting(true);
       const response = await apiClient.post(
         `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-visit`,
         modifiedFormData,
       );
-      console.log(response);
       toast.success(response.data.responseMessage);
       setFormsData([]);
       setRefresh((prev) => !prev);
     } catch (err) {
       setSubmitting(false);
-      console.log(err);
+      console.error(err);
       toast.error((err as AxiosError).message);
     } finally {
       setSubmitting(false); // Always run after try/catch
@@ -215,7 +155,6 @@ const EvaluationVisitPlanList = ({
 
   const exportToExcel = (data: TempTourPlan[]) => {
     // Prepare data for export
-    console.log("data", data);
 
     // Map the modifiedFormData to the desired Excel column structure
     const dataForExcel = data.map((item, index) => {
@@ -271,7 +210,6 @@ const EvaluationVisitPlanList = ({
         prevData.filter((item) => item !== undefined && item.id !== tempId),
       );
       toast.success(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       toast.error((err as AxiosError).message);

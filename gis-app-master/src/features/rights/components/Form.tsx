@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import type { Right as RightRecord } from "../types";
 
 const schema = z.object({
   rightId: z.number().optional().default(0),
@@ -29,7 +30,7 @@ interface Props {
   refresh: boolean;
 }
 
-const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
+const Form = ({ api, method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -54,28 +55,25 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
       try {
         const response = await apiClient.get(api);
         const itemData = response.data.data;
-        const data = itemData.find((item: any) => item.rightId === id);
+        const data = itemData.find((item: RightRecord) => item.rightId === id);
         setValue("rightId", data.rightId);
         setValue("rightName", data.rightName);
         setValue("rightIdentifier", data.rightIdentifier);
         setValue("createdAt", data.createdAt);
         setValue("updatedAt", new Date().toISOString());
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   };
 
   const onSubmit = async (formData: Right) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

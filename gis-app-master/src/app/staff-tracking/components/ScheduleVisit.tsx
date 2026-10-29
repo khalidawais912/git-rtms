@@ -10,12 +10,11 @@ import twoCirclesVertical from "@/public/icons/twoCirclesVertical.svg";
 import profilePic5 from "@/public/images/profilePic5.png";
 
 const ScheduleVisit = () => {
-  const items = ["a", "a", "a", "a", "a", "a"];
   const items2 = ["a", "a", "a", "a", "a", "a"];
 
   const refContainer1 = useRef<HTMLDivElement>(null);
   const refContent1 = useRef<HTMLDivElement>(null);
-  const [constraints1, setConstraints1] = useState({});
+  const [, setConstraints1] = useState({});
 
   useEffect(() => {
     // Wait until both container and content are rendered

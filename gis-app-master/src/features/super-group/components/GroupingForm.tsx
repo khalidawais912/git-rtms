@@ -8,10 +8,10 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ActionMeta, MultiValue } from "react-select";
-import { toast } from "react-toastify";
+import { MultiValue } from "react-select";
 import groupGrey from "@/public/icons/groupGray.svg";
 import SubmitButton from "@/components/Form/SubmitButton";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   id: number;
@@ -59,13 +59,13 @@ const GroupingForm = ({ id, options, dashboardType, superGroups }: Props) => {
   };
 
   // Fetch previously selected groups
-  useEffect(() => {
+  const onIdChange = useEffectEvent(() => {
     fetchSelectedOptions(superGroups);
-  }, [id, refresh, show, superGroups]);
+  });
+  useEffect(() => onIdChange(), [id, refresh, show, superGroups, onIdChange]);
 
   const handleSelectGroup = (
-    newValue: MultiValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: MultiValue<{ value: string; label: string }>
   ) => {
     // Map selected groups to the original format (GroupOption)
     const selectedOptions = newValue
@@ -78,28 +78,22 @@ const GroupingForm = ({ id, options, dashboardType, superGroups }: Props) => {
     setSelectedOptions(selectedOptions);
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const optionIds = selectedOptions.map((group) => group.id);
-    console.log("optionIds", optionIds);
     const data = {
       superGroupId: id,
       groupsId: optionIds,
     };
 
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         `${SUPER_GROUP_API_Endpoint}/addGroupsToSuperGroup`,
         data
       );
-      console.log(response);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);

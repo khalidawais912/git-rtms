@@ -1,8 +1,5 @@
-import Image from "next/image";
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import more from "@/public/icons/more.svg";
-import Button from "@/components/Button";
 import CustomInput from "@/components/Form/CustomInput";
 import CustomLabel from "@/components/Form/CustomLabel";
 import FormWrapper from "@/components/Form/FormWrapper";
@@ -12,8 +9,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { FiPlus } from "react-icons/fi";
-import { HiOutlineDotsVertical } from "react-icons/hi";
 import ActionButton from "@/components/Table/ActionButton";
 
 const schema = z.object({
@@ -65,21 +60,18 @@ const Form = ({ api, method, id, setRefresh }: Props) => {
         setValue("createdAt", itemData.createdAt);
         setValue("updatedAt", new Date().toISOString());
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: SuperGroup) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

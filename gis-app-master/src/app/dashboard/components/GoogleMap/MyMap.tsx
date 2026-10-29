@@ -11,12 +11,10 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import {
   DISTRICT_API,
   MAIN_DASHBOARD_API,
-  SINGLE_PROJECT_DASHBOARD_API,
 } from "@/services/endpoints";
 import { useDistrict } from "@/features/districts";
 import apiClient from "@/services/client";
-import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { DistrictList, MainDashboard } from "../Dashboard";
 import { FilterData, DistrictProjects } from "../../types";
 import DistrictCard from "./DistrictCard";
@@ -49,7 +47,7 @@ const MyMap = ({
     lat: 31.1704,
     lng: 72.7097,
   };
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const [districtList, setDistrictList] = useState<DistrictList[]>([]);
 
   useEffect(() => {
@@ -62,7 +60,6 @@ const MyMap = ({
   );
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
   const [showButton, setShowButton] = useState(false);
-  const router = useRouter();
 
   const [activeDistrictId, setActiveDistrictId] = useState<number | null>(null);
   const [activeProjects, setActiveProjects] = useState<DistrictProjects[]>([]);
@@ -164,21 +161,6 @@ const MyMap = ({
     }
   };
 
-  const handleProjectSubmit = async (projectId: number) => {
-    try {
-      const response = await apiClient.get(
-        `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}`,
-      );
-      if (response.data.data) {
-        router.push(`/projectDetailsDashboard/${projectId}`);
-      } else {
-        toast.error("This Project is not yet Monitored");
-      }
-    } catch (err) {
-      console.error("Submission error:", err);
-      toast.error("This Project is not yet Monitored");
-    }
-  };
 
   const handleBackButtonClick = async () => {
     setShowButton(false);
@@ -218,7 +200,7 @@ const MyMap = ({
       ]);
     }
     try {
-      const response = await apiClient.post(MAIN_DASHBOARD_API, [
+      await apiClient.post(MAIN_DASHBOARD_API, [
         { filterIdentifier: "", filterValues: "" },
       ]);
       setActiveProjects([]);
@@ -347,6 +329,7 @@ const MyMap = ({
                     }
                   >
                     <span>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                       <img
                         src="/images/districtLocation.png"
                         alt="districtLocation"
@@ -400,6 +383,7 @@ const MyMap = ({
                       }
                     >
                       <span>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
                         <img
                           src="/images/projectLocation.png"
                           alt="projectLocation"

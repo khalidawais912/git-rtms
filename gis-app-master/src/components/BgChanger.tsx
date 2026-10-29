@@ -11,7 +11,6 @@ const BgChanger = () => {
 
   useEffect(() => {
     const type = searchParams.get("dashboardType");
-    console.log("searchParams type", type);
     setCurrentType(type);
   }, [searchParams]);
 
@@ -46,7 +45,6 @@ const BgChanger = () => {
 
   const pathSegment = currentPath.split("/")[1]; // e.g., "sectors"
   const isImagePath = pagePathsForBgImage.includes(pathSegment);
-  console.log(pathSegment);
 
   // #CFE6F8
   useBackground(

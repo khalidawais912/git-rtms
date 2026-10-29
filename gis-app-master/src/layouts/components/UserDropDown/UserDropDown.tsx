@@ -15,6 +15,7 @@ import ChangePasswordForm from "./ChangePasswordForm";
 import styles from "@/components/DownloadDropDown/Dropdown.module.css";
 import UploadProfileImgAndSign from "./UploadProfileImgAndSign";
 import navStyles from "../Navbar/Navbar.module.css";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 /** "super_admin" → "SA", "umar shafiq" → "US" */
 const initials = (name: string) =>
@@ -78,7 +79,7 @@ const UserDropDown = () => {
     };
   }, []);
 
-  const [currentTime, setCurrentTime] = useState("");
+  const [, setCurrentTime] = useState("");
 
   useEffect(() => {
     const formatTime = (date: Date) => {
@@ -100,7 +101,7 @@ const UserDropDown = () => {
   }, []);
 
   const [data, setData] = useState<FeedbackItem[]>();
-  useEffect(() => {
+  const onUserIdChange = useEffectEvent(() => {
     const handleSubmit = async (userId: number) => {
       try {
         const response = await apiClient.get(
@@ -112,7 +113,8 @@ const UserDropDown = () => {
       }
     };
     if (userId && role === "director") handleSubmit(userId);
-  }, [userId]);
+  });
+  useEffect(() => onUserIdChange(), [userId, onUserIdChange]);
 
   return (
     <>
@@ -150,7 +152,7 @@ const UserDropDown = () => {
           >
             <div className="row d-flex align-items-center m-0 pt-1">
               <div className="col-auto m-auto ms-1 mt-1 mb-1 p-0">
-                <img
+                <Image unoptimized
                   className="img-fluid rounded-circle m-0"
                   src="/icons/logoNew.svg"
                   style={{ objectFit: "cover" }}

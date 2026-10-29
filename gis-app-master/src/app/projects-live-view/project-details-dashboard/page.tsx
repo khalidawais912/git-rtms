@@ -3,16 +3,7 @@ import { MAIN_DASHBOARD_API } from "@/services/endpoints";
 import useLazyFetch from "@/hooks/useLazyFetch";
 
 const ProjectDetailsDashboard = () => {
-  const { data, error, isLoading, fetchData } = useLazyFetch<any>();
-  const formData = {
-    id: 40,
-    parentId: 0,
-    name: "test updated",
-    description: "",
-    createdAt: "",
-    updateAt: "",
-    sortId: 8,
-  };
+  const { data, error, isLoading, fetchData } = useLazyFetch<Record<string, unknown>>();
   const handleFetch = () => {
     fetchData({
       endpoint: `${MAIN_DASHBOARD_API}`,

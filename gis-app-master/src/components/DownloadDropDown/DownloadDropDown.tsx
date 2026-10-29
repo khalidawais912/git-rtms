@@ -1,5 +1,4 @@
 "use client";
-import downloadBlack2 from "@/public/icons/downloadBlack2.svg";
 import excel from "@/public/icons/excel.svg";
 import pdf from "@/public/icons/pdf.svg";
 import Image from "next/image";

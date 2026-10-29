@@ -32,7 +32,7 @@ interface Props {
   refresh: boolean;
 }
 
-const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
+const Form = ({ api, method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -65,22 +65,19 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("createdAt", itemData.createdAt);
         setValue("updatedAt", new Date().toISOString());
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: Driver) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
@@ -99,7 +96,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      console.log("Dropped file:", e.dataTransfer.files[0]);
       setSelectedFile(e.dataTransfer.files[0]);
       // Do your upload logic here
     }

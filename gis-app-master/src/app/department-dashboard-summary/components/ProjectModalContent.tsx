@@ -235,7 +235,7 @@ const ProjectModalContent = () => {
                   <p className="m-0 whiteSpaceNoWrap">Planned Date</p>
                 </div>
                 <div className="p-0" style={{ width: "2px" }}>
-                  <img
+                  <Image unoptimized width={2} height={14}
                     src="/icons/lineVerticalDashed.svg"
                     alt="lineVerticalDashed"
                     className="img-fluid"
@@ -276,7 +276,7 @@ const ProjectModalContent = () => {
                   <p className="m-0 whiteSpaceNoWrap">Planned Date</p>
                 </div>
                 <div className="p-0" style={{ width: "2px" }}>
-                  <img
+                  <Image unoptimized width={2} height={14}
                     src="/icons/lineVerticalDashed.svg"
                     alt="lineVerticalDashed"
                     className="img-fluid"

@@ -1,17 +1,14 @@
-import Button from "@/components/Button";
 import CustomInput from "@/components/Form/CustomInput";
 import CustomLabel from "@/components/Form/CustomLabel";
 import FormWrapper from "@/components/Form/FormWrapper";
 import SubmitButton from "@/components/Form/SubmitButton";
 import apiClient, { AxiosError } from "@/services/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import more from "@/public/icons/more.svg";
 import ActionButton from "@/components/Table/ActionButton";
 import { TbFileUpload } from "react-icons/tb";
 
@@ -43,7 +40,7 @@ interface Props {
   refresh: boolean;
 }
 
-const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
+const Form = ({ api, method, id, setRefresh }: Props) => {
   const {
     register,
     handleSubmit,
@@ -82,22 +79,19 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
         setValue("createdAt", itemData.createdAt);
         setValue("updatedAt", new Date().toISOString());
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
         toast.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: Vehicle) => {
-    console.log("Form Data:", formData);
-    console.log(errors);
     try {
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: api,
         data: formData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();
@@ -116,7 +110,6 @@ const Form = ({ api, method, id, setRefresh, refresh }: Props) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      console.log("Dropped file:", e.dataTransfer.files[0]);
       setSelectedFile(e.dataTransfer.files[0]);
       // Do your upload logic here
     }

@@ -24,7 +24,6 @@ const LoginNew = () => {
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
   const [buttonType, setButtonType] = useState(true);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [isCookiesSaved, setCookiesSaved] = useState(false);
 
   const createdMessage = "Logged In Successfully!";
   const errorMessage = "Username or Password is not Correct!";
@@ -48,7 +47,7 @@ const LoginNew = () => {
       }
     } catch (err) {
       setSubmitting(false);
-      console.log(err);
+      console.error(err);
       notifyError(
         (err as AxiosError<ErrorResponse>).response?.data.responseMessage ||
           errorMessage,

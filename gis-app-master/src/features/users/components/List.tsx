@@ -9,7 +9,6 @@ import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Form from "./Form";
-import Avatar from "@/components/Avatar";
 import Loader from "@/components/Loader/Loader";
 import Actions from "@/components/Table/Actions";
 import Pagination from "@/components/Table/Pagination";
@@ -31,7 +30,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   const { data, setData, setError, isLoading } = useAuthentication({
     refresh,
   });
-  console.log("data", data);
   const [isPageLimit, setPageLimit] = useState(false);
   const { data: roles } = useRoles({ refresh });
   const deleteMessage = "Deleted Successfully!";
@@ -57,11 +55,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
     setFilteredData(filtered);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm !== "") {
-    }
-  };
 
   // Update searchTerm and clear search if empty
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +70,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
         prevData.filter((item) => item.userName !== userName),
       );
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

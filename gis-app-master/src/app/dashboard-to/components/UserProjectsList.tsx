@@ -36,20 +36,16 @@ const UserProjectsList = ({
   showData,
   setShowData,
 }: ListProps) => {
-  const { error, setError, isLoading } = useProjects({
+  const { isLoading } = useProjects({
     refresh,
   });
   const { data: sectorsData } = useSectors({ refresh });
   const { data: superGroups } = useSuperGroups({ refresh });
   const { data: users } = useAuthentication({ refresh });
-  const [originalData, setOriginalData] = useState<Project[]>([]); // Store the original data
+  const [, setOriginalData] = useState<Project[]>([]); // Store the original data
   const [data, setData] = useState<Project[]>([]); // Store the original data
 
-  const deleteMessage = "Deleted Successfully!";
-  const syncMessage = "Attribute Values synced Successfully!";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // State for search input
   const [searchTerm, setSearchTerm] = useState("");
@@ -115,7 +111,6 @@ const UserProjectsList = ({
       const response = await apiClient.get(
         `${GET_USER_PROJECTS_API}?userId=${id}`,
       );
-      console.log("Response:", response);
       setData(response.data.data);
       setCurrentPage(1);
     } catch (err) {

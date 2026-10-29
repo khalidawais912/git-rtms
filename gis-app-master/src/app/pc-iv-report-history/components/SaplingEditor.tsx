@@ -9,9 +9,16 @@ import "react-quill/dist/quill.snow.css";
 
 const SAPLING_API_KEY = process.env.NEXT_PUBLIC_SAPLING_KEY; // <-- replace with your Sapling key
 
+/** One suggestion from the Sapling edits API */
+interface SaplingEdit {
+  error_type: string;
+  suggestion: string;
+  context: { text: string };
+}
+
 export default function SaplingEditor() {
   const [content, setContent] = useState("");
-  const [errors, setErrors] = useState<any[]>([]);
+  const [errors, setErrors] = useState<SaplingEdit[]>([]);
 
   // Call Sapling grammar check
   const checkGrammar = async () => {

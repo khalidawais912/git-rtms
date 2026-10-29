@@ -1,7 +1,6 @@
 "use client";
 import { DRIVER_API } from "@/services/endpoints";
 import Avatar from "@/components/Avatar";
-import Button from "@/components/Button";
 import DeleteModal from "@/components/DeleteModal";
 import Loader from "@/components/Loader/Loader";
 import Actions from "@/components/Table/Actions";
@@ -13,7 +12,6 @@ import TableHeading from "@/components/Table/TableHeading";
 import { useDriver } from "../hooks";
 import { Driver } from "../types";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -54,11 +52,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
     setFilteredData(filtered);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm !== "") {
-    }
-  };
 
   // Update searchTerm and clear search if empty
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +86,6 @@ const List = ({ refresh, setRefresh }: ListProps) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);
@@ -105,31 +97,13 @@ const List = ({ refresh, setRefresh }: ListProps) => {
   const [rows, setRows] = useState(10); // Default to 11 rows per page
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
 
-  const handleRowsPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRows(parseInt(e?.target.value, 10));
-    setCurrentPage(1);
-  };
 
   // Determine the data to display for the current page
-  const indexOfLastRow = currentPage * rows;
-  const indexOfFirstRow = indexOfLastRow - rows;
-  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
 
   // for pagination buttons
-  const totalPages = Math.ceil(data.length / rows);
   // Handle previous page
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
 
   // Handle next page
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   // Paginate data to display only the current page's rows
   const paginatedData = (searchTerm ? filteredData : data).slice(
@@ -137,71 +111,9 @@ const List = ({ refresh, setRefresh }: ListProps) => {
     currentPage * rows,
   );
 
-  const handleFirstPage = () => {
-    setCurrentPage(1);
-  };
 
-  const handleLastPage = () => {
-    setCurrentPage(totalPages);
-  };
 
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const maxPageNumbers = 5; // Maximum visible page numbers
-    const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
-    const endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
 
-    if (startPage > 1) {
-      pageNumbers.push(
-        <Button
-          key="ellipsis-start"
-          className="btn bg-color-sea-green shadow me-2"
-          disabled
-          style={{ border: "1px solid #445E84" }}
-        >
-          ...
-        </Button>,
-      );
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <Button
-          key={i}
-          className={`btn ${
-            i === currentPage
-              ? "bg-color-matte-light-blue text-dark"
-              : "bg-color-sea-green shadow text-white"
-          } me-2`}
-          onClick={() => handlePageChange(i)}
-          style={{
-            border: "1px solid #445E84",
-          }}
-        >
-          {i}
-        </Button>,
-      );
-    }
-
-    if (endPage < totalPages) {
-      pageNumbers.push(
-        <Button
-          key="ellipsis-end"
-          className="btn bg-color-sea-green shadow me-2 text-white"
-          disabled
-          style={{ border: "1px solid #445E84" }}
-        >
-          ...
-        </Button>,
-      );
-    }
-
-    return pageNumbers;
-  };
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
   return (
     <>

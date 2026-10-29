@@ -39,7 +39,7 @@ interface Props {
   data: AttributeGroup[];
 }
 
-const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
+const Form = ({ api, method, id, setRefresh, data }: Props) => {
   const {
     register,
     handleSubmit,
@@ -80,13 +80,12 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
         setGroupType(itemData.group_type === 1 ? true : false);
         setGroupNature(itemData.group_nature === 1 ? true : false);
       } catch (err) {
-        console.log((err as AxiosError).message);
+        console.error((err as AxiosError).message);
       }
     }
   };
 
   const onSubmit = async (formData: AttributeGroup) => {
-    console.log(errors);
     try {
       const modifiedFormData = {
         ...formData,
@@ -94,14 +93,12 @@ const Form = ({ api, method, id, setRefresh, refresh, data }: Props) => {
         group_type: isGroupType ? 1 : 0,
         group_nature: isGroupNature ? 1 : 0,
       };
-      console.log("modified Form Data:", modifiedFormData);
 
-      const response = await apiClient({
-        method: method,
+      await apiClient({
+        method,
         url: method === "POST" ? api : `${api}/${id}`,
         data: modifiedFormData,
       });
-      console.log("Response:", response);
       setRefresh((prev) => !prev);
       toast.success(method === "POST" ? createdMessage : updatedMessage);
       handleClose();

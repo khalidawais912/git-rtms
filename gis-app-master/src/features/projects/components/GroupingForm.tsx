@@ -7,8 +7,7 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ActionMeta, SingleValue } from "react-select";
-import { toast } from "react-toastify";
+import { SingleValue } from "react-select";
 import superGroupBlack from "@/public/icons/superGroupBlack.svg";
 import { SuperGroupOption as Option } from "../types";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -34,7 +33,6 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
       const response = await apiClient.get(
         `${SUPER_GROUP_API_Endpoint}/GetSuperGroupByProjectId?ProjectId=${id}`
       );
-      console.log("supergroup new api", response);
       const data = response.data.data; // Assuming this returns an array of group objects
       if (data?.id) {
         const selectedOptions = {
@@ -61,8 +59,7 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
   const handleClose = () => setShow(false);
 
   const handleSelectGroup = (
-    newValue: SingleValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: SingleValue<{ value: string; label: string }>
   ) => {
     // Map selected groups to the original format (GroupOption)
     if (newValue) {
@@ -76,11 +73,7 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
     }
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -89,18 +82,15 @@ const GroupingForm = ({ id, options, dashboardType }: Props) => {
       ? selectedOptions.map((group) => group.id)
       : null;
 
-    console.log("selectedOptions", selectedOptions);
     try {
       if (selectedOptions.length > 0) {
-        const response = await apiClient.post(
+        await apiClient.post(
           `${SUPER_GROUP_API_Endpoint}/AssignSuperGroupToProject?superGroupID=${optionId}&projectID=${id}`
         );
-        console.log("supergroup assigned", response);
       } else {
-        const response = await apiClient.post(
+        await apiClient.post(
           `${SUPER_GROUP_API_Endpoint}/AssignSuperGroupToProject?projectID=${id}`
         );
-        console.log(response);
       }
       handleClose();
     } catch (error) {

@@ -7,7 +7,6 @@ import { useDistrict } from "@/features/districts";
 import { useSectors } from "@/features/sectors";
 import { useUsers } from "@/features/users";
 import apiClient from "@/services/client";
-import { addDayToFormattedDate, getFormattedDate } from "@/utils";
 import { exportDataToExcel } from "@/utils/exportToExcel";
 import visitPlan from "@/public/icons/visitPlan.svg";
 import { getSession } from "@/utils/session";
@@ -52,11 +51,11 @@ const VisitsPlan = ({
   projectsData,
   setProjectsData,
 }: Props) => {
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [data, setData] = useState<VisitsPlan[]>();
-  const { data: districts } = useDistrict();
-  const { data: sectors } = useSectors();
-  const { data: users } = useUsers();
+  useDistrict();
+  useSectors();
+  useUsers();
   const [role, setRole] = useState<string>("");
 
   useEffect(() => {
@@ -69,7 +68,6 @@ const VisitsPlan = ({
     try {
       const response = await apiClient.get(`${VISIT_API}/GetVisitPlan`);
       setData(response.data.data);
-      console.log("visits plan data", response.data.data);
       setLoading(false);
     } catch (err) {
       console.error("Submission error:", err);
@@ -101,42 +99,6 @@ const VisitsPlan = ({
       )
       .map((key) => key as keyof ProjectsList);
 
-  const filterProjectsData = (
-    fromdate: string,
-    todate: string,
-    data: ProjectsList[],
-  ) => {
-    return !fromdate && !todate
-      ? data // Show all data if no date is selected
-      : data.filter((d) => {
-          const visitFromDate = new Date(d.visitStartDate)
-            .toISOString()
-            .split("T")[0];
-          const visitToDate = new Date(d.visitEndDate)
-            .toISOString()
-            .split("T")[0];
-          const startDate = fromdate
-            ? new Date(fromdate).toISOString().split("T")[0]
-            : null;
-          const endDate = todate
-            ? new Date(todate).toISOString().split("T")[0]
-            : null;
-
-          console.log("visitFromDate", visitFromDate);
-          console.log("visitToDate", visitToDate);
-          console.log("startDate", startDate);
-          console.log("endDate", endDate);
-          if (startDate && endDate) {
-            return startDate >= visitFromDate && endDate <= visitToDate;
-          } else if (startDate) {
-            return startDate >= visitFromDate;
-          } else if (endDate) {
-            return endDate <= visitToDate;
-          }
-
-          return true;
-        });
-  };
 
   // Export to Excel function
   const exportToExcel = (plan: VisitsPlan) => {
@@ -236,7 +198,7 @@ const VisitsPlan = ({
                             target="_blank"
                             className="text-decoration-none text-white"
                           >
-                            <img
+                            <Image unoptimized width={80} height={80}
                               src="/images/tourPlans2.png"
                               alt="pdfViewable"
                               className="img-fluid shadow-sm me-2"

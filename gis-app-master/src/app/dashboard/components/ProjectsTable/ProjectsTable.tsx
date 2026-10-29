@@ -43,6 +43,7 @@ import styles from "./ProjectsTable.module.css";
 import { reportStatusOptions } from "./ProjectsTableUtils";
 import { FilterParams, RangeType } from "../../types";
 import GenericToggleControl from "@/components/Form/GenericToggleControl";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 export interface ProjectsList {
   id: number;
@@ -107,7 +108,6 @@ const ProjectsTable = ({
   sectorOptions,
   userOptions,
 }: Props) => {
-  console.log("projectsData", projectsData);
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
 
   const handleDistrictChange = (selectedOption: SingleValue<OptionType>) => {
@@ -133,9 +133,8 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleSectorChange = (selectedOption: SingleValue<OptionType>) => {
@@ -161,9 +160,8 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleUserChange = (selectedOption: SingleValue<OptionType>) => {
@@ -189,9 +187,8 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const handleReportStatusChange = (
@@ -223,7 +220,6 @@ const ProjectsTable = ({
         : "",
       reportStatus: value,
     });
-    console.log(`Option selected:`, selectedOption);
   };
 
   const [modifiedData, setModifiedData] = useState<ProjectsList[]>([]);
@@ -237,7 +233,6 @@ const ProjectsTable = ({
     setModifiedData([...projectsData]);
   }, [projectsData]);
 
-  console.log(modifiedData , "modifiedData data is  here............ 246");
   
   // Apply search every time searchTerm or modifiedData changes
   useEffect(() => {
@@ -458,8 +453,8 @@ const ProjectsTable = ({
         ? filteredData
         : modifiedData;
 
-    return source.map((data: any, index) => {
-      const row: Record<string, any> = {};
+    return source.map((data, index) => {
+      const row: Record<string, unknown> = {};
 
       keysForPDF.forEach((key) => {
         const label = formatKeyName(key);
@@ -618,7 +613,7 @@ const ProjectsTable = ({
             row[label] = data.issuedReportActualPhysicalPrograss;
             break;
           default:
-            row[label] = data[key];
+            row[label] = data[key as keyof ProjectsList];
         }
       });
 
@@ -725,7 +720,7 @@ const ProjectsTable = ({
       userName,
       startDate: updatedSelection.startDate.toISOString().split("T")[0],
       endDate: updatedSelection.endDate.toISOString().split("T")[0],
-      reportStatus: reportStatus,
+      reportStatus,
     });
 
     setDropdownFilterValue((prev) => {
@@ -751,15 +746,6 @@ const ProjectsTable = ({
     setDateRangeState([updatedSelection]);
   };
 
-  const clearDateSelection = () => {
-    setDateRangeState([
-      {
-        startDate: undefined,
-        endDate: undefined,
-        key: "selection",
-      },
-    ]);
-  };
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -782,7 +768,6 @@ const ProjectsTable = ({
         },
       );
 
-      console.log("response", response);
 
       const fileUrl = process.env.NEXT_PUBLIC_BACKEND_API + response.data.data; // API should return full URL or relative path
 
@@ -802,16 +787,16 @@ const ProjectsTable = ({
     }
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     setSelectedOptions([rowCountOptions[0]]);
     handleRowsPerPage(parseInt(rowCountOptions[0].value));
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   const handleMarkToEvaluation = async (
     projectId: number,
     nextValue: boolean,
   ) => {
-    console.log(MARK_TO_EVALUATION_API + "/Mark?projectId=" + projectId);
     try {
       const response = await apiClient.post(
         MARK_TO_EVALUATION_API + "/Mark?projectId=" + projectId,
@@ -1051,7 +1036,7 @@ const ProjectsTable = ({
                                     userName,
                                     startDate: "",
                                     endDate: "",
-                                    reportStatus: reportStatus,
+                                    reportStatus,
                                   });
                                 }}
                                 style={{

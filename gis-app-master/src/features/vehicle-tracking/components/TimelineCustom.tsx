@@ -8,6 +8,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useEffect, useMemo, useState } from "react";
 import { VehicleTrackingRecording } from "../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const TimelineCustom = ({
   data,
@@ -50,7 +51,7 @@ export function RoutePolyline({
 }) {
   const map = useMap();
   const geometryLibrary = useMapsLibrary("geometry");
-  const [distance, setDistance] = useState<any>();
+  const [distance, setDistance] = useState<string>();
 
   const vehiclePath = useMemo(() => {
     return (
@@ -84,7 +85,7 @@ export function RoutePolyline({
     }
   };
 
-  useEffect(() => {
+  const onMapChange = useEffectEvent(() => {
     if (!map || !geometryLibrary || !vehiclePath.length) return;
 
     const startLatLng = new google.maps.LatLng(
@@ -125,7 +126,8 @@ export function RoutePolyline({
     return () => {
       routePath.setMap(null);
     };
-  }, [map, geometryLibrary, vehiclePath]);
+  });
+  useEffect(() => onMapChange(), [map, geometryLibrary, vehiclePath, onMapChange]);
 
   return (
     <>

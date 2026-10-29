@@ -16,7 +16,6 @@ import { useAttributeGroups } from "../hooks";
 import { AttributeGroup } from "../types";
 import { useAttributes } from "@/features/attributes";
 import apiClient, { AxiosError } from "@/services/client";
-import { getFormattedDate } from "@/utils";
 import { sort } from "fast-sort";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -26,7 +25,7 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
   const [refresh, setRefresh] = useState(false);
   const [isPageLimit, setPageLimit] = useState(false);
 
-  const { data, setData, setError, error, isLoading } = useAttributeGroups({
+  const { data, setData, setError, isLoading } = useAttributeGroups({
     refresh,
   });
 
@@ -91,7 +90,6 @@ const List = ({ dashboardType }: { dashboardType?: string }) => {
       // remove the deleted item from the data array
       setData((prevData) => prevData.filter((item) => item.id !== id));
       notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
     } catch (err) {
       console.error("failed to delete item", err);
       setError((err as AxiosError).message);

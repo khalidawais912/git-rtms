@@ -41,13 +41,12 @@ import AsyncAction from "@/components/Form/AsyncAction";
 import Spinner from "@/components/Spinner";
 import { ProjectsList, ProjectsTableProps } from "../types";
 import tableStyles from "./ProjectsTable.module.css";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 const ProjectsTable = ({
   projectsData,
-  setProjectsData,
   label,
   keys,
-  allowLink = true,
   role = "",
 }: ProjectsTableProps) => {
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
@@ -77,7 +76,7 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
   };
 
@@ -102,7 +101,7 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
   };
 
@@ -127,38 +126,10 @@ const ProjectsTable = ({
       endDate: dateRangeState[0].endDate
         ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
         : "",
-      reportStatus: reportStatus,
+      reportStatus,
     });
   };
 
-  const handleReportStatusChange = (
-    selectedOption: SingleValue<OptionType>,
-  ) => {
-    const value = Number(selectedOption?.value);
-    setReportStatus(value);
-    setDropdownFilterValue((prev) => {
-      if (value === -1) {
-        return prev.filter((item) => !item.startsWith("Report Status:"));
-      } else {
-        const updated = prev.filter(
-          (item) => !item.startsWith("Report Status:"),
-        );
-        return [...updated, `Report Status: ${value}`];
-      }
-    });
-    applyFilters({
-      districtName,
-      sectorName,
-      userName,
-      startDate: dateRangeState[0].startDate
-        ? format(dateRangeState[0].startDate, "yyyy-MM-dd")
-        : "",
-      endDate: dateRangeState[0].endDate
-        ? format(dateRangeState[0].endDate, "yyyy-MM-dd")
-        : "",
-      reportStatus: value,
-    });
-  };
 
   const [modifiedData, setModifiedData] = useState<ProjectsList[]>([]);
   const [filteredData, setFilteredData] = useState<ProjectsList[]>([]);
@@ -354,8 +325,8 @@ const ProjectsTable = ({
 
   const tableRows = (
     searchTerm || dropdownFilterValue.length > 0 ? filteredData : projectsData
-  ).map((data: any, index) => {
-    const row: Record<string, any> = { srNo: index + 1 };
+  ).map((data, index) => {
+    const row: Record<string, unknown> = { srNo: index + 1 };
 
     keysForPDF.forEach((key) => {
       switch (key) {
@@ -428,7 +399,7 @@ const ProjectsTable = ({
             : "NA";
           break;
         default:
-          row[key] = data[key];
+          row[key] = data[key as keyof ProjectsList];
       }
     });
 
@@ -440,8 +411,8 @@ const ProjectsTable = ({
     const displayHeaders = headers.map(formatKeyName);
     const data = (
       searchTerm || dropdownFilterValue.length > 0 ? filteredData : projectsData
-    ).map((item: any, index) => {
-      const row: Record<string, any> = {};
+    ).map((item, index) => {
+      const row: Record<string, unknown> = {};
 
       headers.forEach((header) => {
         const key =
@@ -563,7 +534,7 @@ const ProjectsTable = ({
             break;
 
           default:
-            row[formatKeyName(header)] = item[formatKeyName(key)] || "";
+            row[formatKeyName(header)] = item[formatKeyName(key) as keyof ProjectsList] || "";
         }
       });
 
@@ -585,7 +556,7 @@ const ProjectsTable = ({
   const [districtName, setDistrictName] = useState<string>("");
   const [sectorName, setSectorName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
-  const [reportStatus, setReportStatus] = useState<number>(-1);
+  const [reportStatus] = useState<number>(-1);
 
   const applyFilters = ({
     districtName = "",
@@ -658,7 +629,7 @@ const ProjectsTable = ({
       userName,
       startDate: updatedSelection.startDate.toISOString().split("T")[0],
       endDate: updatedSelection.endDate.toISOString().split("T")[0],
-      reportStatus: reportStatus,
+      reportStatus,
     });
 
     setDropdownFilterValue((prev) => {
@@ -683,15 +654,6 @@ const ProjectsTable = ({
     setDateRangeState([updatedSelection]);
   };
 
-  const clearDateSelection = () => {
-    setDateRangeState([
-      {
-        startDate: undefined,
-        endDate: undefined,
-        key: "selection",
-      },
-    ]);
-  };
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -752,10 +714,11 @@ const ProjectsTable = ({
     }
   };
 
-  useEffect(() => {
+  const onMount = useEffectEvent(() => {
     setSelectedOptions([rowCountOptions[0]]);
     handleRowsPerPage(parseInt(rowCountOptions[0].value));
-  }, []);
+  });
+  useEffect(() => onMount(), [onMount]);
 
   return (
     <div className={`d-flex`}>
@@ -937,7 +900,7 @@ const ProjectsTable = ({
                                     userName,
                                     startDate: "",
                                     endDate: "",
-                                    reportStatus: reportStatus,
+                                    reportStatus,
                                   });
                                 }}
                                 className={tableStyles.clearDatesButton}

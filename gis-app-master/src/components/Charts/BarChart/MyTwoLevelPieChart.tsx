@@ -1,10 +1,8 @@
 "use client";
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps, PieLabelRenderProps } from "recharts";
-import {
-  NameType,
-  ValueType,
-} from "recharts/types/component/DefaultTooltipContent";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, PieLabelRenderProps } from "recharts";
+
+
 interface Props {
   data: TwoLevelPieData;
   style?: MyTwoLevelPieChartStyle;

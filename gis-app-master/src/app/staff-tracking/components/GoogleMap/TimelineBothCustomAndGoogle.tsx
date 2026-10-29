@@ -7,6 +7,7 @@ import {
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { StaffTracking } from "../StaffTracking";
 import { Position } from "../../types";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   recordingData: StaffTracking[];
@@ -19,8 +20,6 @@ interface Props {
 
 const TimelineBothCustomAndGoogle = ({
   recordingData,
-  startLocation,
-  endLocation,
   setGoogleDuration,
   setOfficerDuration,
   path,
@@ -78,7 +77,7 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
     useState<google.maps.DirectionsRenderer>();
 
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(0);
+  const [routeIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
@@ -98,7 +97,7 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
     );
   }, [routesLibrary, map, recordingData]);
 
-  useEffect(() => {
+  const onDirectionsServiceChange = useEffectEvent(() => {
     if (!directionsService || !directionsRenderer) return;
 
     // Add an outline polyline
@@ -137,7 +136,8 @@ function Directions({ setGoogleDuration, recordingData }: DirectionProps) {
         const path = response.routes[0].overview_path;
         outlinePolyline.setPath(path);
       });
-  }, [directionsService, directionsRenderer]);
+  });
+  useEffect(() => onDirectionsServiceChange(), [directionsService, directionsRenderer, onDirectionsServiceChange]);
 
   useEffect(() => {
     if (!directionsRenderer) return;
@@ -181,7 +181,7 @@ function RoutePolyline({
 }: RoutePolylineProps) {
   const map = useMap();
   const geometryLibrary = useMapsLibrary("geometry");
-  const [distance, setDistance] = useState<any>();
+  const [distance, setDistance] = useState<string>();
 
   const calculateDuration = (recordingData: StaffTracking[]) => {
     if (recordingData && recordingData[0]?.coordinates?.length > 0) {
@@ -208,7 +208,7 @@ function RoutePolyline({
     }
   };
 
-  useEffect(() => {
+  const onMapChange = useEffectEvent(() => {
     if (!map) return;
 
     if (geometryLibrary && recordingData && recordingData.length > 0) {
@@ -266,7 +266,8 @@ function RoutePolyline({
     return () => {
       routePath.setMap(null);
     };
-  }, [map, routeCoordinates, geometryLibrary]);
+  });
+  useEffect(() => onMapChange(), [map, routeCoordinates, geometryLibrary, onMapChange]);
 
   return (
     <div

@@ -7,11 +7,11 @@ import apiClient from "@/services/client";
 import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ActionMeta, MultiValue } from "react-select";
-import { toast } from "react-toastify";
+import { MultiValue } from "react-select";
 import rightsBlack from "@/public/icons/rightsBlack.svg";
 import { Option } from "../types";
 import SubmitButton from "@/components/Form/SubmitButton";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 interface Props {
   id: number;
@@ -32,7 +32,7 @@ const GroupingForm = ({ id, options, name }: Props) => {
   const handleClose = () => setShow(false);
 
   // Fetch previously selected groups
-  useEffect(() => {
+  const onIdChange = useEffectEvent(() => {
     const fetchSelectedOptions = async () => {
       try {
         const response = await apiClient.get(
@@ -46,11 +46,11 @@ const GroupingForm = ({ id, options, name }: Props) => {
     };
 
     fetchSelectedOptions();
-  }, [id, refresh]);
+  });
+  useEffect(() => onIdChange(), [id, refresh, onIdChange]);
 
   const handleSelectGroup = (
-    newValue: MultiValue<{ value: string; label: string }>,
-    actionMeta: ActionMeta<{ value: string; label: string }>
+    newValue: MultiValue<{ value: string; label: string }>
   ) => {
     // Map selected groups to the original format (GroupOption)
     const selectedOptions = newValue
@@ -63,11 +63,7 @@ const GroupingForm = ({ id, options, name }: Props) => {
     setSelectedOptions(selectedOptions);
   };
 
-  const updated = "Updated Successfully";
-  const errorMessage = "Something Bad Happend";
 
-  const notifyCreate = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -77,11 +73,10 @@ const GroupingForm = ({ id, options, name }: Props) => {
     const data = optionIds;
 
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         `${ADD_RIGHTS_TO_ROLE_API}?RoleID=${id}`,
         data
       );
-      console.log(response);
       handleClose();
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -101,19 +96,6 @@ const GroupingForm = ({ id, options, name }: Props) => {
   }));
 
   // Custom styles for react-select options
-  const customStyles = {
-    option: (provided: any, state: any) => ({
-      ...provided,
-      backgroundColor: state.isSelected
-        ? "#B0E0E6" // Light blue for selected options
-        : provided.backgroundColor,
-      color: state.isSelected ? "#000" : provided.color,
-    }),
-    multiValue: (provided: any) => ({
-      ...provided,
-      backgroundColor: "#B0E0E6", // Light blue for selected values
-    }),
-  };
 
   return (
     <>

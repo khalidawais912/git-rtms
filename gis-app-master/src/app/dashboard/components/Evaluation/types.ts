@@ -76,6 +76,16 @@ export interface ProjectsList {
   maxMRIValue: number;
   avgMRIValue: number;
   hasVisited: true;
+  // Sent for some statuses only (reports, utilization)
+  reportCompletion: number;
+  completedDate: string;
+  utilization: number;
+  expUpToJune: number;
+  utilPercent: number;
+  submittedDate: string;
+  deadline: string;
+  reportStatus: number;
+  statusDate: string;
 }
 
 export interface ProjectsTableProps {

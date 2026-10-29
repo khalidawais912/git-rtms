@@ -69,7 +69,6 @@ const Form = ({
   typeStatusOptions,
 }: Props) => {
   const {
-    register,
     trigger,
     getValues,
     setValue,
@@ -77,7 +76,6 @@ const Form = ({
     control,
     formState: { errors },
   } = useForm<COUTempTourPlan>({ resolver: zodResolver(schema) });
-  console.log(errors);
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
 
@@ -138,14 +136,12 @@ const Form = ({
       setValue("vehicalId", planData.vehicleId);
       setValue("district_Id", planData.districtId);
     }
-  }, [planData]);
+  }, [planData, setValue]);
 
   const verfiyForm = async () => {
     const isValid = await trigger();
 
     if (isValid) {
-      const values = getValues();
-      console.log("✅ Form Values:", values);
 
       notifyCreate("Form is verified ✅");
     } else {
@@ -180,9 +176,8 @@ const Form = ({
           setDriverVerified(false);
           notifyError(response.data.message);
         }
-        console.log(response);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         notifyError((err as AxiosError).message);
       }
     }
@@ -214,9 +209,8 @@ const Form = ({
           setVehicleVerified(false);
           toast.error(response.data.message);
         }
-        console.log(response);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         notifyError((err as AxiosError).message);
       }
     }

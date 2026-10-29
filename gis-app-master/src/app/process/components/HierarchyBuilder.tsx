@@ -4,12 +4,9 @@ import Button from "@/components/Button";
 import HirarchyFlow from "./HirarchyFlow";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Edge, Node } from "@xyflow/react";
-import { HiOutlineTrash } from "react-icons/hi";
+import { Node } from "@xyflow/react";
 import { useRoles } from "@/features/roles";
-import { useAuthentication } from "@/features/users";
 import Select, { SingleValue, StylesConfig } from "react-select";
-import { createdMessage } from "@/utils";
 import { Option } from "@/utils/types";
 import { toast } from "react-toastify";
 import apiClient, { AxiosError } from "@/services/client";
@@ -17,6 +14,7 @@ import { DEPARTMENT_ROLES_SORTING_API } from "@/services/endpoints";
 import { GoArrowLeft } from "react-icons/go";
 import { FiArrowRightCircle } from "react-icons/fi";
 import CustomNode from "./CustomNode";
+import { useEffectEvent } from "@/hooks/useEffectEvent";
 
 // Type-safe helper
 export interface CustomNode extends Node {
@@ -38,10 +36,6 @@ const HierarchyBuilder = () => {
   const [isClient, setClient] = useState(false);
   const [apiData, setApiData] = useState<DepartmentRolesSorting[]>([]);
 
-  useEffect(() => {
-    console.log("apiData", apiData);
-    console.log("nodes", nodes);
-  }, [apiData, nodes]);
 
   useEffect(() => {
     setClient(true);
@@ -56,9 +50,8 @@ const HierarchyBuilder = () => {
       if (response.data.responseCode === 200) {
         toast.success("Sorting Updated successfully");
       }
-      console.log("response", response);
     } catch (err) {
-      console.log("err", err);
+      console.error("err", err);
       toast.error((err as AxiosError).message);
     }
   };
@@ -117,18 +110,13 @@ const HierarchyBuilder = () => {
   };
 
   const handleDeleteNode = (idToDelete: string, nodes: CustomNode[]) => {
-    console.log("idToDelete", idToDelete);
-    console.log("nodes", nodes);
     const filtered = nodes.filter((node) => node.id !== idToDelete);
-    let newNodes = [];
-    console.log("nodes.length", nodes.length);
+    const newNodes = [];
     for (let i = 0; i < nodes.length; i++) {
-      console.log("node index", nodes[i]);
       if (nodes[i].id !== idToDelete) {
         newNodes.push(nodes[i]);
       }
     }
-    console.log("new nodes", newNodes);
     const updatedNodes = filtered.map((node, index) => {
       const roleName = roles.find((r) => r.id === node.roleId)?.name || "";
       return {
@@ -148,7 +136,6 @@ const HierarchyBuilder = () => {
         },
       };
     });
-    console.log("updatedNodes", updatedNodes);
 
     setNodes(updatedNodes);
 
@@ -163,47 +150,6 @@ const HierarchyBuilder = () => {
     setApiData(updatedApiData);
   };
 
-  const getNodeLabel = (
-    id: string,
-    roleId: number,
-    index: number,
-    nodes: CustomNode[]
-  ) => (
-    <div className="position-relative">
-      <button
-        onClick={() => handleDeleteNode(id, nodes)} // <-- should use passed `id`, not closure
-        style={{
-          position: "absolute",
-          top: 0,
-          right: -30,
-          border: "none",
-          borderRadius: "50%",
-          background: "transparent",
-          width: 20,
-          height: 20,
-          fontSize: 12,
-          cursor: "pointer",
-          lineHeight: 0,
-        }}
-      >
-        <HiOutlineTrash style={{ color: "#8E9296" }} size={21} />
-      </button>
-
-      <div className="row p-3">
-        <div
-          className="col-auto fw-bold fs12px rounded-circle d-flex justify-content-center align-items-center text-dark"
-          style={{ width: "40px", height: "40px", background: "#F2F7FA" }}
-        >
-          {index + 1}
-        </div>
-        <div className="col">
-          <p className="mb-2 text-decoration-underline fw-normal text-start">
-            {roles.find((role) => role.id === roleId)?.name}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
 
   const colorOptions = [
     "#336B66",
@@ -219,7 +165,7 @@ const HierarchyBuilder = () => {
     "#4FCDC7",
   ];
 
-  useEffect(() => {
+  const onSelectedNodeIdChange = useEffectEvent(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.key === "Backspace" || e.key === "Delete") && selectedNodeId) {
         handleDeleteNode(selectedNodeId, nodes);
@@ -229,9 +175,10 @@ const HierarchyBuilder = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedNodeId]);
+  });
+  useEffect(() => onSelectedNodeIdChange(), [selectedNodeId, onSelectedNodeIdChange]);
 
-  const onNodeClick = (_: any, node: Node) => {
+  const onNodeClick = (_: React.MouseEvent, node: Node) => {
     setSelectedNodeId(node.id);
   };
 
@@ -260,7 +207,7 @@ const HierarchyBuilder = () => {
       ...base,
       zIndex: 9999,
     }),
-    option: (base, state) => ({
+    option: (base) => ({
       ...base,
       fontSize: "14px",
     }),
@@ -348,7 +295,7 @@ const HierarchyBuilder = () => {
                   id="favcolor"
                   style={{ height: "18px" }}
                   name="favcolor"
-                  onChange={(e) => console.log("color", e.target.value)}
+                  onChange={() => {}}
                 />
               </div>
             </div>

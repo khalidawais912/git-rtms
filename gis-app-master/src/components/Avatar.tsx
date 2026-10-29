@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, useState } from "react";
 
 interface Props {
   src: string;

@@ -1,4 +1,3 @@
-import { getFormattedDate } from "@/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -10,7 +9,6 @@ interface Props {
 }
 
 const VisitDate = ({ data }: Props) => {
-  const items = ["a", "a", "a", "a"];
 
   const refContainer1 = useRef<HTMLDivElement>(null);
   const refContent1 = useRef<HTMLDivElement>(null);

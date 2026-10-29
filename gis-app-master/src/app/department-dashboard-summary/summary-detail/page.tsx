@@ -3,52 +3,14 @@ import Button from "@/components/Button";
 import search3 from "@/public/icons/search3.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FaFile, FaUser, FaUserAlt } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import {
-  PiBuildingApartmentDuotone,
-  PiBuildingOfficeBold,
-} from "react-icons/pi";
-import { RiBuildingFill } from "react-icons/ri";
+
+
 import { TfiDownload } from "react-icons/tfi";
 
 const SummaryDetailPage = () => {
   const router = useRouter();
 
-  const [selectedTab, setSelectedTab] = useState(0);
-  const tabs = [
-    {
-      tabName: "All",
-      count: 90,
-      icon: <FaFile size={30} className="color-sea-blue" />,
-    },
-    {
-      tabName: "Commissioner",
-      count: 10,
-      icon: <FaUser size={30} className="color-sea-blue" />,
-    },
-    {
-      tabName: "Deputy Commissioner",
-      count: 20,
-      icon: <FaUserAlt size={30} className="color-sea-blue" />,
-    },
-    {
-      tabName: "Sponsoring Agency",
-      count: 15,
-      icon: <PiBuildingOfficeBold size={30} className="color-sea-blue" />,
-    },
-    {
-      tabName: "Executing Agency",
-      count: 30,
-      icon: <PiBuildingApartmentDuotone size={30} className="color-sea-blue" />,
-    },
-    {
-      tabName: "DGME",
-      count: 25,
-      icon: <RiBuildingFill size={30} className="color-sea-blue" />,
-    },
-  ];
   return (
     <div
       style={{

@@ -1,8 +1,6 @@
 "use client";
 import {
-  EVALUATION_PROJECT_API,
   EVALUATION_TEMP_TOUR_PLAN_API,
-  PROJECT_API,
   TEMP_TOUR_PLAN_API,
 } from "@/services/endpoints";
 import Button from "@/components/Button";
@@ -19,35 +17,26 @@ import { useSuperGroups } from "@/features/super-group";
 import apiClient, { AxiosError } from "@/services/client";
 import { getName } from "@/utils";
 import { sort } from "fast-sort";
-import Image from "next/image";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { toast } from "react-toastify";
-import calender from "@/public/icons/calendar.svg";
-import cancel from "@/public/icons/cancel.svg";
-import clock from "@/public/icons/clock.svg";
-import complete from "@/public/icons/complete.svg";
 import AssignUserForm from "./AssignUserForm";
 import GroupingForm from "./GroupingForm";
 import StatusBadge from "./StatusBadge";
 import TableWrapper from "@/components/Table/TableWrapper";
 const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
-  const PROJECT_API_ENDPOINT = dashboardType
-    ? EVALUATION_PROJECT_API
-    : PROJECT_API;
 
   const TEMP_TOUR_PLAN_API_ENDPOINT = dashboardType
     ? EVALUATION_TEMP_TOUR_PLAN_API
     : TEMP_TOUR_PLAN_API;
 
-  const { data, setData, setError, isLoading } = useProjects();
+  const { data, setData, isLoading } = useProjects();
   const { data: sectorsData } = useSectors();
   const { data: superGroups } = useSuperGroups();
   const { data: users } = useAuthentication();
-  const [originalData, setOriginalData] = useState<Project[]>([]); // Store the original data
+  const [, setOriginalData] = useState<Project[]>([]); // Store the original data
   const [isPageLimit, setPageLimit] = useState(false);
 
-  const deleteMessage = "Deleted Successfully!";
 
   const notifyCreate = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
@@ -101,28 +90,12 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
     setData([...sortedData]);
   };
 
-  const handleDelete = async (id: number): Promise<void> => {
-    try {
-      await apiClient.delete(`${PROJECT_API_ENDPOINT}/${id}`);
-      // remove the deleted item from the data array
-      setData((prevData) => prevData.filter((item) => item.id !== id));
-      notifyCreate(deleteMessage);
-      console.log("item deleted successfully");
-    } catch (err) {
-      console.error("failed to delete item", err);
-      setError((err as AxiosError).message);
-      notifyError((err as AxiosError).message);
-    }
-  };
 
   // for selecting rows per page
   const [rows, setRows] = useState(11); // Default to 11 rows per page
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
 
   // Determine the data to display for the current page
-  const indexOfLastRow = currentPage * rows;
-  const indexOfFirstRow = indexOfLastRow - rows;
-  const currentData = data.slice(indexOfFirstRow, indexOfLastRow);
 
   // Paginate data to display only the current page's rows
   const paginatedData = (searchTerm ? filteredData : data).slice(
@@ -130,39 +103,16 @@ const ProjectsList = ({ dashboardType }: { dashboardType?: string }) => {
     currentPage * rows,
   );
 
-  const hideCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      // Filter the data to hide completed items
-      setData((prevData) =>
-        prevData.filter((item) => item.status !== "Complete"),
-      );
-    } else {
-      // Reset to the original data
-      setData([...originalData]);
-    }
-  };
 
-  const showCancel = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      // Filter the data to show only canceled items
-      setData((prevData) =>
-        prevData.filter((item) => item.status === "Cancel"),
-      );
-    } else {
-      // Reset to the original data
-      setData([...originalData]);
-    }
-  };
 
   const handleAddVisitPlan = async (projectId: number) => {
     try {
       const response = await apiClient.post(
         `${TEMP_TOUR_PLAN_API_ENDPOINT}/add-tour-plan?projectid=${projectId}`,
       );
-      console.log(response);
       notifyCreate(response.data?.message);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       notifyError((err as AxiosError).message);
     }
   };

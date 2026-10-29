@@ -37,7 +37,7 @@ const SimplePieChart = ({ data, activeFilter }: Props) => {
       formatter: function (val, opts) {
         const value = opts.w.globals.series[opts.seriesIndex];
         const total = opts.w.globals.series.reduce(
-          (acc: any, cur: any) => acc + cur,
+          (acc: number, cur: number) => acc + cur,
           0
         );
         const percentage = ((value / total) * 100).toFixed(2); // Calculate percentage
