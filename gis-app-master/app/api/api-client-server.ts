@@ -9,7 +9,7 @@ export const createApiClient = () => {
     baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", 
     },
   });
 };
