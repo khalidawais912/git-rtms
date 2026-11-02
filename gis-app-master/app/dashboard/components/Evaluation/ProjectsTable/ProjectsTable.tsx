@@ -505,14 +505,8 @@ const ProjectsTable = ({
           case "sponsoringAgencyName":
             row[formatKeyName(header)] = item.sponsoringAgencyName;
             break;
-          case "sponsring_agency_id":
-            row[formatKeyName(header)] = item.sponsring_agency_id;
-            break;
           case "executingAgencyName":
             row[formatKeyName(header)] = item.executingAgencyName;
-            break;
-          case "executing_agency_id":
-            row[formatKeyName(header)] = item.executing_agency_id;
             break;
           case "city":
             row[formatKeyName(header)] = item.city;

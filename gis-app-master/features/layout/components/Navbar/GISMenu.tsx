@@ -191,6 +191,13 @@ const GISMenu = ({
         backgroundColor: "linear-gradient(to bottom right, #d3db44 , #23ad91)",
       },
       {
+        name: "Agencies",
+        nameId: "add-agencies",
+        link: "/add-agencies",
+        icon: departments,
+        backgroundColor: "linear-gradient(to bottom right, #2f4f9f , #23ad91)",
+      },
+      {
         name: "New Visit Plan",
         nameId: "new-visit-plan",
         link: "/new-visit-plan",
