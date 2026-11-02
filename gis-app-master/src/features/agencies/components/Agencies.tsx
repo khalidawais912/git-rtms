@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/shared/components/Loader/Loader";
+import Loader from "@/components/Loader/Loader";
 import { ArrowLeft, Building2, ChevronRight, Home, Landmark, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

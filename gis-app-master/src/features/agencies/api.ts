@@ -1,6 +1,6 @@
-import apiClient, { AxiosError } from "@/shared/api/client";
-import { AGENCIES_API } from "@/shared/api/endpoints";
-import { BaseResponse } from "@/shared/api/types";
+import apiClient, { AxiosError } from "@/services/client";
+import { AGENCIES_API } from "@/services/endpoints";
+import { BaseResponse } from "@/services/types";
 import { AgencyNode } from "./types";
 
 /**

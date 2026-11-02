@@ -87,6 +87,7 @@ const GROUPS: Group[] = [
       { name: "User Projects", nameId: "user-projects", link: "/user-projects", icon: "clipboard" },
       { name: "Sectors", nameId: "sectors", link: "/sectors", icon: "sector" },
       { name: "Departments", nameId: "departments", link: "/departments", icon: "building" },
+      { name: "Agencies", nameId: "add-agencies", link: "/add-agencies", icon: "building" },
     ],
   },
   {
