@@ -1,0 +1,148 @@
+/* Agency multi-select for PC-IV forms: chips in the field, a searchable tree below it. */
+.picker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.control:focus-visible {
+  outline: 2px solid #2f4f9f;
+  outline-offset: 1px;
+}
+
+.disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.chips {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.placeholder {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #e8edf9;
+  color: #2f4f9f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chip button {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.caret {
+  flex-shrink: 0;
+  color: #6b7280;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin-top: 4px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.12);
+  overflow: hidden;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f1f4;
+  color: #6b7280;
+}
+
+.search input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  font-size: 14px;
+}
+
+.options {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 7px 14px;
+  font-size: 14px;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #f5f7fc;
+}
+
+.child {
+  padding-left: 38px;
+  color: #374151;
+}
+
+.empty {
+  margin: 0;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.clear {
+  width: 100%;
+  padding: 9px;
+  border: 0;
+  border-top: 1px solid #f0f1f4;
+  background: #fafbfc;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}

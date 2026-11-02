@@ -59,10 +59,13 @@ export interface ProjectsList {
   designation: string;
   visitId: number;
   approvalDate: string;
-  sponsoringAgencyName: string;
-  sponsring_agency_id: number;
-  executingAgencyName: string;
-  executing_agency_id: number;
+  /**
+   * Several agencies are joined with ", "; null when there are none.
+   * The response also has `sponsoringAgency` / `executingAgency` lists ({ agencyId, agencyName }),
+   * left out here because this screen only shows the names.
+   */
+  sponsoringAgencyName: string | null;
+  executingAgencyName: string | null;
   city: string;
   division_Id: number;
   divisionName: string;
