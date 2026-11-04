@@ -20,6 +20,7 @@ import { useRoles } from "@/features/roles";
 import Link from "next/link";
 import GroupingForm from "./GroupingForm";
 import Image from "next/image";
+import { backendFileUrl } from "@/utils";
 
 interface ListProps {
   refresh: boolean;
@@ -178,10 +179,11 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                   <TableData>
                     {d.picture && d.picture.length > 0 && (
                       <Link
-                        href={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
+                        href={backendFileUrl(d.picture)}
                         target="_blank"
                       >
                         <Image
+                          unoptimized
                           className="rounded-circle shadow-sm"
                           style={{
                             objectFit: "cover",
@@ -191,7 +193,7 @@ const List = ({ refresh, setRefresh }: ListProps) => {
                           }}
                           width={70}
                           height={70}
-                          src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.picture}`}
+                          src={backendFileUrl(d.picture)}
                           alt="picture"
                         />
                       </Link>

@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import apiClient from "@/services/client";
 import car1Right from "@/public/icons/car1Right.svg";
 import Image from "next/image";
+import { backendFileUrl } from "@/utils";
 import { useEffect, useState } from "react";
 import carFrontBlue from "@/public/icons/carFrontBlue.svg";
 import fuel from "@/public/icons/fuel.svg";
@@ -146,7 +147,7 @@ const Vehicles = () => {
                     {d.vehicleImage && (
                       <Image unoptimized width={100} height={100}
                         src={
-                          `${process.env.NEXT_PUBLIC_BACKEND_API}${d.vehicleImage}` ||
+                          backendFileUrl(d.vehicleImage) ||
                           car1Right
                         }
                         alt="vehicle image from api"

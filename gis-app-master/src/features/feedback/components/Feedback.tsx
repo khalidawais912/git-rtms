@@ -7,6 +7,7 @@ import { useAuthentication } from "@/features/users";
 import { useProjects } from "@/features/projects";
 import apiClient, { AxiosError } from "@/services/client";
 import {
+  backendFileUrl,
   getDaysAgo,
 } from "@/utils";
 import { getSession } from "@/utils/session";
@@ -255,9 +256,7 @@ const Feedback = () => {
                     {users.find((user) => user.id === d.userId) && (
                       <div className="col-auto">
                         <Image unoptimized width={40} height={40}
-                          src={`${process.env.NEXT_PUBLIC_BACKEND_API}${
-                            users.find((user) => user.id === d.userId)?.picture
-                          }`}
+                          src={backendFileUrl(users.find((user) => user.id === d.userId)?.picture)}
                           alt="profilePic"
                           className="img-fluid rounded-circle shadow-sm"
                           style={{
@@ -404,7 +403,7 @@ const Feedback = () => {
                             button={
                               <Button className="btn p-0">
                                 <Image unoptimized width={252} height={112}
-                                  src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.commentPath}`}
+                                  src={backendFileUrl(d.commentPath)}
                                   alt="feedbackImage"
                                   className="img-fluid"
                                   style={{
@@ -425,7 +424,7 @@ const Feedback = () => {
                                 }}
                               >
                                 <Image unoptimized width={100} height={100}
-                                  src={`${process.env.NEXT_PUBLIC_BACKEND_API}${d.commentPath}`}
+                                  src={backendFileUrl(d.commentPath)}
                                   alt="feedbackImage"
                                   className="img-fluid"
                                   style={{

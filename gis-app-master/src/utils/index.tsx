@@ -795,3 +795,19 @@ export const getCpiStatus = (cpi: number) => {
     color: "#e8c00f",
   };
 };
+
+/**
+ * URL of a file the backend stored. Paths come back in more than one form
+ * ("/upload/x.png", "UserImages\TD\132\x.png"), so slashes are fixed and a
+ * leading "/" added; full URLs are returned as they are. User pictures are
+ * served under /upload even when the path leaves it out.
+ */
+export const backendFileUrl = (path?: string | null) => {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  const clean = path
+    .replace(/\\/g, "/")
+    .replace(/^\/*/, "/")
+    .replace(/^\/UserImages\//i, "/upload/UserImages/");
+  return `${process.env.NEXT_PUBLIC_BACKEND_API ?? ""}${clean}`;
+};
