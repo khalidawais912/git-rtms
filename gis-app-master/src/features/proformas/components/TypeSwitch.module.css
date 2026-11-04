@@ -1,0 +1,209 @@
+/* PC-IV / PC-V choice (RTMES design, revised 2026-11-04): a plain question above it, then one framed bar
+   with two options. CHOSEN = solid in its colour, a white circle with a tick, a "Showing" tag and a small
+   pointer towards the list. OTHER = light grey, empty circle, "Click to view" in its colour. */
+.wrap {
+  --pc4: #3570bd;
+  --pc4-dark: #24508c;
+  --pc5: #3a7a8c;
+  --pc5-dark: #285b69;
+  --ink: #0f1a2a;
+  --ink-2: #26334a;
+  --muted: #4e5a6c;
+  --line: #dce2ea;
+  --subtle: #fafbfd;
+  margin-bottom: 18px;
+}
+
+.question {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0 0 8px;
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+.question b {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.opt {
+  --oc: var(--pc4);
+  --od: var(--pc4-dark);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 8px 18px;
+  border: 1.5px solid transparent;
+  border-radius: 11px;
+  background: var(--subtle);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.opt[data-type="pc5"] {
+  --oc: var(--pc5);
+  --od: var(--pc5-dark);
+}
+
+.opt:not(.active):hover {
+  background: color-mix(in srgb, var(--oc) 8%, #fff);
+  border-color: color-mix(in srgb, var(--oc) 45%, transparent);
+}
+
+.opt:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--oc) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.radio {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.text b {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink-2);
+}
+
+.text small {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.on {
+  display: none;
+  height: 22px;
+  padding: 0 9px;
+  align-items: center;
+  border-radius: 99px;
+  background: #fff;
+  color: var(--od);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.off {
+  font-weight: 700;
+  color: var(--od);
+}
+
+.num {
+  margin-left: auto;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  background: #fff;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.num b {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.active {
+  background: var(--oc);
+  border-color: var(--oc);
+  color: #fff;
+  cursor: default;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--oc) 30%, transparent);
+}
+
+/* the small pointer under the chosen option, towards the list */
+.active::after {
+  content: "";
+  position: absolute;
+  left: 34px;
+  bottom: -15px;
+  border: 8px solid transparent;
+  border-top-color: var(--oc);
+}
+
+.active .radio {
+  border-color: #fff;
+}
+
+/* the tick */
+.active .radio::after {
+  content: "";
+  width: 7px;
+  height: 12px;
+  margin-top: -3px;
+  border: solid var(--oc);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.active .text b {
+  color: #fff;
+}
+
+.active .on {
+  display: inline-flex;
+}
+
+.active .off {
+  display: none;
+}
+
+.active .text small {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.active .num {
+  border-color: #fff;
+  color: var(--od);
+}
+
+.active .num b {
+  color: var(--od);
+}
+
+@media (max-width: 900px) {
+  .seg {
+    grid-template-columns: 1fr;
+  }
+
+  .active::after {
+    display: none;
+  }
+}

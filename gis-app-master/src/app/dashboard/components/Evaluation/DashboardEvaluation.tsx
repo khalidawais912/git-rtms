@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import EvaluationMap from "../GoogleMap/EvaluationMap";
+import EvaluationLeafletMap from "./map/EvaluationLeafletMap";
 import PCIVReportReview from "./PCIVReportReview";
 import ProjectsTable from "./ProjectsTable/ProjectsTable";
 import { EvaluationMainDashboard, ProjectsList } from "./types";
@@ -23,6 +24,7 @@ import styles from "./DashboardEvaluation.module.css";
 import { FilterData } from "../../types";
 import Image from "next/image";
 import { useEffectEvent } from "@/hooks/useEffectEvent";
+import SecretaryTiles from "@/features/proformas/components/SecretaryTiles";
 
 const Menu = dynamic(() => import("@/components/Menu"), { ssr: false });
 
@@ -720,245 +722,23 @@ const DashboardEvaluation = () => {
       )}
       {role.toLowerCase() === "administrative secretary" && (
         <div className={styles.wrapper}>
-          <div className={`row ${lexend.className} m-0`}>
-            <div className="col p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                modalId={"TotalProject"}
-                button={
-                  <Button
-                    className="position-relative btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("all")}
-                  >
-                    <div
-                      className={`position-absolute ${styles.buttonOverlay}`}
-                    ></div>
-                    <Menu
-                      background="linear-gradient(to right, #155E95 , #2377B6)"
-                      icon="/icons/eyeBold.svg"
-                      value={data ? data.totalSubmittedPCIvs : 0}
-                      label="Total PC(IV)s"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                      isGrouped={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="Total PC(IV)s"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"inprogress"}
-                allowOpen={false}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("inprogress")}
-                    disabled
-                  >
-                    <Menu
-                      background="rgba(12, 140, 233, 0.2)"
-                      outline="1px solid rgba(12, 140, 233, 0.4)"
-                      icon="/icons/inProcess.svg"
-                      value={data ? data.pCivInProgress : 0}
-                      label="Submitted To DGM&E"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="Submitted To DGM&E"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"inprogress"}
-                allowOpen={false}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("inprogress")}
-                    disabled
-                  >
-                    <Menu
-                      background="rgba(12, 140, 233, 0.2)"
-                      outline="1px solid rgba(12, 140, 233, 0.4)"
-                      icon="/icons/inProcess.svg"
-                      value={data ? data.assignedToEvaluator : 0}
-                      label="In Progress"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="In Progress"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
-            <div className="col p-0">
-              <CustomModal
-                HeaderRightPos={0}
-                HeaderTopPos={17}
-                buttonColumn="col p-0"
-                isFullscreen={true}
-                size="xl"
-                modalId={"inprogress"}
-                allowOpen={false}
-                button={
-                  <Button
-                    className="btn p-0 pe-1 shadow-none w-100"
-                    onClick={() => getProjectsList("inprogress")}
-                    disabled
-                  >
-                    <Menu
-                      background="rgba(12, 140, 233, 0.2)"
-                      outline="1px solid rgba(12, 140, 233, 0.4)"
-                      icon="/icons/inProcess.svg"
-                      value={data ? data.pCivInProgress : 0}
-                      label="Take-up for Evalution"
-                      showTides={false}
-                      showArrow={true}
-                      textWrap={false}
-                    />
-                  </Button>
-                }
-                body={
-                  <>
-                    <div className="container-fluid border-0 p-0">
-                      {projectsData && filteredSubmittedPcIvKeys ? (
-                        <ProjectsTable
-                          role={role}
-                          keys={filteredSubmittedPcIvKeys}
-                          label="Take-up for Evalution"
-                          projectsData={projectsData}
-                          setProjectsData={setProjectsData}
-                        />
-                      ) : (
-                        <Loader />
-                      )}
-                    </div>
-                  </>
-                }
-              />
-            </div>
+          <div className={`${lexend.className} px-1`}>
+            {/* PC-IV numbers: the same fields the old tiles showed. PC-V numbers: not in the
+                dashboard response yet, so they show "–" until the API sends them. */}
+            <SecretaryTiles
+              counts={{
+                totalPc4: data?.totalSubmittedPCIvs,
+                totalPc5: undefined,
+                submittedToDgme: { pc4: data?.pCivInProgress },
+                inProgress: { pc4: data?.assignedToEvaluator },
+                takeUp: { pc4: data?.pCivInProgress },
+                referback: { pc4: data ? 0 : undefined },
+                attached: { pc4: data ? 0 : undefined },
+              }}
+            />
           </div>
-          <div className={`row ${lexend.className} m-0`}>
-            <div className="col p-0 pe-1">
-              <Link
-                href="/pc-iv-referback-review"
-                target="_blank"
-                className="shadow-none w-100 position-relative text-decoration-none"
-              >
-                <Menu
-                  background="rgba(12, 140, 233, 0.2)"
-                  outline="1px solid rgba(12, 140, 233, 0.4)"
-                  icon="/icons/reportReview.svg"
-                  value={0}
-                  label="Referback"
-                  showTides={false}
-                  showArrow={true}
-                  textWrap={false}
-                />
-              </Link>
-            </div>
-            <div className="col p-0 pe-1">
-              <Link
-                href="/pc-iv-attached-review"
-                target="_blank"
-                className="shadow-none w-100 position-relative text-decoration-none"
-              >
-                <Menu
-                  background="rgba(12, 140, 233, 0.2)"
-                  outline="1px solid rgba(12, 140, 233, 0.4)"
-                  icon="/icons/reportReview.svg"
-                  value={0}
-                  label="Submitted by Attached Dept."
-                  showTides={false}
-                  showArrow={true}
-                  textWrap={false}
-                />
-              </Link>
-            </div>
-          </div>
-
-          <div className={`${lexend.className}`}>
-            <div className="p-1 col">
-              {devMap && data && (
-                <EvaluationMap
-                  data={data}
-                  handleSubmit={handleSubmit}
-                  activeFilter={activeFilter}
-                  cmInitiativeFilters={cmInitiativeFilters}
-                  adpFilters={adpFilters}
-                  otherFilters={otherFilters}
-                  setOtherFilters={setOtherFilters}
-                />
-              )}
-            </div>
+          <div className={`${lexend.className} px-1 pb-2`}>
+            {data && <EvaluationLeafletMap data={data} />}
           </div>
         </div>
       )}

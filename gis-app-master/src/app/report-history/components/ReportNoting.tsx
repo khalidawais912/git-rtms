@@ -7,7 +7,7 @@ import apiClient, { AxiosError } from "@/services/client";
 import { triggerEscapeKeyPress } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -17,12 +17,10 @@ import HistoryList from "./HistoryList";
 
 import Loader from "@/components/Loader/Loader";
 import PdfIframe from "./pdf/PdfIframe";
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+// TipTap needs the browser
+const RemarksEditor = dynamic(() => import("@/components/RemarksEditor/RemarksEditor"), {
   ssr: false,
 });
-// EasyMDE styles (required)
-import "easymde/dist/easymde.min.css";
-import type { Options as SimpleMDEOptions } from "easymde";
 import AlertMessage from "@/components/AlertMessage";
 import { useEffectEvent } from "@/hooks/useEffectEvent";
 
@@ -273,23 +271,6 @@ const ReportNoting = ({
   const [isMarked, setMarked] = useState<boolean>(false);
   const [viewPdf, setViewPdf] = useState<boolean>(false);
 
-  const mdeOptions = useMemo<SimpleMDEOptions>(
-    () => ({
-      toolbar: [
-        "bold",
-        "italic",
-        "heading",
-        "|",
-        "quote",
-        "unordered-list",
-        "ordered-list",
-        "|",
-        "code",
-      ],
-    }),
-    [],
-  );
-
   return (
     <div className="container-fluid p-3">
       <div
@@ -385,12 +366,10 @@ const ReportNoting = ({
                               name="remarks"
                               control={control}
                               render={({ field }) => (
-                                <SimpleMDE
+                                <RemarksEditor
                                   placeholder="Description"
-                                  className="custom-editor"
-                                  value={field.value}
+                                  ariaLabel="Description Level"
                                   onChange={field.onChange}
-                                  options={mdeOptions}
                                 />
                               )}
                             />

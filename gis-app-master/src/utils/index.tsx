@@ -573,6 +573,8 @@ export const allPagesPath = [
   "/project-document-names",
   "/document-categories",
   "/add-agencies",
+  "/pc-v",
+  "/proformas",
   "/pc-iv-review/:path",
   "/pc-iv-attached-review/:path",
   "/pc-iv-referback-review/:path",

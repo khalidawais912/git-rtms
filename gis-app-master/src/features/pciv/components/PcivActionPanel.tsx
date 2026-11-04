@@ -5,8 +5,6 @@ import Button from "@/components/Button";
 import Loader from "@/components/Loader/Loader";
 import Spinner from "@/components/Spinner";
 import { triggerEscapeKeyPress } from "@/utils";
-import "easymde/dist/easymde.min.css";
-import type { Options as SimpleMDEOptions } from "easymde";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
@@ -30,7 +28,8 @@ import {
   PcivReportTrail,
 } from "../types";
 
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+// TipTap needs the browser
+const RemarksEditor = dynamic(() => import("@/components/RemarksEditor/RemarksEditor"), {
   ssr: false,
 });
 
@@ -116,23 +115,6 @@ const PcivActionPanel = ({
       : undefined;
   }, [history, userId, users]);
 
-  const mdeOptions = useMemo<SimpleMDEOptions>(
-    () => ({
-      toolbar: [
-        "bold",
-        "italic",
-        "heading",
-        "|",
-        "quote",
-        "unordered-list",
-        "ordered-list",
-        "|",
-        "code",
-      ],
-    }),
-    [],
-  );
-
   const press = async (button: PcivButton) => {
     if (PCIV_REMARKS_REQUIRED.has(button) && !remarks.trim()) {
       setRemarksError("Remarks are required.");
@@ -213,12 +195,13 @@ const PcivActionPanel = ({
       </p>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="mb-2">
-          <SimpleMDE
+          <RemarksEditor
             placeholder="Description"
-            className="custom-editor"
-            value={remarks}
-            onChange={setRemarks}
-            options={mdeOptions}
+            ariaLabel="Description Level"
+            onChange={(value) => {
+              setRemarks(value);
+              setRemarksError("");
+            }}
           />
         </div>
 

@@ -1,0 +1,517 @@
+/* Total PC(IV)s / Total PC(V)s list, from the RTMES design (RTMES-secretary-pc):
+   a filter rail on the left, then the head, the PC-IV / PC-V choice and a plain table
+   with a page total and a grand total. --tc / --td / --tb = the colour of the type shown. */
+.page {
+  --pc4: #3570bd;
+  --pc4-dark: #24508c;
+  --pc4-bg: #e8f0fa;
+  --pc5: #3a7a8c;
+  --pc5-dark: #285b69;
+  --pc5-bg: #e7f2f4;
+  --ink: #0f1a2a;
+  --ink-2: #26334a;
+  --muted: #4e5a6c;
+  --line: #dce2ea;
+  --line-2: #edf0f5;
+  --subtle: #fafbfd;
+  --tc: var(--pc4);
+  --td: var(--pc4-dark);
+  --tb: var(--pc4-bg);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  height: calc(100vh - 92px);
+  min-height: 520px;
+  background: #f4f6f9;
+  color: var(--ink);
+}
+
+.page[data-type="pc5"] {
+  --tc: var(--pc5);
+  --td: var(--pc5-dark);
+  --tb: var(--pc5-bg);
+}
+
+/* ---------- filter rail ---------- */
+.rail {
+  width: 60px;
+  overflow: hidden auto;
+  border-right: 1px solid var(--line);
+  background: #fff;
+}
+
+.railOpen {
+  width: 270px;
+}
+
+.railIcons {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.railButton {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.railButton:hover,
+.railButton:focus-visible {
+  background: var(--line-2);
+  color: var(--ink);
+}
+
+.railToggle {
+  color: var(--td);
+}
+
+.onDot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tc);
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.railSep {
+  width: 32px;
+  height: 1px;
+  margin: 2px 0;
+  background: var(--line);
+}
+
+.railPanel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.railTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.railTop h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.railTop .railButton {
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+}
+
+.railPanel label {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.railPanel select,
+.railPanel input {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14.5px;
+  color: var(--ink);
+  outline: 0;
+}
+
+.railPanel select:focus,
+.railPanel input:focus {
+  border-color: var(--tc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 16%, transparent);
+}
+
+.clear {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--td);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- main ---------- */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 18px 24px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.head h1 {
+  margin: 0 0 0 4px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.3px;
+}
+
+.btn {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--tc);
+  color: var(--td);
+}
+
+.btnPrimary,
+.btnPrimary:hover {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: var(--td);
+  border-color: var(--td);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.count {
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: var(--tb);
+  color: var(--td);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 6px 0 12px;
+  border: 1.5px solid color-mix(in srgb, var(--tc) 35%, var(--line));
+  border-radius: 99px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chip button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--line-2);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.tools {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.search {
+  position: relative;
+  margin: 0;
+}
+
+.search svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.search input {
+  width: 300px;
+  max-width: 100%;
+  height: 46px;
+  padding: 0 14px 0 40px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 15px;
+  outline: 0;
+}
+
+.search input:focus {
+  border-color: var(--tc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 16%, transparent);
+}
+
+/* ---------- table ---------- */
+.box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.table {
+  width: 100%;
+  min-width: 1240px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14.5px;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--tc) 30%, var(--line));
+  background: color-mix(in srgb, var(--tc) 9%, #fff);
+  color: var(--td);
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table th button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 14px;
+  border: 0;
+  background: none;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.table th button:hover {
+  background: color-mix(in srgb, var(--tc) 15%, #fff);
+}
+
+.table th svg {
+  color: var(--muted);
+}
+
+.table th[aria-sort] svg {
+  color: var(--td);
+}
+
+.table th.num button {
+  justify-content: flex-end;
+}
+
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--ink-2);
+}
+
+.table tbody tr:hover td {
+  background: var(--subtle);
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.id {
+  color: var(--ink);
+}
+
+td.name {
+  min-width: 260px;
+}
+
+.nameText {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.wide {
+  min-width: 190px;
+}
+
+.gs {
+  min-width: 130px;
+}
+
+.yes {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.status::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tc);
+}
+
+.table tfoot td {
+  position: sticky;
+  z-index: 1;
+  padding: 11px 14px;
+  border: 0;
+  font-weight: 700;
+}
+
+.pageTotal td {
+  bottom: 43px;
+  border-top: 1px solid var(--line);
+  background: var(--tb);
+  color: var(--td);
+}
+
+.grandTotal td {
+  bottom: 0;
+  background: var(--td);
+  color: #fff;
+}
+
+.empty td {
+  padding: 40px 14px;
+  background: #fff;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+.error {
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border: 1px solid #f1c3bf;
+  border-radius: 12px;
+  background: #fdf0ef;
+  color: #8c2a24;
+}
+
+@media (max-width: 900px) {
+  .page {
+    height: auto;
+    min-height: 0;
+    align-items: start;
+  }
+
+  .box {
+    min-height: 320px;
+    max-height: 75vh;
+  }
+
+  .railOpen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1200;
+    width: min(300px, 86vw);
+    overflow: auto;
+    border-radius: 0 18px 18px 0;
+  }
+
+  .rail {
+    width: 54px;
+  }
+
+  .head h1 {
+    font-size: 23px;
+  }
+
+  .tools,
+  .search,
+  .search input {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .main {
+    padding: 14px 16px;
+  }
+
+}
+
+/* the search inside the rail fills the rail */
+.railPanel .search input {
+  width: 100%;
+  height: 40px;
+  padding-left: 38px;
+  border-width: 1px;
+  border-radius: 8px;
+}

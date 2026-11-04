@@ -93,6 +93,8 @@ export const config = {
     "/project-document-names/:path*",
     "/document-categories/:path*",
     "/add-agencies/:path*",
+    "/pc-v/:path*",
+    "/proformas/:path*",
     "/pc-iv-review/:path*",
     "/pc-iv-attached-review/:path*",
     "/pc-iv-referback-review/:path*",

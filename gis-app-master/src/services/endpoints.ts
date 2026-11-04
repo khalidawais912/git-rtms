@@ -56,3 +56,6 @@ export const PROJECT_DOCUMENT_NAMES_API = `/api/ProjectDocumentsName`;
 export const DOCUMENT_CATEGORY_API = `/api/document-category`;
 export const AGENCIES_API = `/api/agencies`;
 export const MARK_TO_EVALUATION_API = `/api/MarktoEvaluation`;
+export const PCV_API = `/api/PCV`;
+export const PCV_MAIN_API = `/api/PcvMain`;
+export const PCV_WORKFLOW_API = `/api/pcv/workflow`;

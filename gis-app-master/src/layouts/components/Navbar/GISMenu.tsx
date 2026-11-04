@@ -1,5 +1,5 @@
 "use client";
-import { getRights } from "@/utils/session";
+import { getRights, getSession } from "@/utils/session";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
@@ -34,6 +34,7 @@ const ICONS: Record<string, ReactNode> = {
   tag: <><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z" /><circle cx="7.5" cy="7.5" r="1.5" /></>,
   search: <><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></>,
   x: <path d="M18 6 6 18M6 6l12 12" />,
+  chev: <path d="m6 9 6 6 6-6" />,
   grid: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
 };
 
@@ -50,6 +51,12 @@ interface Module {
   link: string;
   icon: string;
 }
+
+/** The Administrative Secretary's menu (old Secretary screen): two options only. */
+const SECRETARY_MODULES: (Module & { color: string })[] = [
+  { name: "Main Dashboard", nameId: "dashboard", link: "/dashboard", icon: "grid", color: "var(--cat-brand)" },
+  { name: "Users", nameId: "users", link: "/users", icon: "users", color: "var(--cat-indigo)" },
+];
 
 interface Group {
   title: string;
@@ -88,6 +95,8 @@ const GROUPS: Group[] = [
       { name: "Sectors", nameId: "sectors", link: "/sectors", icon: "sector" },
       { name: "Departments", nameId: "departments", link: "/departments", icon: "building" },
       { name: "Agencies", nameId: "add-agencies", link: "/add-agencies", icon: "building" },
+      { name: "PC-V", nameId: "pc-v", link: "/pc-v", icon: "calendar" },
+      { name: "List of Proformas", nameId: "proformas", link: "/proformas", icon: "files" },
     ],
   },
   {
@@ -128,6 +137,7 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
   const [query, setQuery] = useState("");
   const [activeGroup, setActiveGroup] = useState<number | "all">("all");
   const [mounted, setMounted] = useState(false);
+  const [isSecretary, setSecretary] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -139,6 +149,7 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
 
   useEffect(() => {
     setRights(getRights());
+    setSecretary(getSession("role")?.toLowerCase() === "administrative secretary");
   }, [router]);
 
   // Groups with only the modules this user may open
@@ -169,6 +180,11 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
     };
   }, [show]);
 
+  // The Secretary sees Main Dashboard always, and Users when the right allows it.
+  const secretaryTiles = SECRETARY_MODULES.filter(
+    (m) => m.nameId === "dashboard" || rights.some((r) => r.toLowerCase() === m.nameId),
+  ).map((m, i) => ({ ...m, i }));
+
   const q = query.trim().toLowerCase();
   let index = 0; // tile order, for the slide-in delay
   const tiles = allowed.flatMap((g, gi) =>
@@ -181,7 +197,12 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
 
   return (
     <>
-      {rights?.length <= 1 ? (
+      {isSecretary ? (
+        <button type="button" className={navStyles.menuBtn} onClick={open} aria-haspopup="dialog" aria-expanded={show}>
+          <span>Monitoring Dashboard</span>
+          <Svg name="chev" className={navStyles.icon} />
+        </button>
+      ) : rights?.length <= 1 ? (
         <span className={navStyles.menuLabel}>
           {dashboardType ? "Evaluation Dashboard" : "Monitoring Dashboard"}
         </span>
@@ -196,6 +217,43 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
         createPortal(
           <div className={`${styles.layer} ${show ? styles.open : ""}`}>
             <div className={styles.backdrop} onClick={close} />
+            {isSecretary ? (
+              <div
+                className={`${styles.panel} ${styles.secPanel}`}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="secretaryMenuTitle"
+                aria-hidden={!show}
+              >
+                <div className={styles.head}>
+                  <div>
+                    <h2 id="secretaryMenuTitle">Monitoring Dashboard</h2>
+                    <p>Choose where you want to go</p>
+                  </div>
+                  <button type="button" className={styles.close} onClick={close} aria-label="Close menu">
+                    <Svg name="x" />
+                  </button>
+                </div>
+                <div className={`${styles.grid} ${styles.secGrid}`}>
+                  {secretaryTiles.map((m) => (
+                    <Link
+                      key={m.nameId}
+                      href={m.link}
+                      className={`${styles.link} ${pathname === m.link || pathname?.startsWith(`${m.link}/`) ? styles.current : ""}`}
+                      style={{ "--gc": m.color, "--i": m.i } as CSSProperties}
+                      onClick={close}
+                      aria-current={pathname === m.link ? "page" : undefined}
+                      tabIndex={show ? undefined : -1}
+                    >
+                      <span className={styles.ico}>
+                        <Svg name={m.icon} />
+                      </span>
+                      <span>{m.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
             <div
               className={styles.panel}
               role="dialog"
@@ -266,6 +324,7 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
                 {!tiles.length && <div className={styles.empty}>No module matches “{query}”.</div>}
               </div>
             </div>
+            )}
           </div>,
           document.body,
         )}
