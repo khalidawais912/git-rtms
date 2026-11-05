@@ -1,6 +1,6 @@
 import { PcvButton } from "./types";
 
-/** PC-V statuses (there is no 7: a completed PC-V creates no evaluation project). */
+/** PC-V statuses. */
 export const PCV_STATUS = {
   IN_PROCESS: 1,
   SUBMITTED: 2,
@@ -8,6 +8,7 @@ export const PCV_STATUS = {
   APPROVED_BY_SECRETARY: 4,
   APPROVED_BY_DG: 5,
   COMPLETED: 6,
+  MARKED_TO_EVALUATION: 7,
   CANCELLED: 8,
 } as const;
 
@@ -18,6 +19,7 @@ export const PCV_STATUS_NAME: Record<number, string> = {
   4: "Approved by Secretary",
   5: "Approved by DG DGME",
   6: "Completed",
+  7: "Marked to Evaluation",
   8: "Cancelled",
 };
 
@@ -29,6 +31,7 @@ export const PCV_STATUS_CLASS: Record<number, string> = {
   4: "bg-info text-dark",
   5: "bg-dark text-light",
   6: "bg-success text-light",
+  7: "bg-success text-light",
   8: "bg-danger text-light",
 };
 

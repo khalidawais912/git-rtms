@@ -10,6 +10,7 @@ import {
   getPcvList,
   PcvApiError,
   pressPcvButton,
+  saveAllPcv,
   saveChapter,
   updatePcvHeader,
 } from "./pcvApi";
@@ -72,9 +73,21 @@ describe("PC-V API", () => {
     await saveChapter(3, 12, "[]");
     expect(post).toHaveBeenCalledWith(
       `${PCV_API}/SaveOrUpdatePcVAsync`,
-      { pcvId: 3, chapterNo: 12, content: "[]" },
+      { pcvMain: { id: 3 }, chapters: [{ chapterNo: 12, content: "[]" }] },
       { params: { headId: 12 } },
     );
+  });
+
+  it("saveAllPcv sends the header, the chapters and the agency ids", async () => {
+    post.mockResolvedValue(reply(null));
+    const main = { id: 3, projectName: "A" } as Parameters<typeof saveAllPcv>[0];
+    await saveAllPcv(main, [{ chapterNo: 2, content: "[]" }], { sponsoringAgencyIds: [1], executingAgencyIds: [4] });
+    expect(post).toHaveBeenCalledWith(`${PCV_API}/SaveAllPcVAsync`, {
+      pcvMain: main,
+      chapters: [{ chapterNo: 2, content: "[]" }],
+      sponsoringAgencyIds: [1],
+      executingAgencyIds: [4],
+    });
   });
 
   it("updatePcvHeader puts only the given fields", async () => {

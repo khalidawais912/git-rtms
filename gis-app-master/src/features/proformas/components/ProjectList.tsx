@@ -31,7 +31,9 @@ import {
   money,
   pc4Row,
   pc5Row,
+  PROJECT_VIEWS,
   ProjectRow,
+  ProjectView,
   RowFilters,
   sortRows,
   totalCost,
@@ -43,21 +45,27 @@ import TypeSwitch from "./TypeSwitch";
 const TITLE: Record<ProformaType, string> = { pc4: "Total PC(IV)s", pc5: "Total PC(V)s" };
 
 /** PC-IV projects: the same call the dashboard's projects table made. */
-const loadPc4 = async () => {
+const loadPc4 = async (view?: ProjectView) => {
+  const filter = view ? PROJECT_VIEWS[view].pc4Filter : "all";
   const { data } = await apiClient.get<{ data: ProjectsList[] | null }>(
-    `${EVALUATION_MAIN_DASHBOARD_API}/GetProjectsListByStatus?filter=all`,
+    `${EVALUATION_MAIN_DASHBOARD_API}/GetProjectsListByStatus?filter=${filter}`,
   );
   return (data.data ?? []).map(pc4Row);
 };
 
-const loadPc5 = async () => (await getPcvList(false)).map(pc5Row);
+const loadPc5 = async (view?: ProjectView) => {
+  const list = await getPcvList(false);
+  return (view ? list.filter((p) => p.status === PROJECT_VIEWS[view].pc5Status) : list).map(pc5Row);
+};
 
-const LOADERS: Record<ProformaType, () => Promise<ProjectRow[]>> = { pc4: loadPc4, pc5: loadPc5 };
+const LOADERS: Record<ProformaType, (view?: ProjectView) => Promise<ProjectRow[]>> = { pc4: loadPc4, pc5: loadPc5 };
 
 type FilterKey = keyof RowFilters;
 
 interface Props {
   initialType: ProformaType;
+  /** Only the proformas of this dashboard tile; every proforma when left out. */
+  view?: ProjectView;
 }
 
 const cell = (col: Column, r: ProjectRow): ReactNode => {
@@ -90,7 +98,7 @@ const cellClass = (col: Column) =>
  * plain table, with filters in a rail on the left, sortable columns, a page total and a
  * grand total of the cost. Opened from the Total tiles on the Secretary dashboard.
  */
-const ProjectList = ({ initialType }: Props) => {
+const ProjectList = ({ initialType, view }: Props) => {
   const router = useRouter();
   const [type, setType] = useState<ProformaType>(initialType);
   const [data, setData] = useState<Partial<Record<ProformaType, ProjectRow[]>>>({});
@@ -104,18 +112,18 @@ const ProjectList = ({ initialType }: Props) => {
 
   useEffect(() => {
     PROFORMA_TYPES.forEach((t) =>
-      LOADERS[t]()
+      LOADERS[t](view)
         .then((rows) => setData((d) => ({ ...d, [t]: rows })))
         .catch((err) => {
           setData((d) => ({ ...d, [t]: [] }));
           setErrors((e) => ({ ...e, [t]: proformaErrorText(err) }));
         }),
     );
-  }, []);
+  }, [view]);
 
   useEffect(() => {
-    router.replace(`/proformas/all?type=${type}`, { scroll: false });
-  }, [type, router]);
+    router.replace(`/proformas/all?type=${type}${view ? `&view=${view}` : ""}`, { scroll: false });
+  }, [type, view, router]);
 
   // Escape closes the filter rail.
   useEffect(() => {
@@ -133,6 +141,7 @@ const ProjectList = ({ initialType }: Props) => {
   }, [railOpen]);
 
   const all = data[type];
+  const title = view ? `${PROJECT_VIEWS[view].title} (${type === "pc4" ? "PC-IV" : "PC-V"})` : TITLE[type];
   const columns = COLUMNS[type];
 
   const shown = useMemo(() => {
@@ -168,7 +177,7 @@ const ProjectList = ({ initialType }: Props) => {
         cost: r.cost === undefined ? "" : r.cost,
         sne: r.sne === undefined ? "" : r.sne ? "Yes" : "No",
       })),
-      `${TITLE[type]}.xlsx`,
+      `${title}.xlsx`,
     );
   };
 
@@ -279,7 +288,7 @@ const ProjectList = ({ initialType }: Props) => {
           <Link href="/dashboard" className={styles.btn}>
             <ArrowLeft size={18} /> Back to Dashboard
           </Link>
-          <h1>{TITLE[type]}</h1>
+          <h1>{title}</h1>
           <span className={styles.count}>
             {plural(shown.length)}
             {all && shown.length !== all.length ? ` of ${all.length}` : ""}
@@ -354,8 +363,8 @@ const ProjectList = ({ initialType }: Props) => {
                 )}
               </tbody>
               <tfoot>
-                {footRow(styles.pageTotal, `Page total (${shown.length ? 1 : 0}–${shown.length}) of ${TITLE[type]}`, shown)}
-                {footRow(styles.grandTotal, `Grand total (${all.length}) of ${TITLE[type]}`, all)}
+                {footRow(styles.pageTotal, `Page total (${shown.length ? 1 : 0}–${shown.length}) of ${title}`, shown)}
+                {footRow(styles.grandTotal, `Grand total (${all.length}) of ${title}`, all)}
               </tfoot>
             </table>
           </div>

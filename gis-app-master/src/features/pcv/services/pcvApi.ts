@@ -3,6 +3,7 @@ import {
   GENERATE_REPORT_API,
   PCV_API,
   PCV_MAIN_API,
+  PCV_OVERVIEW_API,
   PCV_WORKFLOW_API,
 } from "@/services/endpoints";
 import { BaseResponse } from "@/services/types";
@@ -18,6 +19,7 @@ import {
   PcvMain,
   PcvPerson,
 } from "../types";
+import { PcvOverviewCounts, PcvTileCounts, toPcvTileCounts } from "../overviewCounts";
 
 /**
  * The server answers with HTTP 200 and puts the result in `responseCode`
@@ -91,24 +93,28 @@ export const getPcv = async (pcvId: number): Promise<PcvForm> => {
   };
 };
 
-/** Saves one chapter (2 to 16) only; the header is not touched. ASSUMED body. */
+/** Saves one chapter (2 to 16) only; the header is not touched. headId is the chapter number. */
 export const saveChapter = (pcvId: number, chapterNo: number, content: string) =>
   request<unknown>(
     apiClient.post(
       `${PCV_API}/SaveOrUpdatePcVAsync`,
-      { pcvId, chapterNo, content },
+      { pcvMain: { id: pcvId }, chapters: [{ chapterNo, content }] },
       { params: { headId: chapterNo } },
     ),
   );
 
 /**
- * Saves the header and every chapter. Send the whole `pcvMain` from the GET:
- * a body with only the id clears Initiated By and location. ASSUMED body shape.
+ * Saves the header, the agencies and every chapter. Send the whole `pcvMain` from the GET:
+ * a body with only the id clears Initiated By and location.
  */
 export const saveAllPcv = (
   pcvMain: PcvMain,
   chapters: { chapterNo: number; content: string }[],
-) => request<unknown>(apiClient.post(`${PCV_API}/SaveAllPcVAsync`, { pcvMain, chapters }));
+  agencies: { sponsoringAgencyIds: number[]; executingAgencyIds: number[] },
+) =>
+  request<unknown>(
+    apiClient.post(`${PCV_API}/SaveAllPcVAsync`, { pcvMain, chapters, ...agencies }),
+  );
 
 /** Header and agencies. Leave a field out to keep it; a new project name is rejected. */
 export const updatePcvHeader = (pcvId: number, update: PcvHeaderUpdate) =>
@@ -217,3 +223,15 @@ export const getPcvHistory = async (pcvId: number): Promise<PcivReportTrail[]> =
 /** Stored files come back as server paths; this makes them openable. */
 export const pcvFileUrl = (path?: string | null) =>
   path ? `${process.env.NEXT_PUBLIC_BACKEND_API}${path}` : undefined;
+
+/**
+ * PC-V numbers for the secretary dashboard. undefined (not an error) while the server
+ * does not have the endpoint yet, so the tiles keep showing "–".
+ */
+export const getPcvOverviewCounts = async (): Promise<PcvTileCounts | undefined> => {
+  try {
+    return toPcvTileCounts(await request<PcvOverviewCounts>(apiClient.get(`${PCV_OVERVIEW_API}/counts`)));
+  } catch {
+    return undefined;
+  }
+};

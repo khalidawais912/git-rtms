@@ -1,5 +1,5 @@
 import type { ProjectsList } from "@/app/dashboard/components/Evaluation/types";
-import { PCV_MAX_SUBMISSIONS, PCV_STATUS_NAME, PcvListItem, pcvNameOf } from "@/features/pcv";
+import { PCV_MAX_SUBMISSIONS, PCV_STATUS, PCV_STATUS_NAME, PcvListItem, pcvNameOf } from "@/features/pcv";
 import { ProformaType } from "./adapters";
 import { formatDate } from "./utils";
 
@@ -83,9 +83,23 @@ export const pc4Row = (p: ProjectsList): ProjectRow => ({
   status: text(p.status),
 });
 
+/** The table opened from a dashboard tile: PC-IV by the dashboard's filter, PC-V by status. */
+export type ProjectView = "submittedToDgme" | "takeUp";
+
+export const PROJECT_VIEWS: Record<ProjectView, { title: string; pc4Filter: string; pc5Status: number }> = {
+  submittedToDgme: { title: "Submitted To DGM&E", pc4Filter: "inprogress", pc5Status: PCV_STATUS.APPROVED_BY_SECRETARY },
+  takeUp: { title: "Take-up for Evaluation", pc4Filter: "inprogress", pc5Status: PCV_STATUS.MARKED_TO_EVALUATION },
+};
+
+export const isProjectView = (value: unknown): value is ProjectView =>
+  typeof value === "string" && value in PROJECT_VIEWS;
+
+const agencyNames = (list: unknown) =>
+  Array.isArray(list) ? (list as { agencyName?: string }[]).map((a) => a.agencyName).filter(Boolean).join(", ") : "";
+
 /**
- * A PC-V from GetALLPCVs. Only the fields the guide names are certain; the others
- * (ASSUMED names) are read when the server sends them and are blank otherwise.
+ * A PC-V from GetALLPCVs. GS No., cost and district are not in the response yet: they are
+ * read if the server starts sending them; the location stands in for the district.
  */
 export const pc5Row = (p: PcvListItem): ProjectRow => {
   const extra = p as PcvListItem & Record<string, unknown>;
@@ -94,13 +108,13 @@ export const pc5Row = (p: PcvListItem): ProjectRow => {
     name: pcvNameOf(p),
     nameNote: p.completedAt ? `Completed ${formatDate(p.completedAt)}` : "",
     gs: text(extra.gsNo),
-    sector: text(p.sectorName),
+    sector: text(extra.sector) || text(p.sectorName),
     cost: typeof extra.actualCost === "number" ? extra.actualCost : undefined,
-    sponsor: text(extra.sponsoringAgencyName),
-    exec: text(extra.executingAgencyName),
+    sponsor: agencyNames(extra.sponsoringAgency),
+    exec: agencyNames(extra.executingAgency),
     city: text(extra.city),
     division: text(extra.divisionName),
-    district: text(extra.districtName),
+    district: text(extra.districtName) || text(extra.location),
     sne: undefined,
     year: p.submissionNo ? `Year ${p.submissionNo} of ${PCV_MAX_SUBMISSIONS}` : "",
     status: text(p.statusName) || PCV_STATUS_NAME[p.status] || "",

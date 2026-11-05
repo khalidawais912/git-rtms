@@ -1,8 +1,9 @@
 "use client";
-import { Building2, CalendarCheck, ChevronRight, Clock, Files, FileSearch, Send, Undo2 } from "lucide-react";
+import { Building2, CalendarCheck, ChevronRight, Files, FileSearch, Send, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { CSSProperties, ReactNode } from "react";
 import { ProformaType } from "../adapters";
+import { ProjectView } from "../projectRows";
 import { ProformaTabId } from "../utils";
 import styles from "./SecretaryTiles.module.css";
 
@@ -13,7 +14,6 @@ export interface SecretaryCounts {
   totalPc4?: number;
   totalPc5?: number;
   submittedToDgme: TypeCounts;
-  inProgress: TypeCounts;
   takeUp: TypeCounts;
   referback: TypeCounts;
   attached: TypeCounts;
@@ -27,31 +27,31 @@ const show = (n?: number) => (n === undefined ? "–" : n.toLocaleString("en-US"
 const listHref = (type: ProformaType, tab: ProformaTabId) => `/proformas?type=${type}&tab=${tab}`;
 /** Total PC(IV)s / Total PC(V)s: the projects table of that type. */
 const totalHref = (type: ProformaType) => `/proformas/all?type=${type}`;
+const tableHref = (type: ProformaType, view: ProjectView) => `${totalHref(type)}&view=${view}`;
 
 interface SplitTile {
   key: keyof Omit<SecretaryCounts, "totalPc4" | "totalPc5">;
   label: string;
   icon: ReactNode;
   color: string;
-  /** The step the list opens on. */
-  tab: ProformaTabId;
+  /** Where a half opens: the list to act from (Forward / Refer back), or the table. */
+  href: (type: ProformaType) => string;
 }
 
-/** Same order, labels and colours as the design (and the old screen). */
 const SPLIT_TILES: SplitTile[] = [
-  { key: "submittedToDgme", label: "Submitted To DGM&E", icon: <Send size={22} />, color: "var(--info)", tab: "sent" },
-  { key: "inProgress", label: "In Progress", icon: <Clock size={22} />, color: "var(--teal)", tab: "inprogress" },
-  { key: "takeUp", label: "Take-up for Evaluation", icon: <FileSearch size={22} />, color: "var(--indigo)", tab: "all" },
-  { key: "referback", label: "Referback", icon: <Undo2 size={22} />, color: "var(--rose)", tab: "all" },
-  { key: "attached", label: "Submitted by Attached Dept.", icon: <Building2 size={22} />, color: "var(--brand)", tab: "all" },
+  { key: "attached", label: "Submitted by Attached Dept.", icon: <Building2 size={22} />, color: "var(--brand)", href: (t) => listHref(t, "attached") },
+  { key: "takeUp", label: "Take-up for Evaluation", icon: <FileSearch size={22} />, color: "var(--indigo)", href: (t) => tableHref(t, "takeUp") },
+  { key: "referback", label: "Referback", icon: <Undo2 size={22} />, color: "var(--rose)", href: (t) => `/proformas?type=${t}&list=referback&tab=referbackByDgme` },
+  { key: "submittedToDgme", label: "Submitted To DGM&E", icon: <Send size={22} />, color: "var(--info)", href: (t) => tableHref(t, "submittedToDgme") },
 ];
 
 const color = (tc: string) => ({ "--tc": tc }) as CSSProperties;
 
 /**
  * The Secretary's status tiles (RTMES design): Total PC(IV)s and Total PC(V)s, then one tile
- * per status: its name on top, then two halves (PC-IV n › | PC-V n ›) that each open the
- * List of Proformas for that type. No total of both types is shown.
+ * per status: its name on top, then two halves (PC-IV n › | PC-V n ›). Attached Dept. and
+ * Referback open the List of Proformas to act from; the others open the table of that type.
+ * No total of both types is shown.
  */
 const SecretaryTiles = ({ counts }: Props) => {
   const totalBand = (
@@ -93,7 +93,7 @@ const SecretaryTiles = ({ counts }: Props) => {
               {(["pc4", "pc5"] as ProformaType[]).map((type) => (
                 <Link
                   key={type}
-                  href={listHref(type, tile.tab)}
+                  href={tile.href(type)}
                   className={styles.half}
                   aria-label={`${tile.label}: open the ${type === "pc4" ? "PC-IV" : "PC-V"} list`}
                 >

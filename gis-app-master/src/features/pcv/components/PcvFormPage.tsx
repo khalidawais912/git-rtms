@@ -223,11 +223,14 @@ const PcvFormPage = ({ pcvId }: Props) => {
     const ok = await run(
       "all",
       async () => {
-        // Agencies are saved through the header call; Save everything sends the whole pcvMain.
-        if (headerDirty) await updatePcvHeader(pcvId, headerUpdate());
+        // Save All replaces the whole header, so it gets the full pcvMain plus the agencies.
         await saveAllPcv(
           { ...main, sectorId: header.sectorId, initiatedByName: header.initiatedByName.trim() },
           form.chapters.map((c) => ({ chapterNo: c.chapterNo, content: drafts[c.chapterNo] ?? "" })),
+          {
+            sponsoringAgencyIds: header.sponsoringAgencyIds,
+            executingAgencyIds: header.executingAgencyIds,
+          },
         );
       },
       "PC-V saved",

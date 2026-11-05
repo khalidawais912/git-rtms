@@ -41,6 +41,20 @@ describe("projects table rows", () => {
     expect(r.nameNote).toContain("30 Jun 2023");
   });
 
+  it("pc5Row reads the sector, agencies and location GetALLPCVs sends", () => {
+    const r = pc5Row({
+      id: 51,
+      projectName: "PC-V Test",
+      submissionNo: 1,
+      status: 2,
+      sector: "Social Sector",
+      location: "Lahore",
+      sponsoringAgency: [{ agencyId: 14, agencyName: "dgme" }],
+      executingAgency: [{ agencyId: 4, agencyName: "DGME" }, { agencyId: 3, agencyName: "DC Sialkot" }],
+    } as Parameters<typeof pc5Row>[0]);
+    expect(r).toMatchObject({ sector: "Social Sector", district: "Lahore", sponsor: "dgme", exec: "DGME, DC Sialkot" });
+  });
+
   it("filterRows needs every search word and exact selects", () => {
     const rows: ProjectRow[] = [pc4({ id: 1 }), pc4({ id: 2, name: "PS development", districtName: "Faisalabad" })];
     expect(filterRows(rows, { ...EMPTY_FILTERS, search: "bhu lahore" }).map((r) => r.id)).toEqual([1]);

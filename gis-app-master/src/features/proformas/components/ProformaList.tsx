@@ -9,14 +9,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PROFORMA_ADAPTERS, PROFORMA_TYPES, ProformaType, proformaErrorCode, proformaErrorText } from "../adapters";
-import { formatDate, formatTime, plural, PROFORMA_TABS, ProformaTabId, statusText, statusTone } from "../utils";
+import { loadInbox } from "../inbox";
+import { formatDate, formatTime, plural, PROFORMA_TABS, ProformaListId, ProformaTabId, statusText, statusTone, tabsOf } from "../utils";
 import ProformaDrawer, { DrawerMode } from "./ProformaDrawer";
 import styles from "./Proformas.module.css";
 import TypeSwitch from "./TypeSwitch";
 
 interface Props {
   initialType: ProformaType;
-  initialTab: ProformaTabId;
+  /** The Referback tile opens its own set of tabs. */
+  list: ProformaListId;
+  /** Left out, or not a tab of this role: the role's first tab. */
+  initialTab?: ProformaTabId;
 }
 
 type Inboxes = Partial<Record<ProformaType, PcivInboxReport[]>>;
@@ -29,13 +33,15 @@ const toneClass = { ok: styles.statusOk, wait: styles.statusWait, no: "" };
  * every other one "View History"; both open the drawer. The first waiting proforma opens
  * by itself, and after each action the next one does, so the user works through the queue.
  */
-const ProformaList = ({ initialType, initialTab }: Props) => {
+const ProformaList = ({ initialType, list, initialTab }: Props) => {
   const router = useRouter();
-  const { userId } = useUserInfo();
+  const { userId, role } = useUserInfo();
   const { data: users } = useReportHistoryUsers();
 
   const [type, setType] = useState<ProformaType>(initialType);
-  const [tab, setTab] = useState<ProformaTabId>(initialTab);
+  const tabs = tabsOf(list, role);
+  const [picked, setTab] = useState(initialTab);
+  const tab = tabs.some((t) => t.id === picked) ? picked! : tabs[0].id;
   const [search, setSearch] = useState("");
   const [inboxes, setInboxes] = useState<Inboxes>({});
   const [errors, setErrors] = useState<Partial<Record<ProformaType, string>>>({});
@@ -50,10 +56,7 @@ const ProformaList = ({ initialType, initialTab }: Props) => {
     await Promise.all(
       PROFORMA_TYPES.map(async (t) => {
         try {
-          const inbox = await PROFORMA_ADAPTERS[t].inbox(userId);
-          const rows = [...inbox.reports].sort(
-            (a, b) => new Date(a.submittedDate).getTime() - new Date(b.submittedDate).getTime(),
-          );
+          const rows = await loadInbox(t, userId);
           setInboxes((prev) => ({ ...prev, [t]: rows }));
           setErrors((prev) => ({ ...prev, [t]: "" }));
         } catch (err) {
@@ -71,8 +74,10 @@ const ProformaList = ({ initialType, initialTab }: Props) => {
 
   // Keep the type and tab in the address, so a refresh or a shared link opens the same list.
   useEffect(() => {
-    router.replace(`/proformas?type=${type}&tab=${tab}`, { scroll: false });
-  }, [type, tab, router]);
+    if (!role) return;
+    const listParam = list === "referback" ? "&list=referback" : "";
+    router.replace(`/proformas?type=${type}${listParam}&tab=${tab}`, { scroll: false });
+  }, [type, list, tab, role, router]);
 
   const rows = inboxes[type];
 
@@ -103,9 +108,10 @@ const ProformaList = ({ initialType, initialTab }: Props) => {
   useEffect(() => {
     if (!openNext || !rows || !userId || open) return;
     setOpenNext(false);
-    const next = rows.find((r) => isPendingWithUser(r, userId));
+    const inTab = PROFORMA_TABS.find((t) => t.id === tab)!;
+    const next = rows.find((r) => isPendingWithUser(r, userId) && inTab.match(r, userId));
     if (next) setOpen({ row: next, mode: "act", type });
-  }, [openNext, rows, userId, open, type]);
+  }, [openNext, rows, userId, open, type, tab]);
 
   const changeType = (t: ProformaType) => {
     setType(t);
@@ -139,7 +145,7 @@ const ProformaList = ({ initialType, initialTab }: Props) => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </label>
-          <DownloadWrapper data={shown} fileName={`${adapter.label} ${PROFORMA_TABS.find((t) => t.id === tab)?.label}`} />
+          <DownloadWrapper data={shown} fileName={`${adapter.label} ${tabs.find((t) => t.id === tab)?.label}`} />
         </div>
       </div>
 
@@ -150,7 +156,7 @@ const ProformaList = ({ initialType, initialTab }: Props) => {
       />
 
       <div className={styles.tabs} role="tablist" aria-label="Proformas by step">
-        {PROFORMA_TABS.map((t) => (
+        {tabs.map((t) => (
           <button
             key={t.id}
             type="button"

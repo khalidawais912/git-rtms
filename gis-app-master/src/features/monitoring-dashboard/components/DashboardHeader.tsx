@@ -6,7 +6,9 @@ import { fmt } from "../utils";
 import Icon from "./Icon";
 import styles from "./MonitoringDashboard.module.css";
 
+/** The two dashboards share this title row. */
 interface Props {
+  section?: "Monitoring" | "Evaluation";
   program?: Program;
   /** Projects in the active programme (the other programme's count is not loaded) */
   total?: number;
@@ -26,6 +28,7 @@ const PROGRAMS: { key: Program; icon: "star" | "briefcase"; label: string }[] = 
 
 /** Title row: breadcrumbs, programme switch and page actions */
 const DashboardHeader = ({
+  section = "Monitoring",
   program,
   total,
   onProgramChange,
@@ -45,14 +48,14 @@ const DashboardHeader = ({
     <div className={styles.head}>
       <div>
         <div className={styles.crumbs}>
-          <Icon name="home" /> Monitoring <Icon name="chevR" /> Main Dashboard{today && ` · ${today}`}
+          <Icon name="home" /> {section} <Icon name="chevR" /> Main Dashboard{today && ` · ${today}`}
         </div>
-        <h1 className={styles.title}>Monitoring Dashboard</h1>
+        <h1 className={styles.title}>{section} Dashboard</h1>
       </div>
 
-      {!compact && program && (
+      {!compact && (
         <>
-          <div className={styles.pills} role="tablist" aria-label="Choose programme">
+          {program && <div className={styles.pills} role="tablist" aria-label="Choose programme">
             {PROGRAMS.map((p) => (
               <button
                 key={p.key}
@@ -68,8 +71,8 @@ const DashboardHeader = ({
                 {program === p.key && total !== undefined && <b className={styles.num}>{fmt(total)}</b>}
               </button>
             ))}
-          </div>
-          <div className={styles.headActions}>
+          </div>}
+          <div className={`${styles.headActions} ${program ? "" : styles.pushRight}`}>
             <button type="button" className={styles.btn} onClick={onOpenFilters} aria-haspopup="dialog">
               <Icon name="filter" />
               Filters

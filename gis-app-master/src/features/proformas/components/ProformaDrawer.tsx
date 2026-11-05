@@ -11,13 +11,14 @@ import {
 } from "@/features/pciv";
 import { ReportHistoryUser } from "@/features/users";
 import { getSession } from "@/utils/session";
-import { ArrowLeft, ChevronUp, Clock, Eye, ExternalLink, Files, FileText, Send, Undo2, X } from "lucide-react";
+import { ChevronUp, Clock, ExternalLink, Files, FileText, Send, Undo2, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { ProformaAdapter, ProformaDocument, proformaErrorCode, proformaErrorText } from "../adapters";
-import { documentLine, formatDateTime } from "../utils";
+import { formatDateTime } from "../utils";
+import DocumentsMenu from "./DocumentsMenu";
 import styles from "./Proformas.module.css";
 
 // TipTap needs the browser
@@ -50,7 +51,7 @@ const CONFIRM = new Set<PcivButton>(["complete", "cancel"]);
 interface SectionProps {
   icon: ReactNode;
   title: string;
-  /** History and Attached Documents start folded; Take Action starts open. */
+  /** History starts folded; Take Action starts open. */
   defaultOpen: boolean;
   children: ReactNode;
 }
@@ -72,10 +73,11 @@ const Section = ({ icon, title, defaultOpen, children }: SectionProps) => {
 };
 
 /**
- * Take Action / Proforma History drawer (RTMES design): the history of the proforma, its
- * attached documents, then the buttons the server gives this user. Ticking "Referback" turns the action
- * into a refer back; otherwise it is forwarded to the next level (or completed / cancelled).
- * The proforma's PDF opens in a panel to the left of the drawer.
+ * Take Action / Proforma History drawer (RTMES design): the history of the proforma, then the
+ * buttons the server gives this user. Ticking "Referback" turns the action into a refer back;
+ * otherwise it is forwarded to the next level (or completed / cancelled).
+ * The proforma's PDF opens in a panel to the left of the drawer. Its "Attached Documents" menu
+ * opens a document in a second panel, between the PDF and the drawer.
  */
 const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }: Props) => {
   const id = row.pcivId;
@@ -90,7 +92,7 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
   const [busy, setBusy] = useState<PcivButton | null>(null);
   const [pdfPath, setPdfPath] = useState<string | null>(null);
   const [documents, setDocuments] = useState<ProformaDocument[]>();
-  /** A document shown inside the drawer, over it. */
+  /** The attached document open in its own panel, next to the PDF. */
   const [openDoc, setOpenDoc] = useState<ProformaDocument | null>(null);
 
   const load = useCallback(async () => {
@@ -119,7 +121,7 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
     load();
   }, [load]);
 
-  // Escape closes the PDF first, then the drawer; the page behind does not scroll.
+  // Escape closes the document, then the PDF, then the drawer; the page behind does not scroll.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
@@ -135,6 +137,11 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
       document.body.style.overflow = overflow;
     };
   }, [pdfPath, openDoc, onClose]);
+
+  const closePdf = () => {
+    setPdfPath(null);
+    setOpenDoc(null);
+  };
 
   const userName = useCallback((uid: number) => users.find((u) => u.id === uid)?.fullName, [users]);
 
@@ -182,28 +189,65 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
   const kicker = `${mode === "act" ? "Take Action" : "Proforma History"} · ${adapter.label} · GS No. ${row.gsNo || "–"}`;
 
   return (
-    <div className={styles.drawerRoot} data-type={adapter.type}>
+    <div className={styles.drawerRoot} data-type={adapter.type} data-doc={openDoc ? "open" : undefined}>
       <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
 
       {pdfPath && (
-        <aside className={styles.pdfPanel} aria-label={`${adapter.label} PDF`}>
-          <div className={styles.pdfHead}>
-            <span className={styles.headIcon}>
-              <FileText size={22} />
-            </span>
-            <div className={styles.headTitle}>
-              <small>Proforma PDF · GS No. {row.gsNo || "–"}</small>
-              <h2>{row.projectName}</h2>
+        <div className={styles.panels}>
+          <aside className={styles.pdfPanel} aria-label={`${adapter.label} PDF`}>
+            <div className={styles.pdfHead}>
+              <span className={styles.headIcon}>
+                <FileText size={22} />
+              </span>
+              <div className={styles.headTitle}>
+                <small>Proforma PDF · GS No. {row.gsNo || "–"}</small>
+                <h2>{row.projectName}</h2>
+                <DocumentsMenu documents={documents} activeId={openDoc?.id} onSelect={setOpenDoc} />
+              </div>
+              <a
+                className={`${styles.btn} ${openDoc ? styles.iconOnly : ""}`}
+                href={adapter.fileUrl(pdfPath)}
+                target="_blank"
+                rel="noreferrer"
+                title="Open in new window"
+                aria-label="Open in new window"
+              >
+                <ExternalLink size={18} /> {!openDoc && "Open in new window"}
+              </a>
+              <button type="button" className={styles.close} onClick={closePdf} aria-label="Close the PDF">
+                <X size={20} />
+              </button>
             </div>
-            <a className={styles.btn} href={adapter.fileUrl(pdfPath)} target="_blank" rel="noreferrer">
-              <ExternalLink size={18} /> Open in new window
-            </a>
-            <button type="button" className={styles.close} onClick={() => setPdfPath(null)} aria-label="Close the PDF">
-              <X size={20} />
-            </button>
-          </div>
-          <iframe className={styles.pdfFrame} src={adapter.fileUrl(pdfPath)} title={`${row.projectName} PDF`} />
-        </aside>
+            <iframe className={styles.pdfFrame} src={adapter.fileUrl(pdfPath)} title={`${row.projectName} PDF`} />
+          </aside>
+
+          {openDoc && (
+            <aside className={styles.docPanel} aria-label={`Attached document: ${openDoc.name}`}>
+              <div className={styles.pdfHead}>
+                <span className={styles.headIcon}>
+                  <Files size={22} />
+                </span>
+                <div className={styles.headTitle}>
+                  <h2>{openDoc.name}</h2>
+                </div>
+                <a
+                  className={`${styles.btn} ${styles.iconOnly}`}
+                  href={adapter.fileUrl(openDoc.path)}
+                  target="_blank"
+                  rel="noreferrer"
+                  title="Open in new window"
+                  aria-label="Open in new window"
+                >
+                  <ExternalLink size={18} />
+                </a>
+                <button type="button" className={styles.close} onClick={() => setOpenDoc(null)} aria-label="Close the document">
+                  <X size={20} />
+                </button>
+              </div>
+              <iframe key={openDoc.id} className={styles.pdfFrame} src={adapter.fileUrl(openDoc.path)} title={openDoc.name} />
+            </aside>
+          )}
+        </div>
       )}
 
       <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label={kicker}>
@@ -216,7 +260,7 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
           <button
             type="button"
             className={`${styles.btn} ${styles.pdfButton} ${pdfPath && pdfPath === row.reportPath ? styles.pdfButtonOn : ""}`}
-            onClick={() => setPdfPath(pdfPath === row.reportPath ? null : row.reportPath)}
+            onClick={() => (pdfPath === row.reportPath ? closePdf() : setPdfPath(row.reportPath))}
             disabled={!row.reportPath}
             title={row.reportPath ? undefined : "The PDF of this proforma is not ready yet"}
             aria-pressed={!!pdfPath && pdfPath === row.reportPath}
@@ -273,35 +317,6 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
                 ))
               )}
             </div>
-          </Section>
-
-          <Section icon={<Files size={20} />} title="Attached Documents" defaultOpen={false}>
-            {!documents ? (
-              <div className={styles.history}>
-                <Loader />
-              </div>
-            ) : documents.length === 0 ? (
-              <div className={styles.history}>
-                <p className={styles.muted}>No documents attached.</p>
-              </div>
-            ) : (
-              <ul className={styles.docs}>
-                {documents.map((doc) => (
-                  <li key={doc.id}>
-                    <span className={styles.docIcon}>
-                      <FileText size={22} />
-                    </span>
-                    <span className={styles.docText}>
-                      <b>{doc.name}</b>
-                      <small>{documentLine(doc)}</small>
-                    </span>
-                    <button type="button" className={styles.btn} onClick={() => setOpenDoc(doc)}>
-                      <Eye size={18} /> View PDF
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
           </Section>
 
           {mode === "act" && (
@@ -418,30 +433,6 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
             })}
         </div>
 
-        {openDoc && (
-          <section className={styles.docView} aria-label={`Attached document: ${openDoc.name}`}>
-            <div className={styles.docHead}>
-              <button type="button" className={`${styles.btn} ${styles.docBack}`} onClick={() => setOpenDoc(null)} autoFocus>
-                <ArrowLeft size={18} /> {mode === "act" ? "Back to Take Action" : "Back to Proforma History"}
-              </button>
-              <div className={styles.headTitle}>
-                <small>Attached Document</small>
-                <h2>{openDoc.name}</h2>
-              </div>
-              <a
-                className={`${styles.btn} ${styles.docNew}`}
-                href={adapter.fileUrl(openDoc.path)}
-                target="_blank"
-                rel="noreferrer"
-                title="Open in new window"
-                aria-label="Open in new window"
-              >
-                <ExternalLink size={18} />
-              </a>
-            </div>
-            <iframe className={styles.pdfFrame} src={adapter.fileUrl(openDoc.path)} title={openDoc.name} />
-          </section>
-        )}
       </aside>
     </div>
   );

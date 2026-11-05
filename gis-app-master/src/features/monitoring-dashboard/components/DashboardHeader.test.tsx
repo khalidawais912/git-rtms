@@ -9,6 +9,13 @@ describe("DashboardHeader", () => {
     expect(screen.getByRole("heading", { name: "Monitoring Dashboard" })).toBeInTheDocument();
   });
 
+  it("names the Evaluation dashboard, with the actions and no programme switch", () => {
+    render(<DashboardHeader section="Evaluation" />);
+    expect(screen.getByRole("heading", { name: "Evaluation Dashboard" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Filters/ })).toBeInTheDocument();
+    expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+  });
+
   it("hides the programme switch and actions in compact mode", () => {
     render(<DashboardHeader compact program="adp" />);
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();

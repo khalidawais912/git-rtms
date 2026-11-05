@@ -59,7 +59,20 @@ export interface ProformaAdapter {
   documents: (id: number) => Promise<ProformaDocument[]>;
 }
 
-const noDocuments = async (): Promise<ProformaDocument[]> => [];
+// TEMP: one mock document for testing the menu, only under `next dev`. Remove it when the API comes.
+const noDocuments = async (): Promise<ProformaDocument[]> =>
+  process.env.NODE_ENV === "development"
+    ? [
+        {
+          id: "mock-1",
+          name: "Annual Accounts Statement (mock)",
+          path: "/upload/2026-2027/Nov/PC-V/PCV_51/PCV_51_V1.pdf",
+          fileType: "PDF",
+          sizeBytes: 152107,
+          uploadedAt: "2026-11-04T15:30:14",
+        },
+      ]
+    : [];
 
 export const PROFORMA_ADAPTERS: Record<ProformaType, ProformaAdapter> = {
   pc4: {

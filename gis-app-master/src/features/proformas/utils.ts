@@ -1,5 +1,6 @@
 import {
   isPendingWithUser,
+  isReferredBack,
   isSentByUser,
   PCIV_STATUS,
   PCIV_STATUS_NAME,
@@ -22,7 +23,18 @@ export const formatTime = (value?: string | null) =>
 export const formatDateTime = (value?: string | null) =>
   value ? `${formatDate(value)} (${formatTime(value)})` : "–";
 
-export type ProformaTabId = "all" | "inprogress" | "sent" | "completed" | "cancelled";
+export type ProformaTabId =
+  | "attached"
+  | "dgme"
+  | "referbackByDgme"
+  | "referbackToDept"
+  | "inprogress"
+  | "sent"
+  | "completed"
+  | "cancelled";
+
+/** Which set of tabs the list shows: the Referback tile has its own. */
+export type ProformaListId = "main" | "referback";
 
 interface TabDefinition {
   id: ProformaTabId;
@@ -30,9 +42,31 @@ interface TabDefinition {
   match: (row: PcivInboxRow, userId: number) => boolean;
 }
 
-/** The old "List of Reports" tabs; In Progress = waiting for this user. */
+/**
+ * Submitted and referred-back proformas can share a status, so the newest history action
+ * (`lastAction`, loaded by the list) tells them apart.
+ */
 export const PROFORMA_TABS: TabDefinition[] = [
-  { id: "all", label: "All", match: () => true },
+  {
+    id: "attached",
+    label: "Submitted by Attached Dept.",
+    match: (r, userId) => isPendingWithUser(r, userId) && !isReferredBack(r),
+  },
+  {
+    id: "dgme",
+    label: "Submitted To DGM&E",
+    match: (r, userId) => isSentByUser(r, userId) && !isReferredBack(r),
+  },
+  {
+    id: "referbackByDgme",
+    label: "Refer Back by DGM&E",
+    match: (r, userId) => isPendingWithUser(r, userId) && isReferredBack(r),
+  },
+  {
+    id: "referbackToDept",
+    label: "Refer Back to Attached Department",
+    match: (r, userId) => isSentByUser(r, userId) && isReferredBack(r),
+  },
   { id: "inprogress", label: "In Progress", match: isPendingWithUser },
   { id: "sent", label: "Sent by Me", match: isSentByUser },
   {
@@ -42,6 +76,50 @@ export const PROFORMA_TABS: TabDefinition[] = [
   },
   { id: "cancelled", label: "Cancelled", match: (r) => r.status === PCIV_STATUS.CANCELLED },
 ];
+
+const LIST_TABS: Record<ProformaListId, ProformaTabId[]> = {
+  main: ["attached", "dgme", "completed", "cancelled"],
+  referback: ["referbackByDgme", "referbackToDept", "completed", "cancelled"],
+};
+
+const tabById = (id: ProformaTabId) => PROFORMA_TABS.find((t) => t.id === id)!;
+
+/** The DGME officers' tabs, with the same names and order as their PC-IV lists. */
+const ROLE_TABS: Record<string, [ProformaTabId, string][]> = {
+  "department head": [
+    ["attached", "Submitted by (Administrative Department)"],
+    ["dgme", "Mark To (Director)"],
+    ["referbackToDept", "Referback To (Department)"],
+    ["referbackByDgme", "Referback By (D)"],
+  ],
+  director: [
+    ["attached", "Mark By (DG)"],
+    ["dgme", "Mark To (DD)"],
+    ["referbackByDgme", "Referback By (DD)"],
+    ["referbackToDept", "Referback To (DG)"],
+  ],
+  "deputy director": [
+    ["attached", "Mark By (D)"],
+    ["dgme", "Assigned To (AD)"],
+    ["referbackByDgme", "Referback By (AD)"],
+    ["referbackToDept", "Referback To (D)"],
+  ],
+};
+
+/** Everyone else (the department user, the Assistant Director): same as their PC-IV list. */
+const DEFAULT_TABS: ProformaTabId[] = ["inprogress", "sent", "completed", "cancelled"];
+
+/**
+ * The tabs this role sees, in order; the first is where the list opens. The Secretary's
+ * tabs depend on the tile that opened the list. `role` is lower case, undefined until known.
+ */
+export const tabsOf = (list: ProformaListId, role?: string): TabDefinition[] => {
+  if (!role || role === "administrative secretary") return LIST_TABS[list].map(tabById);
+  const named = ROLE_TABS[role];
+  return named ? named.map(([id, label]) => ({ ...tabById(id), label })) : DEFAULT_TABS.map(tabById);
+};
+
+export const isProformaList = (value: unknown): value is ProformaListId => value === "main" || value === "referback";
 
 export const isProformaTab = (value: unknown): value is ProformaTabId =>
   PROFORMA_TABS.some((t) => t.id === value);
