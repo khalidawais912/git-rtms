@@ -1,0 +1,244 @@
+"use client";
+import DeleteModal2 from "@/components/DeleteModal2";
+import TableHeading from "@/components/Table/TableHeading";
+import { AxiosError } from "@/services/client";
+import { deleteUser } from "../services";
+import { useAuthentication } from "../hooks";
+import { Authentication } from "../types";
+import { sort } from "fast-sort";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import Form from "./Form";
+import Loader from "@/components/Loader/Loader";
+import Actions from "@/components/Table/Actions";
+import Pagination from "@/components/Table/Pagination";
+import RowHeader from "@/components/Table/RowHeader";
+import TableData from "@/components/Table/TableData";
+import TableHeader from "@/components/Table/TableHeader";
+import TableWrapper from "@/components/Table/TableWrapper";
+import { useRoles } from "@/features/roles";
+import Link from "next/link";
+import GroupingForm from "./GroupingForm";
+import Image from "next/image";
+import { backendFileUrl } from "@/utils";
+
+interface ListProps {
+  refresh: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const List = ({ refresh, setRefresh }: ListProps) => {
+  const { data, setData, setError, isLoading } = useAuthentication({
+    refresh,
+  });
+  const [isPageLimit, setPageLimit] = useState(false);
+  const { data: roles } = useRoles({ refresh });
+  const deleteMessage = "Deleted Successfully!";
+
+  const notifyCreate = (message: string) => toast.success(message);
+  const notifyError = (message: string) => toast.error(message);
+
+  // State for search input
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // State for filtered data
+  const [filteredData, setFilteredData] = useState<Authentication[]>([]);
+
+  // Handle search logic
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(1);
+    const filtered = data.filter((item) =>
+      [item.userName, item.fullName, item.designation, item.email]
+        .filter((field) => field) // Remove undefined fields
+        .map((field) => field.toLowerCase())
+        .some((field) => field.includes(e.target.value.toLowerCase())),
+    );
+    setFilteredData(filtered);
+  };
+
+
+  // Update searchTerm and clear search if empty
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    handleSearch(e);
+  };
+
+  const handleDelete = async (userName: string) => {
+    try {
+      await deleteUser(userName);
+      // remove the deleted item from the data array
+      setData((prevData) =>
+        prevData.filter((item) => item.userName !== userName),
+      );
+      notifyCreate(deleteMessage);
+    } catch (err) {
+      console.error("failed to delete item", err);
+      setError((err as AxiosError).message);
+      notifyError((err as AxiosError).message);
+    }
+  };
+
+  // for sorting
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof Authentication;
+    direction: "asc" | "desc";
+  } | null>(null);
+
+  const handleSort = (key: keyof Authentication) => {
+    let direction: "asc" | "desc" = "asc";
+
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "asc"
+    ) {
+      direction = "desc";
+    }
+    const sortedData = sort(data)[direction](key);
+    setSortConfig({ key, direction });
+    setData([...sortedData]);
+  };
+
+  // for selecting rows per page
+  const [rows, setRows] = useState(10); // Default to 11 rows per page
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
+
+  // Paginate data to display only the current page's rows
+  const paginatedData = (searchTerm ? filteredData : data).slice(
+    (currentPage - 1) * rows,
+    currentPage * rows,
+  );
+
+  return (
+    <>
+      {isLoading && <Loader />}
+      <TableHeader
+        heading="Users"
+        searchTerm={searchTerm}
+        filteredData={filteredData}
+        data={data}
+        handleChange={handleChange}
+        form={
+          <div className="col-auto">
+            <Form
+              method="POST"
+              setRefresh={setRefresh}
+              refresh={refresh}
+              roles={roles}
+            />
+          </div>
+        }
+      />
+      <TableWrapper
+        setRows={setRows}
+        currentPage={currentPage}
+        data={data}
+        isPageLimit={isPageLimit}
+      >
+        {(firstRowRef) => (
+          <>
+            <thead>
+              <tr>
+                <TableHeading name="id" handleSort={() => handleSort("id")} />
+                <TableHeading
+                  className="text-nowrap"
+                  name="user name"
+                  handleSort={() => handleSort("userName")}
+                />
+                <TableHeading
+                  className="text-nowrap"
+                  name="full Name"
+                  handleSort={() => handleSort("fullName")}
+                />
+                <TableHeading
+                  name="picture"
+                  handleSort={() => handleSort("picture")}
+                />
+                <TableHeading
+                  name="designation"
+                  handleSort={() => handleSort("designation")}
+                />
+                <TableHeading
+                  name="email"
+                  handleSort={() => handleSort("email")}
+                />
+                <TableHeading
+                  name="phoneNumber"
+                  handleSort={() => handleSort("phoneNumber")}
+                />
+                <TableHeading name="ROLE" />
+                <TableHeading name="ACTIONS" />
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedData.map((d, i) => (
+                <tr key={i} ref={i === 0 ? firstRowRef : null}>
+                  <RowHeader>{d.id}</RowHeader>
+                  <TableData>{d.userName}</TableData>
+                  <TableData>{d.fullName}</TableData>
+                  <TableData>
+                    {d.picture && d.picture.length > 0 && (
+                      <Link
+                        href={backendFileUrl(d.picture)}
+                        target="_blank"
+                      >
+                        <Image
+                          unoptimized
+                          className="rounded-circle shadow-sm"
+                          style={{
+                            objectFit: "cover",
+                            objectPosition: "center top",
+                            width: "70px",
+                            height: "70px",
+                          }}
+                          width={70}
+                          height={70}
+                          src={backendFileUrl(d.picture)}
+                          alt="picture"
+                        />
+                      </Link>
+                    )}
+                  </TableData>
+                  <TableData>{d.designation}</TableData>
+                  <TableData>{d.email}</TableData>
+                  <TableData>{d.phoneNumber}</TableData>
+                  <TableData className="text-center">
+                    <GroupingForm
+                      id={d.id}
+                      options={roles}
+                      userName={d.userName}
+                    />
+                  </TableData>
+                  <TableData>
+                    <Actions
+                      deleteNode={
+                        <DeleteModal2
+                          handleDelete={handleDelete}
+                          userName={d.userName}
+                        />
+                      }
+                    />
+                  </TableData>
+
+                </tr>
+              ))}
+            </tbody>
+          </>
+        )}
+      </TableWrapper>
+
+      <Pagination
+        searchTerm={searchTerm}
+        filteredData={filteredData}
+        data={data}
+        rows={rows}
+        setRows={setRows}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setPageLimit={setPageLimit}
+      />
+    </>
+  );
+};
+
+export default List;

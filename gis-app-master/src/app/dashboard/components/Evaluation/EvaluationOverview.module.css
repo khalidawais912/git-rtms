@@ -1,0 +1,73 @@
+/* Evaluation Dashboard: the layout that differs from the Monitoring one (same colours and cards). */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.tiles > * {
+  display: flex;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.top > span:first-child {
+  flex: none;
+  margin-bottom: 0;
+}
+
+/* View Charts has no number: icon and name on one line, in the middle of the tile */
+.charts {
+  align-items: center;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.charts > span:first-child {
+  flex: none;
+  margin-bottom: 0;
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.four {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 320px));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1280px) {
+  .tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .tiles,
+  .four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

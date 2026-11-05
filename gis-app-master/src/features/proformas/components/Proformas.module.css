@@ -1,0 +1,1029 @@
+/* List of Proformas + Take Action drawer, from the RTMES design (RTMES-secretary-reports).
+   --tc / --td / --tb = the colour of the type on screen: PC-IV blue, PC-V teal. */
+.page,
+.drawerRoot {
+  --pc4: #3570bd;
+  --pc4-dark: #24508c;
+  --pc4-bg: #e8f0fa;
+  --pc5: #3a7a8c;
+  --pc5-dark: #285b69;
+  --pc5-bg: #e7f2f4;
+  --rose: #a8577a;
+  --ink: #0f1a2a;
+  --ink-2: #26334a;
+  --muted: #4e5a6c;
+  --line: #dce2ea;
+  --line-2: #edf0f5;
+  --subtle: #fafbfd;
+  --bg: #f4f6f9;
+  --good: #1a8150;
+  --average: #c47f0a;
+  --tc: var(--pc4);
+  --td: var(--pc4-dark);
+  --tb: var(--pc4-bg);
+  color: var(--ink);
+}
+
+.page[data-type="pc5"],
+.drawerRoot[data-type="pc5"] {
+  --tc: var(--pc5);
+  --td: var(--pc5-dark);
+  --tb: var(--pc5-bg);
+}
+
+.page {
+  min-height: 100vh;
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 18px 24px 32px;
+  background: var(--bg);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  border-color: var(--tc);
+  color: var(--td);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: var(--td);
+  border-color: var(--td);
+  color: #fff;
+}
+
+.btnRose {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: #fff;
+}
+
+.btnRose:hover {
+  background: #8f4566;
+  border-color: #8f4566;
+  color: #fff;
+}
+
+/* ---------- head ---------- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.head h1 {
+  margin: 0 0 0 4px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.3px;
+}
+
+.count {
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: var(--tb);
+  color: var(--td);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.tools {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.search {
+  position: relative;
+}
+
+.search svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.search input {
+  width: 300px;
+  max-width: 100%;
+  height: 46px;
+  padding: 0 14px 0 40px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 15px;
+  outline: 0;
+}
+
+.search input:focus {
+  border-color: var(--tc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 16%, transparent);
+}
+
+/* ---------- tabs ---------- */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 6px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 15.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: var(--line-2);
+  color: var(--ink);
+}
+
+.tab b {
+  min-width: 26px;
+  height: 24px;
+  padding: 0 8px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 99px;
+  background: var(--line-2);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.tabActive,
+.tabActive:hover {
+  background: var(--tc);
+  color: #fff;
+  cursor: default;
+}
+
+.tabActive b {
+  background: #fff;
+  color: var(--td);
+}
+
+/* ---------- cards ---------- */
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 24px;
+  align-items: center;
+  padding: 16px 20px 16px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: inset 4px 0 0 var(--tc);
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--tc) 35%, var(--line));
+  box-shadow: inset 4px 0 0 var(--tc), 0 6px 16px rgba(10, 25, 45, 0.06);
+}
+
+.cardAct {
+  border-color: color-mix(in srgb, var(--tc) 40%, var(--line));
+}
+
+.cardTop {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: var(--line-2);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chip b {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.typeTag {
+  margin-left: auto;
+  height: 26px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--tb);
+  color: var(--td);
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+.cardBody {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cardBody h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-2);
+}
+
+.facts > div {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.facts svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--muted);
+}
+
+.facts dt {
+  margin: 0 0 2px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.facts dd small {
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+
+.status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.statusOk::before {
+  background: var(--good);
+}
+
+.statusWait::before {
+  background: var(--average);
+}
+
+.card .btn {
+  align-self: end;
+  height: 44px;
+  border-color: color-mix(in srgb, var(--tc) 35%, var(--line));
+  color: var(--td);
+}
+
+.card .btn:hover {
+  background: var(--tb);
+}
+
+.card .btnPrimary,
+.card .btnPrimary:hover {
+  background: var(--tc);
+  border-color: var(--tc);
+  color: #fff;
+}
+
+.card .btnPrimary:hover {
+  background: var(--td);
+}
+
+.empty {
+  margin: 0;
+  padding: 40px 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+.errorBox {
+  margin: 0 0 14px;
+  padding: 12px 16px;
+  border: 1px solid #f1c3bf;
+  border-radius: 12px;
+  background: #fdf0ef;
+  color: #8c2a24;
+}
+
+/* ---------- drawer ---------- */
+.drawerRoot {
+  --ta-w: min(780px, 100vw);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1040;
+  background: rgba(16, 40, 58, 0.45);
+}
+
+.drawer {
+  position: fixed;
+  z-index: 1045;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--ta-w);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  box-shadow: -18px 0 40px rgba(10, 25, 45, 0.18);
+  animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.drawerHead,
+.pdfHead {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px 14px 22px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.headIcon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--tc);
+  color: #fff;
+}
+
+.headTitle {
+  flex: 1;
+  min-width: 0;
+}
+
+.headTitle small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--td);
+}
+
+.headTitle h2 {
+  margin: 2px 0 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pdfButton {
+  background: #4a4aa8;
+  border-color: #4a4aa8;
+  color: #fff;
+}
+
+.pdfButton:hover,
+.pdfButtonOn {
+  background: #3d3d92;
+  border-color: #3d3d92;
+  color: #fff;
+}
+
+.close {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.close:hover {
+  border-color: var(--ink-2);
+  color: var(--ink);
+}
+
+.drawerBody {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 22px 24px;
+  background: color-mix(in srgb, var(--tc) 5%, var(--bg));
+}
+
+.section {
+  flex: none;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--tc) 22%, var(--line));
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(10, 25, 45, 0.06);
+}
+
+/* solid header band in the list's colour, white title, round white chevron */
+.sectionHead {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 10px 14px 10px 16px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--tc) 22%, var(--line));
+  background: linear-gradient(90deg, var(--tc), color-mix(in srgb, var(--tc) 70%, var(--td)));
+  text-align: left;
+  cursor: pointer;
+}
+
+.sectionHead:hover {
+  background: var(--td);
+}
+
+.sectionHead:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -5px;
+}
+
+.sectionHead[aria-expanded="false"] {
+  border-bottom-color: transparent;
+}
+
+.sectionIcon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.sectionHead h3 {
+  margin: 0;
+  font-size: 17.5px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.chevron {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--td);
+}
+
+.chevron svg {
+  transition: transform 0.2s;
+}
+
+.sectionHead[aria-expanded="false"] .chevron svg {
+  transform: rotate(180deg);
+}
+
+.history {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.step {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: inset 4px 0 0 var(--tc);
+}
+
+.stepTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stepTop b {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.stepTop span {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.stepTop .btn {
+  margin-left: auto;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 10px;
+  color: var(--td);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--subtle);
+  font-size: 15px;
+}
+
+.meta dt,
+.factsBox dt {
+  display: inline;
+  margin: 0;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.meta dd,
+.factsBox dd {
+  display: inline;
+  margin: 0 0 0 4px;
+  font-weight: 600;
+}
+
+.label {
+  margin: 0 0 6px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.comment {
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+}
+
+.comment p:last-child {
+  margin-bottom: 0;
+}
+
+.act {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.factsBox {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--subtle);
+  font-size: 16px;
+}
+
+.with {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+.statusChip {
+  height: 26px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  background: var(--tb);
+  color: var(--td);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.note {
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid #f3dca8;
+  border-radius: 10px;
+  background: #fff8e6;
+  color: #7a5a12;
+  font-size: 14px;
+}
+
+
+.fieldError {
+  margin: 6px 0 0;
+  color: #b83a33;
+  font-size: 14px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.check input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--rose);
+}
+
+.checkOn {
+  border-color: color-mix(in srgb, var(--rose) 50%, var(--line));
+  background: color-mix(in srgb, var(--rose) 7%, #fff);
+}
+
+.forwardTo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--tb);
+  font-size: 15px;
+}
+
+.forwardTo svg {
+  flex: none;
+  color: var(--td);
+}
+
+.forwardTo select {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 15px;
+}
+
+.drawerFoot {
+  flex: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 22px;
+  background: #fff;
+  border-top: 1px solid var(--line);
+}
+
+.drawerFoot .btnPrimary,
+.drawerFoot .btnRose {
+  min-width: 140px;
+  justify-content: center;
+}
+
+/* The space left of the drawer (full screen on small screens): the PDF, and next to it the
+   attached document chosen from its menu. */
+.panels {
+  position: fixed;
+  z-index: 1042;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: calc(var(--ta-w) + clamp(40px, 6vw, 140px));
+  display: flex;
+  gap: 18px;
+}
+
+.drawerRoot[data-doc="open"] .panels {
+  right: calc(var(--ta-w) + 28px);
+}
+
+.pdfPanel,
+.docPanel {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0 16px 16px 0;
+  background: var(--line-2);
+  box-shadow: 14px 0 36px rgba(10, 25, 45, 0.2);
+}
+
+.docPanel {
+  border-radius: 16px;
+}
+
+/* the iframe would otherwise cover the open menu */
+.pdfHead {
+  position: relative;
+  z-index: 1;
+}
+
+.iconOnly {
+  flex: none;
+  width: 46px;
+  padding: 0;
+  justify-content: center;
+}
+
+.pdfHead .headIcon {
+  background: #1d4462;
+}
+
+.pdfFrame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.muted {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------- attached documents menu ---------- */
+.docsMenu {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+.docsToggle {
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 99px;
+  background: #4a4aa8;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(74, 74, 168, 0.3);
+}
+
+.docsToggle:hover {
+  background: #3d3d92;
+}
+
+.docsToggle b {
+  min-width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0 6px;
+  border-radius: 99px;
+  background: #fff;
+  color: #3d3d92;
+  font-size: 14px;
+}
+
+.docsToggleIcon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: transform 0.15s ease;
+}
+
+.docsChevronOpen {
+  transform: rotate(180deg);
+}
+
+.docsList {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(420px, 70vw);
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(10, 25, 45, 0.22);
+}
+
+.docsList .muted {
+  padding: 12px;
+}
+
+.docsItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--td);
+  text-align: left;
+  cursor: pointer;
+}
+
+.docsItem:hover,
+.docsItemOn {
+  background: var(--tb);
+}
+
+.docsItem svg {
+  flex: none;
+}
+
+.docsItem span {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.docsItem b {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.docsItem small {
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+/* with both panels open the drawer gives up some width, so all three stay readable */
+@media (min-width: 1361px) {
+  .drawerRoot[data-doc="open"] {
+    --ta-w: min(780px, 30vw);
+  }
+}
+
+@media (max-width: 1360px) {
+  .panels,
+  .drawerRoot[data-doc="open"] .panels {
+    right: 0;
+    z-index: 1050;
+  }
+
+  .pdfPanel {
+    border-radius: 0;
+  }
+
+  /* no room side by side: the document covers the PDF until it is closed */
+  .docPanel {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .facts,
+  .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 14px 16px 24px;
+  }
+
+  .search input {
+    width: 100%;
+  }
+
+  .drawerBody {
+    padding: 14px;
+  }
+}

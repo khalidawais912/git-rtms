@@ -1,0 +1,45 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import ProjectDetailsDashboard from "../../components/ProjectDetailsDashboard";
+import { SingleProjectDashboard } from "../../../types";
+import apiClient, { AxiosError } from "@/services/client";
+import { SINGLE_PROJECT_DASHBOARD_API } from "@/services/endpoints";
+import Loader from "@/components/Loader/Loader";
+
+interface Props {
+  params: { id: string; visitId: number }; // Change to string to match the routing expectations
+}
+
+const SingleProjectDashboardPage = ({ params }: Props) => {
+  const { id, visitId } = params; // Use the id as a string here, if necessary convert it later
+  const [data, setData] = useState<SingleProjectDashboard>();
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState("");
+
+
+  useEffect(() => {
+    const handleSubmit = async (projectId: number, visitId: number) => {
+      setLoading(true);
+      try {
+        const response = await apiClient.get(
+          `${SINGLE_PROJECT_DASHBOARD_API}?projectid=${projectId}&visitId=${visitId}`,
+        );
+        setData(response.data.data);
+        setLoading(false);
+      } catch (err) {
+        console.error("Submission error:", err);
+        setError((err as AxiosError).message);
+        setLoading(false);
+      }
+    };
+
+    if (id && visitId) handleSubmit(parseInt(id), visitId);
+  }, [id, visitId]);
+
+  if (isLoading) return <Loader />;
+  if (data) return <ProjectDetailsDashboard data={data} />;
+  if (error) return error;
+};
+
+export default SingleProjectDashboardPage;

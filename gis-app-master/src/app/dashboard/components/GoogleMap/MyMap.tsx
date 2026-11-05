@@ -1,0 +1,458 @@
+"use client";
+import {
+  AdvancedMarker,
+  APIProvider,
+  InfoWindow,
+  Map,
+  useMap,
+} from "@vis.gl/react-google-maps";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+
+import {
+  DISTRICT_API,
+  MAIN_DASHBOARD_API,
+} from "@/services/endpoints";
+import { useDistrict } from "@/features/districts";
+import apiClient from "@/services/client";
+import { Toaster } from "react-hot-toast";
+import { DistrictList, MainDashboard } from "../Dashboard";
+import { FilterData, DistrictProjects } from "../../types";
+import DistrictCard from "./DistrictCard";
+import ProjectCard from "./ProjectCard";
+import "@/app/_css/InfoWindow.css";
+import {
+  adpFilters,
+  cmInitiativeFilters,
+  oldCmInitiativeFilters,
+} from "../../filters";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+interface Props {
+  data: MainDashboard;
+  handleSubmit: (filterData: FilterData[]) => Promise<void>;
+  activeFilter: string;
+  otherFilters: FilterData[];
+  setOtherFilters: Dispatch<SetStateAction<FilterData[]>>;
+}
+
+const MyMap = ({
+  data,
+  handleSubmit,
+  activeFilter,
+  otherFilters,
+  setOtherFilters,
+}: Props) => {
+  const InitialCenterPosition = {
+    lat: 31.1704,
+    lng: 72.7097,
+  };
+  const [, setOpen] = useState(false);
+  const [districtList, setDistrictList] = useState<DistrictList[]>([]);
+
+  useEffect(() => {
+    setDistrictList(data.disitrictlist);
+  }, [data]);
+
+  const [selectedDistrictIndex, setSelectedDistrictIndex] = useState(0);
+  const [activeDistrict, setActiveDistrict] = useState<DistrictList | null>(
+    null,
+  );
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
+  const [showButton, setShowButton] = useState(false);
+
+  const [activeDistrictId, setActiveDistrictId] = useState<number | null>(null);
+  const [activeProjects, setActiveProjects] = useState<DistrictProjects[]>([]);
+  const { data: districts } = useDistrict();
+
+  const handleDistrictClick = async (
+    districtId: number,
+    showProjects: boolean,
+  ) => {
+    if (showProjects) {
+      try {
+        const response = await apiClient.get(
+          `${DISTRICT_API}/GetProjectByDistrict?districtId=${districtId}`,
+        );
+        setActiveProjects(response.data.data);
+        setActiveDistrictId(districtId);
+      } catch (err) {
+        console.error("Submission error:", err);
+      }
+    } else {
+      setActiveProjects([]);
+      setActiveDistrictId(null);
+    }
+  };
+
+  const handleMarkerClick = (districtId: number) => {
+    const isActive = activeDistrictId === districtId;
+    const districtName = districts.find(
+      (district) => district.id === districtId,
+    )?.districtName;
+
+    // Update otherFilters
+    setOtherFilters((prevFilters) => {
+      const updatedFilters = [...prevFilters];
+      const districtFilterIndex = updatedFilters.findIndex(
+        (filter) => filter.filterIdentifier === "District",
+      );
+
+      if (districtFilterIndex !== -1) {
+        // If "District" filter exists, update it
+        updatedFilters[districtFilterIndex].filterValues = districtName!;
+      } else {
+        // Otherwise, add a new filter
+        updatedFilters.push({
+          filterIdentifier: "District",
+          filterValues: districtName!,
+        });
+      }
+      return updatedFilters; // Return updated filters
+    });
+    handleDistrictClick(districtId, !isActive); // Toggle project markers
+    if (
+      activeFilter === "cmInitiative"
+    ) {
+      const yearFilter = otherFilters.find(
+        (filter) => filter.filterIdentifier === "Year",
+      );
+      if (yearFilter && yearFilter.filterValues === "2025-2026") {
+        handleSubmit([
+          ...cmInitiativeFilters,
+          ...[
+            {
+              filterIdentifier: "District",
+              filterValues: districtName!,
+            },
+          ],
+        ]);
+      } else if (!yearFilter) {
+        handleSubmit([
+          ...cmInitiativeFilters,
+          ...[
+            {
+              filterIdentifier: "District",
+              filterValues: districtName!,
+            },
+          ],
+        ]);
+      } else {
+        handleSubmit([
+          ...oldCmInitiativeFilters,
+          ...[
+            {
+              filterIdentifier: "District",
+              filterValues: districtName!,
+            },
+          ],
+        ]);
+      }
+    } else {
+      handleSubmit([
+        ...adpFilters,
+        ...[
+          {
+            filterIdentifier: "District",
+            filterValues: districtName!,
+          },
+        ],
+      ]);
+    }
+  };
+
+
+  const handleBackButtonClick = async () => {
+    setShowButton(false);
+    setActiveDistrict(null); // Reset to show all districts
+    // Update otherFilters
+    setOtherFilters((prevFilters) => {
+      const updatedFilters = [...prevFilters];
+      const districtFilterIndex = updatedFilters.findIndex(
+        (filter) => filter.filterIdentifier === "District",
+      );
+
+      if (districtFilterIndex !== -1) {
+        // If "District" filter exists, remove it
+        return prevFilters.filter(
+          (filter) =>
+            filter.filterIdentifier !==
+            updatedFilters[districtFilterIndex].filterIdentifier,
+        );
+      }
+      return updatedFilters; // Return updated filters
+    });
+    if (
+      activeFilter === "cmInitiative"
+    ) {
+      handleSubmit([
+        ...cmInitiativeFilters,
+        ...otherFilters.filter(
+          (filter) => filter.filterIdentifier !== "District",
+        ),
+      ]);
+    } else {
+      handleSubmit([
+        ...adpFilters,
+        ...otherFilters.filter(
+          (filter) => filter.filterIdentifier !== "District",
+        ),
+      ]);
+    }
+    try {
+      await apiClient.post(MAIN_DASHBOARD_API, [
+        { filterIdentifier: "", filterValues: "" },
+      ]);
+      setActiveProjects([]);
+      setActiveDistrictId(null);
+    } catch (err) {
+      console.error("Submission error:", err);
+    }
+  };
+
+  const [isInRange, setIsInRange] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsInRange(width <= 768);
+    };
+
+    handleResize(); // Check on initial render
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <>
+      <div className="position-relative">
+        {showButton && (
+          <button
+            className="position-absolute btn bg-color-sea-green text-white fw-bold mb-3"
+            onClick={handleBackButtonClick}
+            style={{ zIndex: 1, right: 60, top: 10 }}
+          >
+            Back
+          </button>
+        )}
+        <Link
+          href="/projects-live-view"
+          className="position-absolute badge text-decoration-none"
+          target="_blank"
+          style={{
+            zIndex: 1,
+            left: 185,
+            top: 10,
+            backgroundColor: "rgba(28, 28, 29, 0.86)",
+            padding: "10px 12px 10px 11.5px",
+            borderRadius: "10px",
+            color: "#D0D0D0",
+          }}
+        >
+          <div className="row">
+            <div className="col">
+              <span>Live Streaming</span>
+            </div>
+            <div className="col position-relative">
+              <motion.span
+                animate={{ opacity: [0, 1, 1, 0] }} // Keyframes: fade in and out
+                transition={{
+                  duration: 2, // Time for one complete cycle
+                  repeat: Infinity, // Loop animation infinitely
+                  ease: "easeInOut", // Smoother transition
+                }}
+              >
+                <Image
+                  className="position-absolute start-0"
+                  src="/icons/evaluation/liveCircle.svg"
+                  alt="liveCircle"
+                  width={14}
+                  height={14}
+                />
+              </motion.span>
+
+              <Image
+                className="position-absolute start-0"
+                src="/icons/evaluation/liveMiniCircle.svg"
+                alt="liveMiniCircle"
+                width={14}
+                height={14}
+              />
+            </div>
+          </div>
+        </Link>
+      </div>
+      <div>
+        <Toaster />
+      </div>
+      <APIProvider apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAP_API}`}>
+        <div
+          className="shadow-sm"
+          style={{
+            width: "100%",
+            height: isInRange ? "200px" : "100%",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
+        >
+          <Map
+            mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID}
+            defaultZoom={7}
+            defaultCenter={InitialCenterPosition}
+            gestureHandling={"greedy"}
+            style={{ borderRadius: "10px" }}
+          >
+            {(activeDistrict ? [activeDistrict] : districtList)
+              .filter((district) => district.latitude && district.longitude)
+              .map((district) => (
+                <Fragment key={district.id}>
+                  <AdvancedMarker
+                    style={{
+                      transform: `scale(${
+                        [selectedDistrictIndex].includes(district.id) ? 1.3 : 1
+                      })`,
+                      transition: "transform 0.1s ease-in-out",
+                    }}
+                    onClick={() => {
+                      handleMarkerClick(district.id);
+                      setActiveDistrict(district);
+                      setShowButton(true);
+                    }}
+                    position={{
+                      lat: parseFloat(district.latitude),
+                      lng: parseFloat(district.longitude),
+                    }}
+                    onMouseEnter={() => setSelectedDistrictIndex(district.id)}
+                    onMouseLeave={() =>
+                      setSelectedDistrictIndex(9 + parseInt("a"))
+                    }
+                  >
+                    <span>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
+                      <img
+                        src="/images/districtLocation.png"
+                        alt="districtLocation"
+                        style={{ width: "50px", height: "50px" }}
+                      />
+                    </span>
+                  </AdvancedMarker>
+
+                  {selectedDistrictIndex === district.id && (
+                    <InfoWindow
+                      position={{
+                        lat: parseFloat(district.latitude),
+                        lng: parseFloat(district.longitude),
+                      }}
+                      pixelOffset={[0, -60]}
+                      onCloseClick={() => setOpen(false)}
+                    >
+                      <div
+                        style={{
+                          overflow: "hidden",
+                          backgroundColor: "rgba(0,0,0,0)",
+                        }}
+                      >
+                        <DistrictCard data={district} />
+                      </div>
+                    </InfoWindow>
+                  )}
+                </Fragment>
+              ))}
+
+            {activeDistrict &&
+              activeProjects &&
+              activeProjects
+                .filter((project) => project.latitude && project.longitude)
+                .map((project) => (
+                  <Fragment key={project.id}>
+                    <AdvancedMarker
+                      style={{
+                        transform: `scale(${
+                          [selectedProjectIndex].includes(project.id) ? 1.3 : 1
+                        })`,
+                        transition: "transform 0.1s ease-in-out",
+                      }}
+                      position={{
+                        lat: parseFloat(project.latitude),
+                        lng: parseFloat(project.longitude),
+                      }}
+                      onMouseEnter={() => setSelectedProjectIndex(project.id)}
+                      onMouseLeave={() =>
+                        setSelectedProjectIndex(9 + parseInt("a"))
+                      }
+                    >
+                      <span>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- map marker content: Google Maps draws this node itself */}
+                        <img
+                          src="/images/projectLocation.png"
+                          alt="projectLocation"
+                          className="img-fluid"
+                          style={{ width: "40px", height: "50px" }}
+                        />
+                      </span>
+                    </AdvancedMarker>
+                    {selectedProjectIndex === project.id && (
+                      <InfoWindow
+                        position={{
+                          lat: parseFloat(project.latitude),
+                          lng: parseFloat(project.longitude),
+                        }}
+                        pixelOffset={[0, -60]}
+                        onCloseClick={() => setOpen(false)}
+                      >
+                        <ProjectCard data={project} />
+                      </InfoWindow>
+                    )}
+                  </Fragment>
+                ))}
+
+            <MapUpdater
+              activeDistrict={activeDistrict}
+              activeProjects={activeProjects}
+            />
+          </Map>
+        </div>
+      </APIProvider>
+    </>
+  );
+};
+
+export default MyMap;
+
+const MapUpdater = ({
+  activeDistrict,
+  activeProjects,
+}: {
+  activeDistrict: DistrictList | null;
+  activeProjects: DistrictProjects[];
+}) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map) return;
+
+    if (activeDistrict) {
+      map.panTo({
+        lat: parseFloat(activeDistrict.latitude),
+        lng: parseFloat(activeDistrict.longitude),
+      });
+      map.setZoom(9);
+    } else if (activeProjects.length) {
+      const bounds = new google.maps.LatLngBounds();
+      activeProjects.forEach((project) => {
+        bounds.extend({
+          lat: parseFloat(project.latitude),
+          lng: parseFloat(project.longitude),
+        });
+      });
+      map.fitBounds(bounds);
+    } else {
+      // Reset to default center if needed
+      map.panTo({ lat: 31.1704, lng: 72.7097 });
+      map.setZoom(7);
+    }
+  }, [map, activeDistrict, activeProjects]);
+
+  return null;
+};
