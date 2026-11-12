@@ -99,13 +99,13 @@ const Navbar = () => {
           <Link
             href={currentTutorial}
             target="_blank"
-            className={styles.iconBtn}
+            className={`${styles.iconBtn} ${styles.youtube}`}
             title="Video tutorials"
             aria-label="Video tutorials"
           >
-            <svg className={styles.icon} viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2" y="5" width="20" height="14" rx="3" />
-              <path d="m10 9 5 3-5 3z" />
+            <svg className={styles.youtubeIcon} viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="1.5" y="4.5" width="21" height="15" rx="4.5" fill="#ff0000" />
+              <path d="m10 8.8 5.4 3.2-5.4 3.2z" fill="#fff" />
             </svg>
           </Link>
         )}

@@ -202,8 +202,13 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
               <div className={styles.headTitle}>
                 <small>Proforma PDF · GS No. {row.gsNo || "–"}</small>
                 <h2>{row.projectName}</h2>
-                <DocumentsMenu documents={documents} activeId={openDoc?.id} onSelect={setOpenDoc} />
               </div>
+              <button type="button" className={styles.close} onClick={closePdf} aria-label="Close the PDF">
+                <X size={20} />
+              </button>
+            </div>
+            <div className={styles.pdfTools}>
+              <DocumentsMenu documents={documents} activeId={openDoc?.id} onSelect={setOpenDoc} />
               <a
                 className={`${styles.btn} ${openDoc ? styles.iconOnly : ""}`}
                 href={adapter.fileUrl(pdfPath)}
@@ -214,9 +219,6 @@ const ProformaDrawer = ({ adapter, row, mode, userId, users, onClose, onActed }:
               >
                 <ExternalLink size={18} /> {!openDoc && "Open in new window"}
               </a>
-              <button type="button" className={styles.close} onClick={closePdf} aria-label="Close the PDF">
-                <X size={20} />
-              </button>
             </div>
             <iframe className={styles.pdfFrame} src={adapter.fileUrl(pdfPath)} title={`${row.projectName} PDF`} />
           </aside>

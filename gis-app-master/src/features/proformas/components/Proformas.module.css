@@ -474,16 +474,20 @@
   line-height: 1.25;
 }
 
-.pdfButton {
-  background: #4a4aa8;
-  border-color: #4a4aa8;
+/* Buttons in the colour of the section headers (Take Action, Proforma History List):
+   the same gradient, white text, darker on hover. */
+.pdfButton,
+.drawerFoot .btnPrimary {
+  border: 0;
+  background: linear-gradient(90deg, var(--tc), color-mix(in srgb, var(--tc) 70%, var(--td)));
   color: #fff;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--tc) 28%, transparent);
 }
 
 .pdfButton:hover,
-.pdfButtonOn {
-  background: #3d3d92;
-  border-color: #3d3d92;
+.pdfButtonOn,
+.drawerFoot .btnPrimary:hover {
+  background: var(--td);
   color: #fff;
 }
 
@@ -863,32 +867,44 @@
 }
 
 /* ---------- attached documents menu ---------- */
-.docsMenu {
+/* the bar under the PDF title: Attached Documents on the left, Open in new window on the right */
+.pdfTools {
   position: relative;
-  width: fit-content;
-  max-width: 100%;
-  margin-top: 10px;
+  z-index: 1;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 22px;
+  background: var(--subtle);
+  border-bottom: 1px solid var(--line);
 }
 
+.docsMenu {
+  position: relative;
+  min-width: 0;
+}
+
+/* split button: icon, name and count | chevron */
 .docsToggle {
-  height: 44px;
+  height: 46px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 8px;
+  gap: 12px;
+  padding: 0 0 0 18px;
   border: 0;
-  border-radius: 99px;
-  background: #4a4aa8;
+  border-radius: 10px;
+  background: var(--tc);
   color: #fff;
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 700;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(74, 74, 168, 0.3);
 }
 
 .docsToggle:hover {
-  background: #3d3d92;
+  background: var(--td);
 }
 
 .docsToggle b {
@@ -899,17 +915,20 @@
   padding: 0 6px;
   border-radius: 99px;
   background: #fff;
-  color: #3d3d92;
+  color: var(--td);
   font-size: 14px;
 }
 
-.docsToggleIcon {
-  width: 30px;
-  height: 30px;
+.docsChevron {
+  align-self: stretch;
+  width: 56px;
+  margin-left: 4px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.docsChevron svg {
   transition: transform 0.15s ease;
 }
 

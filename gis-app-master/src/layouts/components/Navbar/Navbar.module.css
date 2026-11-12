@@ -52,6 +52,10 @@
   background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); color: #fff !important;
 }
 .iconBtn:hover { background: rgba(255,255,255,.2); }
+/* Video tutorials: the YouTube mark in red on a white button */
+.youtube, .youtube:hover { background: #fff; border-color: #fff; }
+.youtube:hover { box-shadow: 0 0 0 3px rgba(255,255,255,.3); }
+.youtubeIcon { width: 28px; height: 28px; flex: none; }
 .dot {
   position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #bf3530;
   color: #fff; font-size: 11.5px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--tb-800);
