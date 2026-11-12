@@ -49,13 +49,11 @@ const DocumentsMenu = ({ documents, activeId, onSelect }: Props) => {
         aria-haspopup="true"
         onClick={() => setOpen(!open)}
       >
-        <span className={styles.docsToggleIcon}>
-          <Files size={16} />
-        </span>
+        <Files size={20} />
         Attached Documents
         <b>{documents?.length ?? "–"}</b>
-        <span className={`${styles.docsToggleIcon} ${open ? styles.docsChevronOpen : ""}`}>
-          <ChevronDown size={16} />
+        <span className={styles.docsChevron}>
+          <ChevronDown size={18} className={open ? styles.docsChevronOpen : ""} />
         </span>
       </button>
 

@@ -100,7 +100,9 @@ const EvaluationVisitPlanList = ({
    // Track the current page
 
   // Paginate data to display only the current page's rows
-  const saveFormsData = async (formsData: COUTempTourPlan[]) => {
+  const saveFormsData = async (allFormsData: COUTempTourPlan[]) => {
+    const formsData = allFormsData.filter((form) => form !== undefined);
+
     // -------------------------------------------------------------------------
     // STEP 1: Group by projectid
     // -------------------------------------------------------------------------
@@ -152,10 +154,46 @@ const EvaluationVisitPlanList = ({
     }
 
     // -------------------------------------------------------------------------
-    // ✅ SUCCESS
+    // ✅ SUCCESS: save, as the Monitoring visit plan does
     // -------------------------------------------------------------------------
+    const validFormsData = formsData.filter(
+      (form) =>
+        form.projectid &&
+        form.district_Id &&
+        form.type !== undefined &&
+        form.userId &&
+        form.dateFrom &&
+        form.dateTo &&
+        form.driverId &&
+        form.vehicalId,
+    );
 
+    if (validFormsData.length === 0) {
+      toast.error("No valid forms to save. Please complete all required fields.");
+      return;
+    }
 
+    if (validFormsData.length < formsData.length) {
+      toast.warning(
+        `${formsData.length - validFormsData.length} form(s) skipped due to missing required fields.`,
+      );
+    }
+
+    try {
+      setSubmitting(true);
+      const response = await apiClient.post(
+        `${TEMP_TOUR_PLAN_API_ENDPOINT}/create-or-update`,
+        validFormsData,
+      );
+      toast.success(response.data.message);
+      setFormsData([]);
+      setRefresh((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+      toast.error((err as AxiosError).message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const createVisit = async (formsData: COUTempTourPlan[]) => {
@@ -202,7 +240,7 @@ const EvaluationVisitPlanList = ({
       op_submitted_at: null,
       submitted_from: null,
       submitted_to: null,
-      isFocalPerson: false,
+      isFocalPerson: form.isFocalPerson ?? false,
     }));
 
 
