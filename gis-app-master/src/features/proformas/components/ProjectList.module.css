@@ -174,6 +174,24 @@
   margin-bottom: 14px;
 }
 
+/* the tile's icon in the type's colour, before the title */
+.titleIcon {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  margin-left: 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--tc);
+  color: #fff;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--tc) 30%, transparent);
+}
+
+.titleIcon + h1 {
+  margin-left: 0;
+}
+
 .head h1 {
   margin: 0 0 0 4px;
   font-size: 28px;
@@ -385,6 +403,30 @@ td.name {
   display: block;
   font-weight: 600;
   color: var(--ink);
+}
+
+/* the name opens the proforma PDF */
+.nameLink {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nameLink:hover .nameText,
+.nameLink:focus-visible .nameText {
+  color: var(--td);
+  text-decoration: underline;
+}
+
+.fy {
+  display: block;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
 }
 
 .sub {

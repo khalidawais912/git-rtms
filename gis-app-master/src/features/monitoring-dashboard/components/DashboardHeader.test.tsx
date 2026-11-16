@@ -16,6 +16,13 @@ describe("DashboardHeader", () => {
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
   });
 
+  it("shows View Charts only when it has a page to open", () => {
+    const { rerender } = render(<DashboardHeader section="Evaluation" />);
+    expect(screen.queryByRole("link", { name: /View Charts/ })).not.toBeInTheDocument();
+    rerender(<DashboardHeader section="Evaluation" chartsHref="/charts" />);
+    expect(screen.getByRole("link", { name: /View Charts/ })).toHaveAttribute("href", "/charts");
+  });
+
   it("hides the programme switch and actions in compact mode", () => {
     render(<DashboardHeader compact program="adp" />);
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();

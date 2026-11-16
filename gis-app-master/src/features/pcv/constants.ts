@@ -19,7 +19,7 @@ export const PCV_STATUS_NAME: Record<number, string> = {
   4: "Approved by Secretary",
   5: "Approved by DG DGME",
   6: "Completed",
-  7: "Marked to Evaluation",
+  7: "Marked for Impact Assessment",
   8: "Cancelled",
 };
 

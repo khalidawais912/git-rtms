@@ -8,6 +8,7 @@ import {
   pc4Row,
   pc5Row,
   ProjectRow,
+  reportYear,
   sortRows,
   totalCost,
 } from "./projectRows";
@@ -53,6 +54,22 @@ describe("projects table rows", () => {
       executingAgency: [{ agencyId: 4, agencyName: "DGME" }, { agencyId: 3, agencyName: "DC Sialkot" }],
     } as Parameters<typeof pc5Row>[0]);
     expect(r).toMatchObject({ sector: "Social Sector", district: "Lahore", sponsor: "dgme", exec: "DGME, DC Sialkot" });
+  });
+
+  it("pc5Row reads the report year, due date and PDF from the overview row", () => {
+    const r = pc5Row({ id: 68, projectName: "Job Centers", submissionNo: 3, status: 2, submissionDate: "2026-11-12T09:57:37", pcVPerformaPath: "/upload/PCV_68.pdf" });
+    expect(r).toMatchObject({ fy: "FY 2025-26", due: "31 Jul 2026", year: "Year 3 of 5", pdfPath: "/upload/PCV_68.pdf" });
+  });
+
+  it("reportYear: before July is still the year before", () => {
+    expect(reportYear("2026-07-01T00:00:00")).toEqual({ fy: "FY 2025-26", due: "31 Jul 2026" });
+    expect(reportYear("2026-06-30T00:00:00")).toEqual({ fy: "FY 2024-25", due: "31 Jul 2025" });
+    expect(reportYear(null)).toEqual({ fy: "", due: "" });
+  });
+
+  it("pc4Row keeps the PC-IV id its PDF is made from", () => {
+    expect(pc4({ pcIvmainId: 12 }).pc4PdfId).toBe(12);
+    expect(pc4({ pcIvmainId: 0 }).pc4PdfId).toBeUndefined();
   });
 
   it("filterRows needs every search word and exact selects", () => {
