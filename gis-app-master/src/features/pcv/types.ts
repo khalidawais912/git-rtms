@@ -41,6 +41,19 @@ export interface PcvListItem {
   completedAt?: string | null;
 }
 
+/** One row of GET /api/pcv/overview?status= (the PC-V header, with its agencies). */
+export interface PcvOverviewItem extends PcvListItem {
+  projectId?: number | null;
+  departmentId?: number | null;
+  location?: string | null;
+  sector?: string | null;
+  subSector?: string | null;
+  sponsoringAgency?: AgencyItem[] | null;
+  executingAgency?: AgencyItem[] | null;
+  submissionDate?: string | null;
+  pcVPerformaPath?: string | null;
+}
+
 /** `pcvMain` of GET /api/PCV/GetPcVAsync. Sent back whole on Save everything. */
 export interface PcvMain {
   id: number;

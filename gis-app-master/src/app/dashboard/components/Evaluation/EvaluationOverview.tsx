@@ -4,19 +4,21 @@ import Loader from "@/components/Loader/Loader";
 import ActiveFilters from "@/features/monitoring-dashboard/components/ActiveFilters";
 import DashboardHeader from "@/features/monitoring-dashboard/components/DashboardHeader";
 import FiltersPanel from "@/features/monitoring-dashboard/components/FiltersPanel";
-import Icon, { IconName } from "@/features/monitoring-dashboard/components/Icon";
+import { IconName } from "@/features/monitoring-dashboard/components/Icon";
 import MiniCard from "@/features/monitoring-dashboard/components/MiniCard";
 import mon from "@/features/monitoring-dashboard/components/MonitoringDashboard.module.css";
 import { useBigScreen, useUserFilters } from "@/features/monitoring-dashboard/hooks";
 import { FilterData } from "@/features/monitoring-dashboard/types";
 import { fmt } from "@/features/monitoring-dashboard/utils";
+import { getPcvCounts, PcvEvaluationCounts, toPcvEvaluationCounts } from "@/features/pcv";
+import SplitTiles, { SplitTile } from "@/features/proformas/components/SplitTiles";
+import { ProjectView } from "@/features/proformas/projectRows";
 import apiClient, { AxiosError } from "@/services/client";
 import { EVALUATION_MAIN_DASHBOARD_API } from "@/services/endpoints";
 import { inter } from "@/styles/fonts";
 import { devMap } from "@/utils";
-import { ChartColumn, Clock, Inbox, Undo2, UserRound } from "lucide-react";
-import Link from "next/link";
-import { CSSProperties, ReactNode, useCallback, useState } from "react";
+import { Clock, Inbox, Undo2, UserRound } from "lucide-react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./EvaluationOverview.module.css";
 import EvaluationOutcomeMap from "./map/EvaluationOutcomeMap";
@@ -64,6 +66,15 @@ const EvaluationOverview = ({ data, role, filters, onFiltersChange }: Props) => 
   const [filtersOpen, setFiltersOpen] = useState(false);
   const closeFilters = useCallback(() => setFiltersOpen(false), []);
   const [projects, setProjects] = useState<ProjectsList[]>();
+  const [pcv, setPcv] = useState<PcvEvaluationCounts>({});
+
+  useEffect(() => {
+    let live = true;
+    getPcvCounts().then((counts) => live && setPcv(toPcvEvaluationCounts(counts)));
+    return () => {
+      live = false;
+    };
+  }, []);
 
   const load = async (filter: string) => {
     setProjects([]);
@@ -104,27 +115,49 @@ const EvaluationOverview = ({ data, role, filters, onFiltersChange }: Props) => 
     );
   };
 
-  const tile = (config: Config, value: number | undefined, icon: ReactNode, color?: string) =>
-    opens(
-      config,
-      <button
-        type="button"
-        className={`${mon.click} ${mon.tile} ${color ? "" : mon.hero}`}
-        style={color ? ({ "--tc": color } as CSSProperties) : undefined}
-      >
-        <span className={styles.top}>
-          <span className={mon.ti}>{icon}</span>
-          <span className={`${mon.tv} ${mon.num}`}>{fmt(value ?? 0)}</span>
-        </span>
-        <span className={mon.tl}>{config.label}</span>
-        <Icon name="arrow" className={mon.tgo} />
-      </button>,
-    );
-
   const mini = (config: Config, value: number | undefined, icon: IconName, label: string, color: string) => {
     const none = config.allowOpen === false;
     return opens(config, <MiniCard icon={icon} value={fmt(value ?? 0)} label={label} color={color} disabled={none} />);
   };
+
+  // PC-IV numbers come from the dashboard (with its filters); PC-V numbers from
+  // /api/pcv/overview/counts (no filters). Each half opens the list of that type.
+  const listHref = (view: ProjectView) => (type: string) => `/proformas/all?type=${type}&view=${view}&dashboardType=EVALUATION`;
+  const statusTiles: SplitTile[] = [
+    {
+      key: "submittedByDept",
+      label: "Submitted by Department",
+      icon: <Inbox size={22} />,
+      color: "var(--blue)",
+      counts: { pc4: data?.totalSubmittedPCIvs, pc5: pcv.submittedByDept },
+      href: listHref("submittedByDept"),
+    },
+    {
+      key: "inProgress",
+      label: "In Progress",
+      icon: <Clock size={22} />,
+      color: "var(--navy)",
+      counts: { pc4: data?.pCivInProgress, pc5: pcv.inProgress },
+      href: listHref("inProgress"),
+    },
+    {
+      key: "assigned",
+      label: "Assigned",
+      icon: <UserRound size={22} />,
+      color: "var(--pc5)",
+      counts: { pc4: data?.assignedToEvaluator, pc5: pcv.assigned },
+      notes: { pc4: "To Evaluator", pc5: "To Impact Assessment" },
+      href: listHref("assigned"),
+    },
+    {
+      key: "referBack",
+      label: "Refer Back",
+      icon: <Undo2 size={22} />,
+      color: "var(--rose)",
+      counts: { pc4: data?.refferBackPcIV, pc5: pcv.referBack },
+      href: listHref("referBack"),
+    },
+  ];
 
   const visits = (data?.noOfVisitsMultipleSitesOrUmbrella ?? 0) + (data?.noOfVisitsSingle ?? 0);
   const lowerRole = role.toLowerCase();
@@ -138,41 +171,11 @@ const EvaluationOverview = ({ data, role, filters, onFiltersChange }: Props) => 
         onOpenFilters={() => setFiltersOpen(true)}
         bigScreen={bigScreen}
         onToggleBigScreen={toggleBigScreen}
+        chartsHref="/charts"
       />
       <ActiveFilters applied={filters} fields={fields} onChange={onFiltersChange} onClear={() => onFiltersChange([])} />
 
-      <section className={styles.tiles} aria-label="Key figures">
-        {tile(
-          { modalId: "TotalProject", filter: "all", label: "PC(IV) Submitted by Department", columns: SUBMITTED_COLUMNS },
-          data?.totalSubmittedPCIvs,
-          <Inbox size={22} />,
-        )}
-        {tile(
-          { modalId: "pcivInProgress", filter: "inprogress", label: "PC(IV) In Progress", columns: SUBMITTED_COLUMNS },
-          data?.pCivInProgress,
-          <Clock size={22} />,
-          "var(--info)",
-        )}
-        {tile(
-          { modalId: "assignedToEvaluator", filter: "inprogress", label: "Assigned To Evaluator", columns: SUBMITTED_COLUMNS },
-          data?.assignedToEvaluator,
-          <UserRound size={22} />,
-          "var(--teal)",
-        )}
-        {tile(
-          { modalId: "referBack", filter: "inprogress", label: "Refer Back", columns: SUBMITTED_COLUMNS },
-          data?.refferBackPcIV,
-          <Undo2 size={22} />,
-          "var(--cat-rose)",
-        )}
-        <Link href="/charts" className={`${mon.click} ${mon.tile} ${styles.charts}`} style={{ "--tc": "var(--violet)" } as CSSProperties}>
-          <span className={mon.ti}>
-            <ChartColumn size={22} />
-          </span>
-          <span className={mon.tl}>View Charts</span>
-          <Icon name="arrow" className={mon.tgo} />
-        </Link>
-      </section>
+      <SplitTiles tiles={statusTiles} label="PC-IV and PC-V status" />
 
       {reviews && (
         <section className={styles.reviews} aria-label="Reviews">

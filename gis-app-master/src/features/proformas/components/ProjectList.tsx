@@ -1,25 +1,34 @@
 "use client";
 import type { ProjectsList } from "@/app/dashboard/components/Evaluation/types";
 import Loader from "@/components/Loader/Loader";
-import { getPcvList } from "@/features/pcv";
-import apiClient from "@/services/client";
-import { EVALUATION_MAIN_DASHBOARD_API } from "@/services/endpoints";
+import { getPcvList, getPcvOverview } from "@/features/pcv";
+import apiClient, { AxiosError } from "@/services/client";
+import { EVALUATION_MAIN_DASHBOARD_API, GENERATE_REPORT_API } from "@/services/endpoints";
+import { backendFileUrl } from "@/utils";
 import { exportDataToExcelDynamicColumn } from "@/utils/exportToExcel";
 import {
   ArrowLeft,
   ArrowUpDown,
+  CalendarCheck,
   CalendarDays,
   ChevronLeft,
   Clock,
   Download,
+  Files,
+  FileSearch,
   Filter,
+  Inbox,
   MapPin,
   PieChart,
   Search,
+  Send,
+  Undo2,
+  UserRound,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import { PROFORMA_TYPES, ProformaType, proformaErrorText } from "../adapters";
 import {
   Column,
@@ -43,6 +52,16 @@ import styles from "./ProjectList.module.css";
 import TypeSwitch from "./TypeSwitch";
 
 const TITLE: Record<ProformaType, string> = { pc4: "Total PC(IV)s", pc5: "Total PC(V)s" };
+const TYPE_LABEL: Record<ProformaType, string> = { pc4: "PC(IV)", pc5: "PC(V)" };
+const TYPE_ICON: Record<ProformaType, ReactNode> = { pc4: <Files size={24} />, pc5: <CalendarCheck size={24} /> };
+const VIEW_ICON: Record<ProjectView, ReactNode> = {
+  submittedToDgme: <Send size={24} />,
+  takeUp: <FileSearch size={24} />,
+  submittedByDept: <Inbox size={24} />,
+  inProgress: <Clock size={24} />,
+  assigned: <UserRound size={24} />,
+  referBack: <Undo2 size={24} />,
+};
 
 /** PC-IV projects: the same call the dashboard's projects table made. */
 const loadPc4 = async (view?: ProjectView) => {
@@ -53,9 +72,40 @@ const loadPc4 = async (view?: ProjectView) => {
   return (data.data ?? []).map(pc4Row);
 };
 
+/** A tile's PC-Vs from /api/pcv/overview, one call per status; every PC-V without a tile. */
 const loadPc5 = async (view?: ProjectView) => {
-  const list = await getPcvList(false);
-  return (view ? list.filter((p) => p.status === PROJECT_VIEWS[view].pc5Status) : list).map(pc5Row);
+  if (!view) return (await getPcvList(false)).map(pc5Row);
+  const lists = await Promise.all(PROJECT_VIEWS[view].pc5Statuses.map(getPcvOverview));
+  return lists.flat().map(pc5Row);
+};
+
+/** The PC-IV PDF is made on request, as the dashboard's old pop-up table did. */
+const openPc4Pdf = async (pcIvId: number) => {
+  try {
+    const { data } = await apiClient.post<{ data?: string }>(`${GENERATE_REPORT_API}/GenerateReportPCIVForWeb?pcIVid=${pcIvId}`);
+    const url = backendFileUrl(data.data);
+    if (url) window.open(url, "_blank", "noopener");
+    else toast.error("The PDF could not be made.");
+  } catch (err) {
+    toast.error((err as AxiosError).message);
+  }
+};
+
+const nameCell = (r: ProjectRow) => {
+  const name = <span className={styles.nameText}>{r.name}</span>;
+  if (r.pdfPath)
+    return (
+      <a className={styles.nameLink} href={backendFileUrl(r.pdfPath)} target="_blank" rel="noreferrer" title="Open the PDF">
+        {name}
+      </a>
+    );
+  if (r.pc4PdfId)
+    return (
+      <button type="button" className={styles.nameLink} onClick={() => r.pc4PdfId && openPc4Pdf(r.pc4PdfId)} title="Open the PDF">
+        {name}
+      </button>
+    );
+  return name;
 };
 
 const LOADERS: Record<ProformaType, (view?: ProjectView) => Promise<ProjectRow[]>> = { pc4: loadPc4, pc5: loadPc5 };
@@ -75,9 +125,18 @@ const cell = (col: Column, r: ProjectRow): ReactNode => {
     case "name":
       return (
         <>
-          <span className={styles.nameText}>{r.name}</span>
+          {nameCell(r)}
           {r.nameNote && <span className={styles.sub}>{r.nameNote}</span>}
         </>
+      );
+    case "year":
+      return r.fy ? (
+        <>
+          <b className={styles.fy}>{r.fy}</b>
+          {r.year && <span className={styles.sub}>{r.year}</span>}
+        </>
+      ) : (
+        r.year || "–"
       );
     case "cost":
       return r.cost === undefined ? "–" : money(r.cost);
@@ -122,7 +181,8 @@ const ProjectList = ({ initialType, view }: Props) => {
   }, [view]);
 
   useEffect(() => {
-    router.replace(`/proformas/all?type=${type}${view ? `&view=${view}` : ""}`, { scroll: false });
+    const evaluation = view && PROJECT_VIEWS[view].evaluation ? "&dashboardType=EVALUATION" : "";
+    router.replace(`/proformas/all?type=${type}${view ? `&view=${view}` : ""}${evaluation}`, { scroll: false });
   }, [type, view, router]);
 
   // Escape closes the filter rail.
@@ -141,8 +201,11 @@ const ProjectList = ({ initialType, view }: Props) => {
   }, [railOpen]);
 
   const all = data[type];
-  const title = view ? `${PROJECT_VIEWS[view].title} (${type === "pc4" ? "PC-IV" : "PC-V"})` : TITLE[type];
-  const columns = COLUMNS[type];
+  const title = view ? PROJECT_VIEWS[view].title : TITLE[type];
+  /** "PC(V) Submitted by Department" in the totals and the file name. */
+  const fullTitle = view ? `${TYPE_LABEL[type]} ${title}` : title;
+  // A tile's list has one status (or two close ones), so no Status column.
+  const columns = view ? COLUMNS[type].filter((c) => c.key !== "status") : COLUMNS[type];
 
   const shown = useMemo(() => {
     if (!all) return [];
@@ -177,7 +240,7 @@ const ProjectList = ({ initialType, view }: Props) => {
         cost: r.cost === undefined ? "" : r.cost,
         sne: r.sne === undefined ? "" : r.sne ? "Yes" : "No",
       })),
-      `${title}.xlsx`,
+      `${fullTitle}.xlsx`,
     );
   };
 
@@ -285,9 +348,12 @@ const ProjectList = ({ initialType, view }: Props) => {
 
       <section className={styles.main}>
         <div className={styles.head}>
-          <Link href="/dashboard" className={styles.btn}>
+          <Link href={view ? PROJECT_VIEWS[view].back : "/dashboard"} className={styles.btn}>
             <ArrowLeft size={18} /> Back to Dashboard
           </Link>
+          <span className={styles.titleIcon} aria-hidden="true">
+            {view ? VIEW_ICON[view] : TYPE_ICON[type]}
+          </span>
           <h1>{title}</h1>
           <span className={styles.count}>
             {plural(shown.length)}
@@ -363,8 +429,8 @@ const ProjectList = ({ initialType, view }: Props) => {
                 )}
               </tbody>
               <tfoot>
-                {footRow(styles.pageTotal, `Page total (${shown.length ? 1 : 0}–${shown.length}) of ${title}`, shown)}
-                {footRow(styles.grandTotal, `Grand total (${all.length}) of ${title}`, all)}
+                {footRow(styles.pageTotal, `Page total (${shown.length ? 1 : 0}–${shown.length}) of ${fullTitle}`, shown)}
+                {footRow(styles.grandTotal, `Grand total (${all.length}) of ${fullTitle}`, all)}
               </tfoot>
             </table>
           </div>

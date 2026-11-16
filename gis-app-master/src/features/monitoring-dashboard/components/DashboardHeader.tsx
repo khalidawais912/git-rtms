@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PROGRAM_LABEL } from "../constants";
 import { Program } from "../types";
@@ -19,6 +20,8 @@ interface Props {
   onToggleBigScreen?: () => void;
   /** Hide the programme switch and actions (DGME reports role) */
   compact?: boolean;
+  /** Shows a "View Charts" button that opens this page */
+  chartsHref?: string;
 }
 
 const PROGRAMS: { key: Program; icon: "star" | "briefcase"; label: string }[] = [
@@ -37,6 +40,7 @@ const DashboardHeader = ({
   bigScreen,
   onToggleBigScreen,
   compact,
+  chartsHref,
 }: Props) => {
   // Set after mount so server and browser render the same text
   const [today, setToday] = useState("");
@@ -73,6 +77,12 @@ const DashboardHeader = ({
             ))}
           </div>}
           <div className={`${styles.headActions} ${program ? "" : styles.pushRight}`}>
+            {chartsHref && (
+              <Link href={chartsHref} className={`${styles.btn} ${styles.btnCharts}`}>
+                <Icon name="chart" />
+                View Charts
+              </Link>
+            )}
             <button type="button" className={styles.btn} onClick={onOpenFilters} aria-haspopup="dialog">
               <Icon name="filter" />
               Filters

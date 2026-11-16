@@ -1,5 +1,5 @@
 import type { ProjectsList } from "@/app/dashboard/components/Evaluation/types";
-import { PCV_MAX_SUBMISSIONS, PCV_STATUS, PCV_STATUS_NAME, PcvListItem, pcvNameOf } from "@/features/pcv";
+import { PCV_MAX_SUBMISSIONS, PCV_STATUS, PCV_STATUS_NAME, PcvListItem, PcvOverviewItem, pcvNameOf } from "@/features/pcv";
 import { ProformaType } from "./adapters";
 import { formatDate } from "./utils";
 
@@ -21,10 +21,18 @@ export interface ProjectRow {
   sne?: boolean;
   /** PC-V only: "Year 2 of 5". */
   year: string;
+  /** PC-V only: the financial year reported on, "FY 2025-26", shown above the year. */
+  fy: string;
+  /** PC-V only: when that year's report is due, "31 Jul 2026". */
+  due: string;
   status: string;
+  /** PC-V: the proforma PDF, opened from the name. */
+  pdfPath?: string;
+  /** PC-IV: the id its PDF is generated from, opened from the name. */
+  pc4PdfId?: number;
 }
 
-export type ColumnKey = keyof Omit<ProjectRow, "nameNote">;
+export type ColumnKey = keyof Omit<ProjectRow, "nameNote" | "fy" | "pdfPath" | "pc4PdfId">;
 
 export interface Column {
   key: ColumnKey;
@@ -58,6 +66,7 @@ export const COLUMNS: Record<ProformaType, Column[]> = {
     { key: "exec", label: "Executing Agency", kind: "wide" },
     { key: "district", label: "District" },
     { key: "year", label: "Report Year" },
+    { key: "due", label: "Due By" },
     { key: "cost", label: "Actual Cost (Rs M)", kind: "num" },
     { key: "status", label: "Status" },
   ],
@@ -80,15 +89,45 @@ export const pc4Row = (p: ProjectsList): ProjectRow => ({
   district: text(p.districtName),
   sne: typeof p.isSNE === "boolean" ? p.isSNE : undefined,
   year: "",
+  fy: "",
+  due: "",
   status: text(p.status),
+  pc4PdfId: p.pcIvmainId || undefined,
 });
 
-/** The table opened from a dashboard tile: PC-IV by the dashboard's filter, PC-V by status. */
-export type ProjectView = "submittedToDgme" | "takeUp";
+/**
+ * The table opened from a dashboard tile: PC-IV by the dashboard's filter (the same one its
+ * old pop-up table used), PC-V by status. The first two are Secretary tiles, the rest
+ * Evaluation Dashboard tiles.
+ */
+export type ProjectView = "submittedToDgme" | "takeUp" | "submittedByDept" | "inProgress" | "assigned" | "referBack";
 
-export const PROJECT_VIEWS: Record<ProjectView, { title: string; pc4Filter: string; pc5Status: number }> = {
-  submittedToDgme: { title: "Submitted To DGM&E", pc4Filter: "inprogress", pc5Status: PCV_STATUS.APPROVED_BY_SECRETARY },
-  takeUp: { title: "Take-up for Evaluation", pc4Filter: "inprogress", pc5Status: PCV_STATUS.MARKED_TO_EVALUATION },
+export interface ProjectViewInfo {
+  title: string;
+  pc4Filter: string;
+  pc5Statuses: number[];
+  /** The dashboard the tile is on, for "Back to Dashboard". */
+  back: string;
+  /** An Evaluation Dashboard tile: the list keeps ?dashboardType=EVALUATION, so the top bar stays on Evaluation. */
+  evaluation?: boolean;
+}
+
+const SECRETARY = "/dashboard";
+const EVALUATION = "/dashboard?dashboardType=EVALUATION";
+
+export const PROJECT_VIEWS: Record<ProjectView, ProjectViewInfo> = {
+  submittedToDgme: { title: "Submitted To DGM&E", pc4Filter: "inprogress", pc5Statuses: [PCV_STATUS.APPROVED_BY_SECRETARY], back: SECRETARY },
+  takeUp: { title: "Take-up for Evaluation", pc4Filter: "inprogress", pc5Statuses: [PCV_STATUS.MARKED_TO_EVALUATION], back: SECRETARY },
+  submittedByDept: { title: "Submitted by Department", pc4Filter: "all", pc5Statuses: [PCV_STATUS.SUBMITTED], back: EVALUATION, evaluation: true },
+  inProgress: {
+    title: "In Progress",
+    pc4Filter: "inprogress",
+    pc5Statuses: [PCV_STATUS.APPROVED_BY_SECRETARY, PCV_STATUS.APPROVED_BY_DG],
+    back: EVALUATION,
+    evaluation: true,
+  },
+  assigned: { title: "Assigned", pc4Filter: "inprogress", pc5Statuses: [PCV_STATUS.MARKED_TO_EVALUATION], back: EVALUATION, evaluation: true },
+  referBack: { title: "Refer Back", pc4Filter: "inprogress", pc5Statuses: [PCV_STATUS.REFERRED_BACK], back: EVALUATION, evaluation: true },
 };
 
 export const isProjectView = (value: unknown): value is ProjectView =>
@@ -97,12 +136,27 @@ export const isProjectView = (value: unknown): value is ProjectView =>
 const agencyNames = (list: unknown) =>
   Array.isArray(list) ? (list as { agencyName?: string }[]).map((a) => a.agencyName).filter(Boolean).join(", ") : "";
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 /**
- * A PC-V from GetALLPCVs. GS No., cost and district are not in the response yet: they are
- * read if the server starts sending them; the location stands in for the district.
+ * The financial year a PC-V reports on and its due date. A PC-V is due by 31 July for the
+ * financial year (July to June) that just ended, so one submitted in Nov 2026 reports on
+ * FY 2025-26, due 31 Jul 2026. Empty without a submission date.
  */
-export const pc5Row = (p: PcvListItem): ProjectRow => {
-  const extra = p as PcvListItem & Record<string, unknown>;
+export const reportYear = (submissionDate?: string | null) => {
+  const d = submissionDate ? new Date(submissionDate) : null;
+  if (!d || Number.isNaN(d.getTime())) return { fy: "", due: "" };
+  const end = d.getMonth() >= 6 ? d.getFullYear() : d.getFullYear() - 1;
+  return { fy: `FY ${end - 1}-${String(end % 100).padStart(2, "0")}`, due: `31 ${MONTHS[6]} ${end}` };
+};
+
+/**
+ * A PC-V from GetALLPCVs or /api/pcv/overview. GS No., cost and district are not in either
+ * response yet: they are read if the server starts sending them; the location stands in for
+ * the district.
+ */
+export const pc5Row = (p: PcvListItem | PcvOverviewItem): ProjectRow => {
+  const extra = p as PcvOverviewItem & Record<string, unknown>;
   return {
     id: p.id,
     name: pcvNameOf(p),
@@ -117,7 +171,9 @@ export const pc5Row = (p: PcvListItem): ProjectRow => {
     district: text(extra.districtName) || text(extra.location),
     sne: undefined,
     year: p.submissionNo ? `Year ${p.submissionNo} of ${PCV_MAX_SUBMISSIONS}` : "",
+    ...reportYear(extra.submissionDate),
     status: text(p.statusName) || PCV_STATUS_NAME[p.status] || "",
+    pdfPath: text(extra.pcVPerformaPath) || undefined,
   };
 };
 

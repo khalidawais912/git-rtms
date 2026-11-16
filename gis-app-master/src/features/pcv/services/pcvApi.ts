@@ -16,6 +16,7 @@ import {
   PcvForm,
   PcvHeaderUpdate,
   PcvListItem,
+  PcvOverviewItem,
   PcvMain,
   PcvPerson,
 } from "../types";
@@ -225,13 +226,25 @@ export const pcvFileUrl = (path?: string | null) =>
   path ? `${process.env.NEXT_PUBLIC_BACKEND_API}${path}` : undefined;
 
 /**
- * PC-V numbers for the secretary dashboard. undefined (not an error) while the server
- * does not have the endpoint yet, so the tiles keep showing "–".
+ * GET /api/pcv/overview/counts: one count per status. undefined (not an error) when the call
+ * fails, so the tiles keep showing "–".
  */
-export const getPcvOverviewCounts = async (): Promise<PcvTileCounts | undefined> => {
+export const getPcvCounts = async (): Promise<Partial<PcvOverviewCounts> | undefined> => {
   try {
-    return toPcvTileCounts(await request<PcvOverviewCounts>(apiClient.get(`${PCV_OVERVIEW_API}/counts`)));
+    return (await request<Partial<PcvOverviewCounts> | null>(apiClient.get(`${PCV_OVERVIEW_API}/counts`))) ?? undefined;
   } catch {
     return undefined;
   }
 };
+
+/** PC-V numbers for the secretary dashboard. */
+export const getPcvOverviewCounts = async (): Promise<PcvTileCounts | undefined> => {
+  const counts = await getPcvCounts();
+  return counts && toPcvTileCounts(counts);
+};
+
+/** GET /api/pcv/overview?status=: the full PC-V headers (with agencies) of one status. */
+export const getPcvOverview = async (status: number) =>
+  (await request<{ total: number; pcvs: PcvOverviewItem[] | null } | null>(
+    apiClient.get(PCV_OVERVIEW_API, { params: { status } }),
+  ))?.pcvs ?? [];
