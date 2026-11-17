@@ -16,6 +16,8 @@ interface Props {
   onProgramChange?: (program: Program) => void;
   filterCount?: number;
   onOpenFilters?: () => void;
+  /** The filters panel is open: the Filters button stays white above the dark backdrop */
+  filtersOpen?: boolean;
   bigScreen?: boolean;
   onToggleBigScreen?: () => void;
   /** Hide the programme switch and actions (DGME reports role) */
@@ -37,6 +39,7 @@ const DashboardHeader = ({
   onProgramChange,
   filterCount = 0,
   onOpenFilters,
+  filtersOpen,
   bigScreen,
   onToggleBigScreen,
   compact,
@@ -83,7 +86,13 @@ const DashboardHeader = ({
                 View Charts
               </Link>
             )}
-            <button type="button" className={styles.btn} onClick={onOpenFilters} aria-haspopup="dialog">
+            <button
+              type="button"
+              className={`${styles.btn} ${filtersOpen ? styles.btnOpen : ""}`}
+              onClick={onOpenFilters}
+              aria-haspopup="dialog"
+              aria-expanded={filtersOpen}
+            >
               <Icon name="filter" />
               Filters
               <span className={`${styles.count} ${styles.num} ${filterCount ? styles.countOn : ""}`}>{filterCount}</span>

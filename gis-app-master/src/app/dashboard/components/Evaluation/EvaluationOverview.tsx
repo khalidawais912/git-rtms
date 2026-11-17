@@ -169,6 +169,7 @@ const EvaluationOverview = ({ data, role, filters, onFiltersChange }: Props) => 
         section="Evaluation"
         filterCount={filters.length}
         onOpenFilters={() => setFiltersOpen(true)}
+        filtersOpen={filtersOpen}
         bigScreen={bigScreen}
         onToggleBigScreen={toggleBigScreen}
         chartsHref="/charts"

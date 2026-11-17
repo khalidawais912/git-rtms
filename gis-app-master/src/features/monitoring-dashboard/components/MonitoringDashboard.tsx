@@ -81,6 +81,7 @@ const MonitoringDashboard = () => {
         onProgramChange={dash.switchProgram}
         filterCount={otherFilters.length}
         onOpenFilters={() => setFiltersOpen(true)}
+        filtersOpen={filtersOpen}
         bigScreen={bigScreen}
         onToggleBigScreen={toggleBigScreen}
       />
