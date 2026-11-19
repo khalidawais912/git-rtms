@@ -273,7 +273,9 @@ const ReportDrawer = ({
     let live = true;
     // Relevant Documents: the documents uploaded for this visit
     apiClient
-      .get(`${MONITORING_PROJECTS_API}/${report.projectId}/documents/history`, { skipAppLoader: true })
+      .get(`${MONITORING_PROJECTS_API}/${report.projectId}/documents/history`, {
+        skipAppLoader: true,
+      })
       .then((res) => visitDocuments(res.data, report.visitId))
       .catch(() => [] as ReportFile[])
       .then((files) => {
@@ -561,7 +563,9 @@ const ReportDrawer = ({
                 <div className={styles.headTitle}>
                   {centre.view === "videos" && (
                     <small>
-                      {videos?.length ?? 0} {videos?.length === 1 ? "video" : "videos"} · GS No. {report.gsNo || "–"}
+                      {videos?.length ?? 0}{" "}
+                      {videos?.length === 1 ? "video" : "videos"} · GS No.{" "}
+                      {report.gsNo || "–"}
                     </small>
                   )}
                   <h2>{centreTitle}</h2>
@@ -587,40 +591,67 @@ const ReportDrawer = ({
                   <X size={20} />
                 </button>
               </div>
-              {centre.file ? (
+              {centre.view === "file" && centre.file ? (
                 <FileView key={centre.file.id} file={centre.file} />
               ) : (
-                <div className={rr.vids}>
-                  <ul className={rr.vgrid}>
-                    {(videos ?? []).map((v) => (
-                      <li key={v.id}>
-                        <button
-                          type="button"
-                          className={rr.vc}
-                          onClick={() => setCentre({ view: "videos", file: v })}
-                        >
-                          <span className={rr.vthumb}>
-                            {fileKind(v.path) === "image" && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={fileUrl(v, backendFileUrl)}
-                                alt=""
-                                onError={(e) => (e.currentTarget.hidden = true)}
-                              />
-                            )}
-                            {fileKind(v.path) === "video" && (
-                              <video src={`${fileUrl(v, backendFileUrl)}#t=1`} muted preload="metadata" />
-                            )}
-                            <Drone size={18} />
-                            <span className={rr.vplay}>
-                              <Play size={20} fill="currentColor" />
+                // Videos: the one playing on top (its name under it), the others below in a grid
+                <div className={rr.vids} key={centre.file?.id ?? "all"}>
+                  {centre.file && (
+                    <>
+                      <div className={rr.stage}>
+                        <FileView file={centre.file} />
+                      </div>
+                      <div className={rr.vmeta}>
+                        <b>{centre.file.name}</b>
+                        {centre.file.note && <small>{centre.file.note}</small>}
+                      </div>
+                      {(videos ?? []).length > 1 && (
+                        <p className={rr.vmore}>More videos</p>
+                      )}
+                    </>
+                  )}
+                  <ul
+                    className={`${rr.vgrid} ${centre.file ? rr.vgridMore : ""}`}
+                  >
+                    {(videos ?? [])
+                      .filter((v) => v.id !== centre.file?.id)
+                      .map((v) => (
+                        <li key={v.id}>
+                          <button
+                            type="button"
+                            className={rr.vc}
+                            onClick={() =>
+                              setCentre({ view: "videos", file: v })
+                            }
+                          >
+                            <span className={rr.vthumb}>
+                              {fileKind(v.path) === "image" && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={fileUrl(v, backendFileUrl)}
+                                  alt=""
+                                  onError={(e) =>
+                                    (e.currentTarget.hidden = true)
+                                  }
+                                />
+                              )}
+                              {fileKind(v.path) === "video" && (
+                                <video
+                                  src={`${fileUrl(v, backendFileUrl)}#t=1`}
+                                  muted
+                                  preload="metadata"
+                                />
+                              )}
+                              <Drone size={18} />
+                              <span className={rr.vplay}>
+                                <Play size={20} fill="currentColor" />
+                              </span>
                             </span>
-                          </span>
-                          <b>{v.name}</b>
-                          <small>{v.note}</small>
-                        </button>
-                      </li>
-                    ))}
+                            <b>{v.name}</b>
+                            <small>{v.note}</small>
+                          </button>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               )}
