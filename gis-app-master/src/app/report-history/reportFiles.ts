@@ -216,3 +216,28 @@ export const visitDocuments = (body: unknown, visitId: number): ReportFile[] => 
         fileName(d.filePath!),
     }));
 };
+
+const RANK = /^(assistant|deputy|additional|director|general|secretary|chief|managing|provincial|project)$/i;
+
+/**
+ * "Assistant Director" → "AD", "Deputy Director Evaluation-I (…)" → "DD", "DIRECTOR_GENERAL (BS-20)" → "DG":
+ * the initials of the rank it starts with, else of all its words; a one-word designation stays as it is.
+ */
+export const shortDesignation = (designation?: string | null) => {
+  const text = designation?.replace(/\(.*?\)/g, "").trim() ?? "";
+  const words = text.split(/[\s,/_]+/).filter((w) => /^[A-Za-z]/.test(w) && !/^(of|and|the|for)$/i.test(w));
+  const end = words.findIndex((w) => !RANK.test(w));
+  const rank = end < 0 ? words : words.slice(0, end);
+  const use = rank.length > 1 ? rank : words;
+  return use.length > 1 ? use.map((w) => w[0].toUpperCase()).join("") : text;
+};
+
+/**
+ * The officer's own name. An office account ("Deputy Director Evaluation") keeps the name of the officer in its
+ * designation, "Deputy Director Evaluation-I (Engr Masood BS-18)" → "Engr Masood"; otherwise the full name.
+ */
+export const officerName = (user?: { fullName?: string | null; designation?: string | null } | null) => {
+  const inBrackets = user?.designation?.match(/\(([^)]*\bBS-?\s*\d+[^)]*)\)/i)?.[1];
+  const name = inBrackets?.replace(/,?\s*\bBS-?\s*\d+\b/i, "").trim();
+  return name || user?.fullName?.trim() || "";
+};
