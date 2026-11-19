@@ -1,33 +1,22 @@
 "use client";
-import { REPORTS_HISTORY_API } from "@/services/endpoints";
-import Button from "@/components/Button";
-import CustomModal from "@/components/CustomModal/CustomModal";
-import Loader from "@/components/Loader/Loader";
-import { DashboardTypeEnum } from "@/types/dashboard";
-import { Officer, ReportHistoryUser } from "@/features/users";
-import apiClient, { AxiosError } from "@/services/client";
-import search3 from "@/public/icons/search3.svg";
-import { raleway } from "@/styles/fonts";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { FaExternalLinkAlt } from "react-icons/fa";
-import DownloadWrapper from "../../components/DownloadWrapper";
-import ReportNoting from "../../components/ReportNoting";
-import ViewHistoryOnly from "../../components/ViewHistoryOnly";
-import { APPROVED, ISSUED, REFERBACK, SUBMITTED } from "@/constants/statuses";
-import { SubmittedReport, Tab } from "../../types";
 import AlertMessage from "@/components/AlertMessage";
-import useUserInfo from "@/hooks/useUserInfo";
+import Loader from "@/components/Loader/Loader";
+import { APPROVED, REFERBACK, SUBMITTED } from "@/constants/statuses";
+import styles from "@/features/proformas/components/Proformas.module.css";
+import { formatDate, formatTime } from "@/features/proformas/utils";
+import { Officer, ReportHistoryUser } from "@/features/users";
 import { useEffectEvent } from "@/hooks/useEffectEvent";
+import useUserInfo from "@/hooks/useUserInfo";
+import apiClient, { AxiosError } from "@/services/client";
+import { REPORTS_HISTORY_API } from "@/services/endpoints";
+import { DashboardTypeEnum } from "@/types/dashboard";
+import { ArrowLeft, Calendar, Clock, ExternalLink, FileCheck2, Search, SquarePen, Users } from "lucide-react";
+import Link from "next/link";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import DownloadWrapper from "../../components/DownloadWrapper";
+import ReportDrawer, { ReportDrawerMode } from "../../components/ReportDrawer";
+import rr from "../../components/ReportReview.module.css";
+import { SubmittedReport, Tab } from "../../types";
 
 interface Props {
   dashbaordType: DashboardTypeEnum | undefined;
@@ -41,10 +30,21 @@ interface Props {
   loggedInUsername: string;
 }
 
+const ALL = 0;
+const ISSUED_TAB = -98;
+
+/** The same report on the list and in the drawer (Issued rows all have id 0). */
+const reportKey = (d: SubmittedReport) => `${d.visitId}-${d.projectId}-${d.reportType}`;
+
+const plural = (n: number) => `${n} ${n === 1 ? "report" : "reports"}`;
+
+/**
+ * List of Reports (Report review on the dashboard), RTMES design: the old tabs with their counts,
+ * one card per report and a Comment / View History button that opens the drawer on the right.
+ */
 const List = ({
   dashbaordType,
   users,
-  officers,
   deputyDirectors,
   directors,
   departmentHead,
@@ -54,44 +54,32 @@ const List = ({
 }: Props) => {
   const [data, setData] = useState<SubmittedReport[]>([]);
   const [issuedReportCount, setIssuedReportCount] = useState<number>(0);
-  const [issuedReportsData, setIssuedReportsData] =
-    useState<SubmittedReport[]>();
+  const [issuedReportsData, setIssuedReportsData] = useState<SubmittedReport[]>();
 
   const { userId, role } = useUserInfo();
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [selectedTab, setSelectedTab] = useState<number>(ALL);
   const [selectedTabLabel, setSelectedLabel] = useState<string>("");
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
-
-  // 👇 NEW: Track if initial modal has been opened
-  const hasOpenedInitialModal = useRef(false);
-
-  // 👇 NEW: Track current modal index and auto-open state
-  const [currentAutoOpenIndex, setCurrentAutoOpenIndex] = useState<number>(-1);
-  const [shouldAutoOpen, setShouldAutoOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState<SubmittedReport[] | undefined>();
 
-
-  // State for filtered data
-  const [filteredData, setFilteredData] = useState<
-    SubmittedReport[] | undefined
-  >();
-  // State for filtered data
-  const [searchData, setSearchData] = useState<SubmittedReport[] | undefined>();
+  /** The report open in the drawer. */
+  const [open, setOpen] = useState<{ report: SubmittedReport; mode: ReportDrawerMode }>();
+  /** Open the first report waiting for this user's comment (on load, on a tab and after a comment). */
+  const [openNext, setOpenNext] = useState(true);
+  /** Reports commented on here; skipped until the list has reloaded without them. */
+  const done = useRef(new Set<string>());
 
   useEffect(() => {
-    const handleSubmit = async (userId: number) => {
+    const load = async (userId: number) => {
       setLoading(true);
       try {
-        const response = await apiClient.get(
-          `${REPORTS_HISTORY_API}/GetSubmittedReports?submittedTo=${userId}`,
-        );
+        const response = await apiClient.get(`${REPORTS_HISTORY_API}/GetSubmittedReports?submittedTo=${userId}`);
         if (response.data.data) {
-
           const sortedData = response.data.data.reports.sort(
             (a: SubmittedReport, b: SubmittedReport) =>
-              new Date(a.submittedDate).getTime() -
-              new Date(b.submittedDate).getTime(),
+              new Date(a.submittedDate).getTime() - new Date(b.submittedDate).getTime(),
           );
           setData(sortedData);
         }
@@ -102,40 +90,35 @@ const List = ({
         setLoading(false);
       }
     };
-    if (userId) handleSubmit(userId);
+    if (userId) load(userId);
   }, [userId, refresh]);
 
-  const onIssuedReportsDataChange = useEffectEvent(() => {
-    if (issuedReportsData) {
-      if (userRole === "MONITORING") {
-        setIssuedReportCount(
-          issuedReportsData.filter((data) => data.reportType === 1).length,
-        );
-      } else if (userRole === "EVALUATION") {
-        setIssuedReportCount(
-          issuedReportsData.filter((data) => data.reportType === 0).length,
-        );
-      } else {
-        setIssuedReportCount(issuedReportsData.length);
-      }
-    }
-  });
-  useEffect(() => onIssuedReportsDataChange(), [issuedReportsData, onIssuedReportsDataChange]);
+  const userRole = useMemo(() => {
+    const username = loggedInUsername.toLowerCase();
+    if (username.includes("monitoring")) return "MONITORING";
+    if (username.includes("evaluation")) return "EVALUATION";
+    return "ALL";
+  }, [loggedInUsername]);
+
+  const issuedDataFiltered = useMemo(() => {
+    if (userRole === "MONITORING") return issuedReportsData?.filter((d) => d.reportType === 1);
+    if (userRole === "EVALUATION") return issuedReportsData?.filter((d) => d.reportType === 0);
+    return issuedReportsData;
+  }, [issuedReportsData, userRole]);
 
   useEffect(() => {
-    const handleSubmit = async () => {
+    if (issuedDataFiltered) setIssuedReportCount(issuedDataFiltered.length);
+  }, [issuedDataFiltered]);
+
+  useEffect(() => {
+    const load = async () => {
       setLoading(true);
       try {
-        const response = await apiClient.get(
-          `${REPORTS_HISTORY_API}/GetIssuedReports`,
-        );
-
+        const response = await apiClient.get(`${REPORTS_HISTORY_API}/GetIssuedReports`);
         if (response.data.data) {
-          const sortedData = response.data.data.sort(
-            (a: SubmittedReport, b: SubmittedReport) => b.visitId - a.visitId,
+          setIssuedReportsData(
+            response.data.data.sort((a: SubmittedReport, b: SubmittedReport) => b.visitId - a.visitId),
           );
-
-          setIssuedReportsData(sortedData);
         }
         setLoading(false);
       } catch (err) {
@@ -144,751 +127,305 @@ const List = ({
         setLoading(false);
       }
     };
-
-    handleSubmit();
+    load();
   }, []);
 
   const hasManuallySelectedTab = useRef(false);
-
   const [tabs, setTabs] = useState<Tab[]>();
 
   const onDataChange = useEffectEvent(() => {
-    const tabs = [
-      {
-        id: 1,
-        label: "SUBMITTED BY (AD)",
-        status: SUBMITTED,
-        role: "deputy director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 2,
-        label: "SUBMITTED BY (DD)",
-        status: SUBMITTED,
-        role: "director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 3,
-        label: "SUBMITTED TO (DIRECTOR)",
-        status: SUBMITTED,
-        role: "deputy director",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 4,
-        label: "SUBMITTED TO (DG)",
-        status: SUBMITTED,
-        role: "director",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 5,
-        label: "SUBMITTED BY (DIRECTOR)",
-        status: SUBMITTED,
-        role: "department head",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 6,
-        label: "APPROVED AND MARK TO (DIRECTOR)",
-        status: APPROVED,
-        role: "department head",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 7,
-        label: "APPROVED BY (DG)",
-        status: APPROVED,
-        role: "director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 8,
-        label: "APPROVED BY (DG)",
-        status: APPROVED,
-        role: "deputy director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 9,
-        label: "REFERBACK BY (DIRECTOR)",
-        status: REFERBACK,
-        role: "deputy director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 10,
-        label: "REFERBACK TO (AD)",
-        status: REFERBACK,
-        role: "deputy director",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 11,
-        label: "REFERBACK BY (DG)",
-        status: REFERBACK,
-        role: "director",
-        reportSubmittedTo: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 12,
-        label: "REFERBACK TO (DD)",
-        status: REFERBACK,
-        role: "director",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
-      {
-        id: 13,
-        label: "REFERBACK TO (DIRECTOR)",
-        status: REFERBACK,
-        role: "department head",
-        reportSubmittedFrom: userId,
-        count: 0,
-        filteredData: undefined,
-      },
+    const definitions = [
+      { id: 1, label: "SUBMITTED BY (AD)", status: SUBMITTED, role: "deputy director", reportSubmittedTo: userId },
+      { id: 2, label: "SUBMITTED BY (DD)", status: SUBMITTED, role: "director", reportSubmittedTo: userId },
+      { id: 3, label: "SUBMITTED TO (DIRECTOR)", status: SUBMITTED, role: "deputy director", reportSubmittedFrom: userId },
+      { id: 4, label: "SUBMITTED TO (DG)", status: SUBMITTED, role: "director", reportSubmittedFrom: userId },
+      { id: 5, label: "SUBMITTED BY (DIRECTOR)", status: SUBMITTED, role: "department head", reportSubmittedTo: userId },
+      { id: 6, label: "APPROVED AND MARK TO (DIRECTOR)", status: APPROVED, role: "department head", reportSubmittedFrom: userId },
+      { id: 7, label: "APPROVED BY (DG)", status: APPROVED, role: "director", reportSubmittedTo: userId },
+      { id: 8, label: "APPROVED BY (DG)", status: APPROVED, role: "deputy director", reportSubmittedTo: userId },
+      { id: 9, label: "REFERBACK BY (DIRECTOR)", status: REFERBACK, role: "deputy director", reportSubmittedTo: userId },
+      { id: 10, label: "REFERBACK TO (AD)", status: REFERBACK, role: "deputy director", reportSubmittedFrom: userId },
+      { id: 11, label: "REFERBACK BY (DG)", status: REFERBACK, role: "director", reportSubmittedTo: userId },
+      { id: 12, label: "REFERBACK TO (DD)", status: REFERBACK, role: "director", reportSubmittedFrom: userId },
+      { id: 13, label: "REFERBACK TO (DIRECTOR)", status: REFERBACK, role: "department head", reportSubmittedFrom: userId },
     ];
 
-    if (data) {
-      const updatedTabs: Tab[] = tabs.map((tab) => {
-        let count = 0;
-        let filteredData: SubmittedReport[] = [];
-
-        if (tab.reportSubmittedFrom) {
-          filteredData = data.filter(
-            (d) =>
-              d.status === tab.status &&
-              d.submittedFrom === tab.reportSubmittedFrom &&
-              d.isFocalPerson === true,
-          );
-          count = filteredData.length;
-        } else if (tab.reportSubmittedTo) {
-          filteredData = data.filter(
-            (d) =>
-              d.status === tab.status &&
-              d.submittedTo === tab.reportSubmittedTo &&
-              d.isFocalPerson === true,
-          );
-          count = filteredData.length;
-        }
-
-        return { ...tab, count, filteredData };
-      });
-      if (updatedTabs) setTabs(updatedTabs);
-    }
+    if (!data) return;
+    setTabs(
+      definitions.map((tab) => {
+        const filtered = data.filter(
+          (d) =>
+            d.status === tab.status &&
+            d.isFocalPerson === true &&
+            (tab.reportSubmittedFrom
+              ? d.submittedFrom === tab.reportSubmittedFrom
+              : tab.reportSubmittedTo
+                ? d.submittedTo === tab.reportSubmittedTo
+                : false),
+        );
+        return { ...tab, count: filtered.length, filteredData: filtered };
+      }),
+    );
   });
   useEffect(() => onDataChange(), [data, onDataChange]);
 
   useEffect(() => {
     if (!tabs) return;
 
-    // ✅ If user manually selected a tab, respect that choice
+    // A tab the user chose stays chosen
     if (hasManuallySelectedTab.current) {
-      // Update filteredData based on selected tab
-      if (selectedTab === 0) {
-        // "All" tab
-        setFilteredData(data);
-      } else if (selectedTab === -98) {
-        // "Issued" tab - don't change anything
-        return;
-      } else {
-        // Other tabs
+      if (selectedTab === ALL) setFilteredData(data);
+      else if (selectedTab !== ISSUED_TAB) {
         const selected = tabs.find((t) => t.id === selectedTab);
-        if (selected) {
-          setFilteredData(selected.filteredData);
-        }
+        if (selected) setFilteredData(selected.filteredData);
       }
-      return; // Don't run auto-selection logic
+      return;
     }
 
-    // ✅ Auto-select logic (only when NOT manually selected)
+    // Otherwise the first tab of this role with reports waiting
     const tabWithRecord = tabs.find(
-      (tab) =>
-        tab.role === role &&
-        tab.count > 0 &&
-        (tab.id === 1 ||
-          tab.id === 8 ||
-          tab.id === 9 ||
-          tab.id === 2 ||
-          tab.id === 7 ||
-          tab.id === 11 ||
-          tab.id === 5),
+      (tab) => tab.role === role && tab.count > 0 && [1, 8, 9, 2, 7, 11, 5].includes(tab.id),
     );
-
     if (tabWithRecord) {
       setSelectedTab(tabWithRecord.id);
       setSelectedLabel(tabWithRecord.label);
       setFilteredData(tabWithRecord.filteredData);
     } else {
-      setSelectedTab(0);
+      setSelectedTab(ALL);
       setSelectedLabel("All");
       setFilteredData(data);
     }
   }, [tabs, role, selectedTab, data]);
 
+  const isIssuedTab = selectedTab === ISSUED_TAB;
+  const inTab = isIssuedTab ? issuedDataFiltered : filteredData;
 
-  // 👇 NEW: Get comment-eligible reports (where user needs to comment)
-  const getCommentEligibleReports = () => {
-    if (!filteredData || selectedTabLabel === "All") return [];
+  const shown = useMemo(() => {
+    const words = searchTerm.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return inTab;
+    return inTab?.filter((item) => {
+      const text = [item.id, item.gsNo, item.intiallyDesignation, item.intiallyUser, item.projectId, item.projectName, item.visitId]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return words.every((w) => text.includes(w));
+    });
+  }, [inTab, searchTerm]);
 
-    return filteredData.filter((d) => d.submittedTo === userId);
-  };
+  /** "Comment" for a report waiting for this user in a step tab; "View History" otherwise. */
+  const modeOf = useCallback(
+    (d: SubmittedReport): ReportDrawerMode =>
+      selectedTab !== ALL && !isIssuedTab && d.submittedTo === userId ? "act" : "history",
+    [selectedTab, isIssuedTab, userId],
+  );
 
-  // 👇 NEW: Auto-open first modal on initial load
-  const onFilteredDataChange = useEffectEvent(() => {
-    if (
-      !hasOpenedInitialModal.current &&
-      filteredData &&
-      filteredData.length > 0 &&
-      selectedTabLabel !== "All" &&
-      userId
-    ) {
-      const commentEligibleReports = getCommentEligibleReports();
-
-      if (commentEligibleReports.length > 0) {
-        // Wait for DOM to be ready
-        setTimeout(() => {
-          const firstModalButton = document.querySelector(
-            `[data-bs-target="#comment${commentEligibleReports[0].id}"]`,
-          ) as HTMLButtonElement;
-
-          if (firstModalButton) {
-            firstModalButton.click();
-            hasOpenedInitialModal.current = true;
-            setCurrentAutoOpenIndex(0);
-          }
-        }, 500);
-      }
-    }
-  });
-  useEffect(() => onFilteredDataChange(), [filteredData, selectedTabLabel, userId, onFilteredDataChange]);
-
-  // 👇 NEW: Handle auto-opening next modal after submission
+  // The first report waiting for this user's comment opens by itself
   useEffect(() => {
-    if (!shouldAutoOpen || currentAutoOpenIndex < 0) return;
+    if (!openNext || open || !userId || !filteredData || selectedTab === ALL || isIssuedTab || isLoading) return;
+    setOpenNext(false);
+    const next = filteredData.find((d) => d.submittedTo === userId && !done.current.has(reportKey(d)));
+    if (next) setOpen({ report: next, mode: "act" });
+  }, [openNext, open, userId, filteredData, selectedTab, isIssuedTab, isLoading]);
 
-    const currentTab = tabs?.find((tab) => tab.id === selectedTab);
-    const currentTabData = currentTab?.filteredData ?? filteredData ?? [];
-    const commentEligible = currentTabData.filter(
-      (d) => d.submittedTo === userId,
-    );
-
-    const nextIndex = currentAutoOpenIndex + 1;
-
-    if (nextIndex < commentEligible.length) {
-      const nextReport = commentEligible[nextIndex];
-      setTimeout(() => {
-        const btn = document.querySelector(
-          `[data-bs-target="#comment${nextReport.id}"]`,
-        ) as HTMLButtonElement;
-        if (btn) {
-          btn.click();
-          setCurrentAutoOpenIndex(nextIndex);
-        }
-        setShouldAutoOpen(false);
-      }, 300);
-    } else {
-      setShouldAutoOpen(false);
-      setCurrentAutoOpenIndex(-1);
-    }
-  }, [
-    shouldAutoOpen,
-    currentAutoOpenIndex,
-    selectedTab,
-    tabs,
-    filteredData,
-    userId,
-  ]);
-
-  // 👇 NEW: Callback function to trigger next modal
-  const handleCommentSubmitted = () => {
-    setShouldAutoOpen(true);
+  const chooseTab = (id: number, label: string, rows?: SubmittedReport[]) => {
+    hasManuallySelectedTab.current = true;
+    setSelectedTab(id);
+    setSelectedLabel(label);
+    if (rows) setFilteredData(rows);
+    setOpenNext(id !== ALL && id !== ISSUED_TAB);
   };
 
-  // 🔍 Search handler
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.toLowerCase();
-    const filtered = filteredData?.filter((item) =>
-      [
-        item.id,
-        item.gsNo,
-        item.intiallyDesignation,
-        item.intiallyUser,
-        item.projectId,
-        item.projectName,
-        item.visitId,
-      ]
-        .filter(Boolean)
-        .map((f) => String(f).toLowerCase())
-        .some((field) => field.includes(value)),
-    );
-    setSearchTerm(e.target.value);
-    setSearchData(filtered);
+  const closeDrawer = useCallback(() => setOpen(undefined), []);
+
+  const onActed = () => {
+    if (open) done.current.add(reportKey(open.report));
+    setOpen(undefined);
+    setOpenNext(true);
+    setRefresh((prev) => !prev);
   };
 
+  const allCount = data.filter(
+    (d) => (d.submittedTo === userId || d.submittedFrom === userId) && d.isFocalPerson === true,
+  ).length;
 
-  // 🔍 Search handler
-  const handleSearchIssuedReports = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.toLowerCase();
-    const filtered = issuedReportsData?.filter((item) =>
-      [
-        item.id,
-        item.gsNo,
-        item.intiallyDesignation,
-        item.intiallyUser,
-        item.projectId,
-        item.projectName,
-        item.visitId,
-      ]
-        .filter(Boolean)
-        .map((f) => String(f).toLowerCase())
-        .some((field) => field.includes(value)),
-    );
-    setSearchTerm(e.target.value);
-    setSearchData(filtered);
-  };
+  const backHref = dashbaordType ? `/dashboard?dashboardType=${dashbaordType}` : "/dashboard";
 
-  const isIssuedTab = selectedTabLabel === "Issued";
-
-  const userRole = useMemo(() => {
-    const username = loggedInUsername.toLowerCase();
-
-    if (username.includes("monitoring")) return "MONITORING";
-    if (username.includes("evaluation")) return "EVALUATION";
-
-    return "ALL";
-  }, [loggedInUsername]);
-
-  let issuedDataFiltered = issuedReportsData;
-
-  if (userRole === "MONITORING") {
-    issuedDataFiltered = issuedReportsData?.filter((d) => d.reportType === 1);
-  } else if (userRole === "EVALUATION") {
-    issuedDataFiltered = issuedReportsData?.filter((d) => d.reportType === 0);
-  }
-
-  const dataToRender = searchTerm
-    ? searchData
-    : isIssuedTab
-      ? issuedDataFiltered
-      : filteredData;
+  if (isLoading && !open) return <Loader />;
+  if (error) return <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>;
+  if (!userId || !role) return null;
 
   return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <AlertMessage variant="danger">{error}, Please Try Again!</AlertMessage>
-      ) : userId && role ? (
-        // ✅ render your data block here
-        <div
-          className={`container-fluid p-3 mt-3 mb-4 ${raleway.className}`}
-          style={{
-            background:
-              "linear-gradient(to bottom right, rgba(239, 239, 239, 0.6) , rgba(255, 255, 255, 0.08))",
-            border: "1px solid rgba(255, 255, 255, 0.29)",
-            borderRadius: "15px",
-          }}
-        >
-          <div className="row d-flex justify-content-between">
-            <div className="col-auto my-auto">
-              <h5 className="fs18px fw-bold">List of Reports</h5>
-            </div>
-
-            <div className="col-auto">
-              <div className="row d-flex justify-content-end mb-3">
-                <div className="col-auto my-auto">
-                  {selectedTabLabel === "Issued" && issuedReportsData ? (
-                    <DownloadWrapper
-                      data={issuedReportsData}
-                      fileName={selectedTabLabel}
-                    />
-                  ) : filteredData ? (
-                    <DownloadWrapper
-                      data={filteredData}
-                      fileName={selectedTabLabel}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </div>
-
-                <div className="col">
-                  <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="input-group">
-                      <button
-                        className="btn rounded-end rounded-pill text-white shadow-none border-end-0 pe-0"
-                        type="submit"
-                        style={{
-                          border: "1px solid rgba(38, 50, 56,.6)",
-                        }}
-                      >
-                        <Image
-                          src={search3}
-                          alt="search3"
-                          width={18}
-                          height={18}
-                        />
-                      </button>
-                      <input
-                        type="text"
-                        className="form-control border-start-0 rounded-pill rounded-start shadow-none fs14px bg-transparent py-2"
-                        style={{
-                          border: "1px solid rgba(38, 50, 56,.6)",
-                          color: "rgba(38, 50, 56,1)",
-                        }}
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={
-                          selectedTabLabel === "Issued"
-                            ? handleSearchIssuedReports
-                            : handleSearch
-                        }
-                      />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col m-auto">
-            <div className="row d-flex mb-3">
-              <div className="col">
-                <div className="row d-flex align-items-center">
-                  <div className="col-auto">
-                    <Button
-                      className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                        selectedTab === 0 ? "text-dark" : "text-secondary"
-                      }`}
-                      style={{
-                        borderBottom:
-                          selectedTab === 0 ? "3px solid #0c8ce9" : "",
-                      }}
-                      onClick={() => {
-                        setSelectedTab(0);
-                        hasManuallySelectedTab.current = true;
-                        setSelectedLabel("All");
-                        setFilteredData(data);
-                      }}
-                    >
-                      All
-                      {data?.filter(
-                        (d) =>
-                          (d.submittedTo === userId ||
-                            d.submittedFrom === userId) &&
-                          d.isFocalPerson === true,
-                      ).length > 0 && (
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {
-                            data?.filter(
-                              (d) =>
-                                (d.submittedTo === userId ||
-                                  d.submittedFrom === userId) &&
-                                d.isFocalPerson === true,
-                            ).length
-                          }
-                        </span>
-                      )}
-                    </Button>
-                  </div>
-                  {tabs
-                    ?.filter(
-                      (tab) =>
-                        tab.status === -99 ||
-                        tab.status === 6 ||
-                        tab.role === role,
-                    )
-                    .map((tab) => (
-                      <div key={tab.id} className="col-auto">
-                        <Button
-                          className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                            selectedTab === tab.id
-                              ? "text-dark"
-                              : "text-secondary"
-                          }`}
-                          style={{
-                            borderBottom:
-                              selectedTab === tab.id ? "3px solid #0c8ce9" : "",
-                          }}
-                          onClick={() => {
-                            hasManuallySelectedTab.current = true; // 👈 add this
-                            setSelectedTab(tab.id);
-                            setSelectedLabel(tab.label);
-                            setFilteredData(tab.filteredData);
-                            setCurrentAutoOpenIndex(-1);
-                            setShouldAutoOpen(false);
-                            hasOpenedInitialModal.current = false;
-                          }}
-                        >
-                          {tab.label}
-                          {tab.count > 0 && (
-                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                              {tab.count}
-                            </span>
-                          )}
-                        </Button>
-                      </div>
-                    ))}
-                  {dashbaordType === undefined && (
-                    <div className="col-auto">
-                      <Button
-                        className={`btn shadow-none rounded-0 fw-bold position-relative ${
-                          selectedTab === -98 ? "text-dark" : "text-secondary"
-                        }`}
-                        style={{
-                          borderBottom:
-                            selectedTab === -98 ? "3px solid #0c8ce9" : "",
-                        }}
-                        onClick={() => {
-                          hasManuallySelectedTab.current = true; // ✅ ADD THIS
-                          setSelectedTab(-98);
-                          setSelectedLabel("Issued");
-                          setCurrentAutoOpenIndex(-1); // ✅ ADD THIS
-                          setShouldAutoOpen(false); // ✅ ADD THIS
-                          hasOpenedInitialModal.current = false; // ✅ ADD THIS
-                        }}
-                      >
-                        Issued
-                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {issuedReportCount}
-                        </span>
-                      </Button>
-                    </div>
-                  )}
-                  <div className="col-auto">
-                    <Link
-                      href="/director-reports"
-                      target="_blank"
-                      className="fw-bold color-evaluation-light-blue text-decoration-none"
-                    >
-                      <div className="d-flex align-items-center gap-1">
-                        <span>Ongoing Process</span>
-                        <FaExternalLinkAlt />
-                      </div>
-                    </Link>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-          {dataToRender && dataToRender?.length > 0 ? (
-            dataToRender?.map((d, i) => (
-              <div
-                key={i}
-                className="col mb-2 position-relative overflow-hidden"
-              >
-                <div
-                  className="col p-3"
-                  style={{
-                    background: "#FAFAFA",
-                    borderRadius: "12px",
-                    border: "1px solid rgba(0, 0, 0,.1)",
-                  }}
-                >
-                  <div className="row m-0">
-                    {/* LEFT STATUS BOX */}
-                    <div
-                      className={`col-auto rounded-3 p-3 ${
-                        d.status === ISSUED
-                          ? "bg-success text-light"
-                          : d.status === REFERBACK
-                            ? "bg-danger text-light"
-                            : d.status === SUBMITTED
-                              ? "bg-warning text-dark"
-                              : "bg-info text-dark"
-                      }`}
-                    >
-                      <p className="fw-5 mb-0">
-                        <span className="fw-bold">Sr#</span> {i + 1}
-                      </p>
-                      <p className="fw-5 mb-0">
-                        <span className="fw-bold">GS No. </span>
-                        {d.gsNo}
-                      </p>
-                    </div>
-
-                    <div className="col">
-                      {/* HEADER */}
-                      <div className="row d-flex justify-content-between align-items-center mb-2">
-                        <div className="col">
-                          <p
-                            className="fs18px fw-bold m-0"
-                            style={{ color: "#263238", paddingRight: 90 }}
-                          >
-                            <span>Project: </span> {d.projectName}
-                          </p>
-                        </div>
-
-                        {/* BADGE */}
-                        <div
-                          className="col-auto position-absolute p-0"
-                          style={{ rotate: "45deg", top: 40, right: -40 }}
-                        >
-                          {d.reportType === 1 ? (
-                            <span
-                              className="badge px-5 fw-bold py-2 fs-6"
-                              style={{ backgroundColor: "#3B7C80" }}
-                            >
-                              MONITORING
-                            </span>
-                          ) : d.reportType === 0 ? (
-                            <span className="badge bg-color-evaluation-theme-blue px-5 fw-bold py-2 fs-6">
-                              EVALUATION
-                            </span>
-                          ) : null}
-                        </div>
-                      </div>
-
-                      {/* BODY */}
-                      <div className="row d-flex justify-content-between">
-                        {/* Officer */}
-                        <div className="col">
-                          <p className="mb-2 fs18px fw-bold">Officer Name</p>
-                          <p className="mb-0">
-                            {d.intiallyUser}
-                            <br />
-                            <span>({d.intiallyDesignation})</span>
-                          </p>
-                        </div>
-
-                        {/* Submitted */}
-                        <div className="col">
-                          <p className="mb-2 fs18px fw-bold">Submitted Date</p>
-                          <p className="mb-0">
-                            {d.submittedDate ? (
-                              <>
-                                {new Date(d.submittedDate).toLocaleDateString(
-                                  "en-GB",
-                                  {
-                                    weekday: "short",
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  },
-                                )}
-                                <br />
-                                {new Date(d.submittedDate).toLocaleTimeString(
-                                  [],
-                                  {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                    hour12: true,
-                                  },
-                                )}
-                              </>
-                            ) : (
-                              "N/A"
-                            )}
-                          </p>
-                        </div>
-
-                        {/* ✅ Issued Date ONLY for Issued Tab */}
-                        {isIssuedTab && (
-                          <div className="col">
-                            <p className="mb-2 fs18px fw-bold">Issued Date</p>
-                            <p className="mb-0">
-                              {d.issuanceDate
-                                ? new Date(d.issuanceDate).toLocaleDateString(
-                                    "en-GB",
-                                    {
-                                      weekday: "short",
-                                      day: "2-digit",
-                                      month: "short",
-                                      year: "numeric",
-                                    },
-                                  )
-                                : "N/A"}
-                            </p>
-                          </div>
-                        )}
-
-                        {/* ACTION BUTTON */}
-                        <div className="col d-flex justify-content-end align-items-end pe-5">
-                          {selectedTabLabel === "All" ? (
-                            <CustomModal
-                              isFullscreen
-                              modalId={`view-history${d.id}`}
-                              buttonColumn="col-auto"
-                              button={
-                                <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">
-                                  View History
-                                </Button>
-                              }
-                              body={<ViewHistoryOnly data={d} users={users} />}
-                            />
-                          ) : (
-                            <CustomModal
-                              isFullscreen
-                              modalId={`comment${d.id}`}
-                              buttonColumn="col-auto"
-                              button={
-                                <Button className="btn shadow-sm py-2 px-3 rounded-pill fw-bold">
-                                  {d.submittedTo === userId
-                                    ? "Comment"
-                                    : d.status === ISSUED
-                                      ? "Issued"
-                                      : d.status === APPROVED
-                                        ? "Approved"
-                                        : "Submitted"}
-                                </Button>
-                              }
-                              body={
-                                <ReportNoting
-                                  data={d}
-                                  setRefresh={setRefresh}
-                                  role={role}
-                                  userId={userId}
-                                  selectedTabLabel={selectedTabLabel}
-                                  users={users}
-                                  deputyDirectors={deputyDirectors}
-                                  directors={directors}
-                                  departmentHead={departmentHead}
-                                  officers={officers}
-                                  onCommentSubmitted={handleCommentSubmitted}
-                                />
-                              }
-                            />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <AlertMessage variant="warning" />
-          )}
+    <div className={`${styles.page} ${rr.mon}`}>
+      <div className={styles.head}>
+        <Link href={backHref} className={styles.btn}>
+          <ArrowLeft size={18} /> Back to Dashboard
+        </Link>
+        <h1>List of Reports</h1>
+        <span className={styles.count}>{plural(shown?.length ?? 0)}</span>
+        <div className={`${styles.tools} ${rr.tools}`}>
+          <label className={`${styles.search} ${rr.search}`}>
+            <Search size={18} />
+            <input
+              type="search"
+              placeholder="Search project, GS No., officer…"
+              aria-label="Search the reports"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </label>
+          {shown && <DownloadWrapper data={shown} fileName={isIssuedTab ? "Issued" : selectedTabLabel || "Reports"} />}
         </div>
+      </div>
+
+      <div className={styles.tabs} role="tablist" aria-label="Reports by step">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={selectedTab === ALL}
+          className={`${styles.tab} ${selectedTab === ALL ? styles.tabActive : ""}`}
+          onClick={() => chooseTab(ALL, "All", data)}
+        >
+          All
+          <b>{allCount}</b>
+        </button>
+        {tabs
+          ?.filter((tab) => tab.role === role)
+          .map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={selectedTab === tab.id}
+              className={`${styles.tab} ${selectedTab === tab.id ? styles.tabActive : ""}`}
+              onClick={() => chooseTab(tab.id, tab.label, tab.filteredData)}
+            >
+              {tab.label}
+              <b>{tab.count}</b>
+            </button>
+          ))}
+        {dashbaordType === undefined && (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={isIssuedTab}
+            className={`${styles.tab} ${isIssuedTab ? styles.tabActive : ""}`}
+            onClick={() => chooseTab(ISSUED_TAB, "Issued")}
+          >
+            Issued
+            <b>{issuedReportCount}</b>
+          </button>
+        )}
+        <Link href="/director-reports" target="_blank" className={`${styles.tab} ${rr.tabLink}`}>
+          Ongoing Process <ExternalLink size={17} />
+        </Link>
+      </div>
+
+      {!shown || shown.length === 0 ? (
+        <p className={styles.empty}>No reports in this step.</p>
       ) : (
-        ""
+        <div className={styles.list} role="tabpanel">
+          {shown.map((d, i) => {
+            const mode = modeOf(d);
+            return (
+              <article
+                key={`${reportKey(d)}-${i}`}
+                className={`${styles.card} ${rr.card} ${mode === "act" ? styles.cardAct : ""}`}
+              >
+                <div className={`${styles.cardTop} ${rr.top}`}>
+                  <span className={`${styles.chip} ${rr.chipTint}`}>
+                    Sr# <b>{i + 1}</b>
+                  </span>
+                  <span className={`${styles.chip} ${rr.chipTint}`}>
+                    GS No. <b>{d.gsNo || "–"}</b>
+                  </span>
+                </div>
+                {(d.reportType === 1 || d.reportType === 0) && (
+                  <span className={`${rr.ribbon} ${d.reportType === 0 ? rr.ribbonEval : ""}`}>
+                    {d.reportType === 1 ? "Monitoring" : "Evaluation"}
+                  </span>
+                )}
+                <div className={styles.cardBody}>
+                  <h3>{d.projectName}</h3>
+                  <dl className={`${styles.facts} ${isIssuedTab ? rr.factsThree : rr.factsTwo}`}>
+                    <div>
+                      <Users size={18} />
+                      <div>
+                        <dt>Officer Name</dt>
+                        <dd>
+                          {d.intiallyUser || "–"}
+                          {d.intiallyDesignation && (
+                            <>
+                              <br />
+                              <small>{d.intiallyDesignation}</small>
+                            </>
+                          )}
+                        </dd>
+                      </div>
+                    </div>
+                    <div>
+                      <Calendar size={18} />
+                      <div>
+                        <dt>Submitted Date</dt>
+                        <dd>
+                          {d.submittedDate ? (
+                            <>
+                              {formatDate(d.submittedDate)}
+                              <br />
+                              <small>{formatTime(d.submittedDate)}</small>
+                            </>
+                          ) : (
+                            "N/A"
+                          )}
+                        </dd>
+                      </div>
+                    </div>
+                    {isIssuedTab && (
+                      <div>
+                        <FileCheck2 size={18} />
+                        <div>
+                          <dt>Issued Date</dt>
+                          <dd>{d.issuanceDate ? formatDate(d.issuanceDate) : "N/A"}</dd>
+                        </div>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+                {mode === "act" ? (
+                  <button
+                    type="button"
+                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    onClick={() => setOpen({ report: d, mode: "act" })}
+                  >
+                    <SquarePen size={18} /> Comment
+                  </button>
+                ) : (
+                  <button type="button" className={styles.btn} onClick={() => setOpen({ report: d, mode: "history" })}>
+                    <Clock size={18} /> View History
+                  </button>
+                )}
+              </article>
+            );
+          })}
+        </div>
       )}
-    </>
+
+      {open && (
+        <ReportDrawer
+          key={`${reportKey(open.report)}-${open.mode}`}
+          report={open.report}
+          mode={open.mode}
+          selectedTabLabel={selectedTabLabel}
+          role={role}
+          userId={userId}
+          users={users}
+          deputyDirectors={deputyDirectors}
+          directors={directors}
+          departmentHead={departmentHead}
+          onClose={closeDrawer}
+          onActed={onActed}
+        />
+      )}
+    </div>
   );
 };
 

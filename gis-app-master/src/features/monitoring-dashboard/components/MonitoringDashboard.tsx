@@ -62,8 +62,6 @@ const MonitoringDashboard = () => {
                 value={fmt(reportReview.total)}
                 label="Report review"
                 color="var(--violet)"
-                allClear={reportReview.total === 0}
-                badge={reportReview.pending}
               />
             </Link>
           )}

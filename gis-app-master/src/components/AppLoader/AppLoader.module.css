@@ -59,18 +59,6 @@
   color: #fff;
   letter-spacing: 0.5px;
 }
-.title span {
-  font-family: "Noto Nastaliq Urdu", serif;
-  font-size: 17px;
-  color: var(--gold);
-  font-weight: 500;
-  margin-left: 6px;
-}
-.sub {
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 15px;
-  margin-top: 2px;
-}
 .pct {
   font-size: 48px;
   font-weight: 800;

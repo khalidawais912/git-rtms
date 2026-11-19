@@ -183,10 +183,7 @@ const AppLoader = () => {
     >
       <div className={styles.box}>
         <LoaderLogo progress={progress} className={styles.logo} />
-        <div className={styles.title}>
-          RTMES <span>حکومتِ پنجاب</span>
-        </div>
-        <div className={styles.sub}>Government of the Punjab · Monitoring &amp; Evaluation</div>
+        <div className={styles.title}>RTMES</div>
         <div className={styles.pct}>
           {Math.round(progress)}
           <small>%</small>

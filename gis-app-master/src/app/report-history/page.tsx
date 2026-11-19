@@ -39,7 +39,7 @@ const ReportHistoryPage = () => {
   }, [officers]);
 
   return (
-    <div className="p-3 pt-0">
+    <div>
       {users &&
         officers &&
         deputyDirectors &&

@@ -21,7 +21,7 @@ const SoloCards = ({ projects, role, isPnd, pcivReview }: Props) => (
   <div className={styles.soloCol}>
     {isPnd && (
       <Link href="/department-dashboard-summary" target="_blank" className="d-grid">
-        <MiniCard as="span" className={styles.solo} icon="building" value={0} label="Department summary" color="var(--teal)" allClear />
+        <MiniCard as="span" className={styles.solo} icon="building" value={0} label="Department summary" color="var(--teal)" />
       </Link>
     )}
 
@@ -30,7 +30,7 @@ const SoloCards = ({ projects, role, isPnd, pcivReview }: Props) => (
       projects={projects}
       role={role}
       buttonColumn="d-grid"
-      trigger={<MiniCard className={styles.solo} icon="doc" value={0} label="PC-III" color={ROSE} allClear />}
+      trigger={<MiniCard className={styles.solo} icon="doc" value={0} label="PC-III" color={ROSE} />}
     />
 
     {!isPnd && pcivReview && (
@@ -42,7 +42,6 @@ const SoloCards = ({ projects, role, isPnd, pcivReview }: Props) => (
           value={fmt(pcivReview.total)}
           label="PC-IV review"
           color="var(--violet)"
-          allClear={pcivReview.total === 0}
           badge={pcivReview.pending}
         />
       </Link>
@@ -54,7 +53,7 @@ const SoloCards = ({ projects, role, isPnd, pcivReview }: Props) => (
         projects={projects}
         role={role}
         buttonColumn="d-grid"
-        trigger={<MiniCard className={styles.solo} icon="clipboard" value={0} label="DGME reports" color="var(--info)" allClear />}
+        trigger={<MiniCard className={styles.solo} icon="clipboard" value={0} label="DGME reports" color="var(--info)" />}
       />
     )}
   </div>

@@ -24,8 +24,6 @@
 .brandLogo { width: 54px; height: 54px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex: none; box-shadow: 0 0 0 3px rgba(255,255,255,.18); }
 .brandLogo img { width: 46px; height: 46px; }
 .brandTitle { font-size: 22px; font-weight: 800; letter-spacing: .3px; line-height: 1.15; display: flex; align-items: baseline; gap: 10px; }
-.brandUrdu { font-size: 17px; font-weight: 600; color: var(--gold); }
-.brandSub { font-size: 14px; color: rgba(255,255,255,.85); margin-top: 2px; }
 
 .menuBtn {
   display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; margin-left: 18px; border-radius: 12px;
@@ -73,7 +71,7 @@
 .userRole { font-size: 13px; color: rgba(255,255,255,.82); }
 
 @media (max-width: 1100px) {
-  .brandSub, .userMeta { display: none; }
+  .userMeta { display: none; }
   .menuBtn { margin-left: 0; }
 }
 @media (max-width: 700px) {

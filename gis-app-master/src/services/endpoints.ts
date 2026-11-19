@@ -60,3 +60,4 @@ export const PCV_API = `/api/PCV`;
 export const PCV_MAIN_API = `/api/PcvMain`;
 export const PCV_WORKFLOW_API = `/api/pcv/workflow`;
 export const PCV_OVERVIEW_API = `/api/pcv/overview`;
+export const MONITORING_PROJECTS_API = `/api/monitoring/projects`;

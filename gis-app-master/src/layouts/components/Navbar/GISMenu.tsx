@@ -210,6 +210,7 @@ const GISMenu = ({ dashboardType }: { dashboardType: string | null | undefined }
         <button type="button" className={navStyles.menuBtn} onClick={open} aria-haspopup="dialog" aria-expanded={show}>
           <Svg name="grid" className={navStyles.icon} />
           <span>All Modules</span>
+          <Svg name="chev" className={navStyles.icon} />
         </button>
       )}
 

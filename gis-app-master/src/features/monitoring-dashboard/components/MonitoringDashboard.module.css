@@ -134,14 +134,11 @@
 
 .wf { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .wf .mini { flex-direction: column; align-items: flex-start; gap: 10px; position: relative; }
-.clearChip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #fff; color: var(--good); }
-.clearChip .icon { width: 12px; height: 12px; }
 .badge { position: absolute; top: -7px; right: -5px; padding: 2px 8px; border-radius: 99px; border: 2px solid #fff; background: var(--critical); color: #fff; font-size: 12px; font-weight: 800; z-index: 2; }
 
 .soloCol { display: grid; grid-auto-rows: 1fr; gap: 10px; min-width: 0; }
 .solo { position: relative; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 12px 16px; border-radius: 16px; box-shadow: var(--shadow); background: color-mix(in srgb, var(--tc) 30%, #fff); }
 .solo b { color: color-mix(in srgb, var(--tc) 80%, #000); }
-.solo .clearChip { position: absolute; top: 14px; right: 14px; }
 .solo .badge { top: -7px; right: -5px; }
 
 /* ───────── Map + rail ───────── */
