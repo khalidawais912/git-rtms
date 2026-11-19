@@ -147,6 +147,15 @@ const shortDate = (value: string) => {
     : d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 };
 
+/** "21 Apr 2025, 3:42 PM"; only the date when the value has no time. */
+const dateTime = (value: string) => {
+  const day = shortDate(value);
+  if (!day || !/T\d{2}:\d{2}/.test(value)) return day;
+  const d = new Date(value);
+  const h = d.getHours();
+  return `${day}, ${h % 12 || 12}:${String(d.getMinutes()).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+};
+
 /**
  * Issued Reports from GET /api/monitoring/projects/{projectId}/issued-reports.
  * Reads the list from `data.reports` (or an array / `data.items`) and each PDF from reportPath (or
@@ -172,7 +181,7 @@ export const issuedFromApi = (body: unknown, currentPath?: string): ReportFile[]
         id: `issued-${row.trailId ?? row.id ?? i}`,
         name: firstText(row, ["title", "name", "reportName"]) || visit || issuedName(path, seen.size),
         path,
-        note: [issuedOn && `Issued ${shortDate(issuedOn)}`, firstText(row, ["officerName"]) || fileName(path)]
+        note: [issuedOn && `Issued ${dateTime(issuedOn)}`, firstText(row, ["officerName"]) || fileName(path)]
           .filter(Boolean)
           .join(" · "),
       },
