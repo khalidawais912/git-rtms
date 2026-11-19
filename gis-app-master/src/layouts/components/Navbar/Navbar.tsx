@@ -58,10 +58,7 @@ const Navbar = () => {
           </span>
           <span>
             <span className={styles.brandTitle}>
-              RTMES <span className={styles.brandUrdu}>حکومتِ پنجاب</span>
-            </span>
-            <span className={`${styles.brandSub} d-block`}>
-              Directorate General Monitoring &amp; Evaluation · P&amp;D Board, Punjab
+              RTMES
             </span>
           </span>
         </Link>

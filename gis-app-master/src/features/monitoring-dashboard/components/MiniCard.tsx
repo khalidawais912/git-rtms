@@ -9,8 +9,6 @@ interface Props {
   /** Card colour, e.g. "var(--violet)" */
   color: string;
   className?: string;
-  /** Shows the green "All clear" chip */
-  allClear?: boolean;
   /** Red count in the corner */
   badge?: number;
   disabled?: boolean;
@@ -25,7 +23,6 @@ const MiniCard = ({
   label,
   color,
   className = "",
-  allClear,
   badge,
   disabled,
   as = "button",
@@ -45,12 +42,6 @@ const MiniCard = ({
         <b className={styles.num}>{value}</b>
         <small>{label}</small>
       </span>
-      {allClear && (
-        <span className={styles.clearChip}>
-          <Icon name="check" />
-          All clear
-        </span>
-      )}
       {!!badge && <span className={`${styles.badge} ${styles.num}`}>{badge}</span>}
     </Tag>
   );

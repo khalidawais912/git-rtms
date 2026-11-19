@@ -16,11 +16,9 @@ describe("MiniCard", () => {
     expect(container.firstElementChild?.tagName).toBe("SPAN");
   });
 
-  it("shows the All clear chip only when asked", () => {
-    const { rerender } = render(<MiniCard icon="check" value={0} label="Pending" color="green" />);
+  it("never shows an All clear chip", () => {
+    render(<MiniCard icon="check" value={0} label="Pending" color="green" />);
     expect(screen.queryByText("All clear")).not.toBeInTheDocument();
-    rerender(<MiniCard icon="check" value={0} label="Pending" color="green" allClear />);
-    expect(screen.getByText("All clear")).toBeInTheDocument();
   });
 
   it("shows the badge only for a count above 0", () => {

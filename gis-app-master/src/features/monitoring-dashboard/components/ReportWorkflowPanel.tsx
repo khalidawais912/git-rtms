@@ -22,7 +22,6 @@ const ReportWorkflowPanel = ({ data, projects, role, reportReview }: Props) => {
     <div className={styles.panel}>
       <div className={styles.panelH}>
         <h2>Report workflow</h2>
-        <span className={styles.phNote}>Work waiting for your team</span>
       </div>
       <div className={styles.wf}>
         <ProjectsModal
@@ -36,7 +35,6 @@ const ReportWorkflowPanel = ({ data, projects, role, reportReview }: Props) => {
               value={fmt(inProcess)}
               label="Reports in progress"
               color="var(--info)"
-              allClear={inProcess === 0}
               disabled={inProcess === 0}
             />
           }
@@ -49,8 +47,6 @@ const ReportWorkflowPanel = ({ data, projects, role, reportReview }: Props) => {
               value={fmt(reportReview.total)}
               label="Report review"
               color="var(--violet)"
-              allClear={reportReview.total === 0}
-              badge={reportReview.pending}
             />
           </Link>
         )}

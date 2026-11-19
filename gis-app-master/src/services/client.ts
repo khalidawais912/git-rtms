@@ -2,6 +2,13 @@ import axios, { AxiosError, CanceledError, InternalAxiosRequestConfig } from "ax
 import { getSession } from "@/utils/session";
 import { requestFinished, requestStarted } from "@/components/AppLoader/loaderStore";
 
+declare module "axios" {
+  interface AxiosRequestConfig {
+    /** A slow background request the page loader must not wait for. */
+    skipAppLoader?: boolean;
+  }
+}
+
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   headers: {
@@ -25,7 +32,7 @@ apiClient.interceptors.request.use((config) => {
   if (token && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  if (typeof window !== "undefined" && requestStarted()) tracked.add(config);
+  if (typeof window !== "undefined" && !config.skipAppLoader && requestStarted()) tracked.add(config);
   return config;
 });
 

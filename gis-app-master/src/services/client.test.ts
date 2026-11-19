@@ -68,6 +68,12 @@ describe("apiClient", () => {
     expect(getRequestState().finished).toBe(before.finished + 1);
   });
 
+  it("does not count a request marked skipAppLoader", async () => {
+    const before = getRequestState();
+    await apiClient.get("/x", { adapter: respond(), skipAppLoader: true });
+    expect(getRequestState()).toMatchObject({ started: before.started, finished: before.finished });
+  });
+
   it("does not count requests after the loader has closed", async () => {
     endRequestSession();
     const before = getRequestState();

@@ -1,0 +1,630 @@
+/* Monitoring "List of Reports" + Comment drawer, from the RTMES design (RTMES-monitoring-reports).
+   The page, cards, tabs and drawer come from Proformas.module.css; this file holds the Monitoring
+   colour, the corner ribbon, the history route, the PDF toolbar and the documents / videos panel. */
+
+/* Monitoring blue (doubled class: wins over .page / .drawerRoot of the shared styles) */
+.mon.mon {
+  --tc: #1f58a8;
+  --td: #184686;
+  --tb: #e8f0fa;
+  --brand-950: #0e2142;
+  --brand-700: #1f58a8;
+}
+
+/* ---------- list ---------- */
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card .top,
+.card h3 {
+  padding-right: 90px;
+}
+
+/* Sr# and GS No.: a light tint of the list colour */
+.card .chipTint {
+  border: 1px solid color-mix(in srgb, var(--tc) 22%, transparent);
+  background: color-mix(in srgb, var(--tc) 12%, #fff);
+  color: var(--td);
+}
+
+.card .chipTint b {
+  color: var(--td);
+}
+
+/* "MONITORING" / "EVALUATION" as a diagonal corner ribbon, as on the old screen */
+.ribbon {
+  position: absolute;
+  top: 22px;
+  right: -42px;
+  width: 160px;
+  padding: 6px 0;
+  transform: rotate(45deg);
+  background: #4f7d7e;
+  color: #fff;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 3px 8px rgba(10, 25, 45, 0.18);
+  pointer-events: none;
+}
+
+.ribbonEval {
+  background: #2f68ad;
+}
+
+.factsTwo {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  max-width: 760px;
+}
+
+.factsThree {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+  max-width: 980px;
+}
+
+/* "Ongoing Process" at the end of the tabs: a link to its own page */
+.tabLink {
+  margin-left: auto;
+  color: var(--td);
+  text-decoration: none;
+}
+
+.tabLink:hover {
+  background: var(--tb);
+  color: var(--td);
+}
+
+/* ---------- history entry: From → To, View PDF Report, then the date and the comment ---------- */
+.stepTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.route {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--subtle);
+}
+
+.route > div {
+  min-width: 0;
+}
+
+.route small {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.route b {
+  display: block;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.route > svg {
+  flex: none;
+  color: var(--muted);
+}
+
+.stepTop .pdfSmall {
+  flex: none;
+  height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--tc);
+  color: #fff;
+  font-size: 14px;
+}
+
+.stepTop .pdfSmall:hover {
+  background: var(--td);
+  color: #fff;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -2px 0 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.date b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Select Director / Deputy Director */
+.select {
+  width: 100%;
+  height: 50px;
+  padding: 0 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: 0;
+  border-color: var(--tc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 18%, transparent);
+}
+
+.done {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #e2f3e9;
+  color: #14603c;
+  font-weight: 700;
+}
+
+/* ---------- PDF toolbar: Documents ▾ | Issued ▾ | Videos | Open in new window ---------- */
+.bar {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 18px 10px 22px;
+  background: var(--subtle);
+  border-bottom: 1px solid var(--line);
+}
+
+.menuWrap {
+  position: relative;
+}
+
+.barBtn {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px 0 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--tc);
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.barBtn:hover,
+.barBtn[aria-expanded="true"],
+.barBtn[aria-pressed="true"] {
+  background: var(--td);
+}
+
+.barBtn[aria-expanded="true"],
+.barBtn[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 22%, transparent);
+}
+
+.barBtn:disabled {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  box-shadow: none;
+  cursor: default;
+}
+
+.barCount {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: #fff;
+  color: var(--td);
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+.barBtn:disabled .barCount {
+  background: var(--subtle);
+  color: var(--muted);
+}
+
+.barChev {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  margin-left: 2px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.barChev svg {
+  transition: transform 0.2s;
+}
+
+.barBtn[aria-expanded="true"] .barChev svg {
+  transform: rotate(180deg);
+}
+
+.barBtn:disabled .barChev {
+  display: none;
+}
+
+.newWindow {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink-2);
+}
+
+.newWindow:hover {
+  border-color: var(--tc);
+  color: var(--td);
+}
+
+.menu {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(420px, 80vw);
+  max-height: 60vh;
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(10, 25, 45, 0.2);
+}
+
+.menuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem + .menuItem {
+  border-top: 1px solid var(--line-2);
+}
+
+.menuItem:hover,
+.menuItem:focus-visible,
+.menuItemOn {
+  outline: none;
+  background: color-mix(in srgb, var(--tc) 9%, #fff);
+}
+
+.menuIcon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--tc) 12%, #fff);
+  color: var(--tc);
+}
+
+.menuText {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.menuText b {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.menuText small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.menuOn {
+  flex: none;
+  color: var(--tc);
+}
+
+/* ---------- centre panel: a document, or the videos ---------- */
+.docHeadIcon {
+  background: var(--td) !important;
+}
+
+.viewer {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: var(--bg);
+}
+
+.viewer img,
+.viewer video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  background: #0b1220;
+  box-shadow: 0 4px 18px rgba(10, 25, 45, 0.14);
+}
+
+.viewer video {
+  width: 100%;
+}
+
+.other {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+.vids {
+  flex: 1;
+  overflow: auto;
+  padding: 18px;
+  background: var(--bg);
+}
+
+.vgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vc {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  padding: 8px 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.vc:hover {
+  border-color: color-mix(in srgb, var(--tc) 45%, var(--line));
+  box-shadow: 0 8px 20px rgba(10, 25, 45, 0.1);
+  transform: translateY(-2px);
+}
+
+.vthumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background:
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 26px),
+    linear-gradient(140deg, var(--brand-950), var(--brand-700));
+}
+
+.vthumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vthumb > svg {
+  position: absolute;
+  left: 10px;
+  top: 9px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.vplay {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #133461;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s;
+}
+
+.vc:hover .vplay {
+  transform: scale(1.08);
+}
+
+.vc b {
+  padding: 0 4px;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.vc small {
+  padding: 0 4px;
+  margin-top: -4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+@media (max-width: 700px) {
+  .stepTop {
+    flex-wrap: wrap;
+  }
+
+  .card .top,
+  .card h3 {
+    padding-right: 60px;
+  }
+
+  .factsTwo,
+  .factsThree {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- responsive: the PDF toolbar follows the PANEL width (it is full, or half when a document is
+   open), the drawer head and foot follow the screen ---------- */
+.pdfPanel {
+  container-type: inline-size;
+}
+
+/* a dropdown under its button, never wider than the panel */
+.pdfPanel .menu {
+  width: min(420px, calc(100cqw - 40px));
+}
+
+.barBtn > span:first-of-type {
+  white-space: nowrap;
+}
+
+/* 600-839px: short labels ("Documents", "Issued", "Videos", full names in the tooltips);
+   an open dropdown spans the toolbar instead of hanging off its button */
+@container (max-width: 839px) {
+  .lw {
+    display: none;
+  }
+
+  .bar {
+    gap: 8px;
+    padding-left: 18px;
+    padding-right: 14px;
+  }
+
+  .bar .menuWrap {
+    position: static;
+  }
+
+  .pdfPanel .menu {
+    top: calc(100% - 2px);
+    left: 18px;
+    right: 14px;
+    width: auto;
+  }
+}
+
+/* under 600px: Documents | Issued | new window on row 1, Videos under Documents on row 2 */
+@container (max-width: 599px) {
+  .bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+  }
+
+  .bar .barBtn {
+    width: 100%;
+  }
+
+  .bar .barBtn > span:first-of-type {
+    flex: 1;
+    text-align: left;
+  }
+
+  .bar .newWindow {
+    grid-column: 3;
+    grid-row: 1;
+    margin-left: 0;
+  }
+
+  .bar .vidBtn {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .drawerHead {
+    flex-wrap: wrap;
+    padding: 12px 14px;
+  }
+
+  .drawerHead > div:nth-child(2) {
+    flex-basis: calc(100% - 120px);
+  }
+
+  .drawerHead .viewPdf {
+    order: 3;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .drawerFoot {
+    padding: 12px 14px;
+  }
+
+  .drawerFoot > button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .route {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .stepTop .pdfSmall {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* phone: the search fills the row, Download beside it */
+@media (max-width: 600px) {
+  .tools {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .search {
+    flex: 1;
+    min-width: 0;
+  }
+}
