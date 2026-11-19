@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sample videos for the report viewer (70 MB + 990 MB, local demo only)
+/public/video/sample-*.mp4

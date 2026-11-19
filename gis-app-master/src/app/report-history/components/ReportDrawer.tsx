@@ -5,7 +5,12 @@ import { formatDateTime } from "@/features/proformas/utils";
 import { Officer, ReportHistoryUser } from "@/features/users";
 import { useEffectEvent } from "@/hooks/useEffectEvent";
 import apiClient, { AxiosError } from "@/services/client";
-import { PROJECT_API, REPORTS_HISTORY_API, SINGLE_PROJECT_DASHBOARD_API } from "@/services/endpoints";
+import {
+  MONITORING_PROJECTS_API,
+  PROJECT_API,
+  REPORTS_HISTORY_API,
+  SINGLE_PROJECT_DASHBOARD_API,
+} from "@/services/endpoints";
 import { backendFileUrl } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,13 +37,27 @@ import toast from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { z } from "zod";
 import styles from "@/features/proformas/components/Proformas.module.css";
-import { annexFiles, fileKind, issuedFiles, nextStatus, ProjectGroup, ReportFile, videoFiles } from "../reportFiles";
+import {
+  fileKind,
+  issuedFiles,
+  issuedFromApi,
+  nextStatus,
+  ProjectGroup,
+  ReportFile,
+  SAMPLE_VIDEOS,
+  fileUrl,
+  videoFiles,
+  visitDocuments,
+} from "../reportFiles";
 import { ReportHistory, SubmittedReport } from "../types";
 import FileMenu from "./FileMenu";
 import rr from "./ReportReview.module.css";
 
 // TipTap needs the browser
-const RemarksEditor = dynamic(() => import("@/components/RemarksEditor/RemarksEditor"), { ssr: false });
+const RemarksEditor = dynamic(
+  () => import("@/components/RemarksEditor/RemarksEditor"),
+  { ssr: false },
+);
 
 export type ReportDrawerMode = "act" | "history";
 
@@ -48,7 +67,9 @@ const schema = z.object({
   projectId: z.number().optional().default(-1),
   submittedFrom: z.number().optional().default(-1),
   submittedUser: z.number().optional().default(-1),
-  submittedTo: z.number({ invalid_type_error: "Please select Director!" }).optional(),
+  submittedTo: z
+    .number({ invalid_type_error: "Please select Director!" })
+    .optional(),
   remarks: z.string().min(1, { message: "Please add Remarks!" }).trim(),
   reportPath: z.string().optional().default(""),
   lastStatus: z.number().optional().default(-1),
@@ -69,7 +90,11 @@ const COMMENT_TABS = [
   "SUBMITTED BY (DIRECTOR)",
 ];
 /** The tabs where the next person is chosen from a list. */
-const FORWARD_TABS = ["APPROVED BY (DG)", "SUBMITTED BY (AD)", "SUBMITTED BY (DIRECTOR)"];
+const FORWARD_TABS = [
+  "APPROVED BY (DG)",
+  "SUBMITTED BY (AD)",
+  "SUBMITTED BY (DIRECTOR)",
+];
 
 const FORM_ID = "report-noting-form";
 
@@ -88,11 +113,26 @@ interface Props {
   onActed: () => void;
 }
 
-const Section = ({ icon, title, defaultOpen, children }: { icon: ReactNode; title: string; defaultOpen: boolean; children: ReactNode }) => {
+const Section = ({
+  icon,
+  title,
+  defaultOpen,
+  children,
+}: {
+  icon: ReactNode;
+  title: string;
+  defaultOpen: boolean;
+  children: ReactNode;
+}) => {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <section className={styles.section}>
-      <button type="button" className={styles.sectionHead} aria-expanded={open} onClick={() => setOpen(!open)}>
+      <button
+        type="button"
+        className={styles.sectionHead}
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+      >
         <span className={styles.sectionIcon}>{icon}</span>
         <h3>{title}</h3>
         <span className={styles.chevron} aria-hidden="true">
@@ -107,22 +147,38 @@ const Section = ({ icon, title, defaultOpen, children }: { icon: ReactNode; titl
 
 /** A document, an issued report or a video in the centre panel: PDF in a frame, a picture, or a player. */
 const FileView = ({ file }: { file: ReportFile }) => {
-  const url = backendFileUrl(file.path);
+  const url = fileUrl(file, backendFileUrl);
   const kind = fileKind(file.path);
   /** The picture or video did not load (e.g. the file is missing on the server). */
   const [failed, setFailed] = useState(false);
-  if (kind === "pdf") return <iframe key={file.id} className={styles.pdfFrame} src={url} title={file.name} />;
+  if (kind === "pdf")
+    return (
+      <iframe
+        key={file.id}
+        className={styles.pdfFrame}
+        src={url}
+        title={file.name}
+      />
+    );
   return (
     <div className={rr.viewer}>
       {kind === "image" && !failed ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={url} alt={file.name} onError={() => setFailed(true)} />
       ) : kind === "video" && !failed ? (
-        <video key={file.id} src={url} controls autoPlay onError={() => setFailed(true)} />
+        <video
+          key={file.id}
+          src={url}
+          controls
+          autoPlay
+          onError={() => setFailed(true)}
+        />
       ) : (
         <div className={rr.other}>
           <Files size={40} />
-          {failed ? "This file could not be loaded from the server." : "This file cannot be shown here."}
+          {failed
+            ? "This file could not be loaded from the server."
+            : "This file cannot be shown here."}
           <a className={styles.btn} href={url} target="_blank" rel="noreferrer">
             <ExternalLink size={18} /> Open it in a new tab
           </a>
@@ -157,7 +213,10 @@ const ReportDrawer = ({
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<NotingForm>({ resolver: zodResolver(schema), defaultValues: { remarks: "" } });
+  } = useForm<NotingForm>({
+    resolver: zodResolver(schema),
+    defaultValues: { remarks: "" },
+  });
 
   const [history, setHistory] = useState<ReportHistory[]>();
   const [loadError, setLoadError] = useState("");
@@ -167,7 +226,10 @@ const ReportDrawer = ({
 
   const [pdfPath, setPdfPath] = useState<string | null>(null);
   /** The centre panel: a file, or the videos (a file inside it = one video open). */
-  const [centre, setCentre] = useState<{ view: "file" | "videos"; file?: ReportFile } | null>(null);
+  const [centre, setCentre] = useState<{
+    view: "file" | "videos";
+    file?: ReportFile;
+  } | null>(null);
   const [documents, setDocuments] = useState<ReportFile[]>();
   const [issued, setIssued] = useState<ReportFile[]>();
   const [videos, setVideos] = useState<ReportFile[]>();
@@ -180,12 +242,20 @@ const ReportDrawer = ({
     let live = true;
     apiClient
       .get(`${REPORTS_HISTORY_API}/GetReportHistory`, {
-        params: { visitId: report.visitId, ProjectId: report.projectId, reportType: report.reportType },
+        params: {
+          visitId: report.visitId,
+          ProjectId: report.projectId,
+          reportType: report.reportType,
+        },
       })
       .then((res) => {
         if (!live) return;
         const rows: ReportHistory[] = res.data?.data ?? [];
-        setHistory([...rows].sort((a, b) => (b.sDate || "").localeCompare(a.sDate || "")));
+        setHistory(
+          [...rows].sort((a, b) =>
+            (b.sDate || "").localeCompare(a.sDate || ""),
+          ),
+        );
       })
       .catch((err) => {
         if (!live) return;
@@ -197,28 +267,50 @@ const ReportDrawer = ({
     };
   }, [report.visitId, report.projectId, report.reportType]);
 
-  // The files of the PDF toolbar. These two calls are slow (15-20 s on the server), so they start
-  // as soon as the drawer opens, each on its own, and are ready by the time the PDF is opened.
+  // The files of the PDF toolbar start loading as soon as the drawer opens, each on its own, so they
+  // are ready by the time the PDF is opened (the project call for the videos is slow: 15-40 s).
   useEffect(() => {
     let live = true;
+    // Relevant Documents: the documents uploaded for this visit
     apiClient
-      .get(`${PROJECT_API}/${report.projectId}`, { params: { visitId: report.visitId }, skipAppLoader: true })
+      .get(`${MONITORING_PROJECTS_API}/${report.projectId}/documents/history`, { skipAppLoader: true })
+      .then((res) => visitDocuments(res.data, report.visitId))
+      .catch(() => [] as ReportFile[])
+      .then((files) => {
+        if (live) setDocuments(files);
+      });
+    apiClient
+      .get(`${PROJECT_API}/${report.projectId}`, {
+        params: { visitId: report.visitId },
+        skipAppLoader: true,
+      })
       .then((res) => (res.data?.data?.groups ?? []) as ProjectGroup[])
       .catch(() => [] as ProjectGroup[])
       .then((groups) => {
         if (!live) return;
-        setDocuments(annexFiles(groups));
-        setVideos(videoFiles(groups));
+        const found = videoFiles(groups);
+        setVideos(found.length ? found : SAMPLE_VIDEOS);
       });
+    // Issued Reports: the project's issued-reports API; where it is not on the server yet (404 / error),
+    // the reports listed by the single project dashboard as before.
     apiClient
-      .get(SINGLE_PROJECT_DASHBOARD_API, {
-        params: { projectid: report.projectId, visitId: report.visitId },
+      .get(`${MONITORING_PROJECTS_API}/${report.projectId}/issued-reports`, {
         skipAppLoader: true,
       })
-      .then((res) => (res.data?.data?.reports ?? []) as { reportPath?: string | null }[])
-      .catch(() => [])
-      .then((reports) => {
-        if (live) setIssued(issuedFiles(reports, report.reportPath));
+      .then((res) => issuedFromApi(res.data, report.reportPath))
+      .catch(() =>
+        apiClient
+          .get(SINGLE_PROJECT_DASHBOARD_API, {
+            params: { projectid: report.projectId, visitId: report.visitId },
+            skipAppLoader: true,
+          })
+          .then((res) =>
+            issuedFiles(res.data?.data?.reports, report.reportPath),
+          )
+          .catch(() => [] as ReportFile[]),
+      )
+      .then((files) => {
+        if (live) setIssued(files);
       });
     return () => {
       live = false;
@@ -237,7 +329,10 @@ const ReportDrawer = ({
       setReferback(true);
     }
   });
-  useEffect(() => onHistoryOrChoice(), [history, submittedTo, role, onHistoryOrChoice]);
+  useEffect(
+    () => onHistoryOrChoice(),
+    [history, submittedTo, role, onHistoryOrChoice],
+  );
 
   const onHistory = useEffectEvent(() => {
     if (role === "director" && last?.status === SUBMITTED) {
@@ -264,7 +359,10 @@ const ReportDrawer = ({
     };
   }, [centre, pdfPath, onClose]);
 
-  const userName = useCallback((id: number) => users.find((u) => u.id === id)?.fullName, [users]);
+  const userName = useCallback(
+    (id: number) => users.find((u) => u.id === id)?.fullName,
+    [users],
+  );
 
   const closePdf = () => {
     setPdfPath(null);
@@ -312,7 +410,8 @@ const ReportDrawer = ({
     !isMarked &&
     FORWARD_TABS.includes(selectedTabLabel) &&
     ((role === "deputy director" && last?.status === SUBMITTED) ||
-      (role === "director" && (last?.status === SUBMITTED || last?.status === APPROVED)) ||
+      (role === "director" &&
+        (last?.status === SUBMITTED || last?.status === APPROVED)) ||
       (role === "department head" && last?.status === SUBMITTED));
 
   const actionLabel = isReferback
@@ -322,29 +421,46 @@ const ReportDrawer = ({
       : isMarked
         ? "For Approval"
         : "Approved";
-  const showAction = canComment && (isReferback || ["deputy director", "director", "department head"].includes(role));
+  const showAction =
+    canComment &&
+    (isReferback ||
+      ["deputy director", "director", "department head"].includes(role));
 
   const kicker = `${mode === "act" ? "Comment" : "Report History"} · GS No. ${report.gsNo || "–"}`;
   const pdfOn = pdfPath !== null && pdfPath === report.reportPath;
   const centreTitle =
-    centre?.view === "videos" ? (centre.file ? centre.file.name : "Videos") : (centre?.file?.name ?? "");
+    centre?.view === "videos"
+      ? centre.file
+        ? centre.file.name
+        : "Videos"
+      : (centre?.file?.name ?? "");
 
   return (
-    <div className={`${styles.drawerRoot} ${rr.mon}`} data-doc={centre ? "open" : undefined}>
+    <div
+      className={`${styles.drawerRoot} ${rr.mon}`}
+      data-doc={centre ? "open" : undefined}
+    >
       <div className={styles.backdrop} onClick={onClose} aria-hidden="true" />
 
       {pdfPath && (
         <div className={styles.panels}>
-          <aside className={`${styles.pdfPanel} ${rr.pdfPanel}`} aria-label="Report PDF">
+          <aside
+            className={`${styles.pdfPanel} ${rr.pdfPanel}`}
+            aria-label="Report PDF"
+          >
             <div className={styles.pdfHead}>
               <span className={styles.headIcon}>
                 <FileText size={22} />
               </span>
               <div className={styles.headTitle}>
-                <small>Report PDF · GS No. {report.gsNo || "–"}</small>
-                <h2>{report.projectName}</h2>
+                <h2>Report PDF · GS No. {report.gsNo || "–"}</h2>
               </div>
-              <button type="button" className={styles.close} onClick={closePdf} aria-label="Close the PDF">
+              <button
+                type="button"
+                className={styles.close}
+                onClick={closePdf}
+                aria-label="Close the PDF"
+              >
                 <X size={20} />
               </button>
             </div>
@@ -361,25 +477,40 @@ const ReportDrawer = ({
                 activeId={centre?.view === "file" ? centre.file?.id : undefined}
                 onSelect={(file) => setCentre({ view: "file", file })}
               />
-              <FileMenu
-                icon={<FileCheck2 size={18} />}
-                label={
-                  <>
-                    Issued<span className={rr.lw}> Reports</span>
-                  </>
-                }
-                title="Issued Reports"
-                files={issued}
-                activeId={centre?.view === "file" ? centre.file?.id : undefined}
-                onSelect={(file) => setCentre({ view: "file", file })}
-              />
+              {/* no issued reports: no button */}
+              {issued?.length !== 0 && (
+                <FileMenu
+                  icon={<FileCheck2 size={18} />}
+                  label={
+                    <>
+                      Issued<span className={rr.lw}> Reports</span>
+                    </>
+                  }
+                  title="Issued Reports"
+                  files={issued}
+                  activeId={
+                    centre?.view === "file" ? centre.file?.id : undefined
+                  }
+                  onSelect={(file) => setCentre({ view: "file", file })}
+                />
+              )}
               <button
                 type="button"
                 className={`${rr.barBtn} ${rr.vidBtn}`}
-                title={!videos ? "Videos: loading…" : videos.length === 0 ? "No videos" : "Videos (Drone, Mobile, etc)"}
+                title={
+                  !videos
+                    ? "Videos: loading…"
+                    : videos.length === 0
+                      ? "No videos"
+                      : "Videos (Drone, Mobile, etc)"
+                }
                 aria-pressed={centre?.view === "videos"}
                 disabled={videos?.length === 0}
-                onClick={() => setCentre(centre?.view === "videos" ? null : { view: "videos" })}
+                onClick={() =>
+                  setCentre(
+                    centre?.view === "videos" ? null : { view: "videos" },
+                  )
+                }
               >
                 <Drone size={18} />
                 <span>
@@ -398,14 +529,23 @@ const ReportDrawer = ({
                 <ExternalLink size={18} />
               </a>
             </div>
-            <iframe key={pdfPath} className={styles.pdfFrame} src={backendFileUrl(pdfPath)} title={`${report.projectName} PDF`} />
+            <iframe
+              key={pdfPath}
+              className={styles.pdfFrame}
+              src={backendFileUrl(pdfPath)}
+              title={`${report.projectName} PDF`}
+            />
           </aside>
 
           {centre && (
             <aside className={styles.docPanel} aria-label={centreTitle}>
               <div className={styles.pdfHead}>
                 <span className={`${styles.headIcon} ${rr.docHeadIcon}`}>
-                  {centre.view === "videos" ? <Drone size={22} /> : <Files size={22} />}
+                  {centre.view === "videos" ? (
+                    <Drone size={22} />
+                  ) : (
+                    <Files size={22} />
+                  )}
                 </span>
                 {centre.view === "videos" && centre.file && (
                   <button
@@ -421,7 +561,7 @@ const ReportDrawer = ({
                 <div className={styles.headTitle}>
                   {centre.view === "videos" && (
                     <small>
-                      {videos?.length ?? 0} videos · GS No. {report.gsNo || "–"}
+                      {videos?.length ?? 0} {videos?.length === 1 ? "video" : "videos"} · GS No. {report.gsNo || "–"}
                     </small>
                   )}
                   <h2>{centreTitle}</h2>
@@ -429,7 +569,7 @@ const ReportDrawer = ({
                 {centre.file && (
                   <a
                     className={`${styles.btn} ${styles.iconOnly}`}
-                    href={backendFileUrl(centre.file.path)}
+                    href={fileUrl(centre.file, backendFileUrl)}
                     target="_blank"
                     rel="noreferrer"
                     title="Open in a new tab"
@@ -438,7 +578,12 @@ const ReportDrawer = ({
                     <ExternalLink size={18} />
                   </a>
                 )}
-                <button type="button" className={styles.close} onClick={() => setCentre(null)} aria-label="Close">
+                <button
+                  type="button"
+                  className={styles.close}
+                  onClick={() => setCentre(null)}
+                  aria-label="Close"
+                >
                   <X size={20} />
                 </button>
               </div>
@@ -449,11 +594,22 @@ const ReportDrawer = ({
                   <ul className={rr.vgrid}>
                     {(videos ?? []).map((v) => (
                       <li key={v.id}>
-                        <button type="button" className={rr.vc} onClick={() => setCentre({ view: "videos", file: v })}>
+                        <button
+                          type="button"
+                          className={rr.vc}
+                          onClick={() => setCentre({ view: "videos", file: v })}
+                        >
                           <span className={rr.vthumb}>
                             {fileKind(v.path) === "image" && (
                               // eslint-disable-next-line @next/next/no-img-element
-                              <img src={backendFileUrl(v.path)} alt="" onError={(e) => (e.currentTarget.hidden = true)} />
+                              <img
+                                src={fileUrl(v, backendFileUrl)}
+                                alt=""
+                                onError={(e) => (e.currentTarget.hidden = true)}
+                              />
+                            )}
+                            {fileKind(v.path) === "video" && (
+                              <video src={`${fileUrl(v, backendFileUrl)}#t=1`} muted preload="metadata" />
                             )}
                             <Drone size={18} />
                             <span className={rr.vplay}>
@@ -473,9 +629,16 @@ const ReportDrawer = ({
         </div>
       )}
 
-      <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label={kicker}>
+      <aside
+        className={`${styles.drawer} ${rr.drawer}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={kicker}
+      >
         <div className={`${styles.drawerHead} ${rr.drawerHead}`}>
-          <span className={styles.headIcon}>{mode === "act" ? <SquarePen size={22} /> : <Clock size={22} />}</span>
+          <span className={styles.headIcon}>
+            {mode === "act" ? <SquarePen size={22} /> : <Clock size={22} />}
+          </span>
           <div className={styles.headTitle}>
             <small>{kicker}</small>
             <h2>{report.projectName}</h2>
@@ -485,20 +648,35 @@ const ReportDrawer = ({
             className={`${styles.btn} ${styles.pdfButton} ${rr.viewPdf} ${pdfOn ? styles.pdfButtonOn : ""}`}
             onClick={() => (pdfOn ? closePdf() : setPdfPath(report.reportPath))}
             disabled={!report.reportPath}
-            title={report.reportPath ? undefined : "The PDF of this report is not ready yet"}
+            title={
+              report.reportPath
+                ? undefined
+                : "The PDF of this report is not ready yet"
+            }
             aria-pressed={pdfOn}
           >
             <FileText size={18} /> {pdfOn ? "Close PDF" : "View PDF"}
           </button>
-          <button type="button" className={styles.close} onClick={onClose} aria-label="Close">
+          <button
+            type="button"
+            className={styles.close}
+            onClick={onClose}
+            aria-label="Close"
+          >
             <X size={20} />
           </button>
         </div>
 
         <div className={styles.drawerBody}>
-          {loadError && <p className={styles.errorBox}>{loadError}, Please Try Again!</p>}
+          {loadError && (
+            <p className={styles.errorBox}>{loadError}, Please Try Again!</p>
+          )}
 
-          <Section icon={<Clock size={20} />} title="Report History List" defaultOpen={mode === "history"}>
+          <Section
+            icon={<Clock size={20} />}
+            title="Report History List"
+            defaultOpen={mode === "history"}
+          >
             <div className={styles.history}>
               {!history ? (
                 <Loader />
@@ -520,7 +698,11 @@ const ReportDrawer = ({
                         </div>
                       </div>
                       {h.reportPath && (
-                        <button type="button" className={`${styles.btn} ${rr.pdfSmall}`} onClick={() => setPdfPath(h.reportPath)}>
+                        <button
+                          type="button"
+                          className={`${styles.btn} ${rr.pdfSmall}`}
+                          onClick={() => setPdfPath(h.reportPath)}
+                        >
                           <FileText size={17} /> View PDF Report
                         </button>
                       )}
@@ -532,7 +714,11 @@ const ReportDrawer = ({
                     <div>
                       <div className={styles.label}>Comments</div>
                       <div className={styles.comment}>
-                        {h.remarks ? <ReactMarkdown>{h.remarks}</ReactMarkdown> : <span className={styles.muted}>–</span>}
+                        {h.remarks ? (
+                          <ReactMarkdown>{h.remarks}</ReactMarkdown>
+                        ) : (
+                          <span className={styles.muted}>–</span>
+                        )}
                       </div>
                     </div>
                   </article>
@@ -562,95 +748,145 @@ const ReportDrawer = ({
                 ) : !canComment ? (
                   <p className={rr.done}>Response Submitted</p>
                 ) : (
-                  <form id={FORM_ID} className={styles.act} style={{ padding: 0 }} onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    id={FORM_ID}
+                    className={styles.act}
+                    style={{ padding: 0 }}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div>
                       <div className={styles.label}>Description Level</div>
                       <Controller
                         name="remarks"
                         control={control}
                         render={({ field }) => (
-                          <RemarksEditor placeholder="Description" ariaLabel="Description Level" onChange={field.onChange} />
+                          <RemarksEditor
+                            placeholder="Description"
+                            ariaLabel="Description Level"
+                            onChange={field.onChange}
+                          />
                         )}
                       />
-                      {errors.remarks && <p className={styles.fieldError}>{errors.remarks.message}</p>}
+                      {errors.remarks && (
+                        <p className={styles.fieldError}>
+                          {errors.remarks.message}
+                        </p>
+                      )}
                     </div>
 
-                    {role !== "director" && (report.status === SUBMITTED || report.status === REFERBACK) && (
-                      <label className={`${styles.check} ${isReferback ? styles.checkOn : ""}`}>
-                        <input
-                          type="checkbox"
-                          checked={isReferback}
-                          disabled={role === "deputy director" && last?.status === REFERBACK}
-                          onChange={() => {
-                            setReferback(!isReferback);
+                    {role !== "director" &&
+                      (report.status === SUBMITTED ||
+                        report.status === REFERBACK) && (
+                        <label
+                          className={`${styles.check} ${isReferback ? styles.checkOn : ""}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isReferback}
+                            disabled={
+                              role === "deputy director" &&
+                              last?.status === REFERBACK
+                            }
+                            onChange={() => {
+                              setReferback(!isReferback);
+                              setMarked(false);
+                              setValue(
+                                "submittedTo",
+                                role === "deputy director" &&
+                                  last?.status === REFERBACK
+                                  ? report.intiallyUserId
+                                  : report.submittedFrom,
+                              );
+                            }}
+                          />
+                          Referback: {referbackName ?? "–"}
+                        </label>
+                      )}
+
+                    {role === "director" &&
+                      selectedTabLabel !== "APPROVED BY (DG)" && (
+                        <select
+                          className={rr.select}
+                          value={submittedTo || ""}
+                          aria-label="Select Deputy Director"
+                          onChange={(e) => {
+                            setValue("submittedTo", parseInt(e.target.value));
+                            setReferback(true);
                             setMarked(false);
-                            setValue(
-                              "submittedTo",
-                              role === "deputy director" && last?.status === REFERBACK
-                                ? report.intiallyUserId
-                                : report.submittedFrom,
-                            );
                           }}
-                        />
-                        Referback: {referbackName ?? "–"}
-                      </label>
-                    )}
+                        >
+                          <option value="">Select Deputy Director</option>
+                          {deputyDirectors.map((o) => (
+                            <option key={o.id} value={o.id}>
+                              {o.designation}
+                            </option>
+                          ))}
+                        </select>
+                      )}
 
-                    {role === "director" && selectedTabLabel !== "APPROVED BY (DG)" && (
-                      <select
-                        className={rr.select}
-                        value={submittedTo || ""}
-                        aria-label="Select Deputy Director"
-                        onChange={(e) => {
-                          setValue("submittedTo", parseInt(e.target.value));
-                          setReferback(true);
-                          setMarked(false);
-                        }}
-                      >
-                        <option value="">Select Deputy Director</option>
-                        {deputyDirectors.map((o) => (
-                          <option key={o.id} value={o.id}>
-                            {o.designation}
-                          </option>
-                        ))}
-                      </select>
-                    )}
+                    {role === "director" &&
+                      last?.status !== APPROVED &&
+                      last?.status !== REFERBACK && (
+                        <label
+                          className={`${styles.check} ${isMarked ? styles.checkOn : ""}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isMarked}
+                            onChange={() => {
+                              const on = !isMarked;
+                              setMarked(on);
+                              setReferback(false);
+                              setValue(
+                                "submittedTo",
+                                on ? departmentHead.id : undefined,
+                              );
+                            }}
+                          />
+                          Mark To: DEPARTMENT HEAD
+                        </label>
+                      )}
 
-                    {role === "director" && last?.status !== APPROVED && last?.status !== REFERBACK && (
-                      <label className={`${styles.check} ${isMarked ? styles.checkOn : ""}`}>
-                        <input
-                          type="checkbox"
-                          checked={isMarked}
-                          onChange={() => {
-                            const on = !isMarked;
-                            setMarked(on);
-                            setReferback(false);
-                            setValue("submittedTo", on ? departmentHead.id : undefined);
-                          }}
-                        />
-                        Mark To: DEPARTMENT HEAD
-                      </label>
-                    )}
-
-                    {!isReferback && !isMarked && FORWARD_TABS.includes(selectedTabLabel) &&
+                    {!isReferback &&
+                      !isMarked &&
+                      FORWARD_TABS.includes(selectedTabLabel) &&
                       (showForwardSelect ? (
                         <select
                           className={rr.select}
                           value={submittedTo || ""}
-                          aria-label={role === "director" ? "Select Deputy Director" : "Select Director"}
-                          onChange={(e) => setValue("submittedTo", parseInt(e.target.value))}
+                          aria-label={
+                            role === "director"
+                              ? "Select Deputy Director"
+                              : "Select Director"
+                          }
+                          onChange={(e) =>
+                            setValue("submittedTo", parseInt(e.target.value))
+                          }
                         >
-                          <option value="">{role === "director" ? "Select Deputy Director" : "Select Director"}</option>
-                          {(role === "director" ? deputyDirectors : directors).map((o) => (
+                          <option value="">
+                            {role === "director"
+                              ? "Select Deputy Director"
+                              : "Select Director"}
+                          </option>
+                          {(role === "director"
+                            ? deputyDirectors
+                            : directors
+                          ).map((o) => (
                             <option key={o.id} value={o.id}>
                               {o.designation}
                             </option>
                           ))}
                         </select>
                       ) : (
-                        <p className={styles.muted}>Submitted To: {report.intiallyUser}</p>
+                        <p className={styles.muted}>
+                          Submitted To: {report.intiallyUser}
+                        </p>
                       ))}
-                    {errors.submittedTo && <p className={styles.fieldError}>{errors.submittedTo.message}</p>}
+                    {errors.submittedTo && (
+                      <p className={styles.fieldError}>
+                        {errors.submittedTo.message}
+                      </p>
+                    )}
                   </form>
                 )}
               </div>

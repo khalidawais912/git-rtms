@@ -17,7 +17,14 @@ interface Props {
 }
 
 /** A toolbar dropdown in the PDF panel: one row per file; choosing one opens it in the centre panel. */
-const FileMenu = ({ icon, label, title, files, activeId, onSelect }: Props) => {
+const FileMenu = ({
+  icon,
+  label,
+  title,
+  files,
+  activeId,
+  onSelect,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
 
@@ -50,7 +57,13 @@ const FileMenu = ({ icon, label, title, files, activeId, onSelect }: Props) => {
       <button
         type="button"
         className={rr.barBtn}
-        title={!files ? `${title}: loading…` : empty ? `No ${title.toLowerCase()}` : title}
+        title={
+          !files
+            ? `${title}: loading…`
+            : empty
+              ? `No ${title.toLowerCase()}`
+              : title
+        }
         aria-haspopup="true"
         aria-expanded={open}
         disabled={empty}
@@ -88,7 +101,9 @@ const FileMenu = ({ icon, label, title, files, activeId, onSelect }: Props) => {
                   <b>{file.name}</b>
                   {file.note && <small>{file.note}</small>}
                 </span>
-                {file.id === activeId && <Check size={20} className={rr.menuOn} />}
+                {file.id === activeId && (
+                  <Check size={20} className={rr.menuOn} />
+                )}
               </button>
             ))
           )}

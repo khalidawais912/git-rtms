@@ -446,7 +446,8 @@
     linear-gradient(140deg, var(--brand-950), var(--brand-700));
 }
 
-.vthumb img {
+.vthumb img,
+.vthumb video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -497,10 +498,6 @@
 }
 
 @media (max-width: 700px) {
-  .stepTop {
-    flex-wrap: wrap;
-  }
-
   .card .top,
   .card h3 {
     padding-right: 60px;
@@ -580,7 +577,44 @@
   }
 }
 
-@media (max-width: 700px) {
+/* The drawer narrows when the PDF and a document are open beside it (30% of the screen), so its
+   history cards, head and foot follow the DRAWER width, on a wide screen as on a phone. */
+.drawer {
+  container-type: inline-size;
+}
+
+/* a history card: From → To on its own row, View PDF Report under it, full width */
+@container (max-width: 640px) {
+  .stepTop {
+    flex-wrap: wrap;
+  }
+
+  .route {
+    flex: 1 1 100%;
+    gap: 8px 14px;
+  }
+
+  .stepTop .pdfSmall {
+    flex: 1 1 100%;
+    height: 40px;
+    justify-content: center;
+  }
+}
+
+/* very narrow: From over To, the arrow turned down */
+@container (max-width: 420px) {
+  .route {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .route > svg {
+    transform: rotate(90deg);
+  }
+}
+
+/* head: the title on its own row, View PDF under it; foot: the two buttons share the row */
+@container (max-width: 560px) {
   .drawerHead {
     flex-wrap: wrap;
     padding: 12px 14px;
@@ -602,16 +636,6 @@
 
   .drawerFoot > button {
     flex: 1;
-    justify-content: center;
-  }
-
-  .route {
-    flex-wrap: wrap;
-    gap: 8px 16px;
-  }
-
-  .stepTop .pdfSmall {
-    width: 100%;
     justify-content: center;
   }
 }
