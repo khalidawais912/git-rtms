@@ -42,9 +42,11 @@ import {
   issuedFiles,
   issuedFromApi,
   nextStatus,
+  officerName,
   ProjectGroup,
   ReportFile,
   SAMPLE_VIDEOS,
+  shortDesignation,
   fileUrl,
   videoFiles,
   visitDocuments,
@@ -406,6 +408,15 @@ const ReportDrawer = ({
     role === "deputy director" && last?.status === REFERBACK
       ? report.intiallyUser
       : userName(report.submittedFrom);
+
+  /** The officer the report came from (whom a Referback goes back to), with designation. */
+  const reportingOfficer = users.find(
+    (u) =>
+      u.id ===
+      (role === "deputy director" && last?.status === REFERBACK
+        ? report.intiallyUserId
+        : report.submittedFrom),
+  );
 
   const showForwardSelect =
     !isReferback &&
@@ -771,6 +782,18 @@ const ReportDrawer = ({
                   <div>
                     <dt>Name:</dt>
                     <dd>{report.intiallyUser}</dd>
+                  </div>
+                  <div>
+                    <dt>Reporting Officer:</dt>
+                    <dd>
+                      {officerName(reportingOfficer) || referbackName || "–"}
+                      {shortDesignation(reportingOfficer?.designation) && (
+                        <span title={reportingOfficer?.designation?.trim()}>
+                          {" "}
+                          ({shortDesignation(reportingOfficer?.designation)})
+                        </span>
+                      )}
+                    </dd>
                   </div>
                 </dl>
 

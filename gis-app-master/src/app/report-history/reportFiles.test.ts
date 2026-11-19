@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { APPROVED, REFERBACK, SUBMITTED } from "@/constants/statuses";
-import { annexFiles, fileKind, issuedFiles, issuedFromApi, issuedName, nextStatus, videoFiles, visitDocuments } from "./reportFiles";
+import { annexFiles, fileKind, issuedFiles, issuedFromApi, issuedName, nextStatus, officerName, shortDesignation, videoFiles, visitDocuments } from "./reportFiles";
 
 const groups = [
   { name: "Main", attributes: [{ label: "Photo", values: [{ id: 1, value: "x", verificatioContentPath: "/upload/a.jpg" }] }] },
@@ -123,5 +123,29 @@ describe("report files", () => {
     expect(nextStatus("deputy director", SUBMITTED, false)).toBe(SUBMITTED);
     expect(nextStatus("deputy director", REFERBACK, true)).toBe(REFERBACK);
     expect(nextStatus("deputy director", REFERBACK, false)).toBe(APPROVED);
+  });
+});
+
+describe("shortDesignation", () => {
+  it("keeps the initials of a designation of more words", () => {
+    expect(shortDesignation("Assistant Director")).toBe("AD");
+    expect(shortDesignation("Deputy Director")).toBe("DD");
+    expect(shortDesignation("Director General (M&E)")).toBe("DG");
+    expect(shortDesignation("Secretary of Department")).toBe("SD");
+    expect(shortDesignation("Director")).toBe("Director");
+    expect(shortDesignation("  ")).toBe("");
+    expect(shortDesignation(null)).toBe("");
+    expect(shortDesignation("Deputy Director Evaluation-I (Engr Masood BS-18)")).toBe("DD");
+    expect(shortDesignation("DIRECTOR_GENERAL (BS-20)")).toBe("DG");
+    expect(shortDesignation("Director Evaluation (BS-19)")).toBe("DE");
+  });
+
+  it("officerName takes the officer's name out of an office account's designation", () => {
+    expect(officerName({ fullName: "Deputy Director Evaluation", designation: "Deputy Director Evaluation-I (Engr Masood BS-18)" })).toBe("Engr Masood");
+    expect(officerName({ fullName: "Deputy Director", designation: "Deputy Director Monitoring (Hafiz Waheed Ul Hassan BS-18)" })).toBe("Hafiz Waheed Ul Hassan");
+    expect(officerName({ fullName: "Muhammad Azeem", designation: "Assistant Director" })).toBe("Muhammad Azeem");
+    expect(officerName({ fullName: "Hassan Shafiq", designation: "Assistant Director (Environment)" })).toBe("Hassan Shafiq");
+    expect(officerName({ fullName: "Director Evaluation", designation: "Director Evaluation (BS-19)" })).toBe("Director Evaluation");
+    expect(officerName(undefined)).toBe("");
   });
 });
