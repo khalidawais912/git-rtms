@@ -59,7 +59,7 @@ describe("report files", () => {
       ["Issued Report · Jul 2026", "/upload/2026-2027/Jul/a.pdf"],
       ["Third quarter report", "/upload/b.pdf"],
     ]);
-    expect(files[0].note).toBe("Issued 20 Jul 2026 · a.pdf");
+    expect(files[0].note).toBe("Issued 20 Jul 2026, 10:00 AM · a.pdf");
     expect(issuedFromApi({ data: { reports: rows } }).length).toBe(3);
     expect(issuedFromApi(rows).length).toBe(3);
     expect(issuedFromApi({ data: [] })).toEqual([]);
@@ -99,7 +99,7 @@ describe("report files", () => {
       },
     };
     expect(issuedFromApi(body)).toEqual([
-      { id: "issued-1948", name: "Issued Report · Visit 2", path: "/upload/ProjectId_1819/MR_000_860_V1.0.pdf", note: "Issued 31 Jul 2025 · Muhammad Usman Ali" },
+      { id: "issued-1948", name: "Issued Report · Visit 2", path: "/upload/ProjectId_1819/MR_000_860_V1.0.pdf", note: "Issued 31 Jul 2025, 9:06 PM · Muhammad Usman Ali" },
     ]);
   });
 
