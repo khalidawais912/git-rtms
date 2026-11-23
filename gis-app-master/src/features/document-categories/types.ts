@@ -14,5 +14,16 @@ export interface DocumentCategoryNode {
   /** False when the category is used on a PC-IV; rename is still allowed. */
   canDelete: boolean;
   usedOnPcivCount: number;
+  /** True on a document (level 3). */
+  isDocument?: boolean;
+  /**
+   * Where staff must upload this document; null = optional. Script 036: bits 1 PC-IV, 2 PC-V, 4 Monitoring
+   * (7 All); the build before: 1 PC-IV, 2 PC-V, 3 Monitoring, 4 All. Read it with codesOf().
+   */
+  requiredFor?: number | null;
+  /** Script 036: the ticked proformas, e.g. ["PCIV", "PCV"]. */
+  requiredForCodes?: string[] | null;
+  /** "PC-IV", "PC-IV + PC-V", "All" or "Optional". */
+  requiredForName?: string | null;
   children: DocumentCategoryNode[];
 }
