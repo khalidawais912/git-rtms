@@ -23,12 +23,16 @@ import {
   deleteDocumentCategory,
   getDocumentCategories,
   renameDocumentCategory,
+  setRequiredFor,
 } from "../services";
+import { codesOf, requiredForName, supportsSeveral } from "../requiredFor";
 import { DocumentCategoryNode } from "../types";
 import styles from "./DocumentCategories.module.css";
 import AddCategoryModal from "./AddCategoryModal";
+import AddDocumentModal from "./AddDocumentModal";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import InlineNameForm from "./InlineNameForm";
+import RequiredForModal from "./RequiredForModal";
 
 const plural = (n: number, one: string, many = `${one}s`) =>
   `${n} ${n === 1 ? one : many}`;
@@ -60,6 +64,8 @@ const DocumentCategories = () => {
     done: string;
   } | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
+  /** The document whose "Required for" pop-up is open. */
+  const [settingFor, setSettingFor] = useState<DocumentCategoryNode | null>(null);
 
   /** 401 → login, 403 → back; returns true when the error was handled that way. */
   const leaveOnAuthError = useCallback(
@@ -100,6 +106,8 @@ const DocumentCategories = () => {
   }, [reload, leaveOnAuthError]);
 
   const categories = useMemo(() => tree ?? [], [tree]);
+  /** The server keeps several proformas per document (script 036). */
+  const several = useMemo(() => supportsSeveral(tree), [tree]);
   const category = categories.find((c) => c.id === categoryId) ?? categories[0];
   const sub = category?.children.find((s) => s.id === subId) ?? category?.children[0];
 
@@ -478,7 +486,20 @@ const DocumentCategories = () => {
                       </div>
                     ) : (
                       <>
-                        <p className={styles.docName}>{d.docCategoryName}</p>
+                        <div className={styles.docText}>
+                          <p className={styles.docName}>{d.docCategoryName}</p>
+                          <button
+                            type="button"
+                            className={`${styles.docReq} ${codesOf(d).length ? "" : styles.docOptional}`}
+                            title="Change where staff must upload it"
+                            onClick={() => setSettingFor(d)}
+                          >
+                            {codesOf(d).length
+                              ? `Required · ${d.requiredForName?.trim() || requiredForName(codesOf(d))}`
+                              : "Optional"}
+                            <Pencil size={12} />
+                          </button>
+                        </div>
                         <button
                           type="button"
                           className={styles.iconButton}
@@ -506,6 +527,21 @@ const DocumentCategories = () => {
           )}
         </section>
       </div>
+
+      {settingFor && (
+        <RequiredForModal
+          document={settingFor}
+          several={several}
+          onClose={() => setSettingFor(null)}
+          onSave={async (requiredFor) => {
+            await change(
+              () => setRequiredFor(settingFor.id, requiredFor),
+              `“${settingFor.docCategoryName.trim()}” updated`,
+            );
+            setSettingFor(null);
+          }}
+        />
+      )}
 
       {deleting && (
         <DeleteCategoryModal
@@ -556,16 +592,13 @@ const DocumentCategories = () => {
       )}
 
       {adding === "document" && category && sub && (
-        <AddCategoryModal
-          title="Add document"
-          label="Document name"
-          placeholder="For example: Letter 1"
+        <AddDocumentModal
+          several={several}
           hint={`Staff tick this in the app under ${category.docCategoryName} › ${sub.docCategoryName}.`}
           onClose={() => setAdding(null)}
-          allowAddMore
-          onSave={async (name, addMore) => {
+          onSave={async (name, requiredFor, addMore) => {
             const created = await change(
-              () => createDocumentCategory(name, sub.id),
+              () => createDocumentCategory(name, sub.id, requiredFor),
               `“${name.trim()}” added`,
             );
             if (created && !addMore) setAdding(null);

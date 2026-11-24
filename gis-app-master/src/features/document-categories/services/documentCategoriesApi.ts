@@ -56,13 +56,28 @@ export const getDocumentCategories = async () =>
     await request<DocumentCategoryNode[] | null>(apiClient.get(DOCUMENT_CATEGORY_API)),
   );
 
-/** parentId null = main category; a main id = sub-category; a sub-category id = document. */
-export const createDocumentCategory = (docCategoryName: string, parentId: number | null) =>
+/**
+ * parentId null = main category; a main id = sub-category; a sub-category id = document.
+ * requiredFor (documents only): the proformas' codes, e.g. ["PCIV", "PCV"] (one code on the build before
+ * script 036); left out for optional documents and for categories.
+ */
+export const createDocumentCategory = (
+  docCategoryName: string,
+  parentId: number | null,
+  requiredFor?: string[] | string,
+) =>
   request<DocumentCategoryNode>(
     apiClient.post(DOCUMENT_CATEGORY_API, {
       docCategoryName: docCategoryName.trim(),
       parentId,
+      ...(requiredFor !== undefined && { requiredFor }),
     }),
+  );
+
+/** Required for on a document: ["PCIV", "PCV"], [] for optional (one code or null on the build before 036). */
+export const setRequiredFor = (id: number, requiredFor: string[] | string | null) =>
+  request<DocumentCategoryNode>(
+    apiClient.put(`${DOCUMENT_CATEGORY_API}/${id}/required-for`, { requiredFor }),
   );
 
 /** Always allowed, even when the category is used on a PC-IV. */

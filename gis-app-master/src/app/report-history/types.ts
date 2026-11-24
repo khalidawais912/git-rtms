@@ -38,6 +38,11 @@ export interface SubmittedReport {
   intiallyUser: string;
   intiallyDesignation: string;
   isFocalPerson: boolean;
+  /** Where the project is and who runs it (both report APIs); null when not filled in. */
+  district?: string | null;
+  sector?: string | null;
+  sponsoringAgency?: string | null;
+  executingAgency?: string | null;
 }
 
 export interface SubmittedReportResponse {

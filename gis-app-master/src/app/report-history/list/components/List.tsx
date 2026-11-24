@@ -10,7 +10,20 @@ import useUserInfo from "@/hooks/useUserInfo";
 import apiClient, { AxiosError } from "@/services/client";
 import { REPORTS_HISTORY_API } from "@/services/endpoints";
 import { DashboardTypeEnum } from "@/types/dashboard";
-import { ArrowLeft, Calendar, Clock, ExternalLink, FileCheck2, Search, SquarePen, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  BriefcaseBusiness,
+  Building2,
+  Calendar,
+  Clock,
+  ExternalLink,
+  FileCheck2,
+  Layers,
+  MapPin,
+  Search,
+  SquarePen,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import DownloadWrapper from "../../components/DownloadWrapper";
@@ -204,7 +217,19 @@ const List = ({
     const words = searchTerm.toLowerCase().trim().split(/\s+/).filter(Boolean);
     if (!words.length) return inTab;
     return inTab?.filter((item) => {
-      const text = [item.id, item.gsNo, item.intiallyDesignation, item.intiallyUser, item.projectId, item.projectName, item.visitId]
+      const text = [
+        item.id,
+        item.gsNo,
+        item.intiallyDesignation,
+        item.intiallyUser,
+        item.projectId,
+        item.projectName,
+        item.visitId,
+        item.district,
+        item.sector,
+        item.sponsoringAgency,
+        item.executingAgency,
+      ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
@@ -329,7 +354,7 @@ const List = ({
             return (
               <article
                 key={`${reportKey(d)}-${i}`}
-                className={`${styles.card} ${rr.card} ${mode === "act" ? styles.cardAct : ""}`}
+                className={`${styles.card} ${rr.card} ${isIssuedTab ? rr.cardPlace : ""} ${mode === "act" ? styles.cardAct : ""}`}
               >
                 <div className={`${styles.cardTop} ${rr.top}`}>
                   <span className={`${styles.chip} ${rr.chipTint}`}>
@@ -389,6 +414,24 @@ const List = ({
                       </div>
                     )}
                   </dl>
+                  {isIssuedTab && (
+                    <dl className={rr.place}>
+                      {[
+                        { icon: <MapPin size={20} />, label: "District", value: d.district },
+                        { icon: <Layers size={20} />, label: "Sector", value: d.sector },
+                        { icon: <Building2 size={20} />, label: "Sponsor Department", value: d.sponsoringAgency },
+                        { icon: <BriefcaseBusiness size={20} />, label: "Executing Department", value: d.executingAgency },
+                      ].map((f) => (
+                        <div key={f.label}>
+                          <span className={rr.placeIcon}>{f.icon}</span>
+                          <div>
+                            <dt>{f.label}</dt>
+                            <dd>{f.value?.trim() || "–"}</dd>
+                          </div>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </div>
                 {mode === "act" ? (
                   <button
