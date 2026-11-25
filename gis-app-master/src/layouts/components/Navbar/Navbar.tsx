@@ -1,6 +1,7 @@
 "use client";
 import { getSession } from "@/utils/session";
 import { inter } from "@/styles/fonts";
+import { Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -56,9 +57,20 @@ const Navbar = () => {
           <span className={styles.brandLogo}>
             <Image src="/icons/logoNew1.svg" alt="Government of the Punjab" width={46} height={46} priority />
           </span>
-          <span>
-            <span className={styles.brandTitle}>
-              RTMES
+          <span className={styles.brandText}>
+            <span className={styles.brandTitle}>RTMES</span>
+            <span className={styles.brandTags}>
+              <span className={styles.tagGis}>
+                <Globe aria-hidden="true" />
+                GIS
+              </span>
+              <span className={styles.tagAi}>
+                {/* Spark from the design (i-spark.svg) */}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#e1cd9d" d="M12 2c.6 4.6 2.4 6.9 7 7.6v.8c-4.6.7-6.4 3-7 7.6h-.8c-.6-4.6-2.4-6.9-7-7.6v-.8c4.6-.7 6.4-3 7-7.6z" />
+                </svg>
+                AI
+              </span>
             </span>
           </span>
         </Link>

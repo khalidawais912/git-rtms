@@ -8,14 +8,13 @@ import Link from "next/link";
 import { CSSProperties } from "react";
 import { ROLES } from "../constants";
 import { ProjectsListState } from "../hooks";
-import { MainDashboard, Program } from "../types";
+import { Program } from "../types";
 import { fmt } from "../utils";
 import Icon, { IconName } from "./Icon";
 import styles from "./MonitoringDashboard.module.css";
 import ProjectsModal from "./ProjectsModal";
 
 interface Props {
-  data?: MainDashboard;
   program: Program;
   projects: ProjectsListState;
   role: string;
@@ -47,12 +46,10 @@ const toolStyle = (color: string) => ({ "--tc": color }) as CSSProperties;
 const toolClass = `${styles.click} ${styles.tool}`;
 
 /** Shortcuts to the tracking, planning and analysis screens */
-const QuickTools = ({ data, program, projects, role, isSpecial, isPnd }: Props) => {
+const QuickTools = ({ program, projects, role, isSpecial, isPnd }: Props) => {
   const roleKey = role.toLowerCase();
   const canSeeUtilizationGap = ([ROLES.superAdmin, ROLES.deputyDirector, ROLES.director] as string[]).includes(roleKey);
   const canMarkToEvaluation = roleKey === ROLES.director || roleKey === ROLES.deputyDirector;
-  // Utilization projects not yet visited by the DGME team
-  const unvisited = (data?.utilization20t080 ?? 0) - projects.utilizationRows.filter((p) => p.visitCount > 0).length;
   const chartRow = projects.projectsData?.[0];
 
   return (
@@ -128,7 +125,7 @@ const QuickTools = ({ data, program, projects, role, isSpecial, isPnd }: Props) 
             config={{
               modalId: "utilization",
               status: "TotalProject",
-              label: "Utilization(20% - 80%)",
+              label: "Utilization ≥ 20%",
               columns: "utilization",
               rows: "utilization",
               allowLink: false,
@@ -141,13 +138,17 @@ const QuickTools = ({ data, program, projects, role, isSpecial, isPnd }: Props) 
                 type="button"
                 className={toolClass}
                 style={toolStyle("var(--cat-indigo)")}
-                aria-label={`Utilization 20 to 80 percent, ${data?.utilization20t080 ?? 0} projects`}
+                aria-label={`Utilization 20 percent or more${
+                  canSeeUtilizationGap && projects.unvisitedUtilization !== undefined
+                    ? `, ${projects.unvisitedUtilization} not visited by the DGME team`
+                    : ""
+                }`}
               >
                 <ToolFace
                   icon="gauge"
                   color="var(--cat-indigo)"
-                  label={`Utilization 20–80% (${fmt(data?.utilization20t080)})`}
-                  badge={canSeeUtilizationGap && data ? unvisited : undefined}
+                  label="Utilization ≥ 20%"
+                  badge={canSeeUtilizationGap ? projects.unvisitedUtilization : undefined}
                   title="Utilization vs Schemes Visited by DGME's Team"
                 />
               </button>

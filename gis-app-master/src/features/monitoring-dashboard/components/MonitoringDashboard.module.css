@@ -84,7 +84,7 @@
 .afClear { border: 0; background: transparent; color: var(--critical); font-weight: 700; font-size: 14px; padding: 6px 8px; border-radius: 8px; }
 
 /* ───────── Stat tiles ───────── */
-.tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+.tiles { --foot: 66px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
 /* Each tile sits in the modal's wrapper div; let it fill the grid cell */
 .tiles > * { display: flex; min-width: 0; }
 .tile {
@@ -99,11 +99,27 @@
 .tile:not([aria-disabled="true"]):hover { transform: translateY(-3px); box-shadow: 0 18px 34px color-mix(in srgb, var(--tc) 38%, transparent); }
 .ti { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 10px; background: rgba(255,255,255,.22); color: #fff; }
 .ti .icon { width: 22px; height: 22px; }
-.tv { font-size: 44px; font-weight: 800; letter-spacing: -1px; line-height: 1; color: #fff; }
+/* The figure and its name sit low, just above the foot */
+.tv { margin-top: auto; font-size: 44px; font-weight: 800; letter-spacing: -1px; line-height: 1; color: #fff; }
 .tl { margin-top: 4px; font-size: clamp(16px, 1.75vw - 7px, 22px); font-weight: 700; line-height: 1.2; text-wrap: balance; color: #fff; }
 .ts { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.88); }
 .tgo { position: absolute; top: 16px; right: 16px; width: 18px; height: 18px; color: #fff; opacity: .85; }
 .hero { background: linear-gradient(150deg, var(--brand-900), var(--brand-600)); box-shadow: 0 10px 24px color-mix(in srgb, var(--brand-700) 35%, transparent); }
+/* The note as a band along the foot of the tile */
+.tband { display: flex; align-items: center; min-height: var(--foot); margin: 12px -18px -18px; padding: 8px 18px; background: rgba(255,255,255,.07); border-top: 1px solid rgba(255,255,255,.14); }
+/* Programme tile: the main figure, then "Cost ≥ 800M" | "+ Util. ≥ 20%", each opening its own projects */
+.heroSplit { padding: 0; }
+.heroMainCell { flex: 1; display: flex; min-width: 0; }
+.heroMain { position: relative; width: 100%; display: flex; flex-direction: column; gap: 3px; padding: 18px 18px 12px; }
+.heroFoot { min-height: var(--foot); display: grid; grid-template-columns: 1fr 1fr; background: rgba(255,255,255,.07); border-top: 1px solid rgba(255,255,255,.14); }
+.heroPartCell { display: flex; min-width: 0; }
+.heroPartCell + .heroPartCell { border-left: 1px solid rgba(255,255,255,.16); }
+.heroPart { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 6px; padding: 10px 10px 12px 16px; color: #fff; transition: background .15s; }
+.heroPart:not([aria-disabled="true"]):hover { background: rgba(255,255,255,.1); }
+.heroPart small { grid-column: 1 / -1; font-size: 12.5px; font-weight: 700; line-height: 1.25; color: rgba(255,255,255,.9); }
+.heroPart b { grid-column: 1; font-size: 24px; font-weight: 800; line-height: 1.15; }
+.heroChev { grid-column: 2; grid-row: 2; align-self: center; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.18); }
+.heroChev .icon { width: 14px; height: 14px; }
 
 /* ───────── Panels ───────── */
 .row2 { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr); gap: 16px; margin-bottom: 16px; }
@@ -213,6 +229,8 @@
 .toolIco { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #fff; background: rgba(255,255,255,.2); }
 .toolIco .icon { width: 23px; height: 23px; }
 .tool .badge { top: -7px; right: -5px; }
+/* Tools inside a modal wrapper are buttons; keep their label as bold as the links */
+.tools .tool { font-weight: 700; font-size: 15px; }
 
 .kv { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line-2); font-weight: 600; color: var(--ink-2); }
 .kv b { font-size: 20px; color: var(--ink); }
