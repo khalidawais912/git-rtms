@@ -31,12 +31,13 @@ const ProjectsModal = ({
   const { modalId, status, label, columns, rows = "raw", allowLink } = config;
 
   const keys = projects.columns(columns);
-  const data =
-    rows === "utilization"
-      ? projects.utilizationRows
-      : rows === "withUtilization"
-        ? projects.withUtilization
-        : projects.projectsData;
+  const data = {
+    raw: projects.projectsData,
+    withUtilization: projects.withUtilization,
+    utilization: projects.utilizationRows,
+    bigCost: projects.bigCost,
+    bigCostUtil: projects.bigCostUtil,
+  }[rows];
 
   return (
     <CustomModal

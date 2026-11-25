@@ -99,7 +99,7 @@ const MonitoringDashboard = () => {
         {map || <div className={styles.map2} />}
         <aside className={styles.rail}>
           {(!isSpecial || isPnd) && (
-            <QuickTools data={data} program={program} projects={projects} role={role} isSpecial={isSpecial} isPnd={isPnd} />
+            <QuickTools program={program} projects={projects} role={role} isSpecial={isSpecial} isPnd={isPnd} />
           )}
           {!isSpecial && <BudgetPanel data={data} />}
           <ProjectStatusPanel data={data} projects={projects} role={role} />

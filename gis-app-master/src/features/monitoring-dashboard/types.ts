@@ -71,7 +71,8 @@ export interface ProjectsModalConfig {
   status: string;
   label: string;
   columns: ColumnSet;
-  /** Table rows: the raw list, all rows with utilPercent, or only the 20–80% rows */
-  rows?: "raw" | "withUtilization" | "utilization";
+  /** Table rows: the raw list, all rows with utilPercent, only the rows with 20% or more used, or (CM Initiatives tile)
+   * cost ≥ 800M and of those utilization ≥ 20% */
+  rows?: "raw" | "withUtilization" | "utilization" | "bigCost" | "bigCostUtil";
   allowLink?: boolean;
 }

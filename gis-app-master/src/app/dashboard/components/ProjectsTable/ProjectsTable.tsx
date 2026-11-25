@@ -1377,7 +1377,7 @@ const ProjectsTable = ({
                       <TableHeading
                         className="bg-color-sea-blue"
                         textClassName="text-white text-nowrap"
-                        name="Grand Total Overall 1620"
+                        name={`Grand Total Overall ${dataToPaginate.length}`}
                         colSpan={2}
                       />
                       <TableHeading name="" colSpan={2} />

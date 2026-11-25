@@ -6,6 +6,15 @@ import { ColumnSet, FilterData, Program, ProjectsList } from "../types";
 
 type Key = keyof ProjectsList;
 
+/** Cost in millions from which a project counts as large (PDWP and above) */
+export const BIG_COST = 800;
+
+const withPercent = (rows: ProjectsList[]) =>
+  rows.map((p) => ({
+    ...p,
+    utilPercent: Math.round(((p.expUpToJune + p.utilization) / p.cost) * 100),
+  }));
+
 /** Columns of each table, in the order the backend sends them unless noted */
 const pick = (row: ProjectsList, allowed: (string | false)[]) =>
   Object.keys(row).filter((k) => allowed.includes(k)) as Key[];
@@ -81,25 +90,45 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
     [program, otherFilters],
   );
 
-  // First load feeds the Utilization badge
+  /** Every project with the current filters; kept apart, as opening a card replaces projectsData */
+  const [allRows, setAllRows] = useState<ProjectsList[]>();
+
+  // Every project, again when the programme or filters change: feeds the Utilization badge (first load)
+  // and the CM Initiatives tile's "Cost ≥ 800M" and "Util. ≥ 20%"
   useEffect(() => {
-    load("TotalProject");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    let live = true;
+    setAllRows(undefined);
+    fetchProjectsByStatus("TotalProject", buildFilters(program, otherFilters))
+      .then((rows) => {
+        if (!live) return;
+        setAllRows(rows);
+        setProjectsData((now) => now ?? rows);
+      })
+      .catch((err) => console.error("Projects list error:", err));
+    return () => {
+      live = false;
+    };
+  }, [program, otherFilters]);
 
   /** Every row with utilPercent = (expUpToJune + utilization) / cost */
-  const withUtilization = useMemo(
-    () =>
-      (projectsData ?? []).map((p) => ({
-        ...p,
-        utilPercent: Math.round(((p.expUpToJune + p.utilization) / p.cost) * 100),
-      })),
-    [projectsData],
-  );
+  const withUtilization = useMemo(() => withPercent(projectsData ?? []), [projectsData]);
 
-  const utilizationRows = useMemo(
-    () => withUtilization.filter((p) => p.utilPercent >= 20 && p.utilPercent <= 80),
-    [withUtilization],
+  /** Projects costing 800M or more (cost is in millions); undefined while loading */
+  const bigCost = useMemo(
+    () => (allRows ? withPercent(allRows).filter((p) => p.cost >= BIG_COST) : undefined),
+    [allRows],
+  );
+  /** Of those, the ones with 20% or more used */
+  const bigCostUtil = useMemo(() => bigCost?.filter((p) => p.utilPercent >= 20), [bigCost]);
+
+  /** Projects with 20% or more of the cost used (Quick tools: Utilization ≥ 20%) */
+  const utilizationRows = useMemo(() => withUtilization.filter((p) => p.utilPercent >= 20), [withUtilization]);
+
+  /** Of every project, those with 20% or more used that the DGME team has not visited; undefined while loading */
+  const unvisitedUtilization = useMemo(
+    () =>
+      allRows ? withPercent(allRows).filter((p) => p.utilPercent >= 20 && !(p.visitCount > 0)).length : undefined,
+    [allRows],
   );
 
   const columns = (set: ColumnSet): Key[] | false =>
@@ -111,6 +140,9 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
     load,
     withUtilization,
     utilizationRows,
+    unvisitedUtilization,
+    bigCost,
+    bigCostUtil,
     columns,
   };
 };
