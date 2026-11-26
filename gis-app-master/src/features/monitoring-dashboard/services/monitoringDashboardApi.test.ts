@@ -11,6 +11,7 @@ import {
 import {
   fetchDistrictProjects,
   fetchMainDashboard,
+  fetchProjects800M,
   fetchPcivSubmittedReports,
   fetchProjectsByStatus,
   fetchSubmittedReports,
@@ -46,6 +47,20 @@ describe("monitoring dashboard API", () => {
       `${MAIN_DASHBOARD_API}/GetProjectsListByStatus?status=Critical`,
       filters,
     );
+  });
+
+  it.each([
+    [false, "Projects800MAndAbove"],
+    [true, "Projects800MAndAboveUtilization20"],
+  ])("fetchProjects800M(%s) posts the filters to %s", async (withUtilization, route) => {
+    post.mockResolvedValue(reply([{ id: 1, cost: 900 }]));
+    await expect(fetchProjects800M(withUtilization, filters)).resolves.toEqual([{ id: 1, cost: 900 }]);
+    expect(post).toHaveBeenCalledWith(`${MAIN_DASHBOARD_API}/${route}`, filters);
+  });
+
+  it("fetchProjects800M gives [] when the server sends no rows", async () => {
+    post.mockResolvedValue(reply(null));
+    await expect(fetchProjects800M(false, filters)).resolves.toEqual([]);
   });
 
   it("fetchUserFilters asks for user 0 by default", async () => {

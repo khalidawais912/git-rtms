@@ -28,15 +28,13 @@ const ProjectsModal = ({
   buttonColumn = "",
 }: Props) => {
   const { rowCountOptions, districtOptions, sectorOptions, userOptions } = useProjectsTableUtils();
-  const { modalId, status, label, columns, rows = "raw", allowLink } = config;
+  const { modalId, status, label, columns, rows = "raw", allowLink, source } = config;
 
   const keys = projects.columns(columns);
   const data = {
     raw: projects.projectsData,
     withUtilization: projects.withUtilization,
     utilization: projects.utilizationRows,
-    bigCost: projects.bigCost,
-    bigCostUtil: projects.bigCostUtil,
   }[rows];
 
   return (
@@ -48,7 +46,7 @@ const ProjectsModal = ({
       size="xl"
       modalId={modalId}
       allowOpen={allowOpen}
-      onOpen={() => projects.load(status)}
+      onOpen={() => (source ? projects.load800M(source === "800MUtil20") : projects.load(status))}
       button={trigger}
       body={
         <div className="container-fluid border-0 p-0">

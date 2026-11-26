@@ -1,13 +1,10 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { buildFilters, ROLES } from "../constants";
-import { fetchProjectsByStatus } from "../services";
+import { fetchProjects800M, fetchProjectsByStatus } from "../services";
 import { ColumnSet, FilterData, Program, ProjectsList } from "../types";
 
 type Key = keyof ProjectsList;
-
-/** Cost in millions from which a project counts as large (PDWP and above) */
-export const BIG_COST = 800;
 
 const withPercent = (rows: ProjectsList[]) =>
   rows.map((p) => ({
@@ -78,11 +75,12 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
   const [projectsData, setProjectsData] = useState<ProjectsList[]>();
   const isSpecial = role.toLowerCase() === ROLES.special;
 
-  const load = useCallback(
-    async (status: string) => {
+  /** Shows a list in the open table: empty while it loads */
+  const show = useCallback(
+    async (get: (filters: FilterData[]) => Promise<ProjectsList[]>) => {
       setProjectsData([]);
       try {
-        setProjectsData(await fetchProjectsByStatus(status, buildFilters(program, otherFilters)));
+        setProjectsData(await get(buildFilters(program, otherFilters)));
       } catch (err) {
         console.error("Projects list error:", err);
       }
@@ -90,11 +88,24 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
     [program, otherFilters],
   );
 
+  const load = useCallback((status: string) => show((f) => fetchProjectsByStatus(status, f)), [show]);
+
+  /**
+   * The CM Initiatives tile's 800M+ lists. The server's utilization % counts actExpUpTo (spent up to last
+   * 30 June), so the table's "Expenditure + Utilization" column shows that too and agrees with the %.
+   */
+  const load800M = useCallback(
+    (withUtilization: boolean) =>
+      show(async (f) =>
+        (await fetchProjects800M(withUtilization, f)).map((p) => ({ ...p, expUpToJune: p.actExpUpTo ?? p.expUpToJune })),
+      ),
+    [show],
+  );
+
   /** Every project with the current filters; kept apart, as opening a card replaces projectsData */
   const [allRows, setAllRows] = useState<ProjectsList[]>();
 
   // Every project, again when the programme or filters change: feeds the Utilization badge (first load)
-  // and the CM Initiatives tile's "Cost ≥ 800M" and "Util. ≥ 20%"
   useEffect(() => {
     let live = true;
     setAllRows(undefined);
@@ -113,14 +124,6 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
   /** Every row with utilPercent = (expUpToJune + utilization) / cost */
   const withUtilization = useMemo(() => withPercent(projectsData ?? []), [projectsData]);
 
-  /** Projects costing 800M or more (cost is in millions); undefined while loading */
-  const bigCost = useMemo(
-    () => (allRows ? withPercent(allRows).filter((p) => p.cost >= BIG_COST) : undefined),
-    [allRows],
-  );
-  /** Of those, the ones with 20% or more used */
-  const bigCostUtil = useMemo(() => bigCost?.filter((p) => p.utilPercent >= 20), [bigCost]);
-
   /** Projects with 20% or more of the cost used (Quick tools: Utilization ≥ 20%) */
   const utilizationRows = useMemo(() => withUtilization.filter((p) => p.utilPercent >= 20), [withUtilization]);
 
@@ -138,11 +141,10 @@ export const useProjectsList = (program: Program, otherFilters: FilterData[], ro
     projectsData,
     setProjectsData,
     load,
+    load800M,
     withUtilization,
     utilizationRows,
     unvisitedUtilization,
-    bigCost,
-    bigCostUtil,
     columns,
   };
 };

@@ -148,7 +148,8 @@ const shortDate = (value: string) => {
 };
 
 /** "21 Apr 2025, 3:42 PM"; only the date when the value has no time. */
-const dateTime = (value: string) => {
+/** "21 Apr 2025, 3:42 PM"; the date alone when the value has no time */
+export const dateTime = (value: string) => {
   const day = shortDate(value);
   if (!day || !/T\d{2}:\d{2}/.test(value)) return day;
   const d = new Date(value);

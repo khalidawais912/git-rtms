@@ -26,7 +26,14 @@ export const getIssuedColumns = () => [
   { label: `Submitted Date`, value: "submittedDate" },
   { label: `Issued Date`, value: "issuanceDate" },
   { label: "Project Name", value: "projectName" },
+  { label: "District", value: "district" },
+  { label: "Sector", value: "sector" },
+  { label: "Sponsor Department", value: "sponsoringAgency" },
+  { label: "Executing Department", value: "executingAgency" },
 ];
+
+/** A place field as on the Issued card: "-" when empty */
+const place = (value?: string | null) => value?.trim() || "-";
 
 const DownloadWrapper = ({ data, fileName }: Props) => {
   const columns = getColumns(fileName);
@@ -43,6 +50,10 @@ const DownloadWrapper = ({ data, fileName }: Props) => {
         issuanceDate: d.issuanceDate
           ? new Date(d.issuanceDate).toLocaleDateString()
           : "",
+        district: place(d.district),
+        sector: place(d.sector),
+        sponsoringAgency: place(d.sponsoringAgency),
+        executingAgency: place(d.executingAgency),
       }),
       projectName: d.projectName,
     }));
@@ -63,6 +74,8 @@ const DownloadWrapper = ({ data, fileName }: Props) => {
       fileName === "Issued" ? columnsWithIssued : columns,
       buildRows(),
       `${fileName} - ${new Date().toLocaleDateString()}.pdf`,
+      // Issued has ten columns: landscape keeps them readable
+      fileName === "Issued" ? "landscape" : "portrait",
     );
   };
 

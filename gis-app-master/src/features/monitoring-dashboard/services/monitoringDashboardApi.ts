@@ -29,6 +29,21 @@ export const fetchProjectsByStatus = async (status: string, filters: FilterData[
   return data.data as ProjectsList[];
 };
 
+/** A row of the 800M+ lists: the usual list row plus actExpUpTo (expenditure up to last 30 June) */
+export type Project800M = ProjectsList & { actExpUpTo?: number | null };
+
+/**
+ * Projects with PC-I cost ≥ 800M (card cost800MAndAbove) or, with withUtilization, those of them with
+ * utilization ≥ 20% (card cost800MAndAboveUtilization20Plus). Same filter body as the dashboard.
+ */
+export const fetchProjects800M = async (withUtilization: boolean, filters: FilterData[]) => {
+  const { data } = await apiClient.post(
+    `${MAIN_DASHBOARD_API}/${withUtilization ? "Projects800MAndAboveUtilization20" : "Projects800MAndAbove"}`,
+    filters,
+  );
+  return (data.data ?? []) as Project800M[];
+};
+
 export const fetchUserFilters = async (userId = 0) => {
   const { data } = await apiClient.get(
     `${FILTER_SETTING_API}/GetUserFilters?userId=${userId}`,
