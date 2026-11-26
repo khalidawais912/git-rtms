@@ -37,6 +37,7 @@ interface Part {
  * projects into "Cost ≥ 800M" and, of those, "+ Util. ≥ 20%".
  */
 const StatTiles = ({ data, program, projects, role }: Props) => {
+  // Counts and lists of "Cost ≥ 800M" and "+ Util. ≥ 20%" come from the server (see fetchProjects800M)
   const name = PROGRAM_LABEL[program];
   const tableLabel = program === "cmInitiative" ? "CM Initiatives project Table" : "ADP Projects";
 
@@ -57,21 +58,22 @@ const StatTiles = ({ data, program, projects, role }: Props) => {
 
   const parts: Part[] = [
     {
-      config: { ...hero.config, modalId: "BigCost", label: `${name}: cost 800M or above`, rows: "bigCost" },
+      config: { ...hero.config, modalId: "BigCost", label: `${name}: cost 800M or above`, rows: "raw", source: "800M" },
       label: "Cost ≥ 800M",
-      title: "Projects costing 800 million or more",
-      value: projects.bigCost?.length,
+      title: "Projects with PC-I cost of 800 million or more",
+      value: data?.cost800MAndAbove,
     },
     {
       config: {
         ...hero.config,
         modalId: "BigCostUtil",
         label: `${name}: cost 800M or above, utilization 20% or above`,
-        rows: "bigCostUtil",
+        rows: "raw",
+        source: "800MUtil20",
       },
       label: "+ Util. ≥ 20%",
       title: "Of those, projects with 20% or more of the cost used",
-      value: projects.bigCostUtil?.length,
+      value: data?.cost800MAndAboveUtilization20Plus,
     },
   ];
 

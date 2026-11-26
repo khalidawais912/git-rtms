@@ -43,6 +43,10 @@ export interface MainDashboard {
   a400to800: number;
   a800to1000: number;
   a100above: number;
+  /** Projects with PC-I cost ≥ 800M (800.000 included); list: POST MainDashboard/Projects800MAndAbove */
+  cost800MAndAbove?: number;
+  /** Of those, utilization ≥ 20%; list: POST MainDashboard/Projects800MAndAboveUtilization20 */
+  cost800MAndAboveUtilization20Plus?: number;
   projectslist: null;
   disitrictlist: DistrictList[];
   officerReports: {
@@ -71,8 +75,9 @@ export interface ProjectsModalConfig {
   status: string;
   label: string;
   columns: ColumnSet;
-  /** Table rows: the raw list, all rows with utilPercent, only the rows with 20% or more used, or (CM Initiatives tile)
-   * cost ≥ 800M and of those utilization ≥ 20% */
-  rows?: "raw" | "withUtilization" | "utilization" | "bigCost" | "bigCostUtil";
+  /** Table rows: the raw list, all rows with utilPercent, or only the rows with 20% or more used */
+  rows?: "raw" | "withUtilization" | "utilization";
+  /** Load the list from the 800M+ APIs instead of GetProjectsListByStatus: all 800M+ or those with util. ≥ 20% */
+  source?: "800M" | "800MUtil20";
   allowLink?: boolean;
 }

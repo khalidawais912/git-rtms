@@ -13,6 +13,46 @@ import axios from "axios";
 import CustomModal from "@/components/CustomModal/CustomModal";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MarkEvaluationProject } from "../../types";
+import { dateTime } from "@/app/report-history/reportFiles";
+import DownloadDropDown from "@/components/DownloadDropDown/DownloadDropDown";
+import { exportToPDFNew } from "@/utils";
+import { exportToExcelNewOne } from "@/utils/exportToExcel";
+
+const TITLE = "Mark to Evaluation Projects";
+
+/** The table's columns, for the PDF and Excel downloads */
+const EXPORT_COLUMNS = [
+  { header: "ID", dataKey: "id" },
+  { header: "Project ID", dataKey: "projectId" },
+  { header: "Project Name", dataKey: "projectName" },
+  { header: "Marked Date", dataKey: "markedDate" },
+  { header: "PCI Cost", dataKey: "pciCost" },
+  { header: "Utilization", dataKey: "utilization" },
+  { header: "Physical Progress", dataKey: "physicalProgress" },
+  { header: "Total Monitoring Visit", dataKey: "totalMonitoringVisit" },
+  { header: "Request for PCIV", dataKey: "requestForPCIV" },
+  { header: "Letter of Request PCIV", dataKey: "letterofRequestPCIV" },
+  { header: "Request for PCIV Date", dataKey: "requestForPCIVDate" },
+  { header: "Submitted PCIV Date", dataKey: "submittedPCIVDate" },
+] as const;
+
+type ExportRow = Record<(typeof EXPORT_COLUMNS)[number]["dataKey"], string | number>;
+
+const exportRows = (data: MarkEvaluationProject[]): ExportRow[] =>
+  data.map((d) => ({
+    id: d.id,
+    projectId: d.projectId,
+    projectName: d.projectName?.trim() ?? "",
+    markedDate: d.createdAt ? dateTime(d.createdAt) : "",
+    pciCost: d.pciCost ?? "",
+    utilization: d.utilization ?? "",
+    physicalProgress: d.physicalProgress ?? "",
+    totalMonitoringVisit: d.totalMonitoringVisit ?? "",
+    requestForPCIV: d.requestForPCIV ? "Yes" : "",
+    letterofRequestPCIV: d.letterofRequestPCIV ?? "",
+    requestForPCIVDate: d.requestForPCIVDate ?? "",
+    submittedPCIVDate: d.submittedPCIVDate ?? "",
+  }));
 interface Props {
   role: string;
 }
@@ -104,6 +144,15 @@ const MarkToProjects = ({ role }: Props) => {
             </div>
           </div>
         </div>
+        {/* Leaves room for the modal's close button on the right */}
+        {!!data?.length && (
+          <div className="col-auto p-0" style={{ marginRight: 48 }}>
+            <DownloadDropDown
+              onClickPdf={() => exportToPDFNew([...EXPORT_COLUMNS], exportRows(data), new Date(), TITLE)}
+              onClickExcel={() => exportToExcelNewOne([...EXPORT_COLUMNS], exportRows(data), TITLE)}
+            />
+          </div>
+        )}
       </div>
       <div
         className="table-responsive mb-2"
@@ -121,6 +170,7 @@ const MarkToProjects = ({ role }: Props) => {
               <TableHeading name="ID" />
               <TableHeading name="PROJECT ID" />
               <TableHeading name="PROJECT NAME" />
+              <TableHeading name="MARKED DATE" />
               <TableHeading name="PCI COST" />
               <TableHeading name="UTILIZATION" />
               <TableHeading name="PHYSICAL PROGRESS" />
@@ -138,6 +188,8 @@ const MarkToProjects = ({ role }: Props) => {
                 <TableData>{d.id}</TableData>
                 <TableData>{d.projectId}</TableData>
                 <TableData>{d.projectName}</TableData>
+                {/* createdAt: when the project was marked to evaluation */}
+                <TableData className="text-nowrap">{d.createdAt ? dateTime(d.createdAt) : "–"}</TableData>
                 <TableData>{d.pciCost}</TableData>
                 <TableData>{d.utilization}</TableData>
                 <TableData>{d.physicalProgress}</TableData>
