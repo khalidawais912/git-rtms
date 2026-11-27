@@ -6,6 +6,7 @@ import {
   PC_IV_WORKFLOW_API,
   REPORTS_HISTORY_API,
   SINGLE_PROJECT_DASHBOARD_API,
+  TEMP_TOUR_PLAN_API,
 } from "@/services/endpoints";
 import type { SubmittedReport } from "@/app/report-history/types";
 import {
@@ -42,6 +43,12 @@ export const fetchProjects800M = async (withUtilization: boolean, filters: Filte
     filters,
   );
   return (data.data ?? []) as Project800M[];
+};
+
+/** Adds a project to the monitoring visit plan (same call as the Projects page); returns the server's message */
+export const addToVisitPlan = async (projectId: number) => {
+  const { data } = await apiClient.post(`${TEMP_TOUR_PLAN_API}/add-tour-plan?projectid=${projectId}`);
+  return data?.message as string | undefined;
 };
 
 export const fetchUserFilters = async (userId = 0) => {

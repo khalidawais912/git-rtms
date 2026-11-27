@@ -5,6 +5,7 @@ import ProjectsTable from "@/app/dashboard/components/ProjectsTable/ProjectsTabl
 import useProjectsTableUtils from "@/app/dashboard/components/ProjectsTable/useProjectsTableUtils";
 import { ReactNode } from "react";
 import { ProjectsListState } from "../hooks";
+import { addToVisitPlan } from "../services";
 import { ProjectsModalConfig } from "../types";
 
 interface Props {
@@ -62,6 +63,7 @@ const ProjectsModal = ({
               setProjectsData={projects.setProjectsData}
               allowLink={allowLink}
               role={role}
+              onAddToVisitPlan={config.addToVisitPlan ? addToVisitPlan : undefined}
             />
           ) : (
             <Loader />
