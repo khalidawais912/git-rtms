@@ -7,8 +7,10 @@ import {
   PC_IV_WORKFLOW_API,
   REPORTS_HISTORY_API,
   SINGLE_PROJECT_DASHBOARD_API,
+  TEMP_TOUR_PLAN_API,
 } from "@/services/endpoints";
 import {
+  addToVisitPlan,
   fetchDistrictProjects,
   fetchMainDashboard,
   fetchProjects800M,
@@ -61,6 +63,12 @@ describe("monitoring dashboard API", () => {
   it("fetchProjects800M gives [] when the server sends no rows", async () => {
     post.mockResolvedValue(reply(null));
     await expect(fetchProjects800M(false, filters)).resolves.toEqual([]);
+  });
+
+  it("addToVisitPlan posts the project id and returns the message", async () => {
+    post.mockResolvedValue({ data: { message: "Added" } });
+    await expect(addToVisitPlan(42)).resolves.toBe("Added");
+    expect(post).toHaveBeenCalledWith(`${TEMP_TOUR_PLAN_API}/add-tour-plan?projectid=42`);
   });
 
   it("fetchUserFilters asks for user 0 by default", async () => {

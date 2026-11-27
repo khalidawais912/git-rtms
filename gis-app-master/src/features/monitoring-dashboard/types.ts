@@ -80,4 +80,6 @@ export interface ProjectsModalConfig {
   /** Load the list from the 800M+ APIs instead of GetProjectsListByStatus: all 800M+ or those with util. ≥ 20% */
   source?: "800M" | "800MUtil20";
   allowLink?: boolean;
+  /** Adds an "Add to Visit Plan" button to each row (monitoring temp tour plan) */
+  addToVisitPlan?: boolean;
 }

@@ -44,6 +44,7 @@ import { reportStatusOptions } from "./ProjectsTableUtils";
 import { FilterParams, RangeType } from "../../types";
 import GenericToggleControl from "@/components/Form/GenericToggleControl";
 import { useEffectEvent } from "@/hooks/useEffectEvent";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export interface ProjectsList {
   id: number;
@@ -94,6 +95,8 @@ interface Props {
   districtOptions: OptionType[];
   sectorOptions: OptionType[];
   userOptions: OptionType[];
+  /** When given, each row gets an "Add to Visit Plan" button (not part of the downloads) */
+  onAddToVisitPlan?: (projectId: number) => Promise<string | undefined>;
 }
 
 const ProjectsTable = ({
@@ -107,8 +110,31 @@ const ProjectsTable = ({
   districtOptions,
   sectorOptions,
   userOptions,
+  onAddToVisitPlan,
 }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([]);
+  // Projects added to the visit plan while this table is open, and the one being added
+  const [addedToPlan, setAddedToPlan] = useState<Set<number>>(new Set());
+  const [addingToPlan, setAddingToPlan] = useState<number>();
+
+  const handleAddToVisitPlan = async (projectId: number) => {
+    if (!onAddToVisitPlan) return;
+    setAddingToPlan(projectId);
+    try {
+      const message = await onAddToVisitPlan(projectId);
+      setAddedToPlan((prev) => new Set(prev).add(projectId));
+      toast.success(message || "Project added to the visit plan.");
+    } catch (err) {
+      console.error("Add to visit plan failed:", err);
+      toast.error((err as AxiosError).message || "Could not add the project to the visit plan.");
+    } finally {
+      setAddingToPlan(undefined);
+    }
+  };
+
+  const visitPlanHeading = onAddToVisitPlan && (
+    <TableHeading className="text-nowrap" name="ADD TO VISIT PLAN" />
+  );
 
   const handleDistrictChange = (selectedOption: SingleValue<OptionType>) => {
     if (selectedOption) setDistrictName(selectedOption.value);
@@ -1459,6 +1485,7 @@ const ProjectsTable = ({
                           handleSort={() => handleSort(`${k}`)}
                         />
                       ))}
+                      {visitPlanHeading}
                     </tr>
                   </>
                 ) : (
@@ -1491,6 +1518,7 @@ const ProjectsTable = ({
                         handleSort={() => handleSort(`${k}`)}
                       />
                     ))}
+                    {visitPlanHeading}
                   </tr>
                 )}
               </thead>
@@ -1854,6 +1882,23 @@ const ProjectsTable = ({
                         </TableData>
                       );
                     })}
+                    {onAddToVisitPlan && (
+                      <TableData className="text-center">
+                        {addedToPlan.has(d.id) ? (
+                          <span className="text-success text-nowrap fw-semibold">Added ✓</span>
+                        ) : (
+                          <Button
+                            className="btn btn-sm"
+                            onClick={() => handleAddToVisitPlan(d.id)}
+                            disabled={addingToPlan !== undefined}
+                            title="Add to Visit Plan"
+                            aria-label={`Add ${d.projectName} to the visit plan`}
+                          >
+                            <AiOutlinePlus size={22} />
+                          </Button>
+                        )}
+                      </TableData>
+                    )}
                   </tr>
                 ))}
                 {keys.includes("cost") && (

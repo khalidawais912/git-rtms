@@ -129,6 +129,7 @@ const QuickTools = ({ program, projects, role, isSpecial, isPnd }: Props) => {
               columns: "utilization",
               rows: "utilization",
               allowLink: false,
+              addToVisitPlan: canSeeUtilizationGap,
             }}
             projects={projects}
             role={role}
